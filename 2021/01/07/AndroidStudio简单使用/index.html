@@ -20,12 +20,12 @@
     var CONFIG = {"hostname":"wgc5.gitee.io","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
   </script>
 
-  <meta name="description" content="Android Studio 简单使用介绍项目创建步骤1：创立新项目  步骤2：选择要创建的项目框架（一般创建空项目）   页面布局代码设计  傻瓜式设计 混合式  信息查看Run  logcat  调试  字体设置   功能区分布  创建模拟器">
+  <meta name="description" content="Android Studio 简单使用介绍项目创建步骤1：创立新项目  步骤2：选择要创建的项目框架（一般创建空项目）   页面布局代码设计  傻瓜式设计 混合式  信息查看Run  logcat  调试  字体设置   功能区分布  创建模拟器    manifests说明 例子一：2个相同的启动图标原因   解决方法">
 <meta property="og:type" content="article">
 <meta property="og:title" content="AndroidStudio简单使用">
 <meta property="og:url" content="https://wgc5.gitee.io/2021/01/07/AndroidStudio%E7%AE%80%E5%8D%95%E4%BD%BF%E7%94%A8/index.html">
 <meta property="og:site_name" content="北极星上的稻草人">
-<meta property="og:description" content="Android Studio 简单使用介绍项目创建步骤1：创立新项目  步骤2：选择要创建的项目框架（一般创建空项目）   页面布局代码设计  傻瓜式设计 混合式  信息查看Run  logcat  调试  字体设置   功能区分布  创建模拟器">
+<meta property="og:description" content="Android Studio 简单使用介绍项目创建步骤1：创立新项目  步骤2：选择要创建的项目框架（一般创建空项目）   页面布局代码设计  傻瓜式设计 混合式  信息查看Run  logcat  调试  字体设置   功能区分布  创建模拟器    manifests说明 例子一：2个相同的启动图标原因   解决方法">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://wgc5.gitee.io/2021/01/07/AndroidStudio%E7%AE%80%E5%8D%95%E4%BD%BF%E7%94%A8/image-20210107203443822.png">
 <meta property="og:image" content="https://wgc5.gitee.io/2021/01/07/AndroidStudio%E7%AE%80%E5%8D%95%E4%BD%BF%E7%94%A8/image-20210107203657410.png">
@@ -47,9 +47,15 @@
 <meta property="og:image" content="https://wgc5.gitee.io/2021/01/07/AndroidStudio%E7%AE%80%E5%8D%95%E4%BD%BF%E7%94%A8/image-20210107215734170.png">
 <meta property="og:image" content="https://wgc5.gitee.io/2021/01/07/AndroidStudio%E7%AE%80%E5%8D%95%E4%BD%BF%E7%94%A8/image-20210107215901780.png">
 <meta property="og:image" content="https://wgc5.gitee.io/2021/01/07/AndroidStudio%E7%AE%80%E5%8D%95%E4%BD%BF%E7%94%A8/image-20210107215935477.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/01/07/AndroidStudio%E7%AE%80%E5%8D%95%E4%BD%BF%E7%94%A8/image-20210108152634902.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/01/07/AndroidStudio%E7%AE%80%E5%8D%95%E4%BD%BF%E7%94%A8/image-20210108152746856.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/01/07/AndroidStudio%E7%AE%80%E5%8D%95%E4%BD%BF%E7%94%A8/image-20210108152736788.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/01/07/AndroidStudio%E7%AE%80%E5%8D%95%E4%BD%BF%E7%94%A8/image-20210108152809412.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/01/07/AndroidStudio%E7%AE%80%E5%8D%95%E4%BD%BF%E7%94%A8/image-20210108152814597.png">
 <meta property="article:published_time" content="2021-01-07T12:29:57.000Z">
-<meta property="article:modified_time" content="2021-01-07T14:00:09.337Z">
+<meta property="article:modified_time" content="2021-02-21T01:51:17.663Z">
 <meta property="article:author" content="北极星上的稻草人">
+<meta property="article:tag" content="Android Studio简单使用介绍">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https://wgc5.gitee.io/2021/01/07/AndroidStudio%E7%AE%80%E5%8D%95%E4%BD%BF%E7%94%A8/image-20210107203443822.png">
 
@@ -141,7 +147,7 @@
   </li>
         <li class="menu-item menu-item-tags">
 
-    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">2</span></a>
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">17</span></a>
 
   </li>
         <li class="menu-item menu-item-categories">
@@ -151,7 +157,7 @@
   </li>
         <li class="menu-item menu-item-archives">
 
-    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">3</span></a>
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">17</span></a>
 
   </li>
   </ul>
@@ -204,17 +210,23 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
-              
 
-              <time title="创建时间：2021-01-07 20:29:57 / 修改时间：22:00:09" itemprop="dateCreated datePublished" datetime="2021-01-07T20:29:57+08:00">2021-01-07</time>
+              <time title="创建时间：2021-01-07 20:29:57" itemprop="dateCreated datePublished" datetime="2021-01-07T20:29:57+08:00">2021-01-07</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-02-21 09:51:17" itemprop="dateModified" datetime="2021-02-21T09:51:17+08:00">2021-02-21</time>
+              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="far fa-folder"></i>
               </span>
               <span class="post-meta-item-text">分类于</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/AndroidStudio%E7%AE%80%E5%8D%95%E4%BD%BF%E7%94%A8/" itemprop="url" rel="index"><span itemprop="name">AndroidStudio简单使用</span></a>
+                  <a href="/categories/Android-Studio/" itemprop="url" rel="index"><span itemprop="name">Android Studio</span></a>
                 </span>
             </span>
 
@@ -261,6 +273,13 @@
 <p><img src="/2021/01/07/AndroidStudio%E7%AE%80%E5%8D%95%E4%BD%BF%E7%94%A8/image-20210107215734170.png" alt="image-20210107215734170"></p>
 <p><img src="/2021/01/07/AndroidStudio%E7%AE%80%E5%8D%95%E4%BD%BF%E7%94%A8/image-20210107215901780.png" alt="image-20210107215901780"></p>
 <p><img src="/2021/01/07/AndroidStudio%E7%AE%80%E5%8D%95%E4%BD%BF%E7%94%A8/image-20210107215935477.png" alt="image-20210107215935477"></p>
+<h4 id="manifests说明"><a href="#manifests说明" class="headerlink" title="manifests说明"></a>manifests说明</h4><p><img src="/2021/01/07/AndroidStudio%E7%AE%80%E5%8D%95%E4%BD%BF%E7%94%A8/image-20210108152634902.png" alt="image-20210108152634902"></p>
+<p>例子一：2个相同的启动图标原因</p>
+<p><img src="/2021/01/07/AndroidStudio%E7%AE%80%E5%8D%95%E4%BD%BF%E7%94%A8/image-20210108152746856.png" alt="image-20210108152746856"></p>
+<p><img src="/2021/01/07/AndroidStudio%E7%AE%80%E5%8D%95%E4%BD%BF%E7%94%A8/image-20210108152736788.png" alt="image-20210108152736788"></p>
+<p>解决方法</p>
+<p><img src="/2021/01/07/AndroidStudio%E7%AE%80%E5%8D%95%E4%BD%BF%E7%94%A8/image-20210108152809412.png" alt="image-20210108152809412"></p>
+<p><img src="/2021/01/07/AndroidStudio%E7%AE%80%E5%8D%95%E4%BD%BF%E7%94%A8/image-20210108152814597.png" alt="image-20210108152814597"></p>
 
     </div>
 
@@ -269,6 +288,9 @@
     
 
       <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Android-Studio%E7%AE%80%E5%8D%95%E4%BD%BF%E7%94%A8%E4%BB%8B%E7%BB%8D/" rel="tag"># Android Studio简单使用介绍</a>
+          </div>
 
         
 
@@ -279,7 +301,10 @@
     <a href="/2021/01/07/MySql/" rel="prev" title="MySql">
       <i class="fa fa-chevron-left"></i> MySql
     </a></div>
-      <div class="post-nav-item"></div>
+      <div class="post-nav-item">
+    <a href="/2021/01/08/Android%E4%BA%8B%E4%BB%B6%E5%90%AF%E5%8A%A8/" rel="next" title="Android事件启动">
+      Android事件启动 <i class="fa fa-chevron-right"></i>
+    </a></div>
     </div>
       </footer>
     
@@ -338,7 +363,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Android-Studio-%E7%AE%80%E5%8D%95%E4%BD%BF%E7%94%A8%E4%BB%8B%E7%BB%8D"><span class="nav-number">1.</span> <span class="nav-text">Android Studio 简单使用介绍</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%A1%B9%E7%9B%AE%E5%88%9B%E5%BB%BA"><span class="nav-number">1.0.1.</span> <span class="nav-text">项目创建</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%A1%B5%E9%9D%A2%E5%B8%83%E5%B1%80"><span class="nav-number">1.0.2.</span> <span class="nav-text">页面布局</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BB%A3%E7%A0%81%E8%AE%BE%E8%AE%A1"><span class="nav-number">1.0.2.1.</span> <span class="nav-text">代码设计</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%82%BB%E7%93%9C%E5%BC%8F%E8%AE%BE%E8%AE%A1"><span class="nav-number">1.0.2.2.</span> <span class="nav-text">傻瓜式设计</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BF%A1%E6%81%AF%E6%9F%A5%E7%9C%8B"><span class="nav-number">1.0.3.</span> <span class="nav-text">信息查看</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%B0%83%E8%AF%95"><span class="nav-number">1.0.4.</span> <span class="nav-text">调试</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AD%97%E4%BD%93%E8%AE%BE%E7%BD%AE"><span class="nav-number">1.0.5.</span> <span class="nav-text">字体设置</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8A%9F%E8%83%BD%E5%8C%BA%E5%88%86%E5%B8%83"><span class="nav-number">1.0.6.</span> <span class="nav-text">功能区分布</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%88%9B%E5%BB%BA%E6%A8%A1%E6%8B%9F%E5%99%A8"><span class="nav-number">1.0.7.</span> <span class="nav-text">创建模拟器</span></a></li></ol></li></ol></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Android-Studio-%E7%AE%80%E5%8D%95%E4%BD%BF%E7%94%A8%E4%BB%8B%E7%BB%8D"><span class="nav-number">1.</span> <span class="nav-text">Android Studio 简单使用介绍</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%A1%B9%E7%9B%AE%E5%88%9B%E5%BB%BA"><span class="nav-number">1.0.1.</span> <span class="nav-text">项目创建</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%A1%B5%E9%9D%A2%E5%B8%83%E5%B1%80"><span class="nav-number">1.0.2.</span> <span class="nav-text">页面布局</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BB%A3%E7%A0%81%E8%AE%BE%E8%AE%A1"><span class="nav-number">1.0.2.1.</span> <span class="nav-text">代码设计</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%82%BB%E7%93%9C%E5%BC%8F%E8%AE%BE%E8%AE%A1"><span class="nav-number">1.0.2.2.</span> <span class="nav-text">傻瓜式设计</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BF%A1%E6%81%AF%E6%9F%A5%E7%9C%8B"><span class="nav-number">1.0.3.</span> <span class="nav-text">信息查看</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%B0%83%E8%AF%95"><span class="nav-number">1.0.4.</span> <span class="nav-text">调试</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AD%97%E4%BD%93%E8%AE%BE%E7%BD%AE"><span class="nav-number">1.0.5.</span> <span class="nav-text">字体设置</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8A%9F%E8%83%BD%E5%8C%BA%E5%88%86%E5%B8%83"><span class="nav-number">1.0.6.</span> <span class="nav-text">功能区分布</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%88%9B%E5%BB%BA%E6%A8%A1%E6%8B%9F%E5%99%A8"><span class="nav-number">1.0.7.</span> <span class="nav-text">创建模拟器</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#manifests%E8%AF%B4%E6%98%8E"><span class="nav-number">1.0.7.1.</span> <span class="nav-text">manifests说明</span></a></li></ol></li></ol></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -352,7 +377,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">3</span>
+          <span class="site-state-item-count">17</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -365,7 +390,7 @@
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">2</span>
+        <span class="site-state-item-count">17</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
