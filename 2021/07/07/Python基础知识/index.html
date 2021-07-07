@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"wgc5.gitee.io","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="一、输出 ​             ​        结果  二、运算符和表达式      ​        运算符优先级  三、条件判断语句  补充：同一个语句段的缩进必须一样，否则会报错  ​    例子1：石头剪刀布  参考答案 1234567891011121314151617181920212223242526272829303132333435#石头剪刀布import random">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Python基础知识">
+<meta property="og:url" content="https://wgc5.gitee.io/2021/07/07/Python%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/index.html">
+<meta property="og:site_name" content="北极星上的稻草人">
+<meta property="og:description" content="一、输出 ​             ​        结果  二、运算符和表达式      ​        运算符优先级  三、条件判断语句  补充：同一个语句段的缩进必须一样，否则会报错  ​    例子1：石头剪刀布  参考答案 1234567891011121314151617181920212223242526272829303132333435#石头剪刀布import random">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/07/07/Python%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/image-20210707100455380.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/07/07/Python%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/image-20210707100354427.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/07/07/Python%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/image-20210707100901083.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/07/07/Python%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/image-20210707100811061.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/07/07/Python%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/image-20210707100932463.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/07/07/Python%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/image-20210707101024337.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/07/07/Python%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/image-20210707101115593.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/07/07/Python%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/image-20210707101237989.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/07/07/Python%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/image-20210707112752340.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/07/07/Python%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/image-20210707113044941.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/07/07/Python%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/image-20210707102155542.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/07/07/Python%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/image-20210707152039259.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/07/07/Python%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/image-20210707152225707.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/07/07/Python%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/image-20210707152637646.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/07/07/Python%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/image-20210707152856476.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/07/07/Python%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/image-20210707152909670.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/07/07/Python%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/image-20210707153208080.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/07/07/Python%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/image-20210707153221278.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/07/07/Python%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/image-20210707153313876.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/07/07/Python%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/image-20210707153327784.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/07/07/Python%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/image-20210707153423963.png">
+<meta property="article:published_time" content="2021-07-07T07:39:20.000Z">
+<meta property="article:modified_time" content="2021-07-07T13:10:05.054Z">
+<meta property="article:author" content="北极星上的稻草人">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://wgc5.gitee.io/2021/07/07/Python%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/image-20210707100455380.png">
+
+<link rel="canonical" href="https://wgc5.gitee.io/2021/07/07/Python%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>Python基础知识 | 北极星上的稻草人</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">北极星上的稻草人</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">稻草人的笔记</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">16</span></a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">4</span></a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">18</span></a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://wgc5.gitee.io/2021/07/07/Python%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="北极星上的稻草人">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="北极星上的稻草人">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Python基础知识
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2021-07-07 15:39:20 / 修改时间：21:10:05" itemprop="dateCreated datePublished" datetime="2021-07-07T15:39:20+08:00">2021-07-07</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Python%E5%85%A5%E9%97%A8/" itemprop="url" rel="index"><span itemprop="name">Python入门</span></a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>一、输出</p>
+<p>​            <img src="/2021/07/07/Python%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/image-20210707100455380.png" alt="image-20210707100455380"></p>
+<p>​        结果</p>
+<p><img src="/2021/07/07/Python%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/image-20210707100354427.png" alt="image-20210707100354427"></p>
+<p>二、运算符和表达式</p>
+<p><img src="/2021/07/07/Python%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/image-20210707100901083.png" alt="image-20210707100901083"></p>
+<p><img src="/2021/07/07/Python%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/image-20210707100811061.png" alt="image-20210707100811061"></p>
+<p><img src="/2021/07/07/Python%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/image-20210707100932463.png" alt="image-20210707100932463"></p>
+<p><img src="/2021/07/07/Python%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/image-20210707101024337.png" alt="image-20210707101024337"></p>
+<p><img src="/2021/07/07/Python%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/image-20210707101115593.png" alt="image-20210707101115593"></p>
+<p>​        运算符优先级</p>
+<p><img src="/2021/07/07/Python%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/image-20210707101237989.png" alt="image-20210707101237989"></p>
+<p>三、条件判断语句</p>
+<p><img src="/2021/07/07/Python%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/image-20210707112752340.png" alt="image-20210707112752340"></p>
+<p>补充：同一个语句段的缩进必须一样，否则会报错</p>
+<p><img src="/2021/07/07/Python%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/image-20210707113044941.png" alt="image-20210707113044941"></p>
+<p>​    例子1：石头剪刀布</p>
+<p><img src="/2021/07/07/Python%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/image-20210707102155542.png" alt="image-20210707102155542"></p>
+<p>参考答案</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line">#石头剪刀布</span><br><span class="line">import random   #引入随机数库</span><br><span class="line">a &#x3D; random.randint(0,2)</span><br><span class="line">#print(&quot;请输入：剪刀（0）、石头（1）、布（2）：&quot;)</span><br><span class="line">#b &#x3D; (int)(input())</span><br><span class="line">b &#x3D; input(&quot;请输入：剪刀（0）、石头（1）、布（2）：&quot;)</span><br><span class="line">#Python isdigit() 方法检测字符串是否只由数字组成。b.isdigit()如果字符串只包含数字则返回 True 否则返回 False。</span><br><span class="line">if b.isdigit():</span><br><span class="line">    b &#x3D; int(b)</span><br><span class="line">    if b&gt;&#x3D;0 and b&lt;&#x3D;2:</span><br><span class="line">        if (b &#x3D;&#x3D; 0):</span><br><span class="line">            print(&quot;你的输入为：&quot;, &quot;剪刀(0)&quot;)</span><br><span class="line">        elif (b &#x3D;&#x3D; 1):</span><br><span class="line">            print(&quot;你的输入为：&quot;, &quot;石头(1)&quot;)</span><br><span class="line">        else:</span><br><span class="line">            print(&quot;你的输入为：&quot;, &quot;布(2)&quot;)</span><br><span class="line"></span><br><span class="line">        if (a &#x3D;&#x3D; 0):</span><br><span class="line">            print(&quot;随机生成数字为：&quot;, &quot;剪刀(0)&quot;)</span><br><span class="line">        elif (a &#x3D;&#x3D; 1):</span><br><span class="line">            print(&quot;随机生成数字为：&quot;, &quot;石头(1)&quot;)</span><br><span class="line">        else:</span><br><span class="line">            print(&quot;随机生成数字为：&quot;, &quot;布(2)&quot;)</span><br><span class="line">        c &#x3D; b - a</span><br><span class="line">        if (c &#x3D;&#x3D; 0):</span><br><span class="line">            print(&quot;平局&quot;)</span><br><span class="line">        elif (c &#x3D;&#x3D; 1 or c &#x3D;&#x3D; -2):</span><br><span class="line">            print(&quot;你赢了&quot;)</span><br><span class="line">        else:</span><br><span class="line">            print(&quot;你输了&quot;)</span><br><span class="line">            </span><br><span class="line">    else:   #因输入数字不在0-2范围</span><br><span class="line">        print(&quot;输入不规范，游戏结束&quot;)</span><br><span class="line">else:   #因输入了字符</span><br><span class="line">    print(&quot;输入不规范，游戏结束&quot;)</span><br></pre></td></tr></table></figure>
+<p>补充：1、等学习了循环语句、goto等知识点，可以作进一步优化（多次玩）</p>
+<p>​            2、对于输入不正常的检查，还有其他方法，例如元组</p>
+<p>​            3、判断结果的方式众多，参考答案的只是其中一种比较精炼的方法</p>
+<p>四、循环语句</p>
+<p>​    1、for循环</p>
+<p>​        <img src="/2021/07/07/Python%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/image-20210707152039259.png" alt="image-20210707152039259"></p>
+<p><img src="/2021/07/07/Python%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/image-20210707152225707.png" alt="image-20210707152225707"></p>
+<p>​        1.1字符串循环        </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">name &#x3D; &quot;zhongguo&quot;</span><br><span class="line">for x in name:</span><br><span class="line">    print(x,end&#x3D;&quot;\t&quot;)</span><br></pre></td></tr></table></figure>
+<p>​        结果    </p>
+<p>​    <img src="/2021/07/07/Python%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/image-20210707152637646.png" alt="image-20210707152637646"></p>
+<p>​        1.2列表循环</p>
+<p><img src="/2021/07/07/Python%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/image-20210707152856476.png" alt="image-20210707152856476"></p>
+<p>​            结果</p>
+<p><img src="/2021/07/07/Python%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/image-20210707152909670.png" alt="image-20210707152909670"></p>
+<p>​    2、while循环</p>
+<p>​            例子1：求和</p>
+<p><img src="/2021/07/07/Python%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/image-20210707153208080.png" alt="image-20210707153208080"></p>
+<p>​            结果</p>
+<p><img src="/2021/07/07/Python%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/image-20210707153221278.png" alt="image-20210707153221278"></p>
+<p>​        2.1扩展：while-else</p>
+<p><img src="/2021/07/07/Python%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/image-20210707153313876.png" alt="image-20210707153313876"></p>
+<p>​            结果</p>
+<p><img src="/2021/07/07/Python%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/image-20210707153327784.png" alt="image-20210707153327784"></p>
+<p>​    2.2、break、continue、pass</p>
+<p><img src="/2021/07/07/Python%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/image-20210707153423963.png" alt="image-20210707153423963"></p>
+<p>​            说明：break结束整个循环；continue结束本次循环；pass占位置并且没有实际操作</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2021/02/21/%E5%BD%95%E9%9F%B3/" rel="prev" title="录音">
+      <i class="fa fa-chevron-left"></i> 录音
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">北极星上的稻草人</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">18</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">4</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">16</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">北极星上的稻草人</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  
+  <script color='0,0,255' opacity='0.5' zIndex='-1' count='99' src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+
+<!-- 页面动态背景 -->
+
+<script type="text/javascript" src="//cdn.bootcss.com/canvas-nest.js/1.0.0/canvas-nest.min.js"></script>
+
+
+</body>
+</html>
+<!-- 页面点击小红心 -->
+<script type="text/javascript" src="/js/clicklove.js"></script>
