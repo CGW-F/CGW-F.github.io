@@ -121,12 +121,12 @@
   </li>
         <li class="menu-item menu-item-categories">
 
-    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">4</span></a>
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">5</span></a>
 
   </li>
         <li class="menu-item menu-item-archives">
 
-    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">18</span></a>
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">19</span></a>
 
   </li>
   </ul>
@@ -152,6 +152,174 @@
 
           <div class="content index posts-expand">
             
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://wgc5.gitee.io/2021/07/09/Python%E6%A0%B8%E5%BF%83%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="北极星上的稻草人">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="北极星上的稻草人">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2021/07/09/Python%E6%A0%B8%E5%BF%83%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/" class="post-title-link" itemprop="url">Python核心数据类型</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2021-07-09 15:10:27 / 修改时间：15:11:00" itemprop="dateCreated datePublished" datetime="2021-07-09T15:10:27+08:00">2021-07-09</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/python%E5%85%A5%E9%97%A8/" itemprop="url" rel="index"><span itemprop="name">python入门</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="Python核心数据类型"><a href="#Python核心数据类型" class="headerlink" title="Python核心数据类型"></a>Python核心数据类型</h1><h2 id="一、字符串"><a href="#一、字符串" class="headerlink" title="一、字符串"></a>一、字符串</h2><p><img src="/2021/07/09/Python%E6%A0%B8%E5%BF%83%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/image-20210707172427770.png" alt="image-20210707172427770"></p>
+<p>​    示例1</p>
+<p><img src="/2021/07/09/Python%E6%A0%B8%E5%BF%83%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/image-20210707172744307.png" alt="image-20210707172744307"></p>
+<p>​    输出1</p>
+<p><img src="/2021/07/09/Python%E6%A0%B8%E5%BF%83%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/image-20210707172807672.png" alt="image-20210707172807672"></p>
+<p>​    示例2（这几种手法的效果一样）</p>
+<p><img src="/2021/07/09/Python%E6%A0%B8%E5%BF%83%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/image-20210707173057825.png" alt="image-20210707173057825"></p>
+<p>​    输出2</p>
+<p><img src="/2021/07/09/Python%E6%A0%B8%E5%BF%83%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/image-20210707173128537.png" alt="image-20210707173128537"></p>
+<h3 id="1-1转义字符"><a href="#1-1转义字符" class="headerlink" title="1.1转义字符"></a>1.1转义字符</h3><p><img src="/2021/07/09/Python%E6%A0%B8%E5%BF%83%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/image-20210707173234754.png" alt="image-20210707173234754"></p>
+<h3 id="1-2字符串操作"><a href="#1-2字符串操作" class="headerlink" title="1.2字符串操作"></a>1.2字符串操作</h3><h4 id="1-2-1字符串截取"><a href="#1-2-1字符串截取" class="headerlink" title="1.2.1字符串截取"></a>1.2.1字符串截取</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">str &#x3D; &quot;zhongguo&quot;</span><br><span class="line">print(str)</span><br><span class="line">print(str[0])       #输出下标0的字符</span><br><span class="line">print(str[0:5])     #输出[起始位置：结束位置：步进值（跳格）]</span><br><span class="line">print(str[1:7:2])</span><br><span class="line">print(str[:5])      #[：]前部分没有填时默认为0</span><br><span class="line">print(str[5:])      #[：]后部分没有填时默认到结尾</span><br></pre></td></tr></table></figure>
+<p>结果</p>
+<p><img src="/2021/07/09/Python%E6%A0%B8%E5%BF%83%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/image-20210707173848256.png" alt="image-20210707173848256"></p>
+<h4 id="1-2-2字符串拼接"><a href="#1-2-2字符串拼接" class="headerlink" title="1.2.2字符串拼接"></a>1.2.2字符串拼接</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">print(str + &quot;你好&quot;)       #用‘+’连接</span><br><span class="line">print(str *3)             #用‘*’乘倍数</span><br></pre></td></tr></table></figure>
+<p>结果</p>
+<p><img src="/2021/07/09/Python%E6%A0%B8%E5%BF%83%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/image-20210707174120643.png" alt="image-20210707174120643"></p>
+<h4 id="1-2-3补充"><a href="#1-2-3补充" class="headerlink" title="1.2.3补充"></a>1.2.3补充</h4><p><img src="/2021/07/09/Python%E6%A0%B8%E5%BF%83%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/image-20210707174152325.png" alt="image-20210707174152325"></p>
+<h4 id="1-2-4字符串常见操作"><a href="#1-2-4字符串常见操作" class="headerlink" title="1.2.4字符串常见操作"></a>1.2.4字符串常见操作</h4><p><img src="/2021/07/09/Python%E6%A0%B8%E5%BF%83%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/image-20210707174232894.png" alt="image-20210707174232894"></p>
+<p><img src="/2021/07/09/Python%E6%A0%B8%E5%BF%83%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/image-20210707174401948.png" alt="image-20210707174401948"></p>
+<p><img src="/2021/07/09/Python%E6%A0%B8%E5%BF%83%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/image-20210707174425507.png" alt="image-20210707174425507"></p>
+<p><img src="/2021/07/09/Python%E6%A0%B8%E5%BF%83%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/image-20210707174443645.png" alt="image-20210707174443645"></p>
+<p><img src="/2021/07/09/Python%E6%A0%B8%E5%BF%83%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/image-20210707174546058.png" alt="image-20210707174546058"></p>
+<h2 id="二、列表"><a href="#二、列表" class="headerlink" title="二、列表"></a>二、列表</h2><p><img src="/2021/07/09/Python%E6%A0%B8%E5%BF%83%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/image-20210707212211492.png" alt="image-20210707212211492"></p>
+<p>​                    说明：与数组类似，其功能更加强，可以存着各种数据类型</p>
+<h3 id="2-0列表的常用操作"><a href="#2-0列表的常用操作" class="headerlink" title="2.0列表的常用操作"></a>2.0列表的常用操作</h3><p><img src="/2021/07/09/Python%E6%A0%B8%E5%BF%83%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/image-20210707213340127.png" alt="image-20210707213340127"></p>
+<p><img src="/2021/07/09/Python%E6%A0%B8%E5%BF%83%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/image-20210707213412226.png" alt="image-20210707213412226"></p>
+<h3 id="2-1列表的遍历"><a href="#2-1列表的遍历" class="headerlink" title="2.1列表的遍历"></a>2.1列表的遍历</h3><h4 id="2-1-1for循环遍历"><a href="#2-1-1for循环遍历" class="headerlink" title="2.1.1for循环遍历"></a>2.1.1for循环遍历</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">namelist &#x3D; [&quot;小明&quot;,&quot;小红&quot;,&quot;小伍&quot;,100]</span><br><span class="line">#name会自动适配namelist的数据类型</span><br><span class="line">for name in namelist:</span><br><span class="line">    print(name)</span><br></pre></td></tr></table></figure>
+<p><img src="/2021/07/09/Python%E6%A0%B8%E5%BF%83%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/image-20210707213015898.png" alt="image-20210707213015898"></p>
+<h4 id="2-1-2-while循环遍历"><a href="#2-1-2-while循环遍历" class="headerlink" title="2.1.2 while循环遍历"></a>2.1.2 while循环遍历</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">namelist &#x3D; [&quot;小明&quot;,&quot;小红&quot;,&quot;小伍&quot;,100]</span><br><span class="line">length &#x3D; len(namelist)</span><br><span class="line">i &#x3D; 0</span><br><span class="line">while i &lt; length:</span><br><span class="line">    print(namelist[i])</span><br><span class="line">    i +&#x3D; 1;</span><br></pre></td></tr></table></figure>
+<h3 id="2-2增"><a href="#2-2增" class="headerlink" title="2.2增"></a>2.2增</h3><h4 id="2-2-1append（）在末尾增加"><a href="#2-2-1append（）在末尾增加" class="headerlink" title="2.2.1append（）在末尾增加"></a>2.2.1append（）在末尾增加</h4><p>#把（）里的内容当成一个整体添加</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">namelist &#x3D; [&quot;小明&quot;,&quot;小红&quot;,&quot;小伍&quot;]</span><br><span class="line">print(&quot;-----增加前，名单列表-----&quot;)</span><br><span class="line">for name in namelist:</span><br><span class="line">    print(name)</span><br><span class="line">nametemp &#x3D; input(&quot;请输入添加名单：&quot;)</span><br><span class="line">namelist.append(nametemp)</span><br><span class="line"></span><br><span class="line">print(&quot;-----增加后，名单列表-----&quot;)</span><br><span class="line">for name in namelist:</span><br><span class="line">    print(name)</span><br></pre></td></tr></table></figure>
+<p><img src="/2021/07/09/Python%E6%A0%B8%E5%BF%83%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/image-20210707214153108.png" alt="image-20210707214153108"></p>
+<h4 id="2-2-2exten（）在末尾增加"><a href="#2-2-2exten（）在末尾增加" class="headerlink" title="2.2.2exten（）在末尾增加"></a>2.2.2exten（）在末尾增加</h4><p><img src="/2021/07/09/Python%E6%A0%B8%E5%BF%83%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/image-20210707214608484.png" alt="image-20210707214608484"></p>
+<h4 id="2-2-3insert（下标，对象）随机添加"><a href="#2-2-3insert（下标，对象）随机添加" class="headerlink" title="2.2.3insert（下标，对象）随机添加"></a>2.2.3insert（下标，对象）随机添加</h4><p><img src="/2021/07/09/Python%E6%A0%B8%E5%BF%83%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/image-20210707214803986.png" alt="image-20210707214803986"></p>
+<h3 id="2-3删"><a href="#2-3删" class="headerlink" title="2.3删"></a>2.3删</h3><h4 id="2-3-1del-在指定位置删除一个元素"><a href="#2-3-1del-在指定位置删除一个元素" class="headerlink" title="2.3.1del 在指定位置删除一个元素"></a>2.3.1del 在指定位置删除一个元素</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">namelist &#x3D; [&quot;小明&quot;,&quot;小红&quot;,&quot;小伍&quot;]</span><br><span class="line">print(&quot;-----增加前，名单列表-----&quot;)</span><br><span class="line">for name in namelist:</span><br><span class="line">    print(name)</span><br><span class="line">nametemp &#x3D; input(&quot;请输入添加名单：&quot;)</span><br><span class="line">namelist.append(nametemp)</span><br><span class="line"></span><br><span class="line">print(&quot;-----增加后，名单列表-----&quot;)</span><br><span class="line">for name in namelist:</span><br><span class="line">    print(name)</span><br></pre></td></tr></table></figure>
+<p><img src="/2021/07/09/Python%E6%A0%B8%E5%BF%83%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/image-20210707215215219.png" alt="image-20210707215215219"></p>
+<h4 id="2-3-2pop-弹出末尾最后一个元素"><a href="#2-3-2pop-弹出末尾最后一个元素" class="headerlink" title="2.3.2pop() 弹出末尾最后一个元素"></a>2.3.2pop() 弹出末尾最后一个元素</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">namelist &#x3D; [&quot;小明&quot;,&quot;小红&quot;,&quot;小伍&quot;,&quot;小猪&quot;]</span><br><span class="line">print(&quot;-----删除前，名单列表-----&quot;)</span><br><span class="line">for name in namelist:</span><br><span class="line">    print(name)</span><br><span class="line"></span><br><span class="line">#del namelist[1]</span><br><span class="line">namelist.pop()</span><br><span class="line"></span><br><span class="line">print(&quot;-----删除后，名单列表-----&quot;)</span><br><span class="line">for name in namelist:</span><br><span class="line">    print(name)</span><br></pre></td></tr></table></figure>
+<p><img src="/2021/07/09/Python%E6%A0%B8%E5%BF%83%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/image-20210707215434019.png" alt="image-20210707215434019"></p>
+<h4 id="2-3-3remove（）移除指定元素"><a href="#2-3-3remove（）移除指定元素" class="headerlink" title="2.3.3remove（）移除指定元素"></a>2.3.3remove（）移除指定元素</h4><p>#(当重复出现相同元素时）每次删除一个元素并且是下标最小的元素</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">namelist &#x3D; [&quot;小明&quot;,&quot;小红&quot;,&quot;小猪&quot;,&quot;小伍&quot;,&quot;小猪&quot;]</span><br><span class="line">print(&quot;-----删除前，名单列表-----&quot;)</span><br><span class="line">for name in namelist:</span><br><span class="line">    print(name)</span><br><span class="line"></span><br><span class="line">#del namelist[1]</span><br><span class="line">#namelist.pop()</span><br><span class="line">namelist.remove(&quot;小猪&quot;)</span><br><span class="line"></span><br><span class="line">print(&quot;-----删除后，名单列表-----&quot;)</span><br><span class="line">for name in namelist:</span><br><span class="line">    print(name)</span><br></pre></td></tr></table></figure>
+<p><img src="/2021/07/09/Python%E6%A0%B8%E5%BF%83%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/image-20210707215855971.png" alt="image-20210707215855971"></p>
+<h3 id="2-4改"><a href="#2-4改" class="headerlink" title="2.4改"></a>2.4改</h3><p>直接下标改即可：例如：namelist[1]=“小红”</p>
+<h3 id="2-5查"><a href="#2-5查" class="headerlink" title="2.5查"></a>2.5查</h3><h4 id="2-5-1-in与not-in"><a href="#2-5-1-in与not-in" class="headerlink" title="2.5.1 in与not in"></a>2.5.1 in与not in</h4><p>返回值：true 或 false</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">namelist &#x3D; [&quot;小明&quot;,&quot;小红&quot;,&quot;小猪&quot;,&quot;小伍&quot;,&quot;小猪&quot;]</span><br><span class="line">findName &#x3D; input(&quot;请输入你要查找的名字：&quot;)</span><br><span class="line">if findName in namelist:</span><br><span class="line">    print(&quot;找到了有该名字的人&quot;)</span><br><span class="line">else:</span><br><span class="line">    print(&quot;没找到&quot;)</span><br></pre></td></tr></table></figure>
+<p><img src="/2021/07/09/Python%E6%A0%B8%E5%BF%83%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/image-20210708094721188.png" alt="image-20210708094721188"></p>
+<h4 id="2-5-2-index"><a href="#2-5-2-index" class="headerlink" title="2.5.2  index()"></a>2.5.2  index()</h4><p>返回值：（查找成功）下标，（查找失败）报错</p>
+<p><img src="/2021/07/09/Python%E6%A0%B8%E5%BF%83%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/image-20210708095058614.png" alt="image-20210708095058614"></p>
+<h4 id="2-5-3-count"><a href="#2-5-3-count" class="headerlink" title="2.5.3 count()"></a>2.5.3 count()</h4><p>返回值：查找元素出现的数量</p>
+<p><img src="/2021/07/09/Python%E6%A0%B8%E5%BF%83%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/image-20210708095239953.png" alt="image-20210708095239953"></p>
+<h3 id="2-6排序"><a href="#2-6排序" class="headerlink" title="2.6排序"></a>2.6排序</h3><p>reverse（）、sort（）</p>
+<p><img src="/2021/07/09/Python%E6%A0%B8%E5%BF%83%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/image-20210708095405614.png" alt="image-20210708095405614"></p>
+<h3 id="2-7-列表的嵌套"><a href="#2-7-列表的嵌套" class="headerlink" title="2.7 列表的嵌套"></a>2.7 列表的嵌套</h3><p>说明：与多维数组类似</p>
+<p>示例：员工分配办公室，把员工随机分配到办公室并将分配好的结果打印出来</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">import random</span><br><span class="line">offices &#x3D; [[],[],[]]  #3个办公室</span><br><span class="line">names &#x3D; [&quot;a&quot;,&quot;b&quot;,&quot;c&quot;,&quot;d&quot;,&quot;e&quot;,&quot;f&quot;,&quot;g&quot;,&quot;h&quot;]   #员工名字</span><br><span class="line">for name in names:</span><br><span class="line">    index &#x3D; random.randint(0,2)         #随机分配办公室</span><br><span class="line">    offices[index].append(name)     #在尾巴插入</span><br><span class="line">i &#x3D; 1</span><br><span class="line">for office in offices:</span><br><span class="line">    #注意，for的offic的数据类型与offices元素的数据类型相同，自动适配，所以无需要下标</span><br><span class="line">    print(&quot;办公室%d的人数为：%d&quot;%(i,len(office)))</span><br><span class="line">    i +&#x3D; 1</span><br><span class="line">    for name in office:				#office的数据类型是列表</span><br><span class="line">        print(&quot;%s&quot;%name,end&#x3D;&quot;\t&quot;)</span><br><span class="line">    print((&quot;\n&quot;))</span><br><span class="line">    print(&quot;-&quot;*10)</span><br></pre></td></tr></table></figure>
+<p><img src="/2021/07/09/Python%E6%A0%B8%E5%BF%83%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/image-20210708100944234.png" alt="image-20210708100944234"></p>
+<h3 id="2-8练习"><a href="#2-8练习" class="headerlink" title="2.8练习"></a>2.8练习</h3><p><img src="/2021/07/09/Python%E6%A0%B8%E5%BF%83%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/image-20210708101015298.png" alt="image-20210708101015298"></p>
+<p>参考答案</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line">products &#x3D; [[&quot;iphon &quot;,6888],[&quot;MacPro&quot;,14800],[&quot;小米      &quot;,2499],[&quot;Coffee&quot;,31],[&quot; Book &quot;,60],[&quot; Nike &quot;,699]]</span><br><span class="line">print(&quot;--------商品--------&quot;)</span><br><span class="line">i&#x3D;0</span><br><span class="line">for product in products:</span><br><span class="line">    print(&quot;%d\t%s \t %d&quot;% (i,product[0],product[1]))</span><br><span class="line">    i +&#x3D; 1</span><br><span class="line"></span><br><span class="line">#购物车</span><br><span class="line">goods &#x3D; [[],[],[],[],[],[]]  #购物车商品栏</span><br><span class="line">flag &#x3D; &quot;a&quot;</span><br><span class="line">while flag!&#x3D;&quot;q&quot;:</span><br><span class="line">    flag &#x3D; input(&quot;(输入q结算)输入编号把物品加入购物车：&quot;)</span><br><span class="line">    if flag&#x3D;&#x3D;&quot;q&quot;:</span><br><span class="line">        break</span><br><span class="line">    num &#x3D; int(flag)</span><br><span class="line">    num &#x3D; num-0;</span><br><span class="line">    if(num&gt;&#x3D;0 and num &lt;&#x3D;5):</span><br><span class="line">        #已添加的商品只需要增加数量</span><br><span class="line">        if goods[num]:</span><br><span class="line">            count&#x3D;goods[num][3]</span><br><span class="line">            count+&#x3D;1</span><br><span class="line">            goods[num][3]&#x3D;count</span><br><span class="line">        else:</span><br><span class="line">            #新添加的物品</span><br><span class="line">            good&#x3D;[]</span><br><span class="line">            good.insert(0,num)</span><br><span class="line">            good.extend(products[num])</span><br><span class="line">            good.insert(3,1)</span><br><span class="line">            goods[num]&#x3D;good</span><br><span class="line"></span><br><span class="line">        print(&quot;%d号商品已加入购物车&quot; % num)</span><br><span class="line">    else:</span><br><span class="line">        print(&quot;输入不规范&quot;)</span><br><span class="line"></span><br><span class="line">sum &#x3D; 0</span><br><span class="line">print(&quot;-----------购物车-----------&quot;)</span><br><span class="line">print(&quot;商品编号   \t商品名称   \t商品单价   \t商品数量&quot;)</span><br><span class="line">for g in goods:</span><br><span class="line">    if g!&#x3D;[]:</span><br><span class="line">        print(&quot;  %d  \t\t%s  \t%d  \t\t  %d&quot; % (g[0], g[1],g[2],g[3]))</span><br><span class="line">        sum &#x3D; sum+g[2]*g[3]</span><br><span class="line">print(&quot;总价格为：&quot;,sum)</span><br></pre></td></tr></table></figure>
+<p>补充：添加一些空格是为了美观</p>
+<h2 id="三、元组"><a href="#三、元组" class="headerlink" title="三、元组"></a>三、元组</h2><p><img src="/2021/07/09/Python%E6%A0%B8%E5%BF%83%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/image-20210709100840979.png" alt="image-20210709100840979"></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">tup1 &#x3D; ()		#&lt;class &#39;tuple&#39;&gt;</span><br><span class="line">tup2 &#x3D; (50)		#注意它的数据类型为&lt;class &#39;int&#39;&gt;</span><br><span class="line">tup3 &#x3D; (50,)	#&lt;class &#39;tuple&#39;&gt;</span><br><span class="line">tup4 &#x3D; (50,60)	#&lt;class &#39;tuple&#39;&gt;</span><br></pre></td></tr></table></figure>
+<h3 id="3-1查"><a href="#3-1查" class="headerlink" title="3.1查"></a>3.1查</h3><p><img src="/2021/07/09/Python%E6%A0%B8%E5%BF%83%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/image-20210709101754522.png" alt="image-20210709101754522"></p>
+<p><img src="/2021/07/09/Python%E6%A0%B8%E5%BF%83%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/image-20210709101807259.png" alt="image-20210709101807259"></p>
+<h3 id="3-1增"><a href="#3-1增" class="headerlink" title="3.1增"></a>3.1增</h3><p>把2个元组链接成一个新的元组（内存空间也是新的），非真正的增，</p>
+<p><img src="/2021/07/09/Python%E6%A0%B8%E5%BF%83%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/image-20210709102207878.png" alt="image-20210709102207878"></p>
+<h3 id="3-2删"><a href="#3-2删" class="headerlink" title="3.2删"></a>3.2删</h3><p>把变量的空间内存释放，非元素值删除</p>
+<p><img src="/2021/07/09/Python%E6%A0%B8%E5%BF%83%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/image-20210709102340996.png" alt="image-20210709102340996"></p>
+<h3 id="3-3改"><a href="#3-3改" class="headerlink" title="3.3改"></a>3.3改</h3><p>不可以修改</p>
+<p><img src="/2021/07/09/Python%E6%A0%B8%E5%BF%83%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/image-20210709102125005.png" alt="image-20210709102125005"></p>
+<h3 id="3-4补充：常见操作"><a href="#3-4补充：常见操作" class="headerlink" title="3.4补充：常见操作"></a>3.4补充：常见操作</h3><p><img src="/2021/07/09/Python%E6%A0%B8%E5%BF%83%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/image-20210709102506224.png" alt="image-20210709102506224"></p>
+<p><img src="/2021/07/09/Python%E6%A0%B8%E5%BF%83%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/image-20210709102544672.png" alt="image-20210709102544672"></p>
+<h2 id="四、字典"><a href="#四、字典" class="headerlink" title="四、字典"></a>四、字典</h2><p><img src="/2021/07/09/Python%E6%A0%B8%E5%BF%83%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/image-20210709102620908.png" alt="image-20210709102620908"></p>
+<p>示例</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">info &#x3D; &#123;&quot;name&quot;:&quot;吴彦祖&quot;,&quot;age&quot;:18&#125;</span><br><span class="line">#访问</span><br><span class="line">print(info[&quot;name&quot;])</span><br><span class="line">print(info[&quot;name&quot;])</span><br><span class="line"></span><br><span class="line">#访问不存在时</span><br><span class="line">#print(info[&quot;agee&quot;])    直接访问错误，会直接报错</span><br><span class="line">#使用get（参数1：key值，参数2：报错返回值）方法，访问错误时会默认返回None；</span><br><span class="line">print(info.get(&quot;agge&quot;))</span><br><span class="line">print(info.get(&quot;agge&quot;,&quot;访问失败&quot;))</span><br><span class="line">#主流访问方式</span><br><span class="line">print(info.get(&quot;name&quot;,&quot;访问失败&quot;))</span><br></pre></td></tr></table></figure>
+<p><img src="/2021/07/09/Python%E6%A0%B8%E5%BF%83%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/image-20210709103524959.png" alt="image-20210709103524959"></p>
+<h3 id="4-1-增"><a href="#4-1-增" class="headerlink" title="4.1 增"></a>4.1 增</h3><p>类似赋值</p>
+<p><img src="/2021/07/09/Python%E6%A0%B8%E5%BF%83%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/image-20210709122906826.png" alt="image-20210709122906826"></p>
+<p><img src="/2021/07/09/Python%E6%A0%B8%E5%BF%83%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/image-20210709122924131.png" alt="image-20210709122924131"></p>
+<h3 id="4-2-删"><a href="#4-2-删" class="headerlink" title="4.2 删"></a>4.2 删</h3><h4 id="4-2-1-del"><a href="#4-2-1-del" class="headerlink" title="4.2.1 del"></a>4.2.1 del</h4><p>说明：直接删除变量（释放内存），删除后再次访问会报错</p>
+<p><img src="/2021/07/09/Python%E6%A0%B8%E5%BF%83%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/image-20210709123226217.png" alt="image-20210709123226217"></p>
+<p><img src="/2021/07/09/Python%E6%A0%B8%E5%BF%83%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/image-20210709123453335.png" alt="image-20210709123453335"></p>
+<h4 id="4-2-2-clear"><a href="#4-2-2-clear" class="headerlink" title="4.2.2 clear"></a>4.2.2 clear</h4><p>说明：置空</p>
+<p><img src="/2021/07/09/Python%E6%A0%B8%E5%BF%83%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/image-20210709123538730.png" alt="image-20210709123538730"></p>
+<h3 id="4-3-改"><a href="#4-3-改" class="headerlink" title="4.3 改"></a>4.3 改</h3><p><img src="/2021/07/09/Python%E6%A0%B8%E5%BF%83%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/image-20210709123720654.png" alt="image-20210709123720654"></p>
+<h3 id="4-4-查"><a href="#4-4-查" class="headerlink" title="4.4 查"></a>4.4 查</h3><p>key（），values（），items（）</p>
+<p><img src="/2021/07/09/Python%E6%A0%B8%E5%BF%83%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/image-20210709124229611.png" alt="image-20210709124229611"></p>
+<p>for循环应用</p>
+<p>示例1</p>
+<p><img src="/2021/07/09/Python%E6%A0%B8%E5%BF%83%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/image-20210709124721875.png" alt="image-20210709124721875"></p>
+<p><img src="/2021/07/09/Python%E6%A0%B8%E5%BF%83%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/image-20210709124901646.png" alt="image-20210709124901646"></p>
+<p>示例2</p>
+<p><img src="/2021/07/09/Python%E6%A0%B8%E5%BF%83%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/image-20210709125008386.png" alt="image-20210709125008386"></p>
+<p>推广：列表的for循环应用，同时调用下标和元素值；enumerate（）枚举函数</p>
+<p><img src="/2021/07/09/Python%E6%A0%B8%E5%BF%83%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/image-20210709125311103.png" alt="image-20210709125311103"></p>
+<h3 id="4-5-常规操作"><a href="#4-5-常规操作" class="headerlink" title="4.5 常规操作"></a>4.5 常规操作</h3><p><img src="/2021/07/09/Python%E6%A0%B8%E5%BF%83%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/image-20210709125658969.png" alt="image-20210709125658969"></p>
+<p><img src="/2021/07/09/Python%E6%A0%B8%E5%BF%83%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/image-20210709125717300.png" alt="image-20210709125717300"></p>
+<p><img src="/2021/07/09/Python%E6%A0%B8%E5%BF%83%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/image-20210709125759621.png" alt="image-20210709125759621"></p>
+<h2 id="五、集合"><a href="#五、集合" class="headerlink" title="五、集合"></a>五、集合</h2><p><img src="/2021/07/09/Python%E6%A0%B8%E5%BF%83%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/image-20210709125928832.png" alt="image-20210709125928832"></p>
+<p><img src="/2021/07/09/Python%E6%A0%B8%E5%BF%83%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/image-20210709130000818.png" alt="image-20210709130000818"></p>
+<p><img src="/2021/07/09/Python%E6%A0%B8%E5%BF%83%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/image-20210709130018434.png" alt="image-20210709130018434"></p>
+<h2 id="六、小结"><a href="#六、小结" class="headerlink" title="六、小结"></a>六、小结</h2><p><img src="/2021/07/09/Python%E6%A0%B8%E5%BF%83%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/image-20210709130105014.png" alt="image-20210709130105014"></p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
       
   
   
@@ -1072,143 +1240,6 @@
   
   
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://wgc5.gitee.io/2021/01/18/Intent/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="北极星上的稻草人">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="北极星上的稻草人">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2021/01/18/Intent/" class="post-title-link" itemprop="url">Intent</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2021-01-18 09:41:00" itemprop="dateCreated datePublished" datetime="2021-01-18T09:41:00+08:00">2021-01-18</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-02-21 09:50:03" itemprop="dateModified" datetime="2021-02-21T09:50:03+08:00">2021-02-21</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Android-Studio/" itemprop="url" rel="index"><span itemprop="name">Android Studio</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h3 id="Intent"><a href="#Intent" class="headerlink" title="Intent"></a>Intent</h3><p><img src="/2021/01/18/Intent/image-20210117145631770.png" alt="image-20210117145631770"></p>
-<p><img src="/2021/01/18/Intent/image-20210117145649296.png" alt="image-20210117145649296"></p>
-<p><img src="/2021/01/18/Intent/image-20210117145705791.png" alt="image-20210117145705791"></p>
-<p><img src="/2021/01/18/Intent/image-20210117145717824.png" alt="image-20210117145717824"></p>
-<p><img src="/2021/01/18/Intent/image-20210117145739139.png" alt="image-20210117145739139"></p>
-<p><img src="/2021/01/18/Intent/image-20210117152057511.png" alt="image-20210117152057511"></p>
-<p>事例</p>
-<p><img src="/2021/01/18/Intent/image-20210117153109912.png" alt="image-20210117153109912"></p>
-<p><img src="/2021/01/18/Intent/image-20210117153143303.png" alt="image-20210117153143303"></p>
-<p>提示：这里有2个跳转页面，需要新建2个activity；</p>
-<p>显式调用</p>
-<p>.java</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">public void onClick(View view)&#123;</span><br><span class="line">    &#x2F;&#x2F;显式调用</span><br><span class="line">    if(view.getId()&#x3D;&#x3D;R.id.btn1)&#123;</span><br><span class="line">        &#x2F;&#x2F;定义Intent对象</span><br><span class="line">        Intent intent &#x3D; new Intent();</span><br><span class="line">        &#x2F;&#x2F;*****显式调用方法1：类名调用****</span><br><span class="line">        &#x2F;&#x2F;定义ComponentName对象，ComponentName(this,A_Activity.class)：将this包（com.example.intentdemo1）的A_Activity.class</span><br><span class="line">        &#x2F;&#x2F;赋值给componentName（即跳转的Activity的class）</span><br><span class="line">        &#x2F;&#x2F;   ComponentName componentName &#x3D; new ComponentName(this,A_Activity.class);</span><br><span class="line">        &#x2F;&#x2F;*****显式调用方法2:包名调用****</span><br><span class="line">        ComponentName componentName &#x3D; new ComponentName(&quot;com.example.intentdemo1&quot;,&quot;com.example.intentdemo1.A_Activity&quot;);</span><br><span class="line">        intent.setComponent(componentName);</span><br><span class="line">        startActivity(intent);</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
-<p>隐式调用</p>
-<p><img src="/2021/01/18/Intent/image-20210117153529939.png" alt="image-20210117153529939"></p>
-<p><img src="/2021/01/18/Intent/image-20210117153555832.png" alt="image-20210117153555832"></p>
-<h5 id="2-2Action"><a href="#2-2Action" class="headerlink" title="2.2Action"></a>2.2Action</h5><p><img src="/2021/01/18/Intent/image-20210117155541840.png" alt="image-20210117155541840"></p>
-<p><img src="/2021/01/18/Intent/image-20210117155606616.png" alt="image-20210117155606616"></p>
-<h5 id="2-3Data（Uri是Url的父集）"><a href="#2-3Data（Uri是Url的父集）" class="headerlink" title="2.3Data（Uri是Url的父集）"></a>2.3Data（Uri是Url的父集）</h5><p><img src="/2021/01/18/Intent/image-20210117155637664.png" alt="image-20210117155637664"></p>
-<p><img src="/2021/01/18/Intent/image-20210117180553678.png" alt="image-20210117180553678"></p>
-<p><img src="/2021/01/18/Intent/image-20210117160431990.png" alt="image-20210117160431990"></p>
-<p>通过Data和Action启用系统程序</p>
-<p><img src="/2021/01/18/Intent/image-20210117180606594.png" alt="image-20210117180606594"></p>
-<p>activity_main.xml</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version&#x3D;&quot;1.0&quot; encoding&#x3D;&quot;utf-8&quot;?&gt;</span><br><span class="line"></span><br><span class="line">&lt;GridLayout xmlns:android&#x3D;&quot;http:&#x2F;&#x2F;schemas.android.com&#x2F;apk&#x2F;res&#x2F;android&quot;</span><br><span class="line">    android:layout_width&#x3D;&quot;wrap_content&quot;</span><br><span class="line">    android:layout_height&#x3D;&quot;wrap_content&quot;</span><br><span class="line">    android:layout_column&#x3D;&quot;1&quot;</span><br><span class="line">    android:orientation&#x3D;&quot;vertical&quot;&gt;</span><br><span class="line"></span><br><span class="line">    &lt;RadioGroup android:id&#x3D;&quot;@+id&#x2F;radio&quot;&gt;</span><br><span class="line">        &lt;RadioButton</span><br><span class="line">            android:id&#x3D;&quot;@+id&#x2F;btn1&quot;</span><br><span class="line">            android:layout_width&#x3D;&quot;wrap_content&quot;</span><br><span class="line">            android:layout_height&#x3D;&quot;wrap_content&quot;</span><br><span class="line">            android:text&#x3D;&quot;view_taobao&quot;&gt;</span><br><span class="line">        &lt;&#x2F;RadioButton&gt;</span><br><span class="line">        &lt;RadioButton</span><br><span class="line">            android:id&#x3D;&quot;@+id&#x2F;btn2&quot;</span><br><span class="line">            android:layout_width&#x3D;&quot;wrap_content&quot;</span><br><span class="line">            android:layout_height&#x3D;&quot;wrap_content&quot;</span><br><span class="line">            android:text&#x3D;&quot;CALL&quot;&gt;</span><br><span class="line">        &lt;&#x2F;RadioButton&gt;</span><br><span class="line">        &lt;RadioButton</span><br><span class="line">            android:id&#x3D;&quot;@+id&#x2F;btn3&quot;</span><br><span class="line">            android:layout_width&#x3D;&quot;wrap_content&quot;</span><br><span class="line">            android:layout_height&#x3D;&quot;wrap_content&quot;</span><br><span class="line">            android:text&#x3D;&quot;DIAL&quot;&gt;</span><br><span class="line">        &lt;&#x2F;RadioButton&gt;</span><br><span class="line">        &lt;RadioButton</span><br><span class="line">            android:id&#x3D;&quot;@+id&#x2F;btn4&quot;</span><br><span class="line">            android:layout_width&#x3D;&quot;wrap_content&quot;</span><br><span class="line">            android:layout_height&#x3D;&quot;wrap_content&quot;</span><br><span class="line">            android:text&#x3D;&quot;view_GEO地图&quot;&gt;</span><br><span class="line">        &lt;&#x2F;RadioButton&gt;</span><br><span class="line">        &lt;RadioButton</span><br><span class="line">            android:id&#x3D;&quot;@+id&#x2F;btn5&quot;</span><br><span class="line">            android:layout_width&#x3D;&quot;wrap_content&quot;</span><br><span class="line">            android:layout_height&#x3D;&quot;wrap_content&quot;</span><br><span class="line">            android:text&#x3D;&quot;view_GEO地图2&quot;&gt;</span><br><span class="line">        &lt;&#x2F;RadioButton&gt;</span><br><span class="line">        &lt;RadioButton</span><br><span class="line">            android:id&#x3D;&quot;@+id&#x2F;btn6&quot;</span><br><span class="line">            android:layout_width&#x3D;&quot;wrap_content&quot;</span><br><span class="line">            android:layout_height&#x3D;&quot;wrap_content&quot;</span><br><span class="line">            android:text&#x3D;&quot;IMAGE_CAPTURE&quot;&gt;</span><br><span class="line">        &lt;&#x2F;RadioButton&gt;</span><br><span class="line">        &lt;RadioButton</span><br><span class="line">            android:id&#x3D;&quot;@+id&#x2F;btn7&quot;</span><br><span class="line">            android:layout_width&#x3D;&quot;wrap_content&quot;</span><br><span class="line">            android:layout_height&#x3D;&quot;wrap_content&quot;</span><br><span class="line">            android:text&#x3D;&quot;ACTION_VIEW+URI&quot;&gt;</span><br><span class="line">        &lt;&#x2F;RadioButton&gt;</span><br><span class="line">        &lt;RadioButton</span><br><span class="line">            android:id&#x3D;&quot;@+id&#x2F;btn8&quot;</span><br><span class="line">            android:layout_width&#x3D;&quot;wrap_content&quot;</span><br><span class="line">            android:layout_height&#x3D;&quot;wrap_content&quot;</span><br><span class="line">            android:text&#x3D;&quot;ACTION_VIEW+URI2&quot;&gt;</span><br><span class="line">        &lt;&#x2F;RadioButton&gt;</span><br><span class="line">        </span><br><span class="line">        &lt;Button</span><br><span class="line">            android:id&#x3D;&quot;@+id&#x2F;send&quot;</span><br><span class="line">            android:layout_width&#x3D;&quot;wrap_content&quot;</span><br><span class="line">            android:layout_height&#x3D;&quot;wrap_content&quot;</span><br><span class="line">            android:text&#x3D;&quot;启动&quot;</span><br><span class="line">            android:onClick&#x3D;&quot;sendItent&quot;</span><br><span class="line">            &gt;&lt;&#x2F;Button&gt;</span><br><span class="line">    &lt;&#x2F;RadioGroup&gt;</span><br><span class="line">&lt;&#x2F;GridLayout&gt;</span><br></pre></td></tr></table></figure>
-<p>.java类的函数</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br></pre></td><td class="code"><pre><span class="line">public class MainActivity extends AppCompatActivity &#123;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    protected void onCreate(Bundle savedInstanceState) &#123;</span><br><span class="line">        super.onCreate(savedInstanceState);</span><br><span class="line">        setContentView(R.layout.activity_main);</span><br><span class="line">    &#125;</span><br><span class="line">    public void sendItent(View view)&#123;</span><br><span class="line">        Intent intent &#x3D; null;</span><br><span class="line">        RadioGroup radioGroup &#x3D; findViewById(R.id.radio);</span><br><span class="line">        &#x2F;&#x2F;getCheckedRadioButtonId()是组内的其他小插件的id，getId()是群组本身id</span><br><span class="line">        switch (radioGroup.getCheckedRadioButtonId())&#123;</span><br><span class="line">            case R.id.btn1:</span><br><span class="line">                intent &#x3D; new Intent(Intent.ACTION_VIEW, Uri.parse(&quot;http:&#x2F;&#x2F;www.taobao.com&quot;));</span><br><span class="line">                break;</span><br><span class="line">            case R.id.btn2:</span><br><span class="line">                &#x2F;&#x2F;CAll直接拨打电话，需要权限（在Manifest里设置）</span><br><span class="line">                intent &#x3D; new Intent(Intent.ACTION_CALL, Uri.parse(&quot;tel:13794293537&quot;));</span><br><span class="line">                break;</span><br><span class="line">            case R.id.btn3:</span><br><span class="line">                &#x2F;&#x2F;DIAL则只是跳转到打电话的页面</span><br><span class="line">                intent &#x3D; new Intent(Intent.ACTION_DIAL, Uri.parse(&quot;tel:&#x2F;&#x2F;13794293537&quot;));</span><br><span class="line">                break;</span><br><span class="line">                &#x2F;&#x2F;按坐标搜索地图</span><br><span class="line">            case R.id.btn4:</span><br><span class="line">                intent &#x3D; new Intent(Intent.ACTION_VIEW, Uri.parse(&quot;geo:1032.35,61.64&quot;));</span><br><span class="line">                break;</span><br><span class="line">                &#x2F;&#x2F;按名字搜索地图</span><br><span class="line">            case R.id.btn5:</span><br><span class="line">                intent &#x3D; new Intent(Intent.ACTION_VIEW, Uri.parse(&quot;geo:0,2?q&#x3D;北京&quot;));</span><br><span class="line">                break;</span><br><span class="line">                &#x2F;&#x2F;打开照相机</span><br><span class="line">            case R.id.btn6:</span><br><span class="line">                intent &#x3D; new Intent(&quot;android.media.action.IMAGE_CAPTURE&quot;);</span><br><span class="line">                break;</span><br><span class="line">                &#x2F;&#x2F;打开通讯录</span><br><span class="line">            case R.id.btn7:</span><br><span class="line">                intent &#x3D; new Intent(Intent.ACTION_VIEW, Uri.parse(&quot;content:&#x2F;&#x2F;contacts&#x2F;people&#x2F;&quot;));</span><br><span class="line">                break;</span><br><span class="line">                &#x2F;&#x2F;查看通讯录的第一哥联系人</span><br><span class="line">            case R.id.btn8:</span><br><span class="line">                intent &#x3D; new Intent(Intent.ACTION_VIEW, Uri.parse(&quot;content:&#x2F;&#x2F;contacts&#x2F;people&#x2F;1&quot;));</span><br><span class="line">                break;</span><br><span class="line">        &#125;</span><br><span class="line">        &#x2F;&#x2F;启动</span><br><span class="line">        if(intent !&#x3D; null)&#123;</span><br><span class="line">            startActivity(intent);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h4 id="Intent解析"><a href="#Intent解析" class="headerlink" title="Intent解析"></a>Intent解析</h4><p><img src="/2021/01/18/Intent/image-20210117212234679.png" alt="image-20210117212234679"></p>
-<p><img src="/2021/01/18/Intent/image-20210117212300662.png" alt="image-20210117212300662"></p>
-<p><img src="/2021/01/18/Intent/image-20210117212322228.png" alt="image-20210117212322228"></p>
-<p><img src="/2021/01/18/Intent/image-20210117212335789.png" alt="image-20210117212335789"></p>
-<p><img src="/2021/01/18/Intent/image-20210117212344493.png" alt="image-20210117212344493"></p>
-<p><img src="/2021/01/18/Intent/image-20210117212403783.png" alt="image-20210117212403783"></p>
-<p><img src="/2021/01/18/Intent/image-20210117212735786.png" alt="image-20210117212735786"></p>
-<p><img src="/2021/01/18/Intent/image-20210117212808413.png" alt="image-20210117212808413"></p>
-<p><img src="/2021/01/18/Intent/image-20210117212831081.png" alt="image-20210117212831081"></p>
-<p><img src="/2021/01/18/Intent/image-20210117212851201.png" alt="image-20210117212851201"></p>
-<p><img src="/2021/01/18/Intent/image-20210117212938968.png" alt="image-20210117212938968"></p>
-<p><img src="/2021/01/18/Intent/image-20210117212953690.png" alt="image-20210117212953690"></p>
-<h4 id="4-使用Intent实现数据传输"><a href="#4-使用Intent实现数据传输" class="headerlink" title="4.使用Intent实现数据传输"></a>4.使用Intent实现数据传输</h4><p>示意图</p>
-<p><img src="/2021/01/18/Intent/image-20210118095427772.png" alt="image-20210118095427772"></p>
-<p>说明</p>
-<p><img src="/2021/01/18/Intent/image-20210118095453724.png" alt="image-20210118095453724"></p>
-<p>事例</p>
-<p>隐式与显式调用</p>
-<p><img src="/2021/01/18/Intent/image-20210118104346362.png" alt="image-20210118104346362"></p>
-<p><img src="/2021/01/18/Intent/image-20210118104359626.png" alt="image-20210118104359626"></p>
-<p>提示</p>
-<p><img src="/2021/01/18/Intent/image-20210118105404838.png" alt="image-20210118105404838"></p>
-<p><img src="/2021/01/18/Intent/image-20210118105213199.png" alt="image-20210118105213199"></p>
-<p><img src="/2021/01/18/Intent/image-20210118105422318.png" alt="image-20210118105422318"></p>
-<p><img src="/2021/01/18/Intent/image-20210118105308773.png" alt="image-20210118105308773"></p>
-<p>（隐式调用还需要）</p>
-<p><img src="/2021/01/18/Intent/image-20210118105507866.png" alt="image-20210118105507866"></p>
-<p>提升1：页面跳转（通过按钮返回页面）：点击GoBack按钮返回原来的界面</p>
-<p><img src="/2021/01/18/Intent/image-20210118111242532.png" alt="image-20210118111242532"></p>
-<p><img src="/2021/01/18/Intent/image-20210118111340947.png" alt="image-20210118111340947"></p>
-<p>提升2：带参数返回</p>
-<p>（不跳转界面，把信息发给Activity3，Activity3处理数据后再返回给原Activity）</p>
-<p>在隐式调用的基础上，注释红框的内容，添加黄色框的内容</p>
-<p><img src="/2021/01/18/Intent/image-20210118120412090.png" alt="image-20210118120412090"></p>
-<p><img src="/2021/01/18/Intent/image-20210118120323791.png" alt="image-20210118120323791"></p>
-<p>Activity3处理数据</p>
-<p><img src="/2021/01/18/Intent/image-20210118120354535.png" alt="image-20210118120354535"></p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
 
   
   <nav class="pagination">
@@ -1278,14 +1309,14 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">18</span>
+          <span class="site-state-item-count">19</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">4</span>
+        <span class="site-state-item-count">5</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">

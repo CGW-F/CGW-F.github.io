@@ -121,12 +121,12 @@
   </li>
         <li class="menu-item menu-item-categories">
 
-    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">4</span></a>
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">5</span></a>
 
   </li>
         <li class="menu-item menu-item-archives">
 
-    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">18</span></a>
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">19</span></a>
 
   </li>
   </ul>
@@ -152,6 +152,143 @@
 
           <div class="content index posts-expand">
             
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://wgc5.gitee.io/2021/01/18/Intent/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="北极星上的稻草人">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="北极星上的稻草人">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2021/01/18/Intent/" class="post-title-link" itemprop="url">Intent</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-01-18 09:41:00" itemprop="dateCreated datePublished" datetime="2021-01-18T09:41:00+08:00">2021-01-18</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-02-21 09:50:03" itemprop="dateModified" datetime="2021-02-21T09:50:03+08:00">2021-02-21</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Android-Studio/" itemprop="url" rel="index"><span itemprop="name">Android Studio</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h3 id="Intent"><a href="#Intent" class="headerlink" title="Intent"></a>Intent</h3><p><img src="/2021/01/18/Intent/image-20210117145631770.png" alt="image-20210117145631770"></p>
+<p><img src="/2021/01/18/Intent/image-20210117145649296.png" alt="image-20210117145649296"></p>
+<p><img src="/2021/01/18/Intent/image-20210117145705791.png" alt="image-20210117145705791"></p>
+<p><img src="/2021/01/18/Intent/image-20210117145717824.png" alt="image-20210117145717824"></p>
+<p><img src="/2021/01/18/Intent/image-20210117145739139.png" alt="image-20210117145739139"></p>
+<p><img src="/2021/01/18/Intent/image-20210117152057511.png" alt="image-20210117152057511"></p>
+<p>事例</p>
+<p><img src="/2021/01/18/Intent/image-20210117153109912.png" alt="image-20210117153109912"></p>
+<p><img src="/2021/01/18/Intent/image-20210117153143303.png" alt="image-20210117153143303"></p>
+<p>提示：这里有2个跳转页面，需要新建2个activity；</p>
+<p>显式调用</p>
+<p>.java</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">public void onClick(View view)&#123;</span><br><span class="line">    &#x2F;&#x2F;显式调用</span><br><span class="line">    if(view.getId()&#x3D;&#x3D;R.id.btn1)&#123;</span><br><span class="line">        &#x2F;&#x2F;定义Intent对象</span><br><span class="line">        Intent intent &#x3D; new Intent();</span><br><span class="line">        &#x2F;&#x2F;*****显式调用方法1：类名调用****</span><br><span class="line">        &#x2F;&#x2F;定义ComponentName对象，ComponentName(this,A_Activity.class)：将this包（com.example.intentdemo1）的A_Activity.class</span><br><span class="line">        &#x2F;&#x2F;赋值给componentName（即跳转的Activity的class）</span><br><span class="line">        &#x2F;&#x2F;   ComponentName componentName &#x3D; new ComponentName(this,A_Activity.class);</span><br><span class="line">        &#x2F;&#x2F;*****显式调用方法2:包名调用****</span><br><span class="line">        ComponentName componentName &#x3D; new ComponentName(&quot;com.example.intentdemo1&quot;,&quot;com.example.intentdemo1.A_Activity&quot;);</span><br><span class="line">        intent.setComponent(componentName);</span><br><span class="line">        startActivity(intent);</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p>隐式调用</p>
+<p><img src="/2021/01/18/Intent/image-20210117153529939.png" alt="image-20210117153529939"></p>
+<p><img src="/2021/01/18/Intent/image-20210117153555832.png" alt="image-20210117153555832"></p>
+<h5 id="2-2Action"><a href="#2-2Action" class="headerlink" title="2.2Action"></a>2.2Action</h5><p><img src="/2021/01/18/Intent/image-20210117155541840.png" alt="image-20210117155541840"></p>
+<p><img src="/2021/01/18/Intent/image-20210117155606616.png" alt="image-20210117155606616"></p>
+<h5 id="2-3Data（Uri是Url的父集）"><a href="#2-3Data（Uri是Url的父集）" class="headerlink" title="2.3Data（Uri是Url的父集）"></a>2.3Data（Uri是Url的父集）</h5><p><img src="/2021/01/18/Intent/image-20210117155637664.png" alt="image-20210117155637664"></p>
+<p><img src="/2021/01/18/Intent/image-20210117180553678.png" alt="image-20210117180553678"></p>
+<p><img src="/2021/01/18/Intent/image-20210117160431990.png" alt="image-20210117160431990"></p>
+<p>通过Data和Action启用系统程序</p>
+<p><img src="/2021/01/18/Intent/image-20210117180606594.png" alt="image-20210117180606594"></p>
+<p>activity_main.xml</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version&#x3D;&quot;1.0&quot; encoding&#x3D;&quot;utf-8&quot;?&gt;</span><br><span class="line"></span><br><span class="line">&lt;GridLayout xmlns:android&#x3D;&quot;http:&#x2F;&#x2F;schemas.android.com&#x2F;apk&#x2F;res&#x2F;android&quot;</span><br><span class="line">    android:layout_width&#x3D;&quot;wrap_content&quot;</span><br><span class="line">    android:layout_height&#x3D;&quot;wrap_content&quot;</span><br><span class="line">    android:layout_column&#x3D;&quot;1&quot;</span><br><span class="line">    android:orientation&#x3D;&quot;vertical&quot;&gt;</span><br><span class="line"></span><br><span class="line">    &lt;RadioGroup android:id&#x3D;&quot;@+id&#x2F;radio&quot;&gt;</span><br><span class="line">        &lt;RadioButton</span><br><span class="line">            android:id&#x3D;&quot;@+id&#x2F;btn1&quot;</span><br><span class="line">            android:layout_width&#x3D;&quot;wrap_content&quot;</span><br><span class="line">            android:layout_height&#x3D;&quot;wrap_content&quot;</span><br><span class="line">            android:text&#x3D;&quot;view_taobao&quot;&gt;</span><br><span class="line">        &lt;&#x2F;RadioButton&gt;</span><br><span class="line">        &lt;RadioButton</span><br><span class="line">            android:id&#x3D;&quot;@+id&#x2F;btn2&quot;</span><br><span class="line">            android:layout_width&#x3D;&quot;wrap_content&quot;</span><br><span class="line">            android:layout_height&#x3D;&quot;wrap_content&quot;</span><br><span class="line">            android:text&#x3D;&quot;CALL&quot;&gt;</span><br><span class="line">        &lt;&#x2F;RadioButton&gt;</span><br><span class="line">        &lt;RadioButton</span><br><span class="line">            android:id&#x3D;&quot;@+id&#x2F;btn3&quot;</span><br><span class="line">            android:layout_width&#x3D;&quot;wrap_content&quot;</span><br><span class="line">            android:layout_height&#x3D;&quot;wrap_content&quot;</span><br><span class="line">            android:text&#x3D;&quot;DIAL&quot;&gt;</span><br><span class="line">        &lt;&#x2F;RadioButton&gt;</span><br><span class="line">        &lt;RadioButton</span><br><span class="line">            android:id&#x3D;&quot;@+id&#x2F;btn4&quot;</span><br><span class="line">            android:layout_width&#x3D;&quot;wrap_content&quot;</span><br><span class="line">            android:layout_height&#x3D;&quot;wrap_content&quot;</span><br><span class="line">            android:text&#x3D;&quot;view_GEO地图&quot;&gt;</span><br><span class="line">        &lt;&#x2F;RadioButton&gt;</span><br><span class="line">        &lt;RadioButton</span><br><span class="line">            android:id&#x3D;&quot;@+id&#x2F;btn5&quot;</span><br><span class="line">            android:layout_width&#x3D;&quot;wrap_content&quot;</span><br><span class="line">            android:layout_height&#x3D;&quot;wrap_content&quot;</span><br><span class="line">            android:text&#x3D;&quot;view_GEO地图2&quot;&gt;</span><br><span class="line">        &lt;&#x2F;RadioButton&gt;</span><br><span class="line">        &lt;RadioButton</span><br><span class="line">            android:id&#x3D;&quot;@+id&#x2F;btn6&quot;</span><br><span class="line">            android:layout_width&#x3D;&quot;wrap_content&quot;</span><br><span class="line">            android:layout_height&#x3D;&quot;wrap_content&quot;</span><br><span class="line">            android:text&#x3D;&quot;IMAGE_CAPTURE&quot;&gt;</span><br><span class="line">        &lt;&#x2F;RadioButton&gt;</span><br><span class="line">        &lt;RadioButton</span><br><span class="line">            android:id&#x3D;&quot;@+id&#x2F;btn7&quot;</span><br><span class="line">            android:layout_width&#x3D;&quot;wrap_content&quot;</span><br><span class="line">            android:layout_height&#x3D;&quot;wrap_content&quot;</span><br><span class="line">            android:text&#x3D;&quot;ACTION_VIEW+URI&quot;&gt;</span><br><span class="line">        &lt;&#x2F;RadioButton&gt;</span><br><span class="line">        &lt;RadioButton</span><br><span class="line">            android:id&#x3D;&quot;@+id&#x2F;btn8&quot;</span><br><span class="line">            android:layout_width&#x3D;&quot;wrap_content&quot;</span><br><span class="line">            android:layout_height&#x3D;&quot;wrap_content&quot;</span><br><span class="line">            android:text&#x3D;&quot;ACTION_VIEW+URI2&quot;&gt;</span><br><span class="line">        &lt;&#x2F;RadioButton&gt;</span><br><span class="line">        </span><br><span class="line">        &lt;Button</span><br><span class="line">            android:id&#x3D;&quot;@+id&#x2F;send&quot;</span><br><span class="line">            android:layout_width&#x3D;&quot;wrap_content&quot;</span><br><span class="line">            android:layout_height&#x3D;&quot;wrap_content&quot;</span><br><span class="line">            android:text&#x3D;&quot;启动&quot;</span><br><span class="line">            android:onClick&#x3D;&quot;sendItent&quot;</span><br><span class="line">            &gt;&lt;&#x2F;Button&gt;</span><br><span class="line">    &lt;&#x2F;RadioGroup&gt;</span><br><span class="line">&lt;&#x2F;GridLayout&gt;</span><br></pre></td></tr></table></figure>
+<p>.java类的函数</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br></pre></td><td class="code"><pre><span class="line">public class MainActivity extends AppCompatActivity &#123;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    protected void onCreate(Bundle savedInstanceState) &#123;</span><br><span class="line">        super.onCreate(savedInstanceState);</span><br><span class="line">        setContentView(R.layout.activity_main);</span><br><span class="line">    &#125;</span><br><span class="line">    public void sendItent(View view)&#123;</span><br><span class="line">        Intent intent &#x3D; null;</span><br><span class="line">        RadioGroup radioGroup &#x3D; findViewById(R.id.radio);</span><br><span class="line">        &#x2F;&#x2F;getCheckedRadioButtonId()是组内的其他小插件的id，getId()是群组本身id</span><br><span class="line">        switch (radioGroup.getCheckedRadioButtonId())&#123;</span><br><span class="line">            case R.id.btn1:</span><br><span class="line">                intent &#x3D; new Intent(Intent.ACTION_VIEW, Uri.parse(&quot;http:&#x2F;&#x2F;www.taobao.com&quot;));</span><br><span class="line">                break;</span><br><span class="line">            case R.id.btn2:</span><br><span class="line">                &#x2F;&#x2F;CAll直接拨打电话，需要权限（在Manifest里设置）</span><br><span class="line">                intent &#x3D; new Intent(Intent.ACTION_CALL, Uri.parse(&quot;tel:13794293537&quot;));</span><br><span class="line">                break;</span><br><span class="line">            case R.id.btn3:</span><br><span class="line">                &#x2F;&#x2F;DIAL则只是跳转到打电话的页面</span><br><span class="line">                intent &#x3D; new Intent(Intent.ACTION_DIAL, Uri.parse(&quot;tel:&#x2F;&#x2F;13794293537&quot;));</span><br><span class="line">                break;</span><br><span class="line">                &#x2F;&#x2F;按坐标搜索地图</span><br><span class="line">            case R.id.btn4:</span><br><span class="line">                intent &#x3D; new Intent(Intent.ACTION_VIEW, Uri.parse(&quot;geo:1032.35,61.64&quot;));</span><br><span class="line">                break;</span><br><span class="line">                &#x2F;&#x2F;按名字搜索地图</span><br><span class="line">            case R.id.btn5:</span><br><span class="line">                intent &#x3D; new Intent(Intent.ACTION_VIEW, Uri.parse(&quot;geo:0,2?q&#x3D;北京&quot;));</span><br><span class="line">                break;</span><br><span class="line">                &#x2F;&#x2F;打开照相机</span><br><span class="line">            case R.id.btn6:</span><br><span class="line">                intent &#x3D; new Intent(&quot;android.media.action.IMAGE_CAPTURE&quot;);</span><br><span class="line">                break;</span><br><span class="line">                &#x2F;&#x2F;打开通讯录</span><br><span class="line">            case R.id.btn7:</span><br><span class="line">                intent &#x3D; new Intent(Intent.ACTION_VIEW, Uri.parse(&quot;content:&#x2F;&#x2F;contacts&#x2F;people&#x2F;&quot;));</span><br><span class="line">                break;</span><br><span class="line">                &#x2F;&#x2F;查看通讯录的第一哥联系人</span><br><span class="line">            case R.id.btn8:</span><br><span class="line">                intent &#x3D; new Intent(Intent.ACTION_VIEW, Uri.parse(&quot;content:&#x2F;&#x2F;contacts&#x2F;people&#x2F;1&quot;));</span><br><span class="line">                break;</span><br><span class="line">        &#125;</span><br><span class="line">        &#x2F;&#x2F;启动</span><br><span class="line">        if(intent !&#x3D; null)&#123;</span><br><span class="line">            startActivity(intent);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="Intent解析"><a href="#Intent解析" class="headerlink" title="Intent解析"></a>Intent解析</h4><p><img src="/2021/01/18/Intent/image-20210117212234679.png" alt="image-20210117212234679"></p>
+<p><img src="/2021/01/18/Intent/image-20210117212300662.png" alt="image-20210117212300662"></p>
+<p><img src="/2021/01/18/Intent/image-20210117212322228.png" alt="image-20210117212322228"></p>
+<p><img src="/2021/01/18/Intent/image-20210117212335789.png" alt="image-20210117212335789"></p>
+<p><img src="/2021/01/18/Intent/image-20210117212344493.png" alt="image-20210117212344493"></p>
+<p><img src="/2021/01/18/Intent/image-20210117212403783.png" alt="image-20210117212403783"></p>
+<p><img src="/2021/01/18/Intent/image-20210117212735786.png" alt="image-20210117212735786"></p>
+<p><img src="/2021/01/18/Intent/image-20210117212808413.png" alt="image-20210117212808413"></p>
+<p><img src="/2021/01/18/Intent/image-20210117212831081.png" alt="image-20210117212831081"></p>
+<p><img src="/2021/01/18/Intent/image-20210117212851201.png" alt="image-20210117212851201"></p>
+<p><img src="/2021/01/18/Intent/image-20210117212938968.png" alt="image-20210117212938968"></p>
+<p><img src="/2021/01/18/Intent/image-20210117212953690.png" alt="image-20210117212953690"></p>
+<h4 id="4-使用Intent实现数据传输"><a href="#4-使用Intent实现数据传输" class="headerlink" title="4.使用Intent实现数据传输"></a>4.使用Intent实现数据传输</h4><p>示意图</p>
+<p><img src="/2021/01/18/Intent/image-20210118095427772.png" alt="image-20210118095427772"></p>
+<p>说明</p>
+<p><img src="/2021/01/18/Intent/image-20210118095453724.png" alt="image-20210118095453724"></p>
+<p>事例</p>
+<p>隐式与显式调用</p>
+<p><img src="/2021/01/18/Intent/image-20210118104346362.png" alt="image-20210118104346362"></p>
+<p><img src="/2021/01/18/Intent/image-20210118104359626.png" alt="image-20210118104359626"></p>
+<p>提示</p>
+<p><img src="/2021/01/18/Intent/image-20210118105404838.png" alt="image-20210118105404838"></p>
+<p><img src="/2021/01/18/Intent/image-20210118105213199.png" alt="image-20210118105213199"></p>
+<p><img src="/2021/01/18/Intent/image-20210118105422318.png" alt="image-20210118105422318"></p>
+<p><img src="/2021/01/18/Intent/image-20210118105308773.png" alt="image-20210118105308773"></p>
+<p>（隐式调用还需要）</p>
+<p><img src="/2021/01/18/Intent/image-20210118105507866.png" alt="image-20210118105507866"></p>
+<p>提升1：页面跳转（通过按钮返回页面）：点击GoBack按钮返回原来的界面</p>
+<p><img src="/2021/01/18/Intent/image-20210118111242532.png" alt="image-20210118111242532"></p>
+<p><img src="/2021/01/18/Intent/image-20210118111340947.png" alt="image-20210118111340947"></p>
+<p>提升2：带参数返回</p>
+<p>（不跳转界面，把信息发给Activity3，Activity3处理数据后再返回给原Activity）</p>
+<p>在隐式调用的基础上，注释红框的内容，添加黄色框的内容</p>
+<p><img src="/2021/01/18/Intent/image-20210118120412090.png" alt="image-20210118120412090"></p>
+<p><img src="/2021/01/18/Intent/image-20210118120323791.png" alt="image-20210118120323791"></p>
+<p>Activity3处理数据</p>
+<p><img src="/2021/01/18/Intent/image-20210118120354535.png" alt="image-20210118120354535"></p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
       
   
   
@@ -1146,14 +1283,14 @@ startActivity(intent);</code></pre>
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">18</span>
+          <span class="site-state-item-count">19</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">4</span>
+        <span class="site-state-item-count">5</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">

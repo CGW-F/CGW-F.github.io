@@ -1,0 +1,583 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"wgc5.gitee.io","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="Python核心数据类型一、字符串 ​    示例1  ​    输出1  ​    示例2（这几种手法的效果一样）  ​    输出2  1.1转义字符 1.2字符串操作1.2.1字符串截取1234567str &#x3D; &quot;zhongguo&quot;print(str)print(str[0])       #输出下标0的字符print(str[0:5])     #输出[起始位">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Python核心数据类型">
+<meta property="og:url" content="https://wgc5.gitee.io/2021/07/09/Python%E6%A0%B8%E5%BF%83%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/index.html">
+<meta property="og:site_name" content="北极星上的稻草人">
+<meta property="og:description" content="Python核心数据类型一、字符串 ​    示例1  ​    输出1  ​    示例2（这几种手法的效果一样）  ​    输出2  1.1转义字符 1.2字符串操作1.2.1字符串截取1234567str &#x3D; &quot;zhongguo&quot;print(str)print(str[0])       #输出下标0的字符print(str[0:5])     #输出[起始位">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/07/09/Python%E6%A0%B8%E5%BF%83%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/image-20210707172427770.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/07/09/Python%E6%A0%B8%E5%BF%83%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/image-20210707172744307.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/07/09/Python%E6%A0%B8%E5%BF%83%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/image-20210707172807672.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/07/09/Python%E6%A0%B8%E5%BF%83%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/image-20210707173057825.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/07/09/Python%E6%A0%B8%E5%BF%83%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/image-20210707173128537.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/07/09/Python%E6%A0%B8%E5%BF%83%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/image-20210707173234754.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/07/09/Python%E6%A0%B8%E5%BF%83%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/image-20210707173848256.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/07/09/Python%E6%A0%B8%E5%BF%83%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/image-20210707174120643.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/07/09/Python%E6%A0%B8%E5%BF%83%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/image-20210707174152325.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/07/09/Python%E6%A0%B8%E5%BF%83%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/image-20210707174232894.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/07/09/Python%E6%A0%B8%E5%BF%83%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/image-20210707174401948.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/07/09/Python%E6%A0%B8%E5%BF%83%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/image-20210707174425507.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/07/09/Python%E6%A0%B8%E5%BF%83%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/image-20210707174443645.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/07/09/Python%E6%A0%B8%E5%BF%83%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/image-20210707174546058.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/07/09/Python%E6%A0%B8%E5%BF%83%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/image-20210707212211492.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/07/09/Python%E6%A0%B8%E5%BF%83%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/image-20210707213340127.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/07/09/Python%E6%A0%B8%E5%BF%83%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/image-20210707213412226.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/07/09/Python%E6%A0%B8%E5%BF%83%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/image-20210707213015898.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/07/09/Python%E6%A0%B8%E5%BF%83%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/image-20210707214153108.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/07/09/Python%E6%A0%B8%E5%BF%83%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/image-20210707214608484.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/07/09/Python%E6%A0%B8%E5%BF%83%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/image-20210707214803986.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/07/09/Python%E6%A0%B8%E5%BF%83%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/image-20210707215215219.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/07/09/Python%E6%A0%B8%E5%BF%83%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/image-20210707215434019.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/07/09/Python%E6%A0%B8%E5%BF%83%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/image-20210707215855971.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/07/09/Python%E6%A0%B8%E5%BF%83%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/image-20210708094721188.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/07/09/Python%E6%A0%B8%E5%BF%83%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/image-20210708095058614.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/07/09/Python%E6%A0%B8%E5%BF%83%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/image-20210708095239953.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/07/09/Python%E6%A0%B8%E5%BF%83%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/image-20210708095405614.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/07/09/Python%E6%A0%B8%E5%BF%83%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/image-20210708100944234.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/07/09/Python%E6%A0%B8%E5%BF%83%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/image-20210708101015298.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/07/09/Python%E6%A0%B8%E5%BF%83%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/image-20210709100840979.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/07/09/Python%E6%A0%B8%E5%BF%83%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/image-20210709101754522.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/07/09/Python%E6%A0%B8%E5%BF%83%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/image-20210709101807259.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/07/09/Python%E6%A0%B8%E5%BF%83%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/image-20210709102207878.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/07/09/Python%E6%A0%B8%E5%BF%83%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/image-20210709102340996.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/07/09/Python%E6%A0%B8%E5%BF%83%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/image-20210709102125005.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/07/09/Python%E6%A0%B8%E5%BF%83%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/image-20210709102506224.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/07/09/Python%E6%A0%B8%E5%BF%83%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/image-20210709102544672.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/07/09/Python%E6%A0%B8%E5%BF%83%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/image-20210709102620908.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/07/09/Python%E6%A0%B8%E5%BF%83%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/image-20210709103524959.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/07/09/Python%E6%A0%B8%E5%BF%83%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/image-20210709122906826.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/07/09/Python%E6%A0%B8%E5%BF%83%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/image-20210709122924131.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/07/09/Python%E6%A0%B8%E5%BF%83%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/image-20210709123226217.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/07/09/Python%E6%A0%B8%E5%BF%83%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/image-20210709123453335.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/07/09/Python%E6%A0%B8%E5%BF%83%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/image-20210709123538730.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/07/09/Python%E6%A0%B8%E5%BF%83%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/image-20210709123720654.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/07/09/Python%E6%A0%B8%E5%BF%83%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/image-20210709124229611.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/07/09/Python%E6%A0%B8%E5%BF%83%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/image-20210709124721875.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/07/09/Python%E6%A0%B8%E5%BF%83%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/image-20210709124901646.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/07/09/Python%E6%A0%B8%E5%BF%83%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/image-20210709125008386.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/07/09/Python%E6%A0%B8%E5%BF%83%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/image-20210709125311103.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/07/09/Python%E6%A0%B8%E5%BF%83%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/image-20210709125658969.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/07/09/Python%E6%A0%B8%E5%BF%83%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/image-20210709125717300.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/07/09/Python%E6%A0%B8%E5%BF%83%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/image-20210709125759621.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/07/09/Python%E6%A0%B8%E5%BF%83%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/image-20210709125928832.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/07/09/Python%E6%A0%B8%E5%BF%83%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/image-20210709130000818.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/07/09/Python%E6%A0%B8%E5%BF%83%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/image-20210709130018434.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/07/09/Python%E6%A0%B8%E5%BF%83%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/image-20210709130105014.png">
+<meta property="article:published_time" content="2021-07-09T07:10:27.000Z">
+<meta property="article:modified_time" content="2021-07-09T07:11:00.076Z">
+<meta property="article:author" content="北极星上的稻草人">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://wgc5.gitee.io/2021/07/09/Python%E6%A0%B8%E5%BF%83%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/image-20210707172427770.png">
+
+<link rel="canonical" href="https://wgc5.gitee.io/2021/07/09/Python%E6%A0%B8%E5%BF%83%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>Python核心数据类型 | 北极星上的稻草人</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">北极星上的稻草人</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">稻草人的笔记</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">16</span></a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">5</span></a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">19</span></a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://wgc5.gitee.io/2021/07/09/Python%E6%A0%B8%E5%BF%83%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="北极星上的稻草人">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="北极星上的稻草人">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Python核心数据类型
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2021-07-09 15:10:27 / 修改时间：15:11:00" itemprop="dateCreated datePublished" datetime="2021-07-09T15:10:27+08:00">2021-07-09</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/python%E5%85%A5%E9%97%A8/" itemprop="url" rel="index"><span itemprop="name">python入门</span></a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="Python核心数据类型"><a href="#Python核心数据类型" class="headerlink" title="Python核心数据类型"></a>Python核心数据类型</h1><h2 id="一、字符串"><a href="#一、字符串" class="headerlink" title="一、字符串"></a>一、字符串</h2><p><img src="/2021/07/09/Python%E6%A0%B8%E5%BF%83%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/image-20210707172427770.png" alt="image-20210707172427770"></p>
+<p>​    示例1</p>
+<p><img src="/2021/07/09/Python%E6%A0%B8%E5%BF%83%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/image-20210707172744307.png" alt="image-20210707172744307"></p>
+<p>​    输出1</p>
+<p><img src="/2021/07/09/Python%E6%A0%B8%E5%BF%83%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/image-20210707172807672.png" alt="image-20210707172807672"></p>
+<p>​    示例2（这几种手法的效果一样）</p>
+<p><img src="/2021/07/09/Python%E6%A0%B8%E5%BF%83%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/image-20210707173057825.png" alt="image-20210707173057825"></p>
+<p>​    输出2</p>
+<p><img src="/2021/07/09/Python%E6%A0%B8%E5%BF%83%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/image-20210707173128537.png" alt="image-20210707173128537"></p>
+<h3 id="1-1转义字符"><a href="#1-1转义字符" class="headerlink" title="1.1转义字符"></a>1.1转义字符</h3><p><img src="/2021/07/09/Python%E6%A0%B8%E5%BF%83%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/image-20210707173234754.png" alt="image-20210707173234754"></p>
+<h3 id="1-2字符串操作"><a href="#1-2字符串操作" class="headerlink" title="1.2字符串操作"></a>1.2字符串操作</h3><h4 id="1-2-1字符串截取"><a href="#1-2-1字符串截取" class="headerlink" title="1.2.1字符串截取"></a>1.2.1字符串截取</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">str &#x3D; &quot;zhongguo&quot;</span><br><span class="line">print(str)</span><br><span class="line">print(str[0])       #输出下标0的字符</span><br><span class="line">print(str[0:5])     #输出[起始位置：结束位置：步进值（跳格）]</span><br><span class="line">print(str[1:7:2])</span><br><span class="line">print(str[:5])      #[：]前部分没有填时默认为0</span><br><span class="line">print(str[5:])      #[：]后部分没有填时默认到结尾</span><br></pre></td></tr></table></figure>
+<p>结果</p>
+<p><img src="/2021/07/09/Python%E6%A0%B8%E5%BF%83%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/image-20210707173848256.png" alt="image-20210707173848256"></p>
+<h4 id="1-2-2字符串拼接"><a href="#1-2-2字符串拼接" class="headerlink" title="1.2.2字符串拼接"></a>1.2.2字符串拼接</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">print(str + &quot;你好&quot;)       #用‘+’连接</span><br><span class="line">print(str *3)             #用‘*’乘倍数</span><br></pre></td></tr></table></figure>
+<p>结果</p>
+<p><img src="/2021/07/09/Python%E6%A0%B8%E5%BF%83%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/image-20210707174120643.png" alt="image-20210707174120643"></p>
+<h4 id="1-2-3补充"><a href="#1-2-3补充" class="headerlink" title="1.2.3补充"></a>1.2.3补充</h4><p><img src="/2021/07/09/Python%E6%A0%B8%E5%BF%83%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/image-20210707174152325.png" alt="image-20210707174152325"></p>
+<h4 id="1-2-4字符串常见操作"><a href="#1-2-4字符串常见操作" class="headerlink" title="1.2.4字符串常见操作"></a>1.2.4字符串常见操作</h4><p><img src="/2021/07/09/Python%E6%A0%B8%E5%BF%83%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/image-20210707174232894.png" alt="image-20210707174232894"></p>
+<p><img src="/2021/07/09/Python%E6%A0%B8%E5%BF%83%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/image-20210707174401948.png" alt="image-20210707174401948"></p>
+<p><img src="/2021/07/09/Python%E6%A0%B8%E5%BF%83%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/image-20210707174425507.png" alt="image-20210707174425507"></p>
+<p><img src="/2021/07/09/Python%E6%A0%B8%E5%BF%83%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/image-20210707174443645.png" alt="image-20210707174443645"></p>
+<p><img src="/2021/07/09/Python%E6%A0%B8%E5%BF%83%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/image-20210707174546058.png" alt="image-20210707174546058"></p>
+<h2 id="二、列表"><a href="#二、列表" class="headerlink" title="二、列表"></a>二、列表</h2><p><img src="/2021/07/09/Python%E6%A0%B8%E5%BF%83%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/image-20210707212211492.png" alt="image-20210707212211492"></p>
+<p>​                    说明：与数组类似，其功能更加强，可以存着各种数据类型</p>
+<h3 id="2-0列表的常用操作"><a href="#2-0列表的常用操作" class="headerlink" title="2.0列表的常用操作"></a>2.0列表的常用操作</h3><p><img src="/2021/07/09/Python%E6%A0%B8%E5%BF%83%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/image-20210707213340127.png" alt="image-20210707213340127"></p>
+<p><img src="/2021/07/09/Python%E6%A0%B8%E5%BF%83%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/image-20210707213412226.png" alt="image-20210707213412226"></p>
+<h3 id="2-1列表的遍历"><a href="#2-1列表的遍历" class="headerlink" title="2.1列表的遍历"></a>2.1列表的遍历</h3><h4 id="2-1-1for循环遍历"><a href="#2-1-1for循环遍历" class="headerlink" title="2.1.1for循环遍历"></a>2.1.1for循环遍历</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">namelist &#x3D; [&quot;小明&quot;,&quot;小红&quot;,&quot;小伍&quot;,100]</span><br><span class="line">#name会自动适配namelist的数据类型</span><br><span class="line">for name in namelist:</span><br><span class="line">    print(name)</span><br></pre></td></tr></table></figure>
+<p><img src="/2021/07/09/Python%E6%A0%B8%E5%BF%83%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/image-20210707213015898.png" alt="image-20210707213015898"></p>
+<h4 id="2-1-2-while循环遍历"><a href="#2-1-2-while循环遍历" class="headerlink" title="2.1.2 while循环遍历"></a>2.1.2 while循环遍历</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">namelist &#x3D; [&quot;小明&quot;,&quot;小红&quot;,&quot;小伍&quot;,100]</span><br><span class="line">length &#x3D; len(namelist)</span><br><span class="line">i &#x3D; 0</span><br><span class="line">while i &lt; length:</span><br><span class="line">    print(namelist[i])</span><br><span class="line">    i +&#x3D; 1;</span><br></pre></td></tr></table></figure>
+<h3 id="2-2增"><a href="#2-2增" class="headerlink" title="2.2增"></a>2.2增</h3><h4 id="2-2-1append（）在末尾增加"><a href="#2-2-1append（）在末尾增加" class="headerlink" title="2.2.1append（）在末尾增加"></a>2.2.1append（）在末尾增加</h4><p>#把（）里的内容当成一个整体添加</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">namelist &#x3D; [&quot;小明&quot;,&quot;小红&quot;,&quot;小伍&quot;]</span><br><span class="line">print(&quot;-----增加前，名单列表-----&quot;)</span><br><span class="line">for name in namelist:</span><br><span class="line">    print(name)</span><br><span class="line">nametemp &#x3D; input(&quot;请输入添加名单：&quot;)</span><br><span class="line">namelist.append(nametemp)</span><br><span class="line"></span><br><span class="line">print(&quot;-----增加后，名单列表-----&quot;)</span><br><span class="line">for name in namelist:</span><br><span class="line">    print(name)</span><br></pre></td></tr></table></figure>
+<p><img src="/2021/07/09/Python%E6%A0%B8%E5%BF%83%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/image-20210707214153108.png" alt="image-20210707214153108"></p>
+<h4 id="2-2-2exten（）在末尾增加"><a href="#2-2-2exten（）在末尾增加" class="headerlink" title="2.2.2exten（）在末尾增加"></a>2.2.2exten（）在末尾增加</h4><p><img src="/2021/07/09/Python%E6%A0%B8%E5%BF%83%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/image-20210707214608484.png" alt="image-20210707214608484"></p>
+<h4 id="2-2-3insert（下标，对象）随机添加"><a href="#2-2-3insert（下标，对象）随机添加" class="headerlink" title="2.2.3insert（下标，对象）随机添加"></a>2.2.3insert（下标，对象）随机添加</h4><p><img src="/2021/07/09/Python%E6%A0%B8%E5%BF%83%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/image-20210707214803986.png" alt="image-20210707214803986"></p>
+<h3 id="2-3删"><a href="#2-3删" class="headerlink" title="2.3删"></a>2.3删</h3><h4 id="2-3-1del-在指定位置删除一个元素"><a href="#2-3-1del-在指定位置删除一个元素" class="headerlink" title="2.3.1del 在指定位置删除一个元素"></a>2.3.1del 在指定位置删除一个元素</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">namelist &#x3D; [&quot;小明&quot;,&quot;小红&quot;,&quot;小伍&quot;]</span><br><span class="line">print(&quot;-----增加前，名单列表-----&quot;)</span><br><span class="line">for name in namelist:</span><br><span class="line">    print(name)</span><br><span class="line">nametemp &#x3D; input(&quot;请输入添加名单：&quot;)</span><br><span class="line">namelist.append(nametemp)</span><br><span class="line"></span><br><span class="line">print(&quot;-----增加后，名单列表-----&quot;)</span><br><span class="line">for name in namelist:</span><br><span class="line">    print(name)</span><br></pre></td></tr></table></figure>
+<p><img src="/2021/07/09/Python%E6%A0%B8%E5%BF%83%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/image-20210707215215219.png" alt="image-20210707215215219"></p>
+<h4 id="2-3-2pop-弹出末尾最后一个元素"><a href="#2-3-2pop-弹出末尾最后一个元素" class="headerlink" title="2.3.2pop() 弹出末尾最后一个元素"></a>2.3.2pop() 弹出末尾最后一个元素</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">namelist &#x3D; [&quot;小明&quot;,&quot;小红&quot;,&quot;小伍&quot;,&quot;小猪&quot;]</span><br><span class="line">print(&quot;-----删除前，名单列表-----&quot;)</span><br><span class="line">for name in namelist:</span><br><span class="line">    print(name)</span><br><span class="line"></span><br><span class="line">#del namelist[1]</span><br><span class="line">namelist.pop()</span><br><span class="line"></span><br><span class="line">print(&quot;-----删除后，名单列表-----&quot;)</span><br><span class="line">for name in namelist:</span><br><span class="line">    print(name)</span><br></pre></td></tr></table></figure>
+<p><img src="/2021/07/09/Python%E6%A0%B8%E5%BF%83%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/image-20210707215434019.png" alt="image-20210707215434019"></p>
+<h4 id="2-3-3remove（）移除指定元素"><a href="#2-3-3remove（）移除指定元素" class="headerlink" title="2.3.3remove（）移除指定元素"></a>2.3.3remove（）移除指定元素</h4><p>#(当重复出现相同元素时）每次删除一个元素并且是下标最小的元素</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">namelist &#x3D; [&quot;小明&quot;,&quot;小红&quot;,&quot;小猪&quot;,&quot;小伍&quot;,&quot;小猪&quot;]</span><br><span class="line">print(&quot;-----删除前，名单列表-----&quot;)</span><br><span class="line">for name in namelist:</span><br><span class="line">    print(name)</span><br><span class="line"></span><br><span class="line">#del namelist[1]</span><br><span class="line">#namelist.pop()</span><br><span class="line">namelist.remove(&quot;小猪&quot;)</span><br><span class="line"></span><br><span class="line">print(&quot;-----删除后，名单列表-----&quot;)</span><br><span class="line">for name in namelist:</span><br><span class="line">    print(name)</span><br></pre></td></tr></table></figure>
+<p><img src="/2021/07/09/Python%E6%A0%B8%E5%BF%83%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/image-20210707215855971.png" alt="image-20210707215855971"></p>
+<h3 id="2-4改"><a href="#2-4改" class="headerlink" title="2.4改"></a>2.4改</h3><p>直接下标改即可：例如：namelist[1]=“小红”</p>
+<h3 id="2-5查"><a href="#2-5查" class="headerlink" title="2.5查"></a>2.5查</h3><h4 id="2-5-1-in与not-in"><a href="#2-5-1-in与not-in" class="headerlink" title="2.5.1 in与not in"></a>2.5.1 in与not in</h4><p>返回值：true 或 false</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">namelist &#x3D; [&quot;小明&quot;,&quot;小红&quot;,&quot;小猪&quot;,&quot;小伍&quot;,&quot;小猪&quot;]</span><br><span class="line">findName &#x3D; input(&quot;请输入你要查找的名字：&quot;)</span><br><span class="line">if findName in namelist:</span><br><span class="line">    print(&quot;找到了有该名字的人&quot;)</span><br><span class="line">else:</span><br><span class="line">    print(&quot;没找到&quot;)</span><br></pre></td></tr></table></figure>
+<p><img src="/2021/07/09/Python%E6%A0%B8%E5%BF%83%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/image-20210708094721188.png" alt="image-20210708094721188"></p>
+<h4 id="2-5-2-index"><a href="#2-5-2-index" class="headerlink" title="2.5.2  index()"></a>2.5.2  index()</h4><p>返回值：（查找成功）下标，（查找失败）报错</p>
+<p><img src="/2021/07/09/Python%E6%A0%B8%E5%BF%83%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/image-20210708095058614.png" alt="image-20210708095058614"></p>
+<h4 id="2-5-3-count"><a href="#2-5-3-count" class="headerlink" title="2.5.3 count()"></a>2.5.3 count()</h4><p>返回值：查找元素出现的数量</p>
+<p><img src="/2021/07/09/Python%E6%A0%B8%E5%BF%83%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/image-20210708095239953.png" alt="image-20210708095239953"></p>
+<h3 id="2-6排序"><a href="#2-6排序" class="headerlink" title="2.6排序"></a>2.6排序</h3><p>reverse（）、sort（）</p>
+<p><img src="/2021/07/09/Python%E6%A0%B8%E5%BF%83%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/image-20210708095405614.png" alt="image-20210708095405614"></p>
+<h3 id="2-7-列表的嵌套"><a href="#2-7-列表的嵌套" class="headerlink" title="2.7 列表的嵌套"></a>2.7 列表的嵌套</h3><p>说明：与多维数组类似</p>
+<p>示例：员工分配办公室，把员工随机分配到办公室并将分配好的结果打印出来</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">import random</span><br><span class="line">offices &#x3D; [[],[],[]]  #3个办公室</span><br><span class="line">names &#x3D; [&quot;a&quot;,&quot;b&quot;,&quot;c&quot;,&quot;d&quot;,&quot;e&quot;,&quot;f&quot;,&quot;g&quot;,&quot;h&quot;]   #员工名字</span><br><span class="line">for name in names:</span><br><span class="line">    index &#x3D; random.randint(0,2)         #随机分配办公室</span><br><span class="line">    offices[index].append(name)     #在尾巴插入</span><br><span class="line">i &#x3D; 1</span><br><span class="line">for office in offices:</span><br><span class="line">    #注意，for的offic的数据类型与offices元素的数据类型相同，自动适配，所以无需要下标</span><br><span class="line">    print(&quot;办公室%d的人数为：%d&quot;%(i,len(office)))</span><br><span class="line">    i +&#x3D; 1</span><br><span class="line">    for name in office:				#office的数据类型是列表</span><br><span class="line">        print(&quot;%s&quot;%name,end&#x3D;&quot;\t&quot;)</span><br><span class="line">    print((&quot;\n&quot;))</span><br><span class="line">    print(&quot;-&quot;*10)</span><br></pre></td></tr></table></figure>
+<p><img src="/2021/07/09/Python%E6%A0%B8%E5%BF%83%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/image-20210708100944234.png" alt="image-20210708100944234"></p>
+<h3 id="2-8练习"><a href="#2-8练习" class="headerlink" title="2.8练习"></a>2.8练习</h3><p><img src="/2021/07/09/Python%E6%A0%B8%E5%BF%83%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/image-20210708101015298.png" alt="image-20210708101015298"></p>
+<p>参考答案</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line">products &#x3D; [[&quot;iphon &quot;,6888],[&quot;MacPro&quot;,14800],[&quot;小米      &quot;,2499],[&quot;Coffee&quot;,31],[&quot; Book &quot;,60],[&quot; Nike &quot;,699]]</span><br><span class="line">print(&quot;--------商品--------&quot;)</span><br><span class="line">i&#x3D;0</span><br><span class="line">for product in products:</span><br><span class="line">    print(&quot;%d\t%s \t %d&quot;% (i,product[0],product[1]))</span><br><span class="line">    i +&#x3D; 1</span><br><span class="line"></span><br><span class="line">#购物车</span><br><span class="line">goods &#x3D; [[],[],[],[],[],[]]  #购物车商品栏</span><br><span class="line">flag &#x3D; &quot;a&quot;</span><br><span class="line">while flag!&#x3D;&quot;q&quot;:</span><br><span class="line">    flag &#x3D; input(&quot;(输入q结算)输入编号把物品加入购物车：&quot;)</span><br><span class="line">    if flag&#x3D;&#x3D;&quot;q&quot;:</span><br><span class="line">        break</span><br><span class="line">    num &#x3D; int(flag)</span><br><span class="line">    num &#x3D; num-0;</span><br><span class="line">    if(num&gt;&#x3D;0 and num &lt;&#x3D;5):</span><br><span class="line">        #已添加的商品只需要增加数量</span><br><span class="line">        if goods[num]:</span><br><span class="line">            count&#x3D;goods[num][3]</span><br><span class="line">            count+&#x3D;1</span><br><span class="line">            goods[num][3]&#x3D;count</span><br><span class="line">        else:</span><br><span class="line">            #新添加的物品</span><br><span class="line">            good&#x3D;[]</span><br><span class="line">            good.insert(0,num)</span><br><span class="line">            good.extend(products[num])</span><br><span class="line">            good.insert(3,1)</span><br><span class="line">            goods[num]&#x3D;good</span><br><span class="line"></span><br><span class="line">        print(&quot;%d号商品已加入购物车&quot; % num)</span><br><span class="line">    else:</span><br><span class="line">        print(&quot;输入不规范&quot;)</span><br><span class="line"></span><br><span class="line">sum &#x3D; 0</span><br><span class="line">print(&quot;-----------购物车-----------&quot;)</span><br><span class="line">print(&quot;商品编号   \t商品名称   \t商品单价   \t商品数量&quot;)</span><br><span class="line">for g in goods:</span><br><span class="line">    if g!&#x3D;[]:</span><br><span class="line">        print(&quot;  %d  \t\t%s  \t%d  \t\t  %d&quot; % (g[0], g[1],g[2],g[3]))</span><br><span class="line">        sum &#x3D; sum+g[2]*g[3]</span><br><span class="line">print(&quot;总价格为：&quot;,sum)</span><br></pre></td></tr></table></figure>
+<p>补充：添加一些空格是为了美观</p>
+<h2 id="三、元组"><a href="#三、元组" class="headerlink" title="三、元组"></a>三、元组</h2><p><img src="/2021/07/09/Python%E6%A0%B8%E5%BF%83%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/image-20210709100840979.png" alt="image-20210709100840979"></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">tup1 &#x3D; ()		#&lt;class &#39;tuple&#39;&gt;</span><br><span class="line">tup2 &#x3D; (50)		#注意它的数据类型为&lt;class &#39;int&#39;&gt;</span><br><span class="line">tup3 &#x3D; (50,)	#&lt;class &#39;tuple&#39;&gt;</span><br><span class="line">tup4 &#x3D; (50,60)	#&lt;class &#39;tuple&#39;&gt;</span><br></pre></td></tr></table></figure>
+<h3 id="3-1查"><a href="#3-1查" class="headerlink" title="3.1查"></a>3.1查</h3><p><img src="/2021/07/09/Python%E6%A0%B8%E5%BF%83%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/image-20210709101754522.png" alt="image-20210709101754522"></p>
+<p><img src="/2021/07/09/Python%E6%A0%B8%E5%BF%83%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/image-20210709101807259.png" alt="image-20210709101807259"></p>
+<h3 id="3-1增"><a href="#3-1增" class="headerlink" title="3.1增"></a>3.1增</h3><p>把2个元组链接成一个新的元组（内存空间也是新的），非真正的增，</p>
+<p><img src="/2021/07/09/Python%E6%A0%B8%E5%BF%83%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/image-20210709102207878.png" alt="image-20210709102207878"></p>
+<h3 id="3-2删"><a href="#3-2删" class="headerlink" title="3.2删"></a>3.2删</h3><p>把变量的空间内存释放，非元素值删除</p>
+<p><img src="/2021/07/09/Python%E6%A0%B8%E5%BF%83%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/image-20210709102340996.png" alt="image-20210709102340996"></p>
+<h3 id="3-3改"><a href="#3-3改" class="headerlink" title="3.3改"></a>3.3改</h3><p>不可以修改</p>
+<p><img src="/2021/07/09/Python%E6%A0%B8%E5%BF%83%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/image-20210709102125005.png" alt="image-20210709102125005"></p>
+<h3 id="3-4补充：常见操作"><a href="#3-4补充：常见操作" class="headerlink" title="3.4补充：常见操作"></a>3.4补充：常见操作</h3><p><img src="/2021/07/09/Python%E6%A0%B8%E5%BF%83%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/image-20210709102506224.png" alt="image-20210709102506224"></p>
+<p><img src="/2021/07/09/Python%E6%A0%B8%E5%BF%83%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/image-20210709102544672.png" alt="image-20210709102544672"></p>
+<h2 id="四、字典"><a href="#四、字典" class="headerlink" title="四、字典"></a>四、字典</h2><p><img src="/2021/07/09/Python%E6%A0%B8%E5%BF%83%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/image-20210709102620908.png" alt="image-20210709102620908"></p>
+<p>示例</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">info &#x3D; &#123;&quot;name&quot;:&quot;吴彦祖&quot;,&quot;age&quot;:18&#125;</span><br><span class="line">#访问</span><br><span class="line">print(info[&quot;name&quot;])</span><br><span class="line">print(info[&quot;name&quot;])</span><br><span class="line"></span><br><span class="line">#访问不存在时</span><br><span class="line">#print(info[&quot;agee&quot;])    直接访问错误，会直接报错</span><br><span class="line">#使用get（参数1：key值，参数2：报错返回值）方法，访问错误时会默认返回None；</span><br><span class="line">print(info.get(&quot;agge&quot;))</span><br><span class="line">print(info.get(&quot;agge&quot;,&quot;访问失败&quot;))</span><br><span class="line">#主流访问方式</span><br><span class="line">print(info.get(&quot;name&quot;,&quot;访问失败&quot;))</span><br></pre></td></tr></table></figure>
+<p><img src="/2021/07/09/Python%E6%A0%B8%E5%BF%83%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/image-20210709103524959.png" alt="image-20210709103524959"></p>
+<h3 id="4-1-增"><a href="#4-1-增" class="headerlink" title="4.1 增"></a>4.1 增</h3><p>类似赋值</p>
+<p><img src="/2021/07/09/Python%E6%A0%B8%E5%BF%83%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/image-20210709122906826.png" alt="image-20210709122906826"></p>
+<p><img src="/2021/07/09/Python%E6%A0%B8%E5%BF%83%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/image-20210709122924131.png" alt="image-20210709122924131"></p>
+<h3 id="4-2-删"><a href="#4-2-删" class="headerlink" title="4.2 删"></a>4.2 删</h3><h4 id="4-2-1-del"><a href="#4-2-1-del" class="headerlink" title="4.2.1 del"></a>4.2.1 del</h4><p>说明：直接删除变量（释放内存），删除后再次访问会报错</p>
+<p><img src="/2021/07/09/Python%E6%A0%B8%E5%BF%83%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/image-20210709123226217.png" alt="image-20210709123226217"></p>
+<p><img src="/2021/07/09/Python%E6%A0%B8%E5%BF%83%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/image-20210709123453335.png" alt="image-20210709123453335"></p>
+<h4 id="4-2-2-clear"><a href="#4-2-2-clear" class="headerlink" title="4.2.2 clear"></a>4.2.2 clear</h4><p>说明：置空</p>
+<p><img src="/2021/07/09/Python%E6%A0%B8%E5%BF%83%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/image-20210709123538730.png" alt="image-20210709123538730"></p>
+<h3 id="4-3-改"><a href="#4-3-改" class="headerlink" title="4.3 改"></a>4.3 改</h3><p><img src="/2021/07/09/Python%E6%A0%B8%E5%BF%83%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/image-20210709123720654.png" alt="image-20210709123720654"></p>
+<h3 id="4-4-查"><a href="#4-4-查" class="headerlink" title="4.4 查"></a>4.4 查</h3><p>key（），values（），items（）</p>
+<p><img src="/2021/07/09/Python%E6%A0%B8%E5%BF%83%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/image-20210709124229611.png" alt="image-20210709124229611"></p>
+<p>for循环应用</p>
+<p>示例1</p>
+<p><img src="/2021/07/09/Python%E6%A0%B8%E5%BF%83%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/image-20210709124721875.png" alt="image-20210709124721875"></p>
+<p><img src="/2021/07/09/Python%E6%A0%B8%E5%BF%83%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/image-20210709124901646.png" alt="image-20210709124901646"></p>
+<p>示例2</p>
+<p><img src="/2021/07/09/Python%E6%A0%B8%E5%BF%83%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/image-20210709125008386.png" alt="image-20210709125008386"></p>
+<p>推广：列表的for循环应用，同时调用下标和元素值；enumerate（）枚举函数</p>
+<p><img src="/2021/07/09/Python%E6%A0%B8%E5%BF%83%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/image-20210709125311103.png" alt="image-20210709125311103"></p>
+<h3 id="4-5-常规操作"><a href="#4-5-常规操作" class="headerlink" title="4.5 常规操作"></a>4.5 常规操作</h3><p><img src="/2021/07/09/Python%E6%A0%B8%E5%BF%83%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/image-20210709125658969.png" alt="image-20210709125658969"></p>
+<p><img src="/2021/07/09/Python%E6%A0%B8%E5%BF%83%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/image-20210709125717300.png" alt="image-20210709125717300"></p>
+<p><img src="/2021/07/09/Python%E6%A0%B8%E5%BF%83%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/image-20210709125759621.png" alt="image-20210709125759621"></p>
+<h2 id="五、集合"><a href="#五、集合" class="headerlink" title="五、集合"></a>五、集合</h2><p><img src="/2021/07/09/Python%E6%A0%B8%E5%BF%83%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/image-20210709125928832.png" alt="image-20210709125928832"></p>
+<p><img src="/2021/07/09/Python%E6%A0%B8%E5%BF%83%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/image-20210709130000818.png" alt="image-20210709130000818"></p>
+<p><img src="/2021/07/09/Python%E6%A0%B8%E5%BF%83%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/image-20210709130018434.png" alt="image-20210709130018434"></p>
+<h2 id="六、小结"><a href="#六、小结" class="headerlink" title="六、小结"></a>六、小结</h2><p><img src="/2021/07/09/Python%E6%A0%B8%E5%BF%83%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/image-20210709130105014.png" alt="image-20210709130105014"></p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2021/07/07/Python%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/" rel="prev" title="Python基础知识">
+      <i class="fa fa-chevron-left"></i> Python基础知识
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Python%E6%A0%B8%E5%BF%83%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B"><span class="nav-number">1.</span> <span class="nav-text">Python核心数据类型</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%80%E3%80%81%E5%AD%97%E7%AC%A6%E4%B8%B2"><span class="nav-number">1.1.</span> <span class="nav-text">一、字符串</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-1%E8%BD%AC%E4%B9%89%E5%AD%97%E7%AC%A6"><span class="nav-number">1.1.1.</span> <span class="nav-text">1.1转义字符</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-2%E5%AD%97%E7%AC%A6%E4%B8%B2%E6%93%8D%E4%BD%9C"><span class="nav-number">1.1.2.</span> <span class="nav-text">1.2字符串操作</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-2-1%E5%AD%97%E7%AC%A6%E4%B8%B2%E6%88%AA%E5%8F%96"><span class="nav-number">1.1.2.1.</span> <span class="nav-text">1.2.1字符串截取</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-2-2%E5%AD%97%E7%AC%A6%E4%B8%B2%E6%8B%BC%E6%8E%A5"><span class="nav-number">1.1.2.2.</span> <span class="nav-text">1.2.2字符串拼接</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-2-3%E8%A1%A5%E5%85%85"><span class="nav-number">1.1.2.3.</span> <span class="nav-text">1.2.3补充</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-2-4%E5%AD%97%E7%AC%A6%E4%B8%B2%E5%B8%B8%E8%A7%81%E6%93%8D%E4%BD%9C"><span class="nav-number">1.1.2.4.</span> <span class="nav-text">1.2.4字符串常见操作</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%8C%E3%80%81%E5%88%97%E8%A1%A8"><span class="nav-number">1.2.</span> <span class="nav-text">二、列表</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-0%E5%88%97%E8%A1%A8%E7%9A%84%E5%B8%B8%E7%94%A8%E6%93%8D%E4%BD%9C"><span class="nav-number">1.2.1.</span> <span class="nav-text">2.0列表的常用操作</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1%E5%88%97%E8%A1%A8%E7%9A%84%E9%81%8D%E5%8E%86"><span class="nav-number">1.2.2.</span> <span class="nav-text">2.1列表的遍历</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#2-1-1for%E5%BE%AA%E7%8E%AF%E9%81%8D%E5%8E%86"><span class="nav-number">1.2.2.1.</span> <span class="nav-text">2.1.1for循环遍历</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-1-2-while%E5%BE%AA%E7%8E%AF%E9%81%8D%E5%8E%86"><span class="nav-number">1.2.2.2.</span> <span class="nav-text">2.1.2 while循环遍历</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2%E5%A2%9E"><span class="nav-number">1.2.3.</span> <span class="nav-text">2.2增</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#2-2-1append%EF%BC%88%EF%BC%89%E5%9C%A8%E6%9C%AB%E5%B0%BE%E5%A2%9E%E5%8A%A0"><span class="nav-number">1.2.3.1.</span> <span class="nav-text">2.2.1append（）在末尾增加</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-2-2exten%EF%BC%88%EF%BC%89%E5%9C%A8%E6%9C%AB%E5%B0%BE%E5%A2%9E%E5%8A%A0"><span class="nav-number">1.2.3.2.</span> <span class="nav-text">2.2.2exten（）在末尾增加</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-2-3insert%EF%BC%88%E4%B8%8B%E6%A0%87%EF%BC%8C%E5%AF%B9%E8%B1%A1%EF%BC%89%E9%9A%8F%E6%9C%BA%E6%B7%BB%E5%8A%A0"><span class="nav-number">1.2.3.3.</span> <span class="nav-text">2.2.3insert（下标，对象）随机添加</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-3%E5%88%A0"><span class="nav-number">1.2.4.</span> <span class="nav-text">2.3删</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#2-3-1del-%E5%9C%A8%E6%8C%87%E5%AE%9A%E4%BD%8D%E7%BD%AE%E5%88%A0%E9%99%A4%E4%B8%80%E4%B8%AA%E5%85%83%E7%B4%A0"><span class="nav-number">1.2.4.1.</span> <span class="nav-text">2.3.1del 在指定位置删除一个元素</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-3-2pop-%E5%BC%B9%E5%87%BA%E6%9C%AB%E5%B0%BE%E6%9C%80%E5%90%8E%E4%B8%80%E4%B8%AA%E5%85%83%E7%B4%A0"><span class="nav-number">1.2.4.2.</span> <span class="nav-text">2.3.2pop() 弹出末尾最后一个元素</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-3-3remove%EF%BC%88%EF%BC%89%E7%A7%BB%E9%99%A4%E6%8C%87%E5%AE%9A%E5%85%83%E7%B4%A0"><span class="nav-number">1.2.4.3.</span> <span class="nav-text">2.3.3remove（）移除指定元素</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-4%E6%94%B9"><span class="nav-number">1.2.5.</span> <span class="nav-text">2.4改</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-5%E6%9F%A5"><span class="nav-number">1.2.6.</span> <span class="nav-text">2.5查</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#2-5-1-in%E4%B8%8Enot-in"><span class="nav-number">1.2.6.1.</span> <span class="nav-text">2.5.1 in与not in</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-5-2-index"><span class="nav-number">1.2.6.2.</span> <span class="nav-text">2.5.2  index()</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-5-3-count"><span class="nav-number">1.2.6.3.</span> <span class="nav-text">2.5.3 count()</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-6%E6%8E%92%E5%BA%8F"><span class="nav-number">1.2.7.</span> <span class="nav-text">2.6排序</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-7-%E5%88%97%E8%A1%A8%E7%9A%84%E5%B5%8C%E5%A5%97"><span class="nav-number">1.2.8.</span> <span class="nav-text">2.7 列表的嵌套</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-8%E7%BB%83%E4%B9%A0"><span class="nav-number">1.2.9.</span> <span class="nav-text">2.8练习</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%89%E3%80%81%E5%85%83%E7%BB%84"><span class="nav-number">1.3.</span> <span class="nav-text">三、元组</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#3-1%E6%9F%A5"><span class="nav-number">1.3.1.</span> <span class="nav-text">3.1查</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-1%E5%A2%9E"><span class="nav-number">1.3.2.</span> <span class="nav-text">3.1增</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-2%E5%88%A0"><span class="nav-number">1.3.3.</span> <span class="nav-text">3.2删</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-3%E6%94%B9"><span class="nav-number">1.3.4.</span> <span class="nav-text">3.3改</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-4%E8%A1%A5%E5%85%85%EF%BC%9A%E5%B8%B8%E8%A7%81%E6%93%8D%E4%BD%9C"><span class="nav-number">1.3.5.</span> <span class="nav-text">3.4补充：常见操作</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9B%9B%E3%80%81%E5%AD%97%E5%85%B8"><span class="nav-number">1.4.</span> <span class="nav-text">四、字典</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#4-1-%E5%A2%9E"><span class="nav-number">1.4.1.</span> <span class="nav-text">4.1 增</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-2-%E5%88%A0"><span class="nav-number">1.4.2.</span> <span class="nav-text">4.2 删</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#4-2-1-del"><span class="nav-number">1.4.2.1.</span> <span class="nav-text">4.2.1 del</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-2-2-clear"><span class="nav-number">1.4.2.2.</span> <span class="nav-text">4.2.2 clear</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-3-%E6%94%B9"><span class="nav-number">1.4.3.</span> <span class="nav-text">4.3 改</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-4-%E6%9F%A5"><span class="nav-number">1.4.4.</span> <span class="nav-text">4.4 查</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-5-%E5%B8%B8%E8%A7%84%E6%93%8D%E4%BD%9C"><span class="nav-number">1.4.5.</span> <span class="nav-text">4.5 常规操作</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%94%E3%80%81%E9%9B%86%E5%90%88"><span class="nav-number">1.5.</span> <span class="nav-text">五、集合</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%85%AD%E3%80%81%E5%B0%8F%E7%BB%93"><span class="nav-number">1.6.</span> <span class="nav-text">六、小结</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">北极星上的稻草人</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">19</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">5</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">16</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">北极星上的稻草人</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  
+  <script color='0,0,255' opacity='0.5' zIndex='-1' count='99' src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+
+<!-- 页面动态背景 -->
+
+<script type="text/javascript" src="//cdn.bootcss.com/canvas-nest.js/1.0.0/canvas-nest.min.js"></script>
+
+
+</body>
+</html>
+<!-- 页面点击小红心 -->
+<script type="text/javascript" src="/js/clicklove.js"></script>
