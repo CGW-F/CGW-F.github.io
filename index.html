@@ -126,7 +126,7 @@
   </li>
         <li class="menu-item menu-item-archives">
 
-    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">27</span></a>
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">29</span></a>
 
   </li>
   </ul>
@@ -156,6 +156,452 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://wgc5.gitee.io/2021/08/16/Metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="北极星上的稻草人">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="北极星上的稻草人">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2021/08/16/Metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86/" class="post-title-link" itemprop="url">Metasploit渗透测试之信息收集</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2021-08-16 15:31:50 / 修改时间：15:32:29" itemprop="dateCreated datePublished" datetime="2021-08-16T15:31:50+08:00">2021-08-16</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E4%BF%A1%E6%81%AF%E5%AE%89%E5%85%A8/" itemprop="url" rel="index"><span itemprop="name">信息安全</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="Metasploit渗透测试之信息收集"><a href="#Metasploit渗透测试之信息收集" class="headerlink" title="Metasploit渗透测试之信息收集"></a>Metasploit渗透测试之信息收集</h1><h2 id="一、基于TCP协议收集主机信息"><a href="#一、基于TCP协议收集主机信息" class="headerlink" title="一、基于TCP协议收集主机信息"></a>一、基于TCP协议收集主机信息</h2><h4 id="1-1使用Metasploit中的nmap和arp-sweep收集主机信息"><a href="#1-1使用Metasploit中的nmap和arp-sweep收集主机信息" class="headerlink" title="1.1使用Metasploit中的nmap和arp_sweep收集主机信息"></a>1.1使用Metasploit中的nmap和arp_sweep收集主机信息</h4><p>步骤1：扫描网关/主机，查看端口开放信息</p>
+<p><img src="/2021/08/16/Metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86/image-20210815102105986.png" alt="image-20210815102105986"></p>
+<p>步骤2：查看arp_sweep的模块</p>
+<p><img src="/2021/08/16/Metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86/image-20210815102341061.png" alt="image-20210815102341061"></p>
+<p>步骤3：加载模块</p>
+<p><img src="/2021/08/16/Metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86/image-20210815102415059.png" alt="image-20210815102415059"></p>
+<p>步骤4：查看模块信息并配置/修改的参数</p>
+<p><img src="/2021/08/16/Metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86/image-20210815102452764.png" alt="image-20210815102452764"></p>
+<p>补充：Required为yes的都要配置，其他的可以修改</p>
+<p><img src="/2021/08/16/Metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86/image-20210815103032904.png" alt="image-20210815103032904"></p>
+<p><img src="/2021/08/16/Metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86/image-20210815103253012.png" alt="image-20210815103253012"></p>
+<p>启动</p>
+<p><img src="/2021/08/16/Metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86/image-20210815103322461.png" alt="image-20210815103322461"></p>
+<h4 id="1-2使用半连接方式（SYN扫描）扫描TCP端口"><a href="#1-2使用半连接方式（SYN扫描）扫描TCP端口" class="headerlink" title="1.2使用半连接方式（SYN扫描）扫描TCP端口"></a>1.2使用半连接方式（SYN扫描）扫描TCP端口</h4><p>步骤1：查找端口扫描模块</p>
+<p><img src="/2021/08/16/Metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86/image-20210815103729230.png" alt="image-20210815103729230"></p>
+<p><img src="/2021/08/16/Metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86/image-20210815103804503.png" alt="image-20210815103804503"></p>
+<p>步骤2：加载模块</p>
+<p><img src="/2021/08/16/Metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86/image-20210815103838738.png" alt="image-20210815103838738"></p>
+<p>步骤3：查看模块信息并配置/修改的参数</p>
+<p>查看模块</p>
+<p><img src="/2021/08/16/Metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86/image-20210815104240573.png" alt="image-20210815104240573"></p>
+<p>设置目标网络</p>
+<p><img src="/2021/08/16/Metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86/image-20210815104326881.png" alt="image-20210815104326881"></p>
+<p>修改端口（这里太多了）</p>
+<p><img src="/2021/08/16/Metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86/image-20210815104355465.png" alt="image-20210815104355465"></p>
+<p>修改进程数</p>
+<p><img src="/2021/08/16/Metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86/image-20210815104422751.png" alt="image-20210815104422751"></p>
+<p>启动</p>
+<p><img src="/2021/08/16/Metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86/image-20210815104444121.png" alt="image-20210815104444121"></p>
+<h4 id="1-3使用auxiliary-sniffer下的psnuffle模块进行密码嗅探"><a href="#1-3使用auxiliary-sniffer下的psnuffle模块进行密码嗅探" class="headerlink" title="1.3使用auxiliary/sniffer下的psnuffle模块进行密码嗅探"></a>1.3使用auxiliary/sniffer下的psnuffle模块进行密码嗅探</h4><p><img src="/2021/08/16/Metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86/image-20210815104605620.png" alt="image-20210815104605620"></p>
+<p>步骤1：查看/加载模块</p>
+<p><img src="/2021/08/16/Metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86/image-20210815104734782.png" alt="image-20210815104734782"></p>
+<p><img src="/2021/08/16/Metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86/image-20210815104826980.png" alt="image-20210815104826980"></p>
+<p><img src="/2021/08/16/Metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86/image-20210815104842936.png" alt="image-20210815104842936"></p>
+<p>也可以用show options命令，info命令查看的更详细。可以看到这里没有一定需要配置的参数</p>
+<p><img src="/2021/08/16/Metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86/image-20210815105009796.png" alt="image-20210815105009796"></p>
+<p>步骤2：启动</p>
+<p><img src="/2021/08/16/Metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86/image-20210815105102605.png" alt="image-20210815105102605"></p>
+<p>步骤3：打开另外一个终端进行登录测试/也可以在靶机登录</p>
+<p>如果没有lftp模块，则需要安装（-u 后面的是账号名msfadmin）</p>
+<p><img src="/2021/08/16/Metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86/image-20210815105223686.png" alt="image-20210815105223686"></p>
+<p><img src="/2021/08/16/Metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86/image-20210815105458038.png" alt="image-20210815105458038"></p>
+<p>步骤4：查看</p>
+<p><img src="/2021/08/16/Metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86/image-20210815105547055.png" alt="image-20210815105547055"></p>
+<p>补充：进程会一直在后台嗅探（按了ctrl+c也不行）</p>
+<p>查看和结束进程</p>
+<p><img src="/2021/08/16/Metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86/image-20210815105851420.png" alt="image-20210815105851420"></p>
+<h2 id="二、-基于SNMP协议收集主机信息"><a href="#二、-基于SNMP协议收集主机信息" class="headerlink" title="二、 基于SNMP协议收集主机信息"></a>二、 基于SNMP协议收集主机信息</h2><p><img src="/2021/08/16/Metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86/image-20210815110053572.png" alt="image-20210815110053572"></p>
+<p>步骤1：修改Metaspolittable2-Linux主机上的SNMP服务</p>
+<p><img src="/2021/08/16/Metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86/image-20210815110153260.png" alt="image-20210815110153260"></p>
+<p><img src="/2021/08/16/Metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86/image-20210815110444356.png" alt="image-20210815110444356"></p>
+<p>补充：修改为对外开放，这里是设置了对外所有主机开放</p>
+<p>确认服务开启情况（SNMP服务是在161端口上的）</p>
+<p><img src="/2021/08/16/Metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86/image-20210815110626352.png" alt="image-20210815110626352"></p>
+<p><img src="/2021/08/16/Metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86/image-20210815110659381.png" alt="image-20210815110659381"></p>
+<p>步骤2：查找并加载模块</p>
+<p><img src="/2021/08/16/Metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86/image-20210815110849325.png" alt="image-20210815110849325"></p>
+<p>步骤3：查看模块信息并配置/修改的参数</p>
+<p><img src="/2021/08/16/Metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86/image-20210815110944075.png" alt="image-20210815110944075"></p>
+<p>步骤4：启动和查看信息</p>
+<p><img src="/2021/08/16/Metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86/image-20210815111026777.png" alt="image-20210815111026777"></p>
+<p><img src="/2021/08/16/Metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86/image-20210815111103943.png" alt="image-20210815111103943"></p>
+<p><img src="/2021/08/16/Metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86/image-20210815111151128.png" alt="image-20210815111151128"></p>
+<p>补充：（信息太多，上面信息截图不全）可以查看到物理机信息、ip地址、网关、MAC地址、端口信息、进程等等。其中服务器硬件信息和服务器当前运行的进程这两方面是其他扫描方式获取不到的。</p>
+<h2 id="三、-基于SMB协议收集信息"><a href="#三、-基于SMB协议收集信息" class="headerlink" title="三、 基于SMB协议收集信息"></a>三、 基于SMB协议收集信息</h2><p><img src="/2021/08/16/Metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86/image-20210815151539221.png" alt="image-20210815151539221"></p>
+<h4 id="3-1-使用smb-version基于SMB协议扫描操作系统版本号"><a href="#3-1-使用smb-version基于SMB协议扫描操作系统版本号" class="headerlink" title="3.1 使用smb_version基于SMB协议扫描操作系统版本号"></a>3.1 使用smb_version基于SMB协议扫描操作系统版本号</h4><p>步骤1：查看和加载smb_version模块</p>
+<p><img src="/2021/08/16/Metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86/image-20210815151714448.png" alt="image-20210815151714448"></p>
+<p>步骤2：查看模块信息并配置/修改的参数</p>
+<p>说明：靶机的ip按照实际来，且靶机需要启动才可以扫描到</p>
+<p><img src="/2021/08/16/Metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86/image-20210815151951012.png" alt="image-20210815151951012"></p>
+<p>步骤3：启动和查看结果</p>
+<p><img src="/2021/08/16/Metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86/image-20210815152109126.png" alt="image-20210815152109126"></p>
+<h4 id="3-2-使用smb-enumshares基于SMB协议扫描共享文件"><a href="#3-2-使用smb-enumshares基于SMB协议扫描共享文件" class="headerlink" title="3.2 使用smb_enumshares基于SMB协议扫描共享文件"></a>3.2 使用smb_enumshares基于SMB协议扫描共享文件</h4><p><img src="/2021/08/16/Metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86/image-20210815152342653.png" alt="image-20210815152342653"></p>
+<p>环境条件：</p>
+<p>1.需要知道靶机用户的账号密码且目标机需要有共享文件</p>
+<p>2.靶机文件开启共享属性</p>
+<p><img src="/2021/08/16/Metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86/image-20210815152552596.png" alt="image-20210815152552596"></p>
+<p><img src="/2021/08/16/Metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86/image-20210815152628596.png" alt="image-20210815152628596"></p>
+<p>步骤1：查看和加载smb_enumshares模块</p>
+<p><img src="/2021/08/16/Metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86/image-20210815152800832.png" alt="image-20210815152800832"></p>
+<p>步骤2：查看模块信息并配置/修改的参数</p>
+<p>补充：需要知道账号和密码</p>
+<p><img src="/2021/08/16/Metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86/image-20210815152907507.png" alt="image-20210815152907507"></p>
+<p><img src="/2021/08/16/Metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86/image-20210815153002291.png" alt="image-20210815153002291"></p>
+<p>步骤3：启动和查看结果</p>
+<p><img src="/2021/08/16/Metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86/image-20210815153110188.png" alt="image-20210815153110188"></p>
+<h4 id="3-3-使用smb-lookupsid扫描系统用户信息（SID枚举）"><a href="#3-3-使用smb-lookupsid扫描系统用户信息（SID枚举）" class="headerlink" title="3.3 使用smb_lookupsid扫描系统用户信息（SID枚举）"></a>3.3 使用smb_lookupsid扫描系统用户信息（SID枚举）</h4><p>环境条件：</p>
+<p>1.需要知道靶机用户的账号密码</p>
+<p>这里新建一个用户，帮助更好查看效果</p>
+<p><img src="/2021/08/16/Metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86/image-20210815153514242.png" alt="image-20210815153514242"></p>
+<p>步骤1：查看和加载smb_enumshares模块</p>
+<p><img src="/2021/08/16/Metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86/image-20210815153615986.png" alt="image-20210815153615986"></p>
+<p>步骤2：查看模块信息并配置/修改的参数</p>
+<p><img src="/2021/08/16/Metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86/image-20210815153703105.png" alt="image-20210815153703105"></p>
+<p>如果没有账号密码则扫描不了扫描信息，如下：</p>
+<p><img src="/2021/08/16/Metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86/image-20210815153742787.png" alt="image-20210815153742787"></p>
+<p><img src="/2021/08/16/Metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86/image-20210815153812262.png" alt="image-20210815153812262"></p>
+<p>步骤3：启动和查看结果</p>
+<p><img src="/2021/08/16/Metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86/image-20210815153928366.png" alt="image-20210815153928366"></p>
+<h2 id="四、基于SSH协议收集信息"><a href="#四、基于SSH协议收集信息" class="headerlink" title="四、基于SSH协议收集信息"></a>四、基于SSH协议收集信息</h2><h4 id="4-1-查看ssh服务的版本信息"><a href="#4-1-查看ssh服务的版本信息" class="headerlink" title="4.1 查看ssh服务的版本信息"></a>4.1 查看ssh服务的版本信息</h4><h4 id><a href="#" class="headerlink" title></a><img src="/2021/08/16/Metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86/image-20210815164301785.png" alt="image-20210815164301785"></h4><p>4.2 对SSH暴力破解</p>
+<p><img src="/2021/08/16/Metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86/image-20210815164512963.png" alt="image-20210815164512963"></p>
+<p>补充：</p>
+<p><img src="/2021/08/16/Metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86/image-20210815164814906.png" alt="image-20210815164814906"></p>
+<p>查看/进入会话</p>
+<p><img src="/2021/08/16/Metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86/image-20210815164941748.png" alt="image-20210815164941748"></p>
+<h2 id="五、基于FTP协议收集信息"><a href="#五、基于FTP协议收集信息" class="headerlink" title="五、基于FTP协议收集信息"></a>五、基于FTP协议收集信息</h2><h4 id="5-1-查看ftp服务器版本信息"><a href="#5-1-查看ftp服务器版本信息" class="headerlink" title="5.1 查看ftp服务器版本信息"></a>5.1 查看ftp服务器版本信息</h4><p>说明：了解了版本信息，就可以查找对应版本漏洞</p>
+<p><img src="/2021/08/16/Metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86/image-20210816095151966.png" alt="image-20210816095151966"></p>
+<p><img src="/2021/08/16/Metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86/image-20210816095044193.png" alt="image-20210816095044193"></p>
+<p><img src="/2021/08/16/Metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86/image-20210816095056282.png" alt="image-20210816095056282"></p>
+<h4 id="利用版本号寻找相关漏洞"><a href="#利用版本号寻找相关漏洞" class="headerlink" title="利用版本号寻找相关漏洞"></a>利用版本号寻找相关漏洞</h4><p><img src="/2021/08/16/Metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86/image-20210816095449106.png" alt="image-20210816095449106"></p>
+<p><img src="/2021/08/16/Metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86/image-20210816095618467.png" alt="image-20210816095618467"></p>
+<p><img src="/2021/08/16/Metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86/image-20210816095742283.png" alt="image-20210816095742283"></p>
+<p><img src="/2021/08/16/Metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86/image-20210816095815770.png" alt="image-20210816095815770"></p>
+<h4 id="5-2-FTP匿名登录"><a href="#5-2-FTP匿名登录" class="headerlink" title="5.2 FTP匿名登录"></a>5.2 FTP匿名登录</h4><p>匿名：anonymous</p>
+<p>步骤1：寻找模块</p>
+<p><img src="/2021/08/16/Metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86/image-20210816095957022.png" alt="image-20210816095957022"></p>
+<p>步骤2：加载模块、查看并设置参数</p>
+<p><img src="/2021/08/16/Metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86/image-20210816100114694.png" alt="image-20210816100114694"></p>
+<p>步骤3：启动</p>
+<p><img src="/2021/08/16/Metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86/image-20210816100304444.png" alt="image-20210816100304444"></p>
+<p>步骤4：使用ftp客户端登录</p>
+<p><img src="/2021/08/16/Metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86/image-20210816100447302.png" alt="image-20210816100447302"></p>
+<p><img src="/2021/08/16/Metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86/image-20210816100532399.png" alt="image-20210816100532399"></p>
+<h4 id="5-3-FTP暴力破解"><a href="#5-3-FTP暴力破解" class="headerlink" title="5.3 FTP暴力破解"></a>5.3 FTP暴力破解</h4><p>步骤1：查找并加载模块</p>
+<p><img src="/2021/08/16/Metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86/image-20210816100736134.png" alt="image-20210816100736134"></p>
+<p>步骤2：查看并设置参数</p>
+<p><img src="/2021/08/16/Metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86/image-20210816100842630.png" alt="image-20210816100842630"></p>
+<p><img src="/2021/08/16/Metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86/image-20210816101002946.png" alt="image-20210816101002946"></p>
+<p><img src="/2021/08/16/Metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86/image-20210816100904140.png" alt="image-20210816100904140"></p>
+<p><img src="/2021/08/16/Metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86/image-20210816101058890.png" alt="image-20210816101058890"></p>
+<p>补充：这里的字典和上面那个暴力破解字典是一样的，注意路径（可能与这里写的不一）且字典是加入了msfadmin（因为默认的字典里没有，手动加入正确的账号密码来方便演示）</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://wgc5.gitee.io/2021/08/15/Metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E6%A1%86%E6%9E%B6%E7%9A%84%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="北极星上的稻草人">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="北极星上的稻草人">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2021/08/15/Metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E6%A1%86%E6%9E%B6%E7%9A%84%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8/" class="post-title-link" itemprop="url">Metasploit渗透测试框架的基本使用</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2021-08-15 09:53:47 / 修改时间：09:54:32" itemprop="dateCreated datePublished" datetime="2021-08-15T09:53:47+08:00">2021-08-15</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E4%BF%A1%E6%81%AF%E5%AE%89%E5%85%A8/" itemprop="url" rel="index"><span itemprop="name">信息安全</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="Metasploit渗透测试框架的基本使用"><a href="#Metasploit渗透测试框架的基本使用" class="headerlink" title="Metasploit渗透测试框架的基本使用"></a>Metasploit渗透测试框架的基本使用</h1><h2 id="一、Metasploit渗透测试框架"><a href="#一、Metasploit渗透测试框架" class="headerlink" title="一、Metasploit渗透测试框架"></a>一、Metasploit渗透测试框架</h2><h3 id="1-0介绍"><a href="#1-0介绍" class="headerlink" title="1.0介绍"></a>1.0介绍</h3><p><img src="/2021/08/15/Metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E6%A1%86%E6%9E%B6%E7%9A%84%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8/image-20210804203643227.png" alt="image-20210804203643227"></p>
+<p><img src="/2021/08/15/Metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E6%A1%86%E6%9E%B6%E7%9A%84%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8/image-20210804203711396.png" alt="image-20210804203711396"></p>
+<p><img src="/2021/08/15/Metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E6%A1%86%E6%9E%B6%E7%9A%84%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8/image-20210804203726608.png" alt="image-20210804203726608"></p>
+<p><img src="/2021/08/15/Metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E6%A1%86%E6%9E%B6%E7%9A%84%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8/image-20210804203742693.png" alt="image-20210804203742693"></p>
+<h4 id="1-1Metasploit体系架构"><a href="#1-1Metasploit体系架构" class="headerlink" title="1.1Metasploit体系架构"></a>1.1Metasploit体系架构</h4><p><img src="/2021/08/15/Metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E6%A1%86%E6%9E%B6%E7%9A%84%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8/image-20210804203758466.png" alt="image-20210804203758466"></p>
+<p><img src="/2021/08/15/Metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E6%A1%86%E6%9E%B6%E7%9A%84%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8/image-20210804203905509.png" alt="image-20210804203905509"></p>
+<p><img src="/2021/08/15/Metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E6%A1%86%E6%9E%B6%E7%9A%84%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8/image-20210804203934088.png" alt="image-20210804203934088"></p>
+<h2 id="二、Metasploit2-Linux靶机"><a href="#二、Metasploit2-Linux靶机" class="headerlink" title="二、Metasploit2-Linux靶机"></a>二、Metasploit2-Linux靶机</h2><h4 id="2-0Metasploit2靶机介绍"><a href="#2-0Metasploit2靶机介绍" class="headerlink" title="2.0Metasploit2靶机介绍"></a>2.0Metasploit2靶机介绍</h4><p><img src="/2021/08/15/Metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E6%A1%86%E6%9E%B6%E7%9A%84%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8/image-20210805095327436.png" alt="image-20210805095327436"></p>
+<p>2.1搭建</p>
+<p>下载好Metasploit2-Linux-2.0.0压缩包，解压后获得以下文件</p>
+<p><img src="/2021/08/15/Metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E6%A1%86%E6%9E%B6%E7%9A%84%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8/image-20210805102426867.png" alt="image-20210805102426867"></p>
+<p>打开虚拟机（这里虚拟机网络设置了桥接模式）</p>
+<p><img src="/2021/08/15/Metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E6%A1%86%E6%9E%B6%E7%9A%84%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8/image-20210805151145363.png" alt="image-20210805151145363"></p>
+<p><img src="/2021/08/15/Metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E6%A1%86%E6%9E%B6%E7%9A%84%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8/image-20210805095503163.png" alt="image-20210805095503163"></p>
+<p><img src="/2021/08/15/Metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E6%A1%86%E6%9E%B6%E7%9A%84%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8/image-20210805095525081.png" alt="image-20210805095525081"></p>
+<p>配置网络</p>
+<p><img src="/2021/08/15/Metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E6%A1%86%E6%9E%B6%E7%9A%84%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8/image-20210805102551986.png" alt="image-20210805102551986"></p>
+<p><img src="/2021/08/15/Metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E6%A1%86%E6%9E%B6%E7%9A%84%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8/image-20210806165223429.png" alt="image-20210806165223429"></p>
+<p><img src="/2021/08/15/Metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E6%A1%86%E6%9E%B6%E7%9A%84%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8/image-20210805152049233.png" alt="image-20210805152049233"></p>
+<h2 id="三、Metasploit基本使用方法"><a href="#三、Metasploit基本使用方法" class="headerlink" title="三、Metasploit基本使用方法"></a>三、Metasploit基本使用方法</h2><p><img src="/2021/08/15/Metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E6%A1%86%E6%9E%B6%E7%9A%84%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8/image-20210805164029799.png" alt="image-20210805164029799"></p>
+<p><img src="/2021/08/15/Metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E6%A1%86%E6%9E%B6%E7%9A%84%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8/image-20210805164155781.png" alt="image-20210805164155781"></p>
+<p>补充：在kali中启示</p>
+<h4 id="3-1启动Metasploit"><a href="#3-1启动Metasploit" class="headerlink" title="3.1启动Metasploit"></a>3.1启动Metasploit</h4><p><img src="/2021/08/15/Metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E6%A1%86%E6%9E%B6%E7%9A%84%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8/image-20210805164342101.png" alt="image-20210805164342101"></p>
+<p>需要先启动postgresql数据库（不启动也会提示）</p>
+<p>也可以在终端输入以下指令启动</p>
+<p><img src="/2021/08/15/Metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E6%A1%86%E6%9E%B6%E7%9A%84%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8/image-20210805164509235.png" alt="image-20210805164509235"></p>
+<p>启动成功</p>
+<p><img src="/2021/08/15/Metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E6%A1%86%E6%9E%B6%E7%9A%84%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8/image-20210805164557539.png" alt="image-20210805164557539"></p>
+<h4 id="3-2命令介绍"><a href="#3-2命令介绍" class="headerlink" title="3.2命令介绍"></a>3.2命令介绍</h4><p>输入help可以查看说明/模块</p>
+<p><img src="/2021/08/15/Metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E6%A1%86%E6%9E%B6%E7%9A%84%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8/image-20210805164858639.png" alt="image-20210805164858639"></p>
+<p><img src="/2021/08/15/Metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E6%A1%86%E6%9E%B6%E7%9A%84%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8/image-20210805165823481.png" alt="image-20210805165642839"></p>
+<p><img src="/2021/08/15/Metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E6%A1%86%E6%9E%B6%E7%9A%84%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8/image-20210805165357259.png" alt="image-20210805165357259"></p>
+<p><img src="/2021/08/15/Metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E6%A1%86%E6%9E%B6%E7%9A%84%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8/image-20210805165510043.png" alt="image-20210805165510043"></p>
+<p>目标：可以是网关/域名等等</p>
+<p><img src="/2021/08/15/Metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E6%A1%86%E6%9E%B6%E7%9A%84%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8/image-20210805165854584.png" alt="image-20210805165854584"></p>
+<p><img src="/2021/08/15/Metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E6%A1%86%E6%9E%B6%E7%9A%84%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8/image-20210805170001703.png" alt="image-20210805170001703"></p>
+<p><img src="/2021/08/15/Metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E6%A1%86%E6%9E%B6%E7%9A%84%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8/image-20210805170151441.png" alt="image-20210805170151441"></p>
+<p><img src="/2021/08/15/Metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E6%A1%86%E6%9E%B6%E7%9A%84%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8/image-20210805170226802.png" alt="image-20210805170226802"></p>
+<h4 id="3-2-1search使用方法介绍"><a href="#3-2-1search使用方法介绍" class="headerlink" title="3.2.1search使用方法介绍"></a>3.2.1search使用方法介绍</h4><p>a.name</p>
+<p><img src="/2021/08/15/Metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E6%A1%86%E6%9E%B6%E7%9A%84%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8/image-20210805170330750.png" alt="image-20210805170330750"></p>
+<p><img src="/2021/08/15/Metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E6%A1%86%E6%9E%B6%E7%9A%84%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8/image-20210805170407806.png" alt="image-20210805170407806"></p>
+<p>补充：关键字可以是漏洞名称、软件、系统等等</p>
+<p><img src="/2021/08/15/Metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E6%A1%86%E6%9E%B6%E7%9A%84%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8/image-20210805170518118.png" alt="image-20210805170518118"></p>
+<p><img src="/2021/08/15/Metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E6%A1%86%E6%9E%B6%E7%9A%84%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8/image-20210805170528473.png" alt="image-20210805170528473"></p>
+<p>b.通过路径查找</p>
+<p><img src="/2021/08/15/Metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E6%A1%86%E6%9E%B6%E7%9A%84%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8/image-20210805170558678.png" alt="image-20210805170558678"></p>
+<p>c.缩写范围查找</p>
+<p><img src="/2021/08/15/Metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E6%A1%86%E6%9E%B6%E7%9A%84%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8/image-20210805170639892.png" alt="image-20210805170639892"></p>
+<p><img src="/2021/08/15/Metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E6%A1%86%E6%9E%B6%E7%9A%84%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8/image-20210805170715597.png" alt="image-20210805170715597"></p>
+<p>d.通过类型查找</p>
+<p><img src="/2021/08/15/Metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E6%A1%86%E6%9E%B6%E7%9A%84%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8/image-20210805170738352.png" alt="image-20210805170738352"></p>
+<p>e.联合查找</p>
+<p><img src="/2021/08/15/Metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E6%A1%86%E6%9E%B6%E7%9A%84%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8/image-20210805170804263.png" alt="image-20210805170804263"></p>
+<p>f.根据CVE搜索漏洞模块</p>
+<p><img src="/2021/08/15/Metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E6%A1%86%E6%9E%B6%E7%9A%84%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8/image-20210805171149293.png" alt="image-20210805171149293"></p>
+<p><img src="/2021/08/15/Metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E6%A1%86%E6%9E%B6%E7%9A%84%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8/image-20210805171210638.png" alt="image-20210805171210638"></p>
+<p><img src="/2021/08/15/Metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E6%A1%86%E6%9E%B6%E7%9A%84%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8/image-20210805171245881.png" alt="image-20210805171245881"></p>
+<p><img src="/2021/08/15/Metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E6%A1%86%E6%9E%B6%E7%9A%84%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8/image-20210805171321553.png" alt="image-20210805171321553"></p>
+<h4 id="3-3模块相关的命令use的使用方法"><a href="#3-3模块相关的命令use的使用方法" class="headerlink" title="3.3模块相关的命令use的使用方法"></a>3.3模块相关的命令use的使用方法</h4><p><img src="/2021/08/15/Metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E6%A1%86%E6%9E%B6%E7%9A%84%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8/image-20210805171340764.png" alt="image-20210805171340764"></p>
+<p>步骤1：找出漏洞模块</p>
+<p><img src="/2021/08/15/Metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E6%A1%86%E6%9E%B6%E7%9A%84%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8/image-20210805171433346.png" alt="image-20210805171433346"></p>
+<p><img src="/2021/08/15/Metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E6%A1%86%E6%9E%B6%E7%9A%84%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8/image-20210805171500575.png" alt="image-20210805171500575"></p>
+<p>步骤2：装载模块</p>
+<p><img src="/2021/08/15/Metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E6%A1%86%E6%9E%B6%E7%9A%84%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8/image-20210805171759100.png" alt="image-20210805171759100"></p>
+<p>补充：查看漏洞模块信息</p>
+<p>法1：</p>
+<p><img src="/2021/08/15/Metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E6%A1%86%E6%9E%B6%E7%9A%84%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8/image-20210805171900407.png" alt="image-20210805171900407"></p>
+<p><img src="/2021/08/15/Metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E6%A1%86%E6%9E%B6%E7%9A%84%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8/image-20210805172003858.png" alt="image-20210805172003858"></p>
+<p><img src="/2021/08/15/Metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E6%A1%86%E6%9E%B6%E7%9A%84%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8/image-20210805172015257.png" alt="image-20210805172015257"></p>
+<p>法2：进入模块后直接输入info</p>
+<p><img src="/2021/08/15/Metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E6%A1%86%E6%9E%B6%E7%9A%84%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8/image-20210805172134658.png" alt="image-20210805172134658"></p>
+<p>步骤3：设置参数/启动</p>
+<p><img src="/2021/08/15/Metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E6%A1%86%E6%9E%B6%E7%9A%84%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8/image-20210805172326733.png" alt="image-20210805172326733"></p>
+<h2 id="4-实战-使用msf渗透攻击Win7主机并远程执行命令"><a href="#4-实战-使用msf渗透攻击Win7主机并远程执行命令" class="headerlink" title="4.实战-使用msf渗透攻击Win7主机并远程执行命令"></a>4.实战-使用msf渗透攻击Win7主机并远程执行命令</h2><h4 id="4-1环境介绍"><a href="#4-1环境介绍" class="headerlink" title="4.1环境介绍"></a>4.1环境介绍</h4><p><img src="/2021/08/15/Metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E6%A1%86%E6%9E%B6%E7%9A%84%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8/image-20210806101135845.png" alt="image-20210806101135845"></p>
+<p>补充：需要自己搭建win7虚拟机</p>
+<h4 id="4-2通过msf模块获取Win7远程shell"><a href="#4-2通过msf模块获取Win7远程shell" class="headerlink" title="4.2通过msf模块获取Win7远程shell"></a>4.2通过msf模块获取Win7远程shell</h4><p>流程说明</p>
+<p><img src="/2021/08/15/Metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E6%A1%86%E6%9E%B6%E7%9A%84%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8/image-20210806101253627.png" alt="image-20210806101253627"></p>
+<p>​                                                            流程图</p>
+<p>步骤1：对已知漏洞进行查看</p>
+<p><img src="/2021/08/15/Metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E6%A1%86%E6%9E%B6%E7%9A%84%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8/image-20210806101623365.png" alt="image-20210806101623365"></p>
+<p><img src="/2021/08/15/Metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E6%A1%86%E6%9E%B6%E7%9A%84%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8/image-20210806101730568.png" alt="image-20210806101730568"></p>
+<p>步骤2-3：模块查找与配置参数</p>
+<p>步骤2.1查看auxiliary漏洞并配置的参数</p>
+<p><img src="/2021/08/15/Metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E6%A1%86%E6%9E%B6%E7%9A%84%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8/image-20210806101830245.png" alt="image-20210806101830245"></p>
+<p><img src="/2021/08/15/Metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E6%A1%86%E6%9E%B6%E7%9A%84%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8/image-20210806102036473.png" alt="image-20210806102036473"></p>
+<p><img src="/2021/08/15/Metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E6%A1%86%E6%9E%B6%E7%9A%84%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8/image-20210806102155654.png" alt="image-20210806102155654"></p>
+<p><img src="/2021/08/15/Metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E6%A1%86%E6%9E%B6%E7%9A%84%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8/image-20210806101549498.png" alt="image-20210806101549498"></p>
+<p>步骤2.2查看exploit并配置的参数</p>
+<p>查找exploit</p>
+<p><img src="/2021/08/15/Metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E6%A1%86%E6%9E%B6%E7%9A%84%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8/image-20210806102809076.png" alt="image-20210806102809076"></p>
+<p>查找模块与配置参数</p>
+<p>加载模块</p>
+<p><img src="/2021/08/15/Metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E6%A1%86%E6%9E%B6%E7%9A%84%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8/image-20210806102856366.png" alt="image-20210806102856366"></p>
+<p>查看模块</p>
+<p><img src="/2021/08/15/Metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E6%A1%86%E6%9E%B6%E7%9A%84%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8/image-20210806103200129.png" alt="image-20210806103200129"></p>
+<p><img src="/2021/08/15/Metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E6%A1%86%E6%9E%B6%E7%9A%84%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8/image-20210806103431759.png" alt="image-20210806103431759"></p>
+<p>步骤2.3查找payload并配置的参数</p>
+<p>查找方法1：</p>
+<p><img src="/2021/08/15/Metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E6%A1%86%E6%9E%B6%E7%9A%84%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8/image-20210806103807459.png" alt="image-20210806103807459"></p>
+<p>查找方法2：</p>
+<p><img src="/2021/08/15/Metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E6%A1%86%E6%9E%B6%E7%9A%84%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8/image-20210806103851072.png" alt="image-20210806103851072"></p>
+<p><img src="/2021/08/15/Metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E6%A1%86%E6%9E%B6%E7%9A%84%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8/image-20210806103920476.png" alt="image-20210806103920476"></p>
+<p>设置攻击载荷</p>
+<p><img src="/2021/08/15/Metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E6%A1%86%E6%9E%B6%E7%9A%84%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8/image-20210806104017012.png" alt="image-20210806104017012"></p>
+<p>查看payload：show options</p>
+<p><img src="/2021/08/15/Metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E6%A1%86%E6%9E%B6%E7%9A%84%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8/image-20210806104125770.png" alt="image-20210806104125770"></p>
+<p>配置参数</p>
+<p><img src="/2021/08/15/Metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E6%A1%86%E6%9E%B6%E7%9A%84%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8/image-20210806104833280.png" alt="image-20210806104833280"></p>
+<p>接收者地址（监听者地址）</p>
+<p>补充：再次show options查看是否所有参数都配置成功</p>
+<p>步骤4：启动/攻击</p>
+<p><img src="/2021/08/15/Metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E6%A1%86%E6%9E%B6%E7%9A%84%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8/image-20210806105101774.png" alt="image-20210806105101774"></p>
+<p><img src="/2021/08/15/Metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E6%A1%86%E6%9E%B6%E7%9A%84%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8/image-20210806105207507.png" alt="image-20210806105207507"></p>
+<p>补充：</p>
+<p>1.在攻击目标机上创建账号，这里账号与密码都是admin</p>
+<p><img src="/2021/08/15/Metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E6%A1%86%E6%9E%B6%E7%9A%84%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8/image-20210806105338594.png" alt="image-20210806105338594"></p>
+<p><img src="/2021/08/15/Metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E6%A1%86%E6%9E%B6%E7%9A%84%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8/image-20210806105418980.png" alt="image-20210806105418980"></p>
+<p>2.解决乱码</p>
+<p><img src="/2021/08/15/Metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E6%A1%86%E6%9E%B6%E7%9A%84%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8/image-20210806105543056.png" alt="image-20210806105543056"></p>
+<p>3.查看权限</p>
+<p><img src="/2021/08/15/Metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E6%A1%86%E6%9E%B6%E7%9A%84%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8/image-20210806105641987.png" alt="image-20210806105641987"></p>
+<p>4.退出：ctrl+c</p>
+<p><img src="/2021/08/15/Metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E6%A1%86%E6%9E%B6%E7%9A%84%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8/image-20210806105714646.png" alt="image-20210806105714646"></p>
+<p>5.渗透成功保存到后台</p>
+<p><img src="/2021/08/15/Metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E6%A1%86%E6%9E%B6%E7%9A%84%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8/image-20210806105802990.png" alt="image-20210806105802990"></p>
+<p>按回车是不会进入会话，需要查看后台并进入</p>
+<p>查看</p>
+<p><img src="/2021/08/15/Metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E6%A1%86%E6%9E%B6%E7%9A%84%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8/image-20210806105957409.png" alt="image-20210806105957409"></p>
+<p>进入</p>
+<p><img src="/2021/08/15/Metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E6%A1%86%E6%9E%B6%E7%9A%84%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8/image-20210806110034282.png" alt="image-20210806110034282"></p>
+<p>6.在攻击目标机上保存到后台（进入方法同上）</p>
+<p><img src="/2021/08/15/Metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E6%A1%86%E6%9E%B6%E7%9A%84%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8/image-20210806110138031.png" alt="image-20210806110138031"></p>
+<p>7.会话操作（终结会话）</p>
+<p><img src="/2021/08/15/Metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E6%A1%86%E6%9E%B6%E7%9A%84%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8/image-20210806110350965.png" alt="image-20210806110350965"></p>
+<p><img src="/2021/08/15/Metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E6%A1%86%E6%9E%B6%E7%9A%84%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8/image-20210806110444230.png" alt="image-20210806110444230"></p>
+<p><img src="/2021/08/15/Metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E6%A1%86%E6%9E%B6%E7%9A%84%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8/image-20210806110527414.png" alt="image-20210806110527414"></p>
+<h2 id="5-实战-使用msf扫描靶机上mysql服务密码"><a href="#5-实战-使用msf扫描靶机上mysql服务密码" class="headerlink" title="5.实战-使用msf扫描靶机上mysql服务密码"></a>5.实战-使用msf扫描靶机上mysql服务密码</h2><h4 id="5-1环境"><a href="#5-1环境" class="headerlink" title="5.1环境"></a>5.1环境</h4><p>启动kali和靶机</p>
+<p><img src="/2021/08/15/Metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E6%A1%86%E6%9E%B6%E7%9A%84%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8/image-20210806151606532.png" alt="image-20210806151606532"></p>
+<p><img src="/2021/08/15/Metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E6%A1%86%E6%9E%B6%E7%9A%84%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8/image-20210806152232078.png" alt="image-20210806152232078"></p>
+<h4 id="5-2实战步骤"><a href="#5-2实战步骤" class="headerlink" title="5.2实战步骤"></a>5.2实战步骤</h4><p>步骤1：查找漏洞</p>
+<p><img src="/2021/08/15/Metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E6%A1%86%E6%9E%B6%E7%9A%84%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8/image-20210806151928117.png" alt="image-20210806151928117"></p>
+<p>步骤2：加载模块</p>
+<p><img src="/2021/08/15/Metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E6%A1%86%E6%9E%B6%E7%9A%84%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8/image-20210806152015786.png" alt="image-20210806152015786"></p>
+<p>步骤3：修改参数与执行</p>
+<p><img src="/2021/08/15/Metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E6%A1%86%E6%9E%B6%E7%9A%84%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8/image-20210806152034883.png" alt="image-20210806152034883"></p>
+<p><img src="/2021/08/15/Metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E6%A1%86%E6%9E%B6%E7%9A%84%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8/image-20210806152321135.png" alt="image-20210806152321135"></p>
+<p><img src="/2021/08/15/Metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E6%A1%86%E6%9E%B6%E7%9A%84%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8/image-20210806152335718.png" alt="image-20210806152335718"></p>
+<p>步骤4：查看刑具/证明（数据）</p>
+<p><img src="/2021/08/15/Metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E6%A1%86%E6%9E%B6%E7%9A%84%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8/image-20210806152538536.png" alt="image-20210806152538536"></p>
+<h4 id="5-3将扫描的结果导出Metasploit与导入另外一台Metasploit中"><a href="#5-3将扫描的结果导出Metasploit与导入另外一台Metasploit中" class="headerlink" title="5.3将扫描的结果导出Metasploit与导入另外一台Metasploit中"></a>5.3将扫描的结果导出Metasploit与导入另外一台Metasploit中</h4><p><img src="/2021/08/15/Metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E6%A1%86%E6%9E%B6%E7%9A%84%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8/image-20210806152657897.png" alt="image-20210806152657897"></p>
+<p><img src="/2021/08/15/Metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E6%A1%86%E6%9E%B6%E7%9A%84%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8/image-20210806152817564.png" alt="image-20210806152817564"></p>
+<p><img src="/2021/08/15/Metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E6%A1%86%E6%9E%B6%E7%9A%84%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8/image-20210806152839548.png" alt="image-20210806152839548"></p>
+<p><img src="/2021/08/15/Metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E6%A1%86%E6%9E%B6%E7%9A%84%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8/image-20210806153154656.png" alt="image-20210806153154656"></p>
+<p>说明：这里没有开第二台Metasploit，但是选择清空了数据库数据</p>
+<p><img src="/2021/08/15/Metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E6%A1%86%E6%9E%B6%E7%9A%84%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8/image-20210806153453277.png" alt="image-20210806153453277"></p>
+<p>通过hosts查看攻击记录（空）</p>
+<p><img src="/2021/08/15/Metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E6%A1%86%E6%9E%B6%E7%9A%84%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8/image-20210806153535935.png" alt="image-20210806153535935"></p>
+<p>补充</p>
+<p><img src="/2021/08/15/Metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E6%A1%86%E6%9E%B6%E7%9A%84%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8/image-20210806153753152.png" alt="image-20210806153753152"></p>
+<p>导入：（这里应该是下面这语句是xml而不是xmk）</p>
+<p><img src="/2021/08/15/Metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E6%A1%86%E6%9E%B6%E7%9A%84%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8/image-20210806153651358.png" alt="image-20210806153651358"></p>
+<p>删除：</p>
+<p><img src="/2021/08/15/Metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E6%A1%86%E6%9E%B6%E7%9A%84%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8/image-20210806153915368.png" alt="image-20210806153915368"></p>
+<p>拓展：添加nmap扫描记录</p>
+<p><img src="/2021/08/15/Metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E6%A1%86%E6%9E%B6%E7%9A%84%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8/image-20210806154424124.png" alt="image-20210806154424124"></p>
+<p>-A：扫描所有类型，</p>
+<p>xuegod.cn：目标网站</p>
+<p>-oX：o输出，X文件类型，这里表示输出为文件类型</p>
+<p>xuegod.xml：输出文件名与类型（没有会新建）</p>
+<p>1.导入与查看</p>
+<p><img src="/2021/08/15/Metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E6%A1%86%E6%9E%B6%E7%9A%84%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8/image-20210806154634734.png" alt="image-20210806154634734"></p>
+<p>2.查看服务</p>
+<p><img src="/2021/08/15/Metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E6%A1%86%E6%9E%B6%E7%9A%84%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8/image-20210806154748106.png" alt="image-20210806154748106"></p>
+<p>查看特点主机的服务</p>
+<p><img src="/2021/08/15/Metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E6%A1%86%E6%9E%B6%E7%9A%84%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8/image-20210806154825587.png" alt="image-20210806154825587"></p>
+<h2 id="6-命令补充"><a href="#6-命令补充" class="headerlink" title="6.命令补充"></a>6.命令补充</h2><p><img src="/2021/08/15/Metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E6%A1%86%E6%9E%B6%E7%9A%84%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8/image-20210806154928791.png" alt="image-20210806154928791"></p>
+<p><img src="/2021/08/15/Metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E6%A1%86%E6%9E%B6%E7%9A%84%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8/image-20210806155015802.png" alt="image-20210806155015802"></p>
+<p><img src="/2021/08/15/Metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E6%A1%86%E6%9E%B6%E7%9A%84%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8/image-20210806155057118.png" alt="image-20210806155057118"></p>
+<p><img src="/2021/08/15/Metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E6%A1%86%E6%9E%B6%E7%9A%84%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8/image-20210806155110457.png" alt="image-20210806155110457"></p>
+<p><img src="/2021/08/15/Metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E6%A1%86%E6%9E%B6%E7%9A%84%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8/image-20210806155120901.png" alt="image-20210806155120901"></p>
+<p><img src="/2021/08/15/Metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E6%A1%86%E6%9E%B6%E7%9A%84%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8/image-20210806155129726.png" alt="image-20210806155129726"></p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="https://wgc5.gitee.io/2021/08/04/NESSUS%E6%BC%8F%E6%B4%9E%E6%A3%80%E6%B5%8B/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -179,10 +625,16 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
-              
 
-              <time title="创建时间：2021-08-04 20:31:48 / 修改时间：20:33:23" itemprop="dateCreated datePublished" datetime="2021-08-04T20:31:48+08:00">2021-08-04</time>
+              <time title="创建时间：2021-08-04 20:31:48" itemprop="dateCreated datePublished" datetime="2021-08-04T20:31:48+08:00">2021-08-04</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-08-06 17:38:05" itemprop="dateModified" datetime="2021-08-06T17:38:05+08:00">2021-08-06</time>
+              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="far fa-folder"></i>
@@ -208,6 +660,8 @@
 <p><img src="/2021/08/04/NESSUS%E6%BC%8F%E6%B4%9E%E6%A3%80%E6%B5%8B/image-20210804103108664.png" alt="image-20210804103108664"></p>
 <h3 id="安装："><a href="#安装：" class="headerlink" title="安装："></a>安装：</h3><p><img src="/2021/08/04/NESSUS%E6%BC%8F%E6%B4%9E%E6%A3%80%E6%B5%8B/image-20210804103131188.png" alt="image-20210804103131188"></p>
 <p><img src="/2021/08/04/NESSUS%E6%BC%8F%E6%B4%9E%E6%A3%80%E6%B5%8B/image-20210804103253607.png" alt="image-20210804103253607"></p>
+<p>补充：不一定是/etc/init.d/nessused地址，如果你不是root，就不是这个地址。自己文件搜索查看地址（如）</p>
+<p><img src="/2021/08/04/NESSUS%E6%BC%8F%E6%B4%9E%E6%A3%80%E6%B5%8B/image-20210806173640700.png" alt="image-20210806173640700"></p>
 <p><img src="/2021/08/04/NESSUS%E6%BC%8F%E6%B4%9E%E6%A3%80%E6%B5%8B/image-20210804103355995.png" alt="image-20210804103355995"></p>
 <p>补充：谷歌浏览器可能打不开，可以把http协议改为https协议或者直接用360浏览器打开</p>
 <p><img src="/2021/08/04/NESSUS%E6%BC%8F%E6%B4%9E%E6%A3%80%E6%B5%8B/image-20210804103738543.png" alt="image-20210804103738543"></p>
@@ -946,294 +1400,6 @@
   
   
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://wgc5.gitee.io/2021/07/09/Python%E6%A0%B8%E5%BF%83%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="北极星上的稻草人">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="北极星上的稻草人">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2021/07/09/Python%E6%A0%B8%E5%BF%83%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/" class="post-title-link" itemprop="url">Python核心数据类型</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-              
-
-              <time title="创建时间：2021-07-09 15:10:27 / 修改时间：15:11:00" itemprop="dateCreated datePublished" datetime="2021-07-09T15:10:27+08:00">2021-07-09</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/python%E5%85%A5%E9%97%A8/" itemprop="url" rel="index"><span itemprop="name">python入门</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="Python核心数据类型"><a href="#Python核心数据类型" class="headerlink" title="Python核心数据类型"></a>Python核心数据类型</h1><h2 id="一、字符串"><a href="#一、字符串" class="headerlink" title="一、字符串"></a>一、字符串</h2><p><img src="/2021/07/09/Python%E6%A0%B8%E5%BF%83%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/image-20210707172427770.png" alt="image-20210707172427770"></p>
-<p>​    示例1</p>
-<p><img src="/2021/07/09/Python%E6%A0%B8%E5%BF%83%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/image-20210707172744307.png" alt="image-20210707172744307"></p>
-<p>​    输出1</p>
-<p><img src="/2021/07/09/Python%E6%A0%B8%E5%BF%83%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/image-20210707172807672.png" alt="image-20210707172807672"></p>
-<p>​    示例2（这几种手法的效果一样）</p>
-<p><img src="/2021/07/09/Python%E6%A0%B8%E5%BF%83%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/image-20210707173057825.png" alt="image-20210707173057825"></p>
-<p>​    输出2</p>
-<p><img src="/2021/07/09/Python%E6%A0%B8%E5%BF%83%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/image-20210707173128537.png" alt="image-20210707173128537"></p>
-<h3 id="1-1转义字符"><a href="#1-1转义字符" class="headerlink" title="1.1转义字符"></a>1.1转义字符</h3><p><img src="/2021/07/09/Python%E6%A0%B8%E5%BF%83%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/image-20210707173234754.png" alt="image-20210707173234754"></p>
-<h3 id="1-2字符串操作"><a href="#1-2字符串操作" class="headerlink" title="1.2字符串操作"></a>1.2字符串操作</h3><h4 id="1-2-1字符串截取"><a href="#1-2-1字符串截取" class="headerlink" title="1.2.1字符串截取"></a>1.2.1字符串截取</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">str &#x3D; &quot;zhongguo&quot;</span><br><span class="line">print(str)</span><br><span class="line">print(str[0])       #输出下标0的字符</span><br><span class="line">print(str[0:5])     #输出[起始位置：结束位置：步进值（跳格）]</span><br><span class="line">print(str[1:7:2])</span><br><span class="line">print(str[:5])      #[：]前部分没有填时默认为0</span><br><span class="line">print(str[5:])      #[：]后部分没有填时默认到结尾</span><br></pre></td></tr></table></figure>
-<p>结果</p>
-<p><img src="/2021/07/09/Python%E6%A0%B8%E5%BF%83%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/image-20210707173848256.png" alt="image-20210707173848256"></p>
-<h4 id="1-2-2字符串拼接"><a href="#1-2-2字符串拼接" class="headerlink" title="1.2.2字符串拼接"></a>1.2.2字符串拼接</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">print(str + &quot;你好&quot;)       #用‘+’连接</span><br><span class="line">print(str *3)             #用‘*’乘倍数</span><br></pre></td></tr></table></figure>
-<p>结果</p>
-<p><img src="/2021/07/09/Python%E6%A0%B8%E5%BF%83%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/image-20210707174120643.png" alt="image-20210707174120643"></p>
-<h4 id="1-2-3补充"><a href="#1-2-3补充" class="headerlink" title="1.2.3补充"></a>1.2.3补充</h4><p><img src="/2021/07/09/Python%E6%A0%B8%E5%BF%83%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/image-20210707174152325.png" alt="image-20210707174152325"></p>
-<h4 id="1-2-4字符串常见操作"><a href="#1-2-4字符串常见操作" class="headerlink" title="1.2.4字符串常见操作"></a>1.2.4字符串常见操作</h4><p><img src="/2021/07/09/Python%E6%A0%B8%E5%BF%83%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/image-20210707174232894.png" alt="image-20210707174232894"></p>
-<p><img src="/2021/07/09/Python%E6%A0%B8%E5%BF%83%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/image-20210707174401948.png" alt="image-20210707174401948"></p>
-<p><img src="/2021/07/09/Python%E6%A0%B8%E5%BF%83%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/image-20210707174425507.png" alt="image-20210707174425507"></p>
-<p><img src="/2021/07/09/Python%E6%A0%B8%E5%BF%83%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/image-20210707174443645.png" alt="image-20210707174443645"></p>
-<p><img src="/2021/07/09/Python%E6%A0%B8%E5%BF%83%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/image-20210707174546058.png" alt="image-20210707174546058"></p>
-<h2 id="二、列表"><a href="#二、列表" class="headerlink" title="二、列表"></a>二、列表</h2><p><img src="/2021/07/09/Python%E6%A0%B8%E5%BF%83%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/image-20210707212211492.png" alt="image-20210707212211492"></p>
-<p>​                    说明：与数组类似，其功能更加强，可以存着各种数据类型</p>
-<h3 id="2-0列表的常用操作"><a href="#2-0列表的常用操作" class="headerlink" title="2.0列表的常用操作"></a>2.0列表的常用操作</h3><p><img src="/2021/07/09/Python%E6%A0%B8%E5%BF%83%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/image-20210707213340127.png" alt="image-20210707213340127"></p>
-<p><img src="/2021/07/09/Python%E6%A0%B8%E5%BF%83%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/image-20210707213412226.png" alt="image-20210707213412226"></p>
-<h3 id="2-1列表的遍历"><a href="#2-1列表的遍历" class="headerlink" title="2.1列表的遍历"></a>2.1列表的遍历</h3><h4 id="2-1-1for循环遍历"><a href="#2-1-1for循环遍历" class="headerlink" title="2.1.1for循环遍历"></a>2.1.1for循环遍历</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">namelist &#x3D; [&quot;小明&quot;,&quot;小红&quot;,&quot;小伍&quot;,100]</span><br><span class="line">#name会自动适配namelist的数据类型</span><br><span class="line">for name in namelist:</span><br><span class="line">    print(name)</span><br></pre></td></tr></table></figure>
-<p><img src="/2021/07/09/Python%E6%A0%B8%E5%BF%83%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/image-20210707213015898.png" alt="image-20210707213015898"></p>
-<h4 id="2-1-2-while循环遍历"><a href="#2-1-2-while循环遍历" class="headerlink" title="2.1.2 while循环遍历"></a>2.1.2 while循环遍历</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">namelist &#x3D; [&quot;小明&quot;,&quot;小红&quot;,&quot;小伍&quot;,100]</span><br><span class="line">length &#x3D; len(namelist)</span><br><span class="line">i &#x3D; 0</span><br><span class="line">while i &lt; length:</span><br><span class="line">    print(namelist[i])</span><br><span class="line">    i +&#x3D; 1;</span><br></pre></td></tr></table></figure>
-<h3 id="2-2增"><a href="#2-2增" class="headerlink" title="2.2增"></a>2.2增</h3><h4 id="2-2-1append（）在末尾增加"><a href="#2-2-1append（）在末尾增加" class="headerlink" title="2.2.1append（）在末尾增加"></a>2.2.1append（）在末尾增加</h4><p>#把（）里的内容当成一个整体添加</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">namelist &#x3D; [&quot;小明&quot;,&quot;小红&quot;,&quot;小伍&quot;]</span><br><span class="line">print(&quot;-----增加前，名单列表-----&quot;)</span><br><span class="line">for name in namelist:</span><br><span class="line">    print(name)</span><br><span class="line">nametemp &#x3D; input(&quot;请输入添加名单：&quot;)</span><br><span class="line">namelist.append(nametemp)</span><br><span class="line"></span><br><span class="line">print(&quot;-----增加后，名单列表-----&quot;)</span><br><span class="line">for name in namelist:</span><br><span class="line">    print(name)</span><br></pre></td></tr></table></figure>
-<p><img src="/2021/07/09/Python%E6%A0%B8%E5%BF%83%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/image-20210707214153108.png" alt="image-20210707214153108"></p>
-<h4 id="2-2-2exten（）在末尾增加"><a href="#2-2-2exten（）在末尾增加" class="headerlink" title="2.2.2exten（）在末尾增加"></a>2.2.2exten（）在末尾增加</h4><p><img src="/2021/07/09/Python%E6%A0%B8%E5%BF%83%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/image-20210707214608484.png" alt="image-20210707214608484"></p>
-<h4 id="2-2-3insert（下标，对象）随机添加"><a href="#2-2-3insert（下标，对象）随机添加" class="headerlink" title="2.2.3insert（下标，对象）随机添加"></a>2.2.3insert（下标，对象）随机添加</h4><p><img src="/2021/07/09/Python%E6%A0%B8%E5%BF%83%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/image-20210707214803986.png" alt="image-20210707214803986"></p>
-<h3 id="2-3删"><a href="#2-3删" class="headerlink" title="2.3删"></a>2.3删</h3><h4 id="2-3-1del-在指定位置删除一个元素"><a href="#2-3-1del-在指定位置删除一个元素" class="headerlink" title="2.3.1del 在指定位置删除一个元素"></a>2.3.1del 在指定位置删除一个元素</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">namelist &#x3D; [&quot;小明&quot;,&quot;小红&quot;,&quot;小伍&quot;]</span><br><span class="line">print(&quot;-----增加前，名单列表-----&quot;)</span><br><span class="line">for name in namelist:</span><br><span class="line">    print(name)</span><br><span class="line">nametemp &#x3D; input(&quot;请输入添加名单：&quot;)</span><br><span class="line">namelist.append(nametemp)</span><br><span class="line"></span><br><span class="line">print(&quot;-----增加后，名单列表-----&quot;)</span><br><span class="line">for name in namelist:</span><br><span class="line">    print(name)</span><br></pre></td></tr></table></figure>
-<p><img src="/2021/07/09/Python%E6%A0%B8%E5%BF%83%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/image-20210707215215219.png" alt="image-20210707215215219"></p>
-<h4 id="2-3-2pop-弹出末尾最后一个元素"><a href="#2-3-2pop-弹出末尾最后一个元素" class="headerlink" title="2.3.2pop() 弹出末尾最后一个元素"></a>2.3.2pop() 弹出末尾最后一个元素</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">namelist &#x3D; [&quot;小明&quot;,&quot;小红&quot;,&quot;小伍&quot;,&quot;小猪&quot;]</span><br><span class="line">print(&quot;-----删除前，名单列表-----&quot;)</span><br><span class="line">for name in namelist:</span><br><span class="line">    print(name)</span><br><span class="line"></span><br><span class="line">#del namelist[1]</span><br><span class="line">namelist.pop()</span><br><span class="line"></span><br><span class="line">print(&quot;-----删除后，名单列表-----&quot;)</span><br><span class="line">for name in namelist:</span><br><span class="line">    print(name)</span><br></pre></td></tr></table></figure>
-<p><img src="/2021/07/09/Python%E6%A0%B8%E5%BF%83%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/image-20210707215434019.png" alt="image-20210707215434019"></p>
-<h4 id="2-3-3remove（）移除指定元素"><a href="#2-3-3remove（）移除指定元素" class="headerlink" title="2.3.3remove（）移除指定元素"></a>2.3.3remove（）移除指定元素</h4><p>#(当重复出现相同元素时）每次删除一个元素并且是下标最小的元素</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">namelist &#x3D; [&quot;小明&quot;,&quot;小红&quot;,&quot;小猪&quot;,&quot;小伍&quot;,&quot;小猪&quot;]</span><br><span class="line">print(&quot;-----删除前，名单列表-----&quot;)</span><br><span class="line">for name in namelist:</span><br><span class="line">    print(name)</span><br><span class="line"></span><br><span class="line">#del namelist[1]</span><br><span class="line">#namelist.pop()</span><br><span class="line">namelist.remove(&quot;小猪&quot;)</span><br><span class="line"></span><br><span class="line">print(&quot;-----删除后，名单列表-----&quot;)</span><br><span class="line">for name in namelist:</span><br><span class="line">    print(name)</span><br></pre></td></tr></table></figure>
-<p><img src="/2021/07/09/Python%E6%A0%B8%E5%BF%83%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/image-20210707215855971.png" alt="image-20210707215855971"></p>
-<h3 id="2-4改"><a href="#2-4改" class="headerlink" title="2.4改"></a>2.4改</h3><p>直接下标改即可：例如：namelist[1]=“小红”</p>
-<h3 id="2-5查"><a href="#2-5查" class="headerlink" title="2.5查"></a>2.5查</h3><h4 id="2-5-1-in与not-in"><a href="#2-5-1-in与not-in" class="headerlink" title="2.5.1 in与not in"></a>2.5.1 in与not in</h4><p>返回值：true 或 false</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">namelist &#x3D; [&quot;小明&quot;,&quot;小红&quot;,&quot;小猪&quot;,&quot;小伍&quot;,&quot;小猪&quot;]</span><br><span class="line">findName &#x3D; input(&quot;请输入你要查找的名字：&quot;)</span><br><span class="line">if findName in namelist:</span><br><span class="line">    print(&quot;找到了有该名字的人&quot;)</span><br><span class="line">else:</span><br><span class="line">    print(&quot;没找到&quot;)</span><br></pre></td></tr></table></figure>
-<p><img src="/2021/07/09/Python%E6%A0%B8%E5%BF%83%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/image-20210708094721188.png" alt="image-20210708094721188"></p>
-<h4 id="2-5-2-index"><a href="#2-5-2-index" class="headerlink" title="2.5.2  index()"></a>2.5.2  index()</h4><p>返回值：（查找成功）下标，（查找失败）报错</p>
-<p><img src="/2021/07/09/Python%E6%A0%B8%E5%BF%83%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/image-20210708095058614.png" alt="image-20210708095058614"></p>
-<h4 id="2-5-3-count"><a href="#2-5-3-count" class="headerlink" title="2.5.3 count()"></a>2.5.3 count()</h4><p>返回值：查找元素出现的数量</p>
-<p><img src="/2021/07/09/Python%E6%A0%B8%E5%BF%83%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/image-20210708095239953.png" alt="image-20210708095239953"></p>
-<h3 id="2-6排序"><a href="#2-6排序" class="headerlink" title="2.6排序"></a>2.6排序</h3><p>reverse（）、sort（）</p>
-<p><img src="/2021/07/09/Python%E6%A0%B8%E5%BF%83%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/image-20210708095405614.png" alt="image-20210708095405614"></p>
-<h3 id="2-7-列表的嵌套"><a href="#2-7-列表的嵌套" class="headerlink" title="2.7 列表的嵌套"></a>2.7 列表的嵌套</h3><p>说明：与多维数组类似</p>
-<p>示例：员工分配办公室，把员工随机分配到办公室并将分配好的结果打印出来</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">import random</span><br><span class="line">offices &#x3D; [[],[],[]]  #3个办公室</span><br><span class="line">names &#x3D; [&quot;a&quot;,&quot;b&quot;,&quot;c&quot;,&quot;d&quot;,&quot;e&quot;,&quot;f&quot;,&quot;g&quot;,&quot;h&quot;]   #员工名字</span><br><span class="line">for name in names:</span><br><span class="line">    index &#x3D; random.randint(0,2)         #随机分配办公室</span><br><span class="line">    offices[index].append(name)     #在尾巴插入</span><br><span class="line">i &#x3D; 1</span><br><span class="line">for office in offices:</span><br><span class="line">    #注意，for的offic的数据类型与offices元素的数据类型相同，自动适配，所以无需要下标</span><br><span class="line">    print(&quot;办公室%d的人数为：%d&quot;%(i,len(office)))</span><br><span class="line">    i +&#x3D; 1</span><br><span class="line">    for name in office:				#office的数据类型是列表</span><br><span class="line">        print(&quot;%s&quot;%name,end&#x3D;&quot;\t&quot;)</span><br><span class="line">    print((&quot;\n&quot;))</span><br><span class="line">    print(&quot;-&quot;*10)</span><br></pre></td></tr></table></figure>
-<p><img src="/2021/07/09/Python%E6%A0%B8%E5%BF%83%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/image-20210708100944234.png" alt="image-20210708100944234"></p>
-<h3 id="2-8练习"><a href="#2-8练习" class="headerlink" title="2.8练习"></a>2.8练习</h3><p><img src="/2021/07/09/Python%E6%A0%B8%E5%BF%83%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/image-20210708101015298.png" alt="image-20210708101015298"></p>
-<p>参考答案</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line">products &#x3D; [[&quot;iphon &quot;,6888],[&quot;MacPro&quot;,14800],[&quot;小米      &quot;,2499],[&quot;Coffee&quot;,31],[&quot; Book &quot;,60],[&quot; Nike &quot;,699]]</span><br><span class="line">print(&quot;--------商品--------&quot;)</span><br><span class="line">i&#x3D;0</span><br><span class="line">for product in products:</span><br><span class="line">    print(&quot;%d\t%s \t %d&quot;% (i,product[0],product[1]))</span><br><span class="line">    i +&#x3D; 1</span><br><span class="line"></span><br><span class="line">#购物车</span><br><span class="line">goods &#x3D; [[],[],[],[],[],[]]  #购物车商品栏</span><br><span class="line">flag &#x3D; &quot;a&quot;</span><br><span class="line">while flag!&#x3D;&quot;q&quot;:</span><br><span class="line">    flag &#x3D; input(&quot;(输入q结算)输入编号把物品加入购物车：&quot;)</span><br><span class="line">    if flag&#x3D;&#x3D;&quot;q&quot;:</span><br><span class="line">        break</span><br><span class="line">    num &#x3D; int(flag)</span><br><span class="line">    num &#x3D; num-0;</span><br><span class="line">    if(num&gt;&#x3D;0 and num &lt;&#x3D;5):</span><br><span class="line">        #已添加的商品只需要增加数量</span><br><span class="line">        if goods[num]:</span><br><span class="line">            count&#x3D;goods[num][3]</span><br><span class="line">            count+&#x3D;1</span><br><span class="line">            goods[num][3]&#x3D;count</span><br><span class="line">        else:</span><br><span class="line">            #新添加的物品</span><br><span class="line">            good&#x3D;[]</span><br><span class="line">            good.insert(0,num)</span><br><span class="line">            good.extend(products[num])</span><br><span class="line">            good.insert(3,1)</span><br><span class="line">            goods[num]&#x3D;good</span><br><span class="line"></span><br><span class="line">        print(&quot;%d号商品已加入购物车&quot; % num)</span><br><span class="line">    else:</span><br><span class="line">        print(&quot;输入不规范&quot;)</span><br><span class="line"></span><br><span class="line">sum &#x3D; 0</span><br><span class="line">print(&quot;-----------购物车-----------&quot;)</span><br><span class="line">print(&quot;商品编号   \t商品名称   \t商品单价   \t商品数量&quot;)</span><br><span class="line">for g in goods:</span><br><span class="line">    if g!&#x3D;[]:</span><br><span class="line">        print(&quot;  %d  \t\t%s  \t%d  \t\t  %d&quot; % (g[0], g[1],g[2],g[3]))</span><br><span class="line">        sum &#x3D; sum+g[2]*g[3]</span><br><span class="line">print(&quot;总价格为：&quot;,sum)</span><br></pre></td></tr></table></figure>
-<p>补充：添加一些空格是为了美观</p>
-<h2 id="三、元组"><a href="#三、元组" class="headerlink" title="三、元组"></a>三、元组</h2><p><img src="/2021/07/09/Python%E6%A0%B8%E5%BF%83%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/image-20210709100840979.png" alt="image-20210709100840979"></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">tup1 &#x3D; ()		#&lt;class &#39;tuple&#39;&gt;</span><br><span class="line">tup2 &#x3D; (50)		#注意它的数据类型为&lt;class &#39;int&#39;&gt;</span><br><span class="line">tup3 &#x3D; (50,)	#&lt;class &#39;tuple&#39;&gt;</span><br><span class="line">tup4 &#x3D; (50,60)	#&lt;class &#39;tuple&#39;&gt;</span><br></pre></td></tr></table></figure>
-<h3 id="3-1查"><a href="#3-1查" class="headerlink" title="3.1查"></a>3.1查</h3><p><img src="/2021/07/09/Python%E6%A0%B8%E5%BF%83%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/image-20210709101754522.png" alt="image-20210709101754522"></p>
-<p><img src="/2021/07/09/Python%E6%A0%B8%E5%BF%83%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/image-20210709101807259.png" alt="image-20210709101807259"></p>
-<h3 id="3-1增"><a href="#3-1增" class="headerlink" title="3.1增"></a>3.1增</h3><p>把2个元组链接成一个新的元组（内存空间也是新的），非真正的增，</p>
-<p><img src="/2021/07/09/Python%E6%A0%B8%E5%BF%83%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/image-20210709102207878.png" alt="image-20210709102207878"></p>
-<h3 id="3-2删"><a href="#3-2删" class="headerlink" title="3.2删"></a>3.2删</h3><p>把变量的空间内存释放，非元素值删除</p>
-<p><img src="/2021/07/09/Python%E6%A0%B8%E5%BF%83%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/image-20210709102340996.png" alt="image-20210709102340996"></p>
-<h3 id="3-3改"><a href="#3-3改" class="headerlink" title="3.3改"></a>3.3改</h3><p>不可以修改</p>
-<p><img src="/2021/07/09/Python%E6%A0%B8%E5%BF%83%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/image-20210709102125005.png" alt="image-20210709102125005"></p>
-<h3 id="3-4补充：常见操作"><a href="#3-4补充：常见操作" class="headerlink" title="3.4补充：常见操作"></a>3.4补充：常见操作</h3><p><img src="/2021/07/09/Python%E6%A0%B8%E5%BF%83%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/image-20210709102506224.png" alt="image-20210709102506224"></p>
-<p><img src="/2021/07/09/Python%E6%A0%B8%E5%BF%83%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/image-20210709102544672.png" alt="image-20210709102544672"></p>
-<h2 id="四、字典"><a href="#四、字典" class="headerlink" title="四、字典"></a>四、字典</h2><p><img src="/2021/07/09/Python%E6%A0%B8%E5%BF%83%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/image-20210709102620908.png" alt="image-20210709102620908"></p>
-<p>示例</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">info &#x3D; &#123;&quot;name&quot;:&quot;吴彦祖&quot;,&quot;age&quot;:18&#125;</span><br><span class="line">#访问</span><br><span class="line">print(info[&quot;name&quot;])</span><br><span class="line">print(info[&quot;name&quot;])</span><br><span class="line"></span><br><span class="line">#访问不存在时</span><br><span class="line">#print(info[&quot;agee&quot;])    直接访问错误，会直接报错</span><br><span class="line">#使用get（参数1：key值，参数2：报错返回值）方法，访问错误时会默认返回None；</span><br><span class="line">print(info.get(&quot;agge&quot;))</span><br><span class="line">print(info.get(&quot;agge&quot;,&quot;访问失败&quot;))</span><br><span class="line">#主流访问方式</span><br><span class="line">print(info.get(&quot;name&quot;,&quot;访问失败&quot;))</span><br></pre></td></tr></table></figure>
-<p><img src="/2021/07/09/Python%E6%A0%B8%E5%BF%83%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/image-20210709103524959.png" alt="image-20210709103524959"></p>
-<h3 id="4-1-增"><a href="#4-1-增" class="headerlink" title="4.1 增"></a>4.1 增</h3><p>类似赋值</p>
-<p><img src="/2021/07/09/Python%E6%A0%B8%E5%BF%83%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/image-20210709122906826.png" alt="image-20210709122906826"></p>
-<p><img src="/2021/07/09/Python%E6%A0%B8%E5%BF%83%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/image-20210709122924131.png" alt="image-20210709122924131"></p>
-<h3 id="4-2-删"><a href="#4-2-删" class="headerlink" title="4.2 删"></a>4.2 删</h3><h4 id="4-2-1-del"><a href="#4-2-1-del" class="headerlink" title="4.2.1 del"></a>4.2.1 del</h4><p>说明：直接删除变量（释放内存），删除后再次访问会报错</p>
-<p><img src="/2021/07/09/Python%E6%A0%B8%E5%BF%83%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/image-20210709123226217.png" alt="image-20210709123226217"></p>
-<p><img src="/2021/07/09/Python%E6%A0%B8%E5%BF%83%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/image-20210709123453335.png" alt="image-20210709123453335"></p>
-<h4 id="4-2-2-clear"><a href="#4-2-2-clear" class="headerlink" title="4.2.2 clear"></a>4.2.2 clear</h4><p>说明：置空</p>
-<p><img src="/2021/07/09/Python%E6%A0%B8%E5%BF%83%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/image-20210709123538730.png" alt="image-20210709123538730"></p>
-<h3 id="4-3-改"><a href="#4-3-改" class="headerlink" title="4.3 改"></a>4.3 改</h3><p><img src="/2021/07/09/Python%E6%A0%B8%E5%BF%83%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/image-20210709123720654.png" alt="image-20210709123720654"></p>
-<h3 id="4-4-查"><a href="#4-4-查" class="headerlink" title="4.4 查"></a>4.4 查</h3><p>key（），values（），items（）</p>
-<p><img src="/2021/07/09/Python%E6%A0%B8%E5%BF%83%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/image-20210709124229611.png" alt="image-20210709124229611"></p>
-<p>for循环应用</p>
-<p>示例1</p>
-<p><img src="/2021/07/09/Python%E6%A0%B8%E5%BF%83%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/image-20210709124721875.png" alt="image-20210709124721875"></p>
-<p><img src="/2021/07/09/Python%E6%A0%B8%E5%BF%83%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/image-20210709124901646.png" alt="image-20210709124901646"></p>
-<p>示例2</p>
-<p><img src="/2021/07/09/Python%E6%A0%B8%E5%BF%83%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/image-20210709125008386.png" alt="image-20210709125008386"></p>
-<p>推广：列表的for循环应用，同时调用下标和元素值；enumerate（）枚举函数</p>
-<p><img src="/2021/07/09/Python%E6%A0%B8%E5%BF%83%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/image-20210709125311103.png" alt="image-20210709125311103"></p>
-<h3 id="4-5-常规操作"><a href="#4-5-常规操作" class="headerlink" title="4.5 常规操作"></a>4.5 常规操作</h3><p><img src="/2021/07/09/Python%E6%A0%B8%E5%BF%83%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/image-20210709125658969.png" alt="image-20210709125658969"></p>
-<p><img src="/2021/07/09/Python%E6%A0%B8%E5%BF%83%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/image-20210709125717300.png" alt="image-20210709125717300"></p>
-<p><img src="/2021/07/09/Python%E6%A0%B8%E5%BF%83%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/image-20210709125759621.png" alt="image-20210709125759621"></p>
-<h2 id="五、集合"><a href="#五、集合" class="headerlink" title="五、集合"></a>五、集合</h2><p><img src="/2021/07/09/Python%E6%A0%B8%E5%BF%83%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/image-20210709125928832.png" alt="image-20210709125928832"></p>
-<p><img src="/2021/07/09/Python%E6%A0%B8%E5%BF%83%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/image-20210709130000818.png" alt="image-20210709130000818"></p>
-<p><img src="/2021/07/09/Python%E6%A0%B8%E5%BF%83%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/image-20210709130018434.png" alt="image-20210709130018434"></p>
-<h2 id="六、小结"><a href="#六、小结" class="headerlink" title="六、小结"></a>六、小结</h2><p><img src="/2021/07/09/Python%E6%A0%B8%E5%BF%83%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/image-20210709130105014.png" alt="image-20210709130105014"></p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://wgc5.gitee.io/2021/07/07/Python%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="北极星上的稻草人">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="北极星上的稻草人">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2021/07/07/Python%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/" class="post-title-link" itemprop="url">Python基础知识</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2021-07-07 15:39:20" itemprop="dateCreated datePublished" datetime="2021-07-07T15:39:20+08:00">2021-07-07</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-07-29 09:21:23" itemprop="dateModified" datetime="2021-07-29T09:21:23+08:00">2021-07-29</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/python%E5%85%A5%E9%97%A8/" itemprop="url" rel="index"><span itemprop="name">python入门</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>一、输出</p>
-<p>​            <img src="/2021/07/07/Python%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/image-20210707100455380.png" alt="image-20210707100455380"></p>
-<p>​        结果</p>
-<p><img src="/2021/07/07/Python%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/image-20210707100354427.png" alt="image-20210707100354427"></p>
-<p>二、运算符和表达式</p>
-<p><img src="/2021/07/07/Python%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/image-20210707100901083.png" alt="image-20210707100901083"></p>
-<p><img src="/2021/07/07/Python%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/image-20210707100811061.png" alt="image-20210707100811061"></p>
-<p><img src="/2021/07/07/Python%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/image-20210707100932463.png" alt="image-20210707100932463"></p>
-<p><img src="/2021/07/07/Python%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/image-20210707101024337.png" alt="image-20210707101024337"></p>
-<p><img src="/2021/07/07/Python%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/image-20210707101115593.png" alt="image-20210707101115593"></p>
-<p>​        运算符优先级</p>
-<p><img src="/2021/07/07/Python%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/image-20210707101237989.png" alt="image-20210707101237989"></p>
-<p>三、条件判断语句</p>
-<p><img src="/2021/07/07/Python%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/image-20210707112752340.png" alt="image-20210707112752340"></p>
-<p>补充：同一个语句段的缩进必须一样，否则会报错</p>
-<p><img src="/2021/07/07/Python%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/image-20210707113044941.png" alt="image-20210707113044941"></p>
-<p>​    例子1：石头剪刀布</p>
-<p><img src="/2021/07/07/Python%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/image-20210707102155542.png" alt="image-20210707102155542"></p>
-<p>参考答案</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line">#石头剪刀布</span><br><span class="line">import random   #引入随机数库</span><br><span class="line">a &#x3D; random.randint(0,2)</span><br><span class="line">#print(&quot;请输入：剪刀（0）、石头（1）、布（2）：&quot;)</span><br><span class="line">#b &#x3D; (int)(input())</span><br><span class="line">b &#x3D; input(&quot;请输入：剪刀（0）、石头（1）、布（2）：&quot;)</span><br><span class="line">#Python isdigit() 方法检测字符串是否只由数字组成。b.isdigit()如果字符串只包含数字则返回 True 否则返回 False。</span><br><span class="line">if b.isdigit():</span><br><span class="line">    b &#x3D; int(b)</span><br><span class="line">    if b&gt;&#x3D;0 and b&lt;&#x3D;2:</span><br><span class="line">        if (b &#x3D;&#x3D; 0):</span><br><span class="line">            print(&quot;你的输入为：&quot;, &quot;剪刀(0)&quot;)</span><br><span class="line">        elif (b &#x3D;&#x3D; 1):</span><br><span class="line">            print(&quot;你的输入为：&quot;, &quot;石头(1)&quot;)</span><br><span class="line">        else:</span><br><span class="line">            print(&quot;你的输入为：&quot;, &quot;布(2)&quot;)</span><br><span class="line"></span><br><span class="line">        if (a &#x3D;&#x3D; 0):</span><br><span class="line">            print(&quot;随机生成数字为：&quot;, &quot;剪刀(0)&quot;)</span><br><span class="line">        elif (a &#x3D;&#x3D; 1):</span><br><span class="line">            print(&quot;随机生成数字为：&quot;, &quot;石头(1)&quot;)</span><br><span class="line">        else:</span><br><span class="line">            print(&quot;随机生成数字为：&quot;, &quot;布(2)&quot;)</span><br><span class="line">        c &#x3D; b - a</span><br><span class="line">        if (c &#x3D;&#x3D; 0):</span><br><span class="line">            print(&quot;平局&quot;)</span><br><span class="line">        elif (c &#x3D;&#x3D; 1 or c &#x3D;&#x3D; -2):</span><br><span class="line">            print(&quot;你赢了&quot;)</span><br><span class="line">        else:</span><br><span class="line">            print(&quot;你输了&quot;)</span><br><span class="line">            </span><br><span class="line">    else:   #因输入数字不在0-2范围</span><br><span class="line">        print(&quot;输入不规范，游戏结束&quot;)</span><br><span class="line">else:   #因输入了字符</span><br><span class="line">    print(&quot;输入不规范，游戏结束&quot;)</span><br></pre></td></tr></table></figure>
-<p>补充：1、等学习了循环语句、goto等知识点，可以作进一步优化（多次玩）</p>
-<p>​            2、对于输入不正常的检查，还有其他方法，例如元组</p>
-<p>​            3、判断结果的方式众多，参考答案的只是其中一种比较精炼的方法</p>
-<p>四、循环语句</p>
-<p>​    1、for循环</p>
-<p>​        <img src="/2021/07/07/Python%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/image-20210707152039259.png" alt="image-20210707152039259"></p>
-<p><img src="/2021/07/07/Python%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/image-20210707152225707.png" alt="image-20210707152225707"></p>
-<p>​        1.1字符串循环        </p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">name &#x3D; &quot;zhongguo&quot;</span><br><span class="line">for x in name:</span><br><span class="line">    print(x,end&#x3D;&quot;\t&quot;)</span><br></pre></td></tr></table></figure>
-<p>​        结果    </p>
-<p>​    <img src="/2021/07/07/Python%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/image-20210707152637646.png" alt="image-20210707152637646"></p>
-<p>​        1.2列表循环</p>
-<p><img src="/2021/07/07/Python%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/image-20210707152856476.png" alt="image-20210707152856476"></p>
-<p>​            结果</p>
-<p><img src="/2021/07/07/Python%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/image-20210707152909670.png" alt="image-20210707152909670"></p>
-<p>​    2、while循环</p>
-<p>​            例子1：求和</p>
-<p><img src="/2021/07/07/Python%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/image-20210707153208080.png" alt="image-20210707153208080"></p>
-<p>​            结果</p>
-<p><img src="/2021/07/07/Python%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/image-20210707153221278.png" alt="image-20210707153221278"></p>
-<p>​        2.1扩展：while-else</p>
-<p><img src="/2021/07/07/Python%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/image-20210707153313876.png" alt="image-20210707153313876"></p>
-<p>​            结果</p>
-<p><img src="/2021/07/07/Python%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/image-20210707153327784.png" alt="image-20210707153327784"></p>
-<p>​    2.2、break、continue、pass</p>
-<p><img src="/2021/07/07/Python%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/image-20210707153423963.png" alt="image-20210707153423963"></p>
-<p>​            说明：break结束整个循环；continue结束本次循环；pass占位置并且没有实际操作</p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
 
   
   <nav class="pagination">
@@ -1303,7 +1469,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">27</span>
+          <span class="site-state-item-count">29</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>

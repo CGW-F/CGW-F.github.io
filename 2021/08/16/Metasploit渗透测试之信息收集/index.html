@@ -1,0 +1,632 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"wgc5.gitee.io","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="Metasploit渗透测试之信息收集一、基于TCP协议收集主机信息1.1使用Metasploit中的nmap和arp_sweep收集主机信息步骤1：扫描网关&#x2F;主机，查看端口开放信息  步骤2：查看arp_sweep的模块  步骤3：加载模块  步骤4：查看模块信息并配置&#x2F;修改的参数  补充：Required为yes的都要配置，其他的可以修改   启动  1.2使用半连接方式（SYN扫描）扫描TC">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Metasploit渗透测试之信息收集">
+<meta property="og:url" content="https://wgc5.gitee.io/2021/08/16/Metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86/index.html">
+<meta property="og:site_name" content="北极星上的稻草人">
+<meta property="og:description" content="Metasploit渗透测试之信息收集一、基于TCP协议收集主机信息1.1使用Metasploit中的nmap和arp_sweep收集主机信息步骤1：扫描网关&#x2F;主机，查看端口开放信息  步骤2：查看arp_sweep的模块  步骤3：加载模块  步骤4：查看模块信息并配置&#x2F;修改的参数  补充：Required为yes的都要配置，其他的可以修改   启动  1.2使用半连接方式（SYN扫描）扫描TC">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/08/16/Metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86/image-20210815102105986.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/08/16/Metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86/image-20210815102341061.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/08/16/Metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86/image-20210815102415059.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/08/16/Metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86/image-20210815102452764.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/08/16/Metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86/image-20210815103032904.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/08/16/Metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86/image-20210815103253012.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/08/16/Metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86/image-20210815103322461.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/08/16/Metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86/image-20210815103729230.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/08/16/Metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86/image-20210815103804503.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/08/16/Metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86/image-20210815103838738.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/08/16/Metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86/image-20210815104240573.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/08/16/Metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86/image-20210815104326881.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/08/16/Metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86/image-20210815104355465.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/08/16/Metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86/image-20210815104422751.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/08/16/Metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86/image-20210815104444121.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/08/16/Metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86/image-20210815104605620.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/08/16/Metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86/image-20210815104734782.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/08/16/Metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86/image-20210815104826980.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/08/16/Metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86/image-20210815104842936.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/08/16/Metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86/image-20210815105009796.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/08/16/Metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86/image-20210815105102605.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/08/16/Metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86/image-20210815105223686.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/08/16/Metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86/image-20210815105458038.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/08/16/Metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86/image-20210815105547055.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/08/16/Metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86/image-20210815105851420.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/08/16/Metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86/image-20210815110053572.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/08/16/Metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86/image-20210815110153260.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/08/16/Metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86/image-20210815110444356.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/08/16/Metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86/image-20210815110626352.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/08/16/Metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86/image-20210815110659381.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/08/16/Metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86/image-20210815110849325.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/08/16/Metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86/image-20210815110944075.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/08/16/Metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86/image-20210815111026777.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/08/16/Metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86/image-20210815111103943.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/08/16/Metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86/image-20210815111151128.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/08/16/Metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86/image-20210815151539221.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/08/16/Metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86/image-20210815151714448.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/08/16/Metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86/image-20210815151951012.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/08/16/Metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86/image-20210815152109126.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/08/16/Metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86/image-20210815152342653.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/08/16/Metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86/image-20210815152552596.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/08/16/Metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86/image-20210815152628596.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/08/16/Metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86/image-20210815152800832.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/08/16/Metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86/image-20210815152907507.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/08/16/Metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86/image-20210815153002291.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/08/16/Metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86/image-20210815153110188.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/08/16/Metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86/image-20210815153514242.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/08/16/Metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86/image-20210815153615986.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/08/16/Metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86/image-20210815153703105.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/08/16/Metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86/image-20210815153742787.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/08/16/Metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86/image-20210815153812262.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/08/16/Metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86/image-20210815153928366.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/08/16/Metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86/image-20210815164301785.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/08/16/Metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86/image-20210815164512963.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/08/16/Metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86/image-20210815164814906.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/08/16/Metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86/image-20210815164941748.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/08/16/Metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86/image-20210816095151966.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/08/16/Metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86/image-20210816095044193.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/08/16/Metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86/image-20210816095056282.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/08/16/Metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86/image-20210816095449106.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/08/16/Metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86/image-20210816095618467.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/08/16/Metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86/image-20210816095742283.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/08/16/Metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86/image-20210816095815770.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/08/16/Metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86/image-20210816095957022.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/08/16/Metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86/image-20210816100114694.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/08/16/Metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86/image-20210816100304444.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/08/16/Metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86/image-20210816100447302.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/08/16/Metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86/image-20210816100532399.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/08/16/Metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86/image-20210816100736134.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/08/16/Metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86/image-20210816100842630.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/08/16/Metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86/image-20210816101002946.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/08/16/Metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86/image-20210816100904140.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/08/16/Metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86/image-20210816101058890.png">
+<meta property="article:published_time" content="2021-08-16T07:31:50.000Z">
+<meta property="article:modified_time" content="2021-08-16T07:32:29.169Z">
+<meta property="article:author" content="北极星上的稻草人">
+<meta property="article:tag" content="kali渗透">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://wgc5.gitee.io/2021/08/16/Metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86/image-20210815102105986.png">
+
+<link rel="canonical" href="https://wgc5.gitee.io/2021/08/16/Metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>Metasploit渗透测试之信息收集 | 北极星上的稻草人</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">北极星上的稻草人</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">稻草人的笔记</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">18</span></a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">5</span></a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">29</span></a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://wgc5.gitee.io/2021/08/16/Metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="北极星上的稻草人">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="北极星上的稻草人">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Metasploit渗透测试之信息收集
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2021-08-16 15:31:50 / 修改时间：15:32:29" itemprop="dateCreated datePublished" datetime="2021-08-16T15:31:50+08:00">2021-08-16</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E4%BF%A1%E6%81%AF%E5%AE%89%E5%85%A8/" itemprop="url" rel="index"><span itemprop="name">信息安全</span></a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="Metasploit渗透测试之信息收集"><a href="#Metasploit渗透测试之信息收集" class="headerlink" title="Metasploit渗透测试之信息收集"></a>Metasploit渗透测试之信息收集</h1><h2 id="一、基于TCP协议收集主机信息"><a href="#一、基于TCP协议收集主机信息" class="headerlink" title="一、基于TCP协议收集主机信息"></a>一、基于TCP协议收集主机信息</h2><h4 id="1-1使用Metasploit中的nmap和arp-sweep收集主机信息"><a href="#1-1使用Metasploit中的nmap和arp-sweep收集主机信息" class="headerlink" title="1.1使用Metasploit中的nmap和arp_sweep收集主机信息"></a>1.1使用Metasploit中的nmap和arp_sweep收集主机信息</h4><p>步骤1：扫描网关/主机，查看端口开放信息</p>
+<p><img src="/2021/08/16/Metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86/image-20210815102105986.png" alt="image-20210815102105986"></p>
+<p>步骤2：查看arp_sweep的模块</p>
+<p><img src="/2021/08/16/Metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86/image-20210815102341061.png" alt="image-20210815102341061"></p>
+<p>步骤3：加载模块</p>
+<p><img src="/2021/08/16/Metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86/image-20210815102415059.png" alt="image-20210815102415059"></p>
+<p>步骤4：查看模块信息并配置/修改的参数</p>
+<p><img src="/2021/08/16/Metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86/image-20210815102452764.png" alt="image-20210815102452764"></p>
+<p>补充：Required为yes的都要配置，其他的可以修改</p>
+<p><img src="/2021/08/16/Metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86/image-20210815103032904.png" alt="image-20210815103032904"></p>
+<p><img src="/2021/08/16/Metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86/image-20210815103253012.png" alt="image-20210815103253012"></p>
+<p>启动</p>
+<p><img src="/2021/08/16/Metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86/image-20210815103322461.png" alt="image-20210815103322461"></p>
+<h4 id="1-2使用半连接方式（SYN扫描）扫描TCP端口"><a href="#1-2使用半连接方式（SYN扫描）扫描TCP端口" class="headerlink" title="1.2使用半连接方式（SYN扫描）扫描TCP端口"></a>1.2使用半连接方式（SYN扫描）扫描TCP端口</h4><p>步骤1：查找端口扫描模块</p>
+<p><img src="/2021/08/16/Metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86/image-20210815103729230.png" alt="image-20210815103729230"></p>
+<p><img src="/2021/08/16/Metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86/image-20210815103804503.png" alt="image-20210815103804503"></p>
+<p>步骤2：加载模块</p>
+<p><img src="/2021/08/16/Metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86/image-20210815103838738.png" alt="image-20210815103838738"></p>
+<p>步骤3：查看模块信息并配置/修改的参数</p>
+<p>查看模块</p>
+<p><img src="/2021/08/16/Metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86/image-20210815104240573.png" alt="image-20210815104240573"></p>
+<p>设置目标网络</p>
+<p><img src="/2021/08/16/Metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86/image-20210815104326881.png" alt="image-20210815104326881"></p>
+<p>修改端口（这里太多了）</p>
+<p><img src="/2021/08/16/Metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86/image-20210815104355465.png" alt="image-20210815104355465"></p>
+<p>修改进程数</p>
+<p><img src="/2021/08/16/Metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86/image-20210815104422751.png" alt="image-20210815104422751"></p>
+<p>启动</p>
+<p><img src="/2021/08/16/Metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86/image-20210815104444121.png" alt="image-20210815104444121"></p>
+<h4 id="1-3使用auxiliary-sniffer下的psnuffle模块进行密码嗅探"><a href="#1-3使用auxiliary-sniffer下的psnuffle模块进行密码嗅探" class="headerlink" title="1.3使用auxiliary/sniffer下的psnuffle模块进行密码嗅探"></a>1.3使用auxiliary/sniffer下的psnuffle模块进行密码嗅探</h4><p><img src="/2021/08/16/Metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86/image-20210815104605620.png" alt="image-20210815104605620"></p>
+<p>步骤1：查看/加载模块</p>
+<p><img src="/2021/08/16/Metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86/image-20210815104734782.png" alt="image-20210815104734782"></p>
+<p><img src="/2021/08/16/Metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86/image-20210815104826980.png" alt="image-20210815104826980"></p>
+<p><img src="/2021/08/16/Metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86/image-20210815104842936.png" alt="image-20210815104842936"></p>
+<p>也可以用show options命令，info命令查看的更详细。可以看到这里没有一定需要配置的参数</p>
+<p><img src="/2021/08/16/Metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86/image-20210815105009796.png" alt="image-20210815105009796"></p>
+<p>步骤2：启动</p>
+<p><img src="/2021/08/16/Metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86/image-20210815105102605.png" alt="image-20210815105102605"></p>
+<p>步骤3：打开另外一个终端进行登录测试/也可以在靶机登录</p>
+<p>如果没有lftp模块，则需要安装（-u 后面的是账号名msfadmin）</p>
+<p><img src="/2021/08/16/Metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86/image-20210815105223686.png" alt="image-20210815105223686"></p>
+<p><img src="/2021/08/16/Metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86/image-20210815105458038.png" alt="image-20210815105458038"></p>
+<p>步骤4：查看</p>
+<p><img src="/2021/08/16/Metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86/image-20210815105547055.png" alt="image-20210815105547055"></p>
+<p>补充：进程会一直在后台嗅探（按了ctrl+c也不行）</p>
+<p>查看和结束进程</p>
+<p><img src="/2021/08/16/Metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86/image-20210815105851420.png" alt="image-20210815105851420"></p>
+<h2 id="二、-基于SNMP协议收集主机信息"><a href="#二、-基于SNMP协议收集主机信息" class="headerlink" title="二、 基于SNMP协议收集主机信息"></a>二、 基于SNMP协议收集主机信息</h2><p><img src="/2021/08/16/Metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86/image-20210815110053572.png" alt="image-20210815110053572"></p>
+<p>步骤1：修改Metaspolittable2-Linux主机上的SNMP服务</p>
+<p><img src="/2021/08/16/Metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86/image-20210815110153260.png" alt="image-20210815110153260"></p>
+<p><img src="/2021/08/16/Metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86/image-20210815110444356.png" alt="image-20210815110444356"></p>
+<p>补充：修改为对外开放，这里是设置了对外所有主机开放</p>
+<p>确认服务开启情况（SNMP服务是在161端口上的）</p>
+<p><img src="/2021/08/16/Metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86/image-20210815110626352.png" alt="image-20210815110626352"></p>
+<p><img src="/2021/08/16/Metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86/image-20210815110659381.png" alt="image-20210815110659381"></p>
+<p>步骤2：查找并加载模块</p>
+<p><img src="/2021/08/16/Metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86/image-20210815110849325.png" alt="image-20210815110849325"></p>
+<p>步骤3：查看模块信息并配置/修改的参数</p>
+<p><img src="/2021/08/16/Metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86/image-20210815110944075.png" alt="image-20210815110944075"></p>
+<p>步骤4：启动和查看信息</p>
+<p><img src="/2021/08/16/Metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86/image-20210815111026777.png" alt="image-20210815111026777"></p>
+<p><img src="/2021/08/16/Metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86/image-20210815111103943.png" alt="image-20210815111103943"></p>
+<p><img src="/2021/08/16/Metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86/image-20210815111151128.png" alt="image-20210815111151128"></p>
+<p>补充：（信息太多，上面信息截图不全）可以查看到物理机信息、ip地址、网关、MAC地址、端口信息、进程等等。其中服务器硬件信息和服务器当前运行的进程这两方面是其他扫描方式获取不到的。</p>
+<h2 id="三、-基于SMB协议收集信息"><a href="#三、-基于SMB协议收集信息" class="headerlink" title="三、 基于SMB协议收集信息"></a>三、 基于SMB协议收集信息</h2><p><img src="/2021/08/16/Metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86/image-20210815151539221.png" alt="image-20210815151539221"></p>
+<h4 id="3-1-使用smb-version基于SMB协议扫描操作系统版本号"><a href="#3-1-使用smb-version基于SMB协议扫描操作系统版本号" class="headerlink" title="3.1 使用smb_version基于SMB协议扫描操作系统版本号"></a>3.1 使用smb_version基于SMB协议扫描操作系统版本号</h4><p>步骤1：查看和加载smb_version模块</p>
+<p><img src="/2021/08/16/Metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86/image-20210815151714448.png" alt="image-20210815151714448"></p>
+<p>步骤2：查看模块信息并配置/修改的参数</p>
+<p>说明：靶机的ip按照实际来，且靶机需要启动才可以扫描到</p>
+<p><img src="/2021/08/16/Metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86/image-20210815151951012.png" alt="image-20210815151951012"></p>
+<p>步骤3：启动和查看结果</p>
+<p><img src="/2021/08/16/Metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86/image-20210815152109126.png" alt="image-20210815152109126"></p>
+<h4 id="3-2-使用smb-enumshares基于SMB协议扫描共享文件"><a href="#3-2-使用smb-enumshares基于SMB协议扫描共享文件" class="headerlink" title="3.2 使用smb_enumshares基于SMB协议扫描共享文件"></a>3.2 使用smb_enumshares基于SMB协议扫描共享文件</h4><p><img src="/2021/08/16/Metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86/image-20210815152342653.png" alt="image-20210815152342653"></p>
+<p>环境条件：</p>
+<p>1.需要知道靶机用户的账号密码且目标机需要有共享文件</p>
+<p>2.靶机文件开启共享属性</p>
+<p><img src="/2021/08/16/Metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86/image-20210815152552596.png" alt="image-20210815152552596"></p>
+<p><img src="/2021/08/16/Metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86/image-20210815152628596.png" alt="image-20210815152628596"></p>
+<p>步骤1：查看和加载smb_enumshares模块</p>
+<p><img src="/2021/08/16/Metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86/image-20210815152800832.png" alt="image-20210815152800832"></p>
+<p>步骤2：查看模块信息并配置/修改的参数</p>
+<p>补充：需要知道账号和密码</p>
+<p><img src="/2021/08/16/Metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86/image-20210815152907507.png" alt="image-20210815152907507"></p>
+<p><img src="/2021/08/16/Metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86/image-20210815153002291.png" alt="image-20210815153002291"></p>
+<p>步骤3：启动和查看结果</p>
+<p><img src="/2021/08/16/Metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86/image-20210815153110188.png" alt="image-20210815153110188"></p>
+<h4 id="3-3-使用smb-lookupsid扫描系统用户信息（SID枚举）"><a href="#3-3-使用smb-lookupsid扫描系统用户信息（SID枚举）" class="headerlink" title="3.3 使用smb_lookupsid扫描系统用户信息（SID枚举）"></a>3.3 使用smb_lookupsid扫描系统用户信息（SID枚举）</h4><p>环境条件：</p>
+<p>1.需要知道靶机用户的账号密码</p>
+<p>这里新建一个用户，帮助更好查看效果</p>
+<p><img src="/2021/08/16/Metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86/image-20210815153514242.png" alt="image-20210815153514242"></p>
+<p>步骤1：查看和加载smb_enumshares模块</p>
+<p><img src="/2021/08/16/Metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86/image-20210815153615986.png" alt="image-20210815153615986"></p>
+<p>步骤2：查看模块信息并配置/修改的参数</p>
+<p><img src="/2021/08/16/Metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86/image-20210815153703105.png" alt="image-20210815153703105"></p>
+<p>如果没有账号密码则扫描不了扫描信息，如下：</p>
+<p><img src="/2021/08/16/Metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86/image-20210815153742787.png" alt="image-20210815153742787"></p>
+<p><img src="/2021/08/16/Metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86/image-20210815153812262.png" alt="image-20210815153812262"></p>
+<p>步骤3：启动和查看结果</p>
+<p><img src="/2021/08/16/Metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86/image-20210815153928366.png" alt="image-20210815153928366"></p>
+<h2 id="四、基于SSH协议收集信息"><a href="#四、基于SSH协议收集信息" class="headerlink" title="四、基于SSH协议收集信息"></a>四、基于SSH协议收集信息</h2><h4 id="4-1-查看ssh服务的版本信息"><a href="#4-1-查看ssh服务的版本信息" class="headerlink" title="4.1 查看ssh服务的版本信息"></a>4.1 查看ssh服务的版本信息</h4><h4 id><a href="#" class="headerlink" title></a><img src="/2021/08/16/Metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86/image-20210815164301785.png" alt="image-20210815164301785"></h4><p>4.2 对SSH暴力破解</p>
+<p><img src="/2021/08/16/Metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86/image-20210815164512963.png" alt="image-20210815164512963"></p>
+<p>补充：</p>
+<p><img src="/2021/08/16/Metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86/image-20210815164814906.png" alt="image-20210815164814906"></p>
+<p>查看/进入会话</p>
+<p><img src="/2021/08/16/Metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86/image-20210815164941748.png" alt="image-20210815164941748"></p>
+<h2 id="五、基于FTP协议收集信息"><a href="#五、基于FTP协议收集信息" class="headerlink" title="五、基于FTP协议收集信息"></a>五、基于FTP协议收集信息</h2><h4 id="5-1-查看ftp服务器版本信息"><a href="#5-1-查看ftp服务器版本信息" class="headerlink" title="5.1 查看ftp服务器版本信息"></a>5.1 查看ftp服务器版本信息</h4><p>说明：了解了版本信息，就可以查找对应版本漏洞</p>
+<p><img src="/2021/08/16/Metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86/image-20210816095151966.png" alt="image-20210816095151966"></p>
+<p><img src="/2021/08/16/Metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86/image-20210816095044193.png" alt="image-20210816095044193"></p>
+<p><img src="/2021/08/16/Metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86/image-20210816095056282.png" alt="image-20210816095056282"></p>
+<h4 id="利用版本号寻找相关漏洞"><a href="#利用版本号寻找相关漏洞" class="headerlink" title="利用版本号寻找相关漏洞"></a>利用版本号寻找相关漏洞</h4><p><img src="/2021/08/16/Metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86/image-20210816095449106.png" alt="image-20210816095449106"></p>
+<p><img src="/2021/08/16/Metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86/image-20210816095618467.png" alt="image-20210816095618467"></p>
+<p><img src="/2021/08/16/Metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86/image-20210816095742283.png" alt="image-20210816095742283"></p>
+<p><img src="/2021/08/16/Metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86/image-20210816095815770.png" alt="image-20210816095815770"></p>
+<h4 id="5-2-FTP匿名登录"><a href="#5-2-FTP匿名登录" class="headerlink" title="5.2 FTP匿名登录"></a>5.2 FTP匿名登录</h4><p>匿名：anonymous</p>
+<p>步骤1：寻找模块</p>
+<p><img src="/2021/08/16/Metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86/image-20210816095957022.png" alt="image-20210816095957022"></p>
+<p>步骤2：加载模块、查看并设置参数</p>
+<p><img src="/2021/08/16/Metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86/image-20210816100114694.png" alt="image-20210816100114694"></p>
+<p>步骤3：启动</p>
+<p><img src="/2021/08/16/Metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86/image-20210816100304444.png" alt="image-20210816100304444"></p>
+<p>步骤4：使用ftp客户端登录</p>
+<p><img src="/2021/08/16/Metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86/image-20210816100447302.png" alt="image-20210816100447302"></p>
+<p><img src="/2021/08/16/Metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86/image-20210816100532399.png" alt="image-20210816100532399"></p>
+<h4 id="5-3-FTP暴力破解"><a href="#5-3-FTP暴力破解" class="headerlink" title="5.3 FTP暴力破解"></a>5.3 FTP暴力破解</h4><p>步骤1：查找并加载模块</p>
+<p><img src="/2021/08/16/Metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86/image-20210816100736134.png" alt="image-20210816100736134"></p>
+<p>步骤2：查看并设置参数</p>
+<p><img src="/2021/08/16/Metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86/image-20210816100842630.png" alt="image-20210816100842630"></p>
+<p><img src="/2021/08/16/Metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86/image-20210816101002946.png" alt="image-20210816101002946"></p>
+<p><img src="/2021/08/16/Metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86/image-20210816100904140.png" alt="image-20210816100904140"></p>
+<p><img src="/2021/08/16/Metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86/image-20210816101058890.png" alt="image-20210816101058890"></p>
+<p>补充：这里的字典和上面那个暴力破解字典是一样的，注意路径（可能与这里写的不一）且字典是加入了msfadmin（因为默认的字典里没有，手动加入正确的账号密码来方便演示）</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/kali%E6%B8%97%E9%80%8F/" rel="tag"># kali渗透</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2021/08/15/Metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E6%A1%86%E6%9E%B6%E7%9A%84%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8/" rel="prev" title="Metasploit渗透测试框架的基本使用">
+      <i class="fa fa-chevron-left"></i> Metasploit渗透测试框架的基本使用
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86"><span class="nav-number">1.</span> <span class="nav-text">Metasploit渗透测试之信息收集</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%80%E3%80%81%E5%9F%BA%E4%BA%8ETCP%E5%8D%8F%E8%AE%AE%E6%94%B6%E9%9B%86%E4%B8%BB%E6%9C%BA%E4%BF%A1%E6%81%AF"><span class="nav-number">1.1.</span> <span class="nav-text">一、基于TCP协议收集主机信息</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-1%E4%BD%BF%E7%94%A8Metasploit%E4%B8%AD%E7%9A%84nmap%E5%92%8Carp-sweep%E6%94%B6%E9%9B%86%E4%B8%BB%E6%9C%BA%E4%BF%A1%E6%81%AF"><span class="nav-number">1.1.0.1.</span> <span class="nav-text">1.1使用Metasploit中的nmap和arp_sweep收集主机信息</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-2%E4%BD%BF%E7%94%A8%E5%8D%8A%E8%BF%9E%E6%8E%A5%E6%96%B9%E5%BC%8F%EF%BC%88SYN%E6%89%AB%E6%8F%8F%EF%BC%89%E6%89%AB%E6%8F%8FTCP%E7%AB%AF%E5%8F%A3"><span class="nav-number">1.1.0.2.</span> <span class="nav-text">1.2使用半连接方式（SYN扫描）扫描TCP端口</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-3%E4%BD%BF%E7%94%A8auxiliary-sniffer%E4%B8%8B%E7%9A%84psnuffle%E6%A8%A1%E5%9D%97%E8%BF%9B%E8%A1%8C%E5%AF%86%E7%A0%81%E5%97%85%E6%8E%A2"><span class="nav-number">1.1.0.3.</span> <span class="nav-text">1.3使用auxiliary&#x2F;sniffer下的psnuffle模块进行密码嗅探</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%8C%E3%80%81-%E5%9F%BA%E4%BA%8ESNMP%E5%8D%8F%E8%AE%AE%E6%94%B6%E9%9B%86%E4%B8%BB%E6%9C%BA%E4%BF%A1%E6%81%AF"><span class="nav-number">1.2.</span> <span class="nav-text">二、 基于SNMP协议收集主机信息</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%89%E3%80%81-%E5%9F%BA%E4%BA%8ESMB%E5%8D%8F%E8%AE%AE%E6%94%B6%E9%9B%86%E4%BF%A1%E6%81%AF"><span class="nav-number">1.3.</span> <span class="nav-text">三、 基于SMB协议收集信息</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#3-1-%E4%BD%BF%E7%94%A8smb-version%E5%9F%BA%E4%BA%8ESMB%E5%8D%8F%E8%AE%AE%E6%89%AB%E6%8F%8F%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E7%89%88%E6%9C%AC%E5%8F%B7"><span class="nav-number">1.3.0.1.</span> <span class="nav-text">3.1 使用smb_version基于SMB协议扫描操作系统版本号</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-2-%E4%BD%BF%E7%94%A8smb-enumshares%E5%9F%BA%E4%BA%8ESMB%E5%8D%8F%E8%AE%AE%E6%89%AB%E6%8F%8F%E5%85%B1%E4%BA%AB%E6%96%87%E4%BB%B6"><span class="nav-number">1.3.0.2.</span> <span class="nav-text">3.2 使用smb_enumshares基于SMB协议扫描共享文件</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-3-%E4%BD%BF%E7%94%A8smb-lookupsid%E6%89%AB%E6%8F%8F%E7%B3%BB%E7%BB%9F%E7%94%A8%E6%88%B7%E4%BF%A1%E6%81%AF%EF%BC%88SID%E6%9E%9A%E4%B8%BE%EF%BC%89"><span class="nav-number">1.3.0.3.</span> <span class="nav-text">3.3 使用smb_lookupsid扫描系统用户信息（SID枚举）</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9B%9B%E3%80%81%E5%9F%BA%E4%BA%8ESSH%E5%8D%8F%E8%AE%AE%E6%94%B6%E9%9B%86%E4%BF%A1%E6%81%AF"><span class="nav-number">1.4.</span> <span class="nav-text">四、基于SSH协议收集信息</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#4-1-%E6%9F%A5%E7%9C%8Bssh%E6%9C%8D%E5%8A%A1%E7%9A%84%E7%89%88%E6%9C%AC%E4%BF%A1%E6%81%AF"><span class="nav-number">1.4.0.1.</span> <span class="nav-text">4.1 查看ssh服务的版本信息</span></a></li><li class="nav-item nav-level-4"><a class="nav-link"><span class="nav-number">1.4.0.2.</span> <span class="nav-text"></span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%94%E3%80%81%E5%9F%BA%E4%BA%8EFTP%E5%8D%8F%E8%AE%AE%E6%94%B6%E9%9B%86%E4%BF%A1%E6%81%AF"><span class="nav-number">1.5.</span> <span class="nav-text">五、基于FTP协议收集信息</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#5-1-%E6%9F%A5%E7%9C%8Bftp%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%89%88%E6%9C%AC%E4%BF%A1%E6%81%AF"><span class="nav-number">1.5.0.1.</span> <span class="nav-text">5.1 查看ftp服务器版本信息</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%88%A9%E7%94%A8%E7%89%88%E6%9C%AC%E5%8F%B7%E5%AF%BB%E6%89%BE%E7%9B%B8%E5%85%B3%E6%BC%8F%E6%B4%9E"><span class="nav-number">1.5.0.2.</span> <span class="nav-text">利用版本号寻找相关漏洞</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#5-2-FTP%E5%8C%BF%E5%90%8D%E7%99%BB%E5%BD%95"><span class="nav-number">1.5.0.3.</span> <span class="nav-text">5.2 FTP匿名登录</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#5-3-FTP%E6%9A%B4%E5%8A%9B%E7%A0%B4%E8%A7%A3"><span class="nav-number">1.5.0.4.</span> <span class="nav-text">5.3 FTP暴力破解</span></a></li></ol></li></ol></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">北极星上的稻草人</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">29</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">5</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">18</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">北极星上的稻草人</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  
+  <script color='0,0,255' opacity='0.5' zIndex='-1' count='99' src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+
+<!-- 页面动态背景 -->
+
+<script type="text/javascript" src="//cdn.bootcss.com/canvas-nest.js/1.0.0/canvas-nest.min.js"></script>
+
+
+</body>
+</html>
+<!-- 页面点击小红心 -->
+<script type="text/javascript" src="/js/clicklove.js"></script>

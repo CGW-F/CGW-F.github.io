@@ -126,7 +126,7 @@
   </li>
         <li class="menu-item menu-item-archives">
 
-    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">27</span></a>
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">29</span></a>
 
   </li>
   </ul>
@@ -152,6 +152,316 @@
 
           <div class="content index posts-expand">
             
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://wgc5.gitee.io/2021/01/18/Intent/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="北极星上的稻草人">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="北极星上的稻草人">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2021/01/18/Intent/" class="post-title-link" itemprop="url">Intent</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-01-18 09:41:00" itemprop="dateCreated datePublished" datetime="2021-01-18T09:41:00+08:00">2021-01-18</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-02-21 09:50:03" itemprop="dateModified" datetime="2021-02-21T09:50:03+08:00">2021-02-21</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Android-Studio/" itemprop="url" rel="index"><span itemprop="name">Android Studio</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h3 id="Intent"><a href="#Intent" class="headerlink" title="Intent"></a>Intent</h3><p><img src="/2021/01/18/Intent/image-20210117145631770.png" alt="image-20210117145631770"></p>
+<p><img src="/2021/01/18/Intent/image-20210117145649296.png" alt="image-20210117145649296"></p>
+<p><img src="/2021/01/18/Intent/image-20210117145705791.png" alt="image-20210117145705791"></p>
+<p><img src="/2021/01/18/Intent/image-20210117145717824.png" alt="image-20210117145717824"></p>
+<p><img src="/2021/01/18/Intent/image-20210117145739139.png" alt="image-20210117145739139"></p>
+<p><img src="/2021/01/18/Intent/image-20210117152057511.png" alt="image-20210117152057511"></p>
+<p>事例</p>
+<p><img src="/2021/01/18/Intent/image-20210117153109912.png" alt="image-20210117153109912"></p>
+<p><img src="/2021/01/18/Intent/image-20210117153143303.png" alt="image-20210117153143303"></p>
+<p>提示：这里有2个跳转页面，需要新建2个activity；</p>
+<p>显式调用</p>
+<p>.java</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">public void onClick(View view)&#123;</span><br><span class="line">    &#x2F;&#x2F;显式调用</span><br><span class="line">    if(view.getId()&#x3D;&#x3D;R.id.btn1)&#123;</span><br><span class="line">        &#x2F;&#x2F;定义Intent对象</span><br><span class="line">        Intent intent &#x3D; new Intent();</span><br><span class="line">        &#x2F;&#x2F;*****显式调用方法1：类名调用****</span><br><span class="line">        &#x2F;&#x2F;定义ComponentName对象，ComponentName(this,A_Activity.class)：将this包（com.example.intentdemo1）的A_Activity.class</span><br><span class="line">        &#x2F;&#x2F;赋值给componentName（即跳转的Activity的class）</span><br><span class="line">        &#x2F;&#x2F;   ComponentName componentName &#x3D; new ComponentName(this,A_Activity.class);</span><br><span class="line">        &#x2F;&#x2F;*****显式调用方法2:包名调用****</span><br><span class="line">        ComponentName componentName &#x3D; new ComponentName(&quot;com.example.intentdemo1&quot;,&quot;com.example.intentdemo1.A_Activity&quot;);</span><br><span class="line">        intent.setComponent(componentName);</span><br><span class="line">        startActivity(intent);</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p>隐式调用</p>
+<p><img src="/2021/01/18/Intent/image-20210117153529939.png" alt="image-20210117153529939"></p>
+<p><img src="/2021/01/18/Intent/image-20210117153555832.png" alt="image-20210117153555832"></p>
+<h5 id="2-2Action"><a href="#2-2Action" class="headerlink" title="2.2Action"></a>2.2Action</h5><p><img src="/2021/01/18/Intent/image-20210117155541840.png" alt="image-20210117155541840"></p>
+<p><img src="/2021/01/18/Intent/image-20210117155606616.png" alt="image-20210117155606616"></p>
+<h5 id="2-3Data（Uri是Url的父集）"><a href="#2-3Data（Uri是Url的父集）" class="headerlink" title="2.3Data（Uri是Url的父集）"></a>2.3Data（Uri是Url的父集）</h5><p><img src="/2021/01/18/Intent/image-20210117155637664.png" alt="image-20210117155637664"></p>
+<p><img src="/2021/01/18/Intent/image-20210117180553678.png" alt="image-20210117180553678"></p>
+<p><img src="/2021/01/18/Intent/image-20210117160431990.png" alt="image-20210117160431990"></p>
+<p>通过Data和Action启用系统程序</p>
+<p><img src="/2021/01/18/Intent/image-20210117180606594.png" alt="image-20210117180606594"></p>
+<p>activity_main.xml</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version&#x3D;&quot;1.0&quot; encoding&#x3D;&quot;utf-8&quot;?&gt;</span><br><span class="line"></span><br><span class="line">&lt;GridLayout xmlns:android&#x3D;&quot;http:&#x2F;&#x2F;schemas.android.com&#x2F;apk&#x2F;res&#x2F;android&quot;</span><br><span class="line">    android:layout_width&#x3D;&quot;wrap_content&quot;</span><br><span class="line">    android:layout_height&#x3D;&quot;wrap_content&quot;</span><br><span class="line">    android:layout_column&#x3D;&quot;1&quot;</span><br><span class="line">    android:orientation&#x3D;&quot;vertical&quot;&gt;</span><br><span class="line"></span><br><span class="line">    &lt;RadioGroup android:id&#x3D;&quot;@+id&#x2F;radio&quot;&gt;</span><br><span class="line">        &lt;RadioButton</span><br><span class="line">            android:id&#x3D;&quot;@+id&#x2F;btn1&quot;</span><br><span class="line">            android:layout_width&#x3D;&quot;wrap_content&quot;</span><br><span class="line">            android:layout_height&#x3D;&quot;wrap_content&quot;</span><br><span class="line">            android:text&#x3D;&quot;view_taobao&quot;&gt;</span><br><span class="line">        &lt;&#x2F;RadioButton&gt;</span><br><span class="line">        &lt;RadioButton</span><br><span class="line">            android:id&#x3D;&quot;@+id&#x2F;btn2&quot;</span><br><span class="line">            android:layout_width&#x3D;&quot;wrap_content&quot;</span><br><span class="line">            android:layout_height&#x3D;&quot;wrap_content&quot;</span><br><span class="line">            android:text&#x3D;&quot;CALL&quot;&gt;</span><br><span class="line">        &lt;&#x2F;RadioButton&gt;</span><br><span class="line">        &lt;RadioButton</span><br><span class="line">            android:id&#x3D;&quot;@+id&#x2F;btn3&quot;</span><br><span class="line">            android:layout_width&#x3D;&quot;wrap_content&quot;</span><br><span class="line">            android:layout_height&#x3D;&quot;wrap_content&quot;</span><br><span class="line">            android:text&#x3D;&quot;DIAL&quot;&gt;</span><br><span class="line">        &lt;&#x2F;RadioButton&gt;</span><br><span class="line">        &lt;RadioButton</span><br><span class="line">            android:id&#x3D;&quot;@+id&#x2F;btn4&quot;</span><br><span class="line">            android:layout_width&#x3D;&quot;wrap_content&quot;</span><br><span class="line">            android:layout_height&#x3D;&quot;wrap_content&quot;</span><br><span class="line">            android:text&#x3D;&quot;view_GEO地图&quot;&gt;</span><br><span class="line">        &lt;&#x2F;RadioButton&gt;</span><br><span class="line">        &lt;RadioButton</span><br><span class="line">            android:id&#x3D;&quot;@+id&#x2F;btn5&quot;</span><br><span class="line">            android:layout_width&#x3D;&quot;wrap_content&quot;</span><br><span class="line">            android:layout_height&#x3D;&quot;wrap_content&quot;</span><br><span class="line">            android:text&#x3D;&quot;view_GEO地图2&quot;&gt;</span><br><span class="line">        &lt;&#x2F;RadioButton&gt;</span><br><span class="line">        &lt;RadioButton</span><br><span class="line">            android:id&#x3D;&quot;@+id&#x2F;btn6&quot;</span><br><span class="line">            android:layout_width&#x3D;&quot;wrap_content&quot;</span><br><span class="line">            android:layout_height&#x3D;&quot;wrap_content&quot;</span><br><span class="line">            android:text&#x3D;&quot;IMAGE_CAPTURE&quot;&gt;</span><br><span class="line">        &lt;&#x2F;RadioButton&gt;</span><br><span class="line">        &lt;RadioButton</span><br><span class="line">            android:id&#x3D;&quot;@+id&#x2F;btn7&quot;</span><br><span class="line">            android:layout_width&#x3D;&quot;wrap_content&quot;</span><br><span class="line">            android:layout_height&#x3D;&quot;wrap_content&quot;</span><br><span class="line">            android:text&#x3D;&quot;ACTION_VIEW+URI&quot;&gt;</span><br><span class="line">        &lt;&#x2F;RadioButton&gt;</span><br><span class="line">        &lt;RadioButton</span><br><span class="line">            android:id&#x3D;&quot;@+id&#x2F;btn8&quot;</span><br><span class="line">            android:layout_width&#x3D;&quot;wrap_content&quot;</span><br><span class="line">            android:layout_height&#x3D;&quot;wrap_content&quot;</span><br><span class="line">            android:text&#x3D;&quot;ACTION_VIEW+URI2&quot;&gt;</span><br><span class="line">        &lt;&#x2F;RadioButton&gt;</span><br><span class="line">        </span><br><span class="line">        &lt;Button</span><br><span class="line">            android:id&#x3D;&quot;@+id&#x2F;send&quot;</span><br><span class="line">            android:layout_width&#x3D;&quot;wrap_content&quot;</span><br><span class="line">            android:layout_height&#x3D;&quot;wrap_content&quot;</span><br><span class="line">            android:text&#x3D;&quot;启动&quot;</span><br><span class="line">            android:onClick&#x3D;&quot;sendItent&quot;</span><br><span class="line">            &gt;&lt;&#x2F;Button&gt;</span><br><span class="line">    &lt;&#x2F;RadioGroup&gt;</span><br><span class="line">&lt;&#x2F;GridLayout&gt;</span><br></pre></td></tr></table></figure>
+<p>.java类的函数</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br></pre></td><td class="code"><pre><span class="line">public class MainActivity extends AppCompatActivity &#123;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    protected void onCreate(Bundle savedInstanceState) &#123;</span><br><span class="line">        super.onCreate(savedInstanceState);</span><br><span class="line">        setContentView(R.layout.activity_main);</span><br><span class="line">    &#125;</span><br><span class="line">    public void sendItent(View view)&#123;</span><br><span class="line">        Intent intent &#x3D; null;</span><br><span class="line">        RadioGroup radioGroup &#x3D; findViewById(R.id.radio);</span><br><span class="line">        &#x2F;&#x2F;getCheckedRadioButtonId()是组内的其他小插件的id，getId()是群组本身id</span><br><span class="line">        switch (radioGroup.getCheckedRadioButtonId())&#123;</span><br><span class="line">            case R.id.btn1:</span><br><span class="line">                intent &#x3D; new Intent(Intent.ACTION_VIEW, Uri.parse(&quot;http:&#x2F;&#x2F;www.taobao.com&quot;));</span><br><span class="line">                break;</span><br><span class="line">            case R.id.btn2:</span><br><span class="line">                &#x2F;&#x2F;CAll直接拨打电话，需要权限（在Manifest里设置）</span><br><span class="line">                intent &#x3D; new Intent(Intent.ACTION_CALL, Uri.parse(&quot;tel:13794293537&quot;));</span><br><span class="line">                break;</span><br><span class="line">            case R.id.btn3:</span><br><span class="line">                &#x2F;&#x2F;DIAL则只是跳转到打电话的页面</span><br><span class="line">                intent &#x3D; new Intent(Intent.ACTION_DIAL, Uri.parse(&quot;tel:&#x2F;&#x2F;13794293537&quot;));</span><br><span class="line">                break;</span><br><span class="line">                &#x2F;&#x2F;按坐标搜索地图</span><br><span class="line">            case R.id.btn4:</span><br><span class="line">                intent &#x3D; new Intent(Intent.ACTION_VIEW, Uri.parse(&quot;geo:1032.35,61.64&quot;));</span><br><span class="line">                break;</span><br><span class="line">                &#x2F;&#x2F;按名字搜索地图</span><br><span class="line">            case R.id.btn5:</span><br><span class="line">                intent &#x3D; new Intent(Intent.ACTION_VIEW, Uri.parse(&quot;geo:0,2?q&#x3D;北京&quot;));</span><br><span class="line">                break;</span><br><span class="line">                &#x2F;&#x2F;打开照相机</span><br><span class="line">            case R.id.btn6:</span><br><span class="line">                intent &#x3D; new Intent(&quot;android.media.action.IMAGE_CAPTURE&quot;);</span><br><span class="line">                break;</span><br><span class="line">                &#x2F;&#x2F;打开通讯录</span><br><span class="line">            case R.id.btn7:</span><br><span class="line">                intent &#x3D; new Intent(Intent.ACTION_VIEW, Uri.parse(&quot;content:&#x2F;&#x2F;contacts&#x2F;people&#x2F;&quot;));</span><br><span class="line">                break;</span><br><span class="line">                &#x2F;&#x2F;查看通讯录的第一哥联系人</span><br><span class="line">            case R.id.btn8:</span><br><span class="line">                intent &#x3D; new Intent(Intent.ACTION_VIEW, Uri.parse(&quot;content:&#x2F;&#x2F;contacts&#x2F;people&#x2F;1&quot;));</span><br><span class="line">                break;</span><br><span class="line">        &#125;</span><br><span class="line">        &#x2F;&#x2F;启动</span><br><span class="line">        if(intent !&#x3D; null)&#123;</span><br><span class="line">            startActivity(intent);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="Intent解析"><a href="#Intent解析" class="headerlink" title="Intent解析"></a>Intent解析</h4><p><img src="/2021/01/18/Intent/image-20210117212234679.png" alt="image-20210117212234679"></p>
+<p><img src="/2021/01/18/Intent/image-20210117212300662.png" alt="image-20210117212300662"></p>
+<p><img src="/2021/01/18/Intent/image-20210117212322228.png" alt="image-20210117212322228"></p>
+<p><img src="/2021/01/18/Intent/image-20210117212335789.png" alt="image-20210117212335789"></p>
+<p><img src="/2021/01/18/Intent/image-20210117212344493.png" alt="image-20210117212344493"></p>
+<p><img src="/2021/01/18/Intent/image-20210117212403783.png" alt="image-20210117212403783"></p>
+<p><img src="/2021/01/18/Intent/image-20210117212735786.png" alt="image-20210117212735786"></p>
+<p><img src="/2021/01/18/Intent/image-20210117212808413.png" alt="image-20210117212808413"></p>
+<p><img src="/2021/01/18/Intent/image-20210117212831081.png" alt="image-20210117212831081"></p>
+<p><img src="/2021/01/18/Intent/image-20210117212851201.png" alt="image-20210117212851201"></p>
+<p><img src="/2021/01/18/Intent/image-20210117212938968.png" alt="image-20210117212938968"></p>
+<p><img src="/2021/01/18/Intent/image-20210117212953690.png" alt="image-20210117212953690"></p>
+<h4 id="4-使用Intent实现数据传输"><a href="#4-使用Intent实现数据传输" class="headerlink" title="4.使用Intent实现数据传输"></a>4.使用Intent实现数据传输</h4><p>示意图</p>
+<p><img src="/2021/01/18/Intent/image-20210118095427772.png" alt="image-20210118095427772"></p>
+<p>说明</p>
+<p><img src="/2021/01/18/Intent/image-20210118095453724.png" alt="image-20210118095453724"></p>
+<p>事例</p>
+<p>隐式与显式调用</p>
+<p><img src="/2021/01/18/Intent/image-20210118104346362.png" alt="image-20210118104346362"></p>
+<p><img src="/2021/01/18/Intent/image-20210118104359626.png" alt="image-20210118104359626"></p>
+<p>提示</p>
+<p><img src="/2021/01/18/Intent/image-20210118105404838.png" alt="image-20210118105404838"></p>
+<p><img src="/2021/01/18/Intent/image-20210118105213199.png" alt="image-20210118105213199"></p>
+<p><img src="/2021/01/18/Intent/image-20210118105422318.png" alt="image-20210118105422318"></p>
+<p><img src="/2021/01/18/Intent/image-20210118105308773.png" alt="image-20210118105308773"></p>
+<p>（隐式调用还需要）</p>
+<p><img src="/2021/01/18/Intent/image-20210118105507866.png" alt="image-20210118105507866"></p>
+<p>提升1：页面跳转（通过按钮返回页面）：点击GoBack按钮返回原来的界面</p>
+<p><img src="/2021/01/18/Intent/image-20210118111242532.png" alt="image-20210118111242532"></p>
+<p><img src="/2021/01/18/Intent/image-20210118111340947.png" alt="image-20210118111340947"></p>
+<p>提升2：带参数返回</p>
+<p>（不跳转界面，把信息发给Activity3，Activity3处理数据后再返回给原Activity）</p>
+<p>在隐式调用的基础上，注释红框的内容，添加黄色框的内容</p>
+<p><img src="/2021/01/18/Intent/image-20210118120412090.png" alt="image-20210118120412090"></p>
+<p><img src="/2021/01/18/Intent/image-20210118120323791.png" alt="image-20210118120323791"></p>
+<p>Activity3处理数据</p>
+<p><img src="/2021/01/18/Intent/image-20210118120354535.png" alt="image-20210118120354535"></p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://wgc5.gitee.io/2021/01/17/UI%E8%8F%9C%E5%8D%95/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="北极星上的稻草人">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="北极星上的稻草人">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2021/01/17/UI%E8%8F%9C%E5%8D%95/" class="post-title-link" itemprop="url">UI菜单</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-01-17 14:39:47" itemprop="dateCreated datePublished" datetime="2021-01-17T14:39:47+08:00">2021-01-17</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-02-21 09:50:11" itemprop="dateModified" datetime="2021-02-21T09:50:11+08:00">2021-02-21</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Android-Studio/" itemprop="url" rel="index"><span itemprop="name">Android Studio</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h3 id="UI效果设置"><a href="#UI效果设置" class="headerlink" title="UI效果设置"></a>UI效果设置</h3><h4 id="1文本处理"><a href="#1文本处理" class="headerlink" title="1文本处理"></a>1文本处理</h4><p><img src="/2021/01/17/UI%E8%8F%9C%E5%8D%95/image-20210117142010861.png" alt="image-20210117142010861"></p>
+<p><img src="/2021/01/17/UI%E8%8F%9C%E5%8D%95/image-20210117142049688.png" alt="image-20210117142049688"></p>
+<p>.java文件</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">public class MainActivity extends AppCompatActivity &#123;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    protected void onCreate(Bundle savedInstanceState) &#123;</span><br><span class="line">        super.onCreate(savedInstanceState);</span><br><span class="line">        setContentView(R.layout.activity_main);</span><br><span class="line"></span><br><span class="line">        TextView textView &#x3D; findViewById(R.id.info_text);</span><br><span class="line">        &#x2F;&#x2F;文本内容 </span><br><span class="line">        Spannable s &#x3D; (Spannable)textView.getText();</span><br><span class="line">        &#x2F;&#x2F;文本样式对象，Typeface.BOLD代表斜体</span><br><span class="line">        StyleSpan boldSpan &#x3D; new StyleSpan(Typeface.BOLD);</span><br><span class="line">        &#x2F;&#x2F;下标0-4字节，这与Spanned.SPAN_INCLUSIVE_EXCLUSIVE有关</span><br><span class="line">        s.setSpan(boldSpan,0,4, Spanned.SPAN_INCLUSIVE_EXCLUSIVE);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+<h4 id="叠加图层"><a href="#叠加图层" class="headerlink" title="叠加图层"></a>叠加图层</h4><p><img src="/2021/01/17/UI%E8%8F%9C%E5%8D%95/image-20210115094503439.png" alt="image-20210115094503439"></p>
+<p>提示</p>
+<p>羽毛球的xml文件</p>
+<p><img src="/2021/01/17/UI%E8%8F%9C%E5%8D%95/image-20210115094928440.png" alt="image-20210115094928440"></p>
+<p>游泳的xml</p>
+<p><img src="/2021/01/17/UI%E8%8F%9C%E5%8D%95/image-20210115095205614.png" alt="image-20210115095205614"></p>
+<p>.java文件</p>
+<p><img src="/2021/01/17/UI%E8%8F%9C%E5%8D%95/image-20210115095055543.png" alt="image-20210115095055543"></p>
+<p>效果</p>
+<p><img src="/2021/01/17/UI%E8%8F%9C%E5%8D%95/image-20210115094949716.png" alt="image-20210115094949716"></p>
+<p><img src="/2021/01/17/UI%E8%8F%9C%E5%8D%95/image-20210115095238237.png" alt="image-20210115095238237"></p>
+<h3 id="菜单"><a href="#菜单" class="headerlink" title="菜单"></a>菜单</h3><h4 id="选项菜单"><a href="#选项菜单" class="headerlink" title="选项菜单"></a>选项菜单</h4><p>说明：</p>
+<p><img src="/2021/01/17/UI%E8%8F%9C%E5%8D%95/image-20210115102533679.png" alt="image-20210115102533679"></p>
+<p>展开方式补充：ifRoom（有空间就放在工具栏）、</p>
+<p><img src="/2021/01/17/UI%E8%8F%9C%E5%8D%95/image-20210115102955938.png" alt="image-20210115102955938"></p>
+<p><img src="/2021/01/17/UI%E8%8F%9C%E5%8D%95/image-20210115103020404.png" alt="image-20210115103020404"></p>
+<p>事例</p>
+<p><img src="/2021/01/17/UI%E8%8F%9C%E5%8D%95/image-20210115121509960.png" alt="image-20210115121509960"></p>
+<p><img src="/2021/01/17/UI%E8%8F%9C%E5%8D%95/image-20210115121536851.png" alt="image-20210115121536851"></p>
+<p>提示</p>
+<p><img src="/2021/01/17/UI%E8%8F%9C%E5%8D%95/image-20210115121623031.png" alt="image-20210115121623031"></p>
+<h5 id="弹出菜单"><a href="#弹出菜单" class="headerlink" title="弹出菜单"></a>弹出菜单</h5><p><img src="/2021/01/17/UI%E8%8F%9C%E5%8D%95/image-20210115143824990.png" alt="image-20210115143824990"></p>
+<p>事例</p>
+<p><img src="/2021/01/17/UI%E8%8F%9C%E5%8D%95/image-20210115142755429.png" alt="image-20210115142755429"></p>
+<p>显示</p>
+<p><img src="/2021/01/17/UI%E8%8F%9C%E5%8D%95/image-20210115142657759.png" alt="image-20210115142657759"></p>
+<p><img src="/2021/01/17/UI%E8%8F%9C%E5%8D%95/image-20210115142824678.png" alt="image-20210115142824678"></p>
+<p>事件处理</p>
+<p><img src="/2021/01/17/UI%E8%8F%9C%E5%8D%95/image-20210115142904223.png" alt="image-20210115142904223"></p>
+<p><img src="/2021/01/17/UI%E8%8F%9C%E5%8D%95/image-20210115143033529.png" alt="image-20210115143033529"></p>
+<h4 id="上下文菜单"><a href="#上下文菜单" class="headerlink" title="上下文菜单"></a>上下文菜单</h4><p><img src="/2021/01/17/UI%E8%8F%9C%E5%8D%95/image-20210115144937789.png" alt="image-20210115144937789"></p>
+<p><img src="/2021/01/17/UI%E8%8F%9C%E5%8D%95/image-20210115144950646.png" alt="image-20210115144950646"></p>
+<h5 id="浮动模式"><a href="#浮动模式" class="headerlink" title="浮动模式"></a>浮动模式</h5><p><img src="/2021/01/17/UI%E8%8F%9C%E5%8D%95/image-20210115144847037.png" alt="image-20210115144847037"></p>
+<p>事例</p>
+<p>长按图片出现菜单栏，点击菜单栏启动toast事件；实现activity和代码2种方式实现</p>
+<p><img src="/2021/01/17/UI%E8%8F%9C%E5%8D%95/image-20210115152019556.png" alt="image-20210115152019556"></p>
+<p><img src="/2021/01/17/UI%E8%8F%9C%E5%8D%95/image-20210115152033268.png" alt="image-20210115152033268"></p>
+<p>实现</p>
+<p><img src="/2021/01/17/UI%E8%8F%9C%E5%8D%95/image-20210115152139079.png" alt="image-20210115152139079"></p>
+<p><img src="/2021/01/17/UI%E8%8F%9C%E5%8D%95/image-20210115152201360.png" alt="image-20210115152201360"></p>
+<p>.java文件</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line">public class MainActivity extends AppCompatActivity &#123;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    protected void onCreate(Bundle savedInstanceState) &#123;</span><br><span class="line">        super.onCreate(savedInstanceState);</span><br><span class="line">        setContentView(R.layout.activity_main);</span><br><span class="line">        Toolbar toolbar &#x3D; findViewById(R.id.toolbar);</span><br><span class="line">        setSupportActionBar(toolbar);</span><br><span class="line"></span><br><span class="line">        FloatingActionButton fab &#x3D; findViewById(R.id.fab);</span><br><span class="line">        fab.setOnClickListener(new View.OnClickListener() &#123;</span><br><span class="line">            @Override</span><br><span class="line">            public void onClick(View view) &#123;</span><br><span class="line">                Snackbar.make(view, &quot;Replace with your own action&quot;, Snackbar.LENGTH_LONG)</span><br><span class="line">                        .setAction(&quot;Action&quot;, null).show();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br><span class="line">        ImageView imageView &#x3D; findViewById(R.id.image);</span><br><span class="line">        &#x2F;&#x2F;在imageView中填充菜单</span><br><span class="line">        registerForContextMenu(imageView);</span><br><span class="line">    &#125;</span><br><span class="line">    @Override</span><br><span class="line">    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) &#123;</span><br><span class="line"></span><br><span class="line">        super.onCreateContextMenu(menu, v, menuInfo);</span><br><span class="line">        &#x2F;&#x2F;将R.menu.menu_main所指的菜单填充到menu中</span><br><span class="line">        getMenuInflater().inflate(R.menu.menu_main,menu);</span><br><span class="line">        &#x2F;&#x2F;代码添加menu</span><br><span class="line">        menu.add(0,3,0,&quot;我想想（代码添加）&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">    &#x2F;&#x2F;上下文菜单事件处理</span><br><span class="line">    @Override</span><br><span class="line">    public boolean onContextItemSelected(@NonNull MenuItem item) &#123;</span><br><span class="line">        switch (item.getItemId())&#123;</span><br><span class="line">            case R.id.action_yes:</span><br><span class="line">                Toast.makeText(this,&quot;嗷·嗷·嗷&quot;,Toast.LENGTH_SHORT).show();</span><br><span class="line">                break;</span><br><span class="line">            case R.id.action_no:</span><br><span class="line">                Toast.makeText(this,&quot;吱·吱·吱&quot;,Toast.LENGTH_SHORT).show();</span><br><span class="line">                break;</span><br><span class="line">            case 3:</span><br><span class="line">                Toast.makeText(this,&quot;考虑一下下&quot;,Toast.LENGTH_SHORT).show();</span><br><span class="line">                break;</span><br><span class="line">        &#125;</span><br><span class="line">        return super.onContextItemSelected(item);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>说明</p>
+<p><img src="/2021/01/17/UI%E8%8F%9C%E5%8D%95/image-20210115152323172.png" alt="image-20210115152323172"></p>
+<p><img src="/2021/01/17/UI%E8%8F%9C%E5%8D%95/image-20210115151520148.png" alt="image-20210115151520148"></p>
+<p><img src="/2021/01/17/UI%E8%8F%9C%E5%8D%95/image-20210115163429586.png" alt="image-20210115163429586"></p>
+<p>事例</p>
+<p><img src="/2021/01/17/UI%E8%8F%9C%E5%8D%95/image-20210115190521059.png" alt="image-20210115190521059"></p>
+<p>.java提示</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br></pre></td><td class="code"><pre><span class="line">public class ContextMenu2 extends AppCompatActivity &#123;</span><br><span class="line">    private ActionMode actionMode;</span><br><span class="line">    @Override</span><br><span class="line">    protected void onCreate(Bundle savedInstanceState) &#123;</span><br><span class="line">        super.onCreate(savedInstanceState);</span><br><span class="line">        setContentView(R.layout.activity_context_menu2);</span><br><span class="line">        </span><br><span class="line">        &#x2F;&#x2F;创建callback对象</span><br><span class="line">        final ActionMode.Callback callback &#x3D; new ActionMode.Callback() &#123;</span><br><span class="line">            &#x2F;&#x2F;菜单栏初始化</span><br><span class="line">            @Override</span><br><span class="line">            public boolean onCreateActionMode(ActionMode actionMode, Menu menu) &#123;</span><br><span class="line">                &#x2F;&#x2F;填充菜单</span><br><span class="line">                actionMode.getMenuInflater().inflate(R.menu.menu_main,menu);</span><br><span class="line">                return true; &#x2F;&#x2F;返回值设置为true</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            @Override</span><br><span class="line">            public boolean onPrepareActionMode(ActionMode mode, Menu menu) &#123;</span><br><span class="line">                return false;</span><br><span class="line">            &#125;</span><br><span class="line">            &#x2F;&#x2F;事件处理</span><br><span class="line">            @Override</span><br><span class="line">            public boolean onActionItemClicked(ActionMode mode, MenuItem item) &#123;</span><br><span class="line">                &#x2F;&#x2F;当菜单项有选择的时候，判断选择了那一个并进行动作</span><br><span class="line">                switch (item.getItemId())&#123;</span><br><span class="line">                    case R.id.action_yes:</span><br><span class="line">                        Toast.makeText(ContextMenu2.this,&quot;嗷·嗷·嗷&quot;,Toast.LENGTH_SHORT).show();</span><br><span class="line">                        break;</span><br><span class="line">                    case R.id.action_no:</span><br><span class="line">                        Toast.makeText(ContextMenu2.this,&quot;吱·吱·吱&quot;,Toast.LENGTH_SHORT).show();</span><br><span class="line">                        break;</span><br><span class="line">                    case 3:</span><br><span class="line">                        Toast.makeText(ContextMenu2.this,&quot;考虑一下下&quot;,Toast.LENGTH_SHORT).show();</span><br><span class="line">                        break;</span><br><span class="line">                    default:</span><br><span class="line">                        return false;</span><br><span class="line">                &#125;</span><br><span class="line">                return true;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            @Override</span><br><span class="line">            public void onDestroyActionMode(ActionMode mode) &#123;</span><br><span class="line"></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;;</span><br><span class="line"></span><br><span class="line">        findViewById(R.id.image2).setOnLongClickListener(new View.OnLongClickListener() &#123;</span><br><span class="line">            @Override</span><br><span class="line">            public boolean onLongClick(View v) &#123;</span><br><span class="line">               if(actionMode !&#x3D; null)&#123;</span><br><span class="line">                    return  false;</span><br><span class="line">                &#125;</span><br><span class="line">               &#x2F;&#x2F;启动</span><br><span class="line">                actionMode &#x3D; startActionMode(callback);</span><br><span class="line">                &#x2F;&#x2F;设置view可以被选中</span><br><span class="line">                v.setSelected(true);</span><br><span class="line">                return false;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><img src="/2021/01/17/UI%E8%8F%9C%E5%8D%95/image-20210115191550914.png" alt="image-20210115191550914"></p>
+<p><img src="/2021/01/17/UI%E8%8F%9C%E5%8D%95/image-20210115201147601.png" alt="image-20210115201147601"></p>
+<p><img src="/2021/01/17/UI%E8%8F%9C%E5%8D%95/image-20210115201204413.png" alt="image-20210115201204413"></p>
+<p>事例</p>
+<p><img src="/2021/01/17/UI%E8%8F%9C%E5%8D%95/image-20210115201747625.png" alt="image-20210115201747625"></p>
+<p><img src="/2021/01/17/UI%E8%8F%9C%E5%8D%95/image-20210115201645162.png" alt="image-20210115201645162"></p>
+<p>点击消息跳转到</p>
+<p><img src="/2021/01/17/UI%E8%8F%9C%E5%8D%95/image-20210115201716864.png" alt="image-20210115201716864"></p>
+<p>.java提示</p>
+<p><img src="/2021/01/17/UI%E8%8F%9C%E5%8D%95/image-20210115201921197.png" alt="image-20210115201921197"></p>
+<p><img src="/2021/01/17/UI%E8%8F%9C%E5%8D%95/image-20210116152305210.png" alt="image-20210116152305210"></p>
+<p><img src="/2021/01/17/UI%E8%8F%9C%E5%8D%95/image-20210116152324261.png" alt="image-20210116152324261"></p>
+<p><img src="/2021/01/17/UI%E8%8F%9C%E5%8D%95/image-20210116152345047.png" alt="image-20210116152345047"></p>
+<p><img src="/2021/01/17/UI%E8%8F%9C%E5%8D%95/image-20210116152407184.png" alt="image-20210116152407184"></p>
+<p><img src="/2021/01/17/UI%E8%8F%9C%E5%8D%95/image-20210116152428975.png" alt="image-20210116152428975"></p>
+<p>事例：搜索栏</p>
+<p><img src="/2021/01/17/UI%E8%8F%9C%E5%8D%95/image-20210116152529687.png" alt="image-20210116152529687"></p>
+<p><img src="/2021/01/17/UI%E8%8F%9C%E5%8D%95/image-20210116152606302.png" alt="image-20210116152606302"></p>
+<p>事例：打开/关闭/点击搜索栏有toast响应，输入/提交内容有toast响应，获取搜索栏内容并用toast展示</p>
+<p><img src="/2021/01/17/UI%E8%8F%9C%E5%8D%95/image-20210116160557803.png" alt="image-20210116160557803"></p>
+<p>.java的函数提示</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line">@Override</span><br><span class="line">public boolean onCreateOptionsMenu(Menu menu) &#123;</span><br><span class="line">    &#x2F;&#x2F; Inflate the menu; this adds items to the action bar if it is present.</span><br><span class="line">    getMenuInflater().inflate(R.menu.menu_main, menu);</span><br><span class="line">    MenuItem search &#x3D; menu.findItem(R.id.action_search);</span><br><span class="line">    SearchView searchView &#x3D; (SearchView) search.getActionView();</span><br><span class="line"></span><br><span class="line">    &#x2F;&#x2F;设置菜单栏监听器</span><br><span class="line">    search.setOnActionExpandListener(new MenuItem.OnActionExpandListener() &#123;</span><br><span class="line">        @Override</span><br><span class="line">        public boolean onMenuItemActionExpand(MenuItem item) &#123;</span><br><span class="line">            Toast.makeText(MainActivity.this,&quot;展开&quot;,Toast.LENGTH_SHORT).show();</span><br><span class="line">            return true;</span><br><span class="line">        &#125;</span><br><span class="line">        @Override</span><br><span class="line">        public boolean onMenuItemActionCollapse(MenuItem item) &#123;</span><br><span class="line">            Toast.makeText(MainActivity.this,&quot;关闭&quot;,Toast.LENGTH_SHORT).show();</span><br><span class="line">            return true;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;);</span><br><span class="line"></span><br><span class="line">    &#x2F;&#x2F;搜索栏事件监听（搜索内容）</span><br><span class="line">   searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() &#123;</span><br><span class="line">       @Override</span><br><span class="line">       &#x2F;&#x2F;当文字提交时被调用</span><br><span class="line">       public boolean onQueryTextSubmit(String query) &#123;</span><br><span class="line">           Toast.makeText(MainActivity.this,&quot;全网搜索&quot;+query,Toast.LENGTH_SHORT).show();</span><br><span class="line">           return true;</span><br><span class="line">       &#125;</span><br><span class="line">       @Override</span><br><span class="line">       &#x2F;&#x2F;当文字改变时被调用</span><br><span class="line">       public boolean onQueryTextChange(String newText) &#123;</span><br><span class="line">           Toast.makeText(MainActivity.this,&quot;文字改变&quot;+newText,Toast.LENGTH_SHORT).show();</span><br><span class="line">           return true;</span><br><span class="line">       &#125;</span><br><span class="line">   &#125;);</span><br><span class="line">    return true;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><img src="/2021/01/17/UI%E8%8F%9C%E5%8D%95/image-20210117120708607.png" alt="image-20210117120708607"></p>
+<p><img src="/2021/01/17/UI%E8%8F%9C%E5%8D%95/image-20210117120729117.png" alt="image-20210117120729117"></p>
+<p>事例（分享菜单</p>
+<p><img src="/2021/01/17/UI%E8%8F%9C%E5%8D%95/image-20210117122043765.png" alt="image-20210117122043765"></p>
+<p><img src="/2021/01/17/UI%E8%8F%9C%E5%8D%95/image-20210117122110725.png" alt="image-20210117122110725"></p>
+<p><img src="/2021/01/17/UI%E8%8F%9C%E5%8D%95/image-20210117122202781.png" alt="image-20210117122202781"></p>
+<p><img src="/2021/01/17/UI%E8%8F%9C%E5%8D%95/image-20210117122312729.png" alt="image-20210117122312729"></p>
+<p><img src="/2021/01/17/UI%E8%8F%9C%E5%8D%95/image-20210117122352653.png" alt="image-20210117122352653"></p>
+<p><img src="/2021/01/17/UI%E8%8F%9C%E5%8D%95/image-20210117122453697.png" alt="image-20210117122453697"></p>
+<p>MyActionProvider.java</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">public class MyActionProvider extends ActionProvider &#123;</span><br><span class="line"></span><br><span class="line">    Context context ;</span><br><span class="line">    public MyActionProvider(Context context) &#123;</span><br><span class="line">        super(context);</span><br><span class="line">        &#x2F;&#x2F;初始化context</span><br><span class="line">        this.context &#x3D; context;</span><br><span class="line">    &#125;</span><br><span class="line">    @Override</span><br><span class="line">    public View onCreateActionView() &#123;</span><br><span class="line">        &#x2F;&#x2F;创建布局对象</span><br><span class="line">        View view &#x3D; LayoutInflater.from(context).inflate(R.layout.myactionptovider,null,false);</span><br><span class="line">        &#x2F;&#x2F;按钮点击事件处理</span><br><span class="line">        Button btn &#x3D; view.findViewById(R.id.hello);</span><br><span class="line">        btn.setOnClickListener(new View.OnClickListener() &#123;</span><br><span class="line">            @Override</span><br><span class="line">            public void onClick(View view) &#123;</span><br><span class="line">                Toast.makeText(context,&quot;自定义菜单&quot;,Toast.LENGTH_SHORT).show();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br><span class="line"></span><br><span class="line">        return view;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>效果</p>
+<p><img src="/2021/01/17/UI%E8%8F%9C%E5%8D%95/image-20210117122620926.png" alt="image-20210117122620926"></p>
+<p><img src="/2021/01/17/UI%E8%8F%9C%E5%8D%95/image-20210117122651814.png" alt="image-20210117122651814"></p>
+<p>提升：隐藏btn按钮（与普通菜单设置有不同）</p>
+<p><img src="/2021/01/17/UI%E8%8F%9C%E5%8D%95/image-20210117122823319.png" alt="image-20210117122823319"></p>
+<p><img src="/2021/01/17/UI%E8%8F%9C%E5%8D%95/image-20210117123106926.png" alt="image-20210117123106926"></p>
+<p><img src="/2021/01/17/UI%E8%8F%9C%E5%8D%95/image-20210117123130221.png" alt="image-20210117123130221"></p>
+<p><img src="/2021/01/17/UI%E8%8F%9C%E5%8D%95/image-20210117123142583.png" alt="image-20210117123142583"></p>
+<p>实现</p>
+<p><img src="/2021/01/17/UI%E8%8F%9C%E5%8D%95/image-20210117123202223.png" alt="image-20210117123202223"></p>
+<p><img src="/2021/01/17/UI%E8%8F%9C%E5%8D%95/image-20210117123231912.png" alt="image-20210117123231912"></p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
       
   
   
@@ -977,7 +1287,7 @@ startActivity(intent);</code></pre>
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">27</span>
+          <span class="site-state-item-count">29</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
