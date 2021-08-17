@@ -1,0 +1,596 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"wgc5.gitee.io","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="客户端渗透一、客户端渗透原理 二、制作Windows恶意软件获取shell 实战1：使用msfvenom生成快播或西瓜影音看片神器后门木马 2.1生成西瓜影音.exe后门程序   环境：kali、win7（靶机） 步骤1：生成后门程序并启动服务器 步骤2：在MSF上启动handler开始监听后门程序 启动msf  加载hander模块  配置payload  查看并配置参数、启动   补充：启动后">
+<meta property="og:type" content="article">
+<meta property="og:title" content="客户端渗透">
+<meta property="og:url" content="https://wgc5.gitee.io/2021/08/17/%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/index.html">
+<meta property="og:site_name" content="北极星上的稻草人">
+<meta property="og:description" content="客户端渗透一、客户端渗透原理 二、制作Windows恶意软件获取shell 实战1：使用msfvenom生成快播或西瓜影音看片神器后门木马 2.1生成西瓜影音.exe后门程序   环境：kali、win7（靶机） 步骤1：生成后门程序并启动服务器 步骤2：在MSF上启动handler开始监听后门程序 启动msf  加载hander模块  配置payload  查看并配置参数、启动   补充：启动后">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/08/17/%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210816201142972.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/08/17/%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210816201337098.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/08/17/%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210816201528885.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/08/17/%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210816201708965.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/08/17/%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210816201745558.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/08/17/%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210816201820472.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/08/17/%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210816201959791.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/08/17/%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210816203201351.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/08/17/%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210816203308925.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/08/17/%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210816203337202.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/08/17/%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210816203450238.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/08/17/%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210816203609271.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/08/17/%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210816203656900.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/08/17/%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210816202231441.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/08/17/%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210816202251261.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/08/17/%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210816203759663.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/08/17/%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210816203911048.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/08/17/%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210816204025799.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/08/17/%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210816204236941.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/08/17/%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210816204419164.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/08/17/%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210816204435891.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/08/17/%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210816204609219.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/08/17/%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210816204637881.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/08/17/%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210816204731011.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/08/17/%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210816204847203.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/08/17/%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210816202542969.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/08/17/%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210816202732647.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/08/17/%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210816202846223.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/08/17/%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210816205146217.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/08/17/%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210816205214862.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/08/17/%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210816205633896.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/08/17/%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210816205914655.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/08/17/%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210816205939315.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/08/17/%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210816210009776.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/08/17/%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210816210157882.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/08/17/%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210816210214266.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/08/17/%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210816210303111.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/08/17/%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210816210315008.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/08/17/%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210816210349331.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/08/17/%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210816210438619.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/08/17/%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210816210512609.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/08/17/%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210816210616482.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/08/17/%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210816210719911.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/08/17/%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210816210803467.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/08/17/%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210816210832486.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/08/17/%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210816210936108.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/08/17/%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210816211013243.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/08/17/%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210816211051718.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/08/17/%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210816211129141.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/08/17/%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210816211209466.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/08/17/%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210816211330054.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/08/17/%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210816211521609.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/08/17/%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210816211559689.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/08/17/%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210816211611575.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/08/17/%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210816211648937.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/08/17/%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210816211730407.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/08/17/%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210816211810550.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/08/17/%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210817102634654.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/08/17/%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210817102923861.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/08/17/%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210817103147429.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/08/17/%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210817103256476.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/08/17/%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210817103309884.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/08/17/%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210817103341812.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/08/17/%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210817103420606.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/08/17/%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210817103501914.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/08/17/%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210817103601631.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/08/17/%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210817103644708.png">
+<meta property="article:published_time" content="2021-08-17T02:38:12.000Z">
+<meta property="article:modified_time" content="2021-08-17T02:38:54.717Z">
+<meta property="article:author" content="北极星上的稻草人">
+<meta property="article:tag" content="kali渗透">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://wgc5.gitee.io/2021/08/17/%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210816201142972.png">
+
+<link rel="canonical" href="https://wgc5.gitee.io/2021/08/17/%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>客户端渗透 | 北极星上的稻草人</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">北极星上的稻草人</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">稻草人的笔记</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">18</span></a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">5</span></a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">30</span></a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://wgc5.gitee.io/2021/08/17/%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="北极星上的稻草人">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="北极星上的稻草人">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          客户端渗透
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2021-08-17 10:38:12 / 修改时间：10:38:54" itemprop="dateCreated datePublished" datetime="2021-08-17T10:38:12+08:00">2021-08-17</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E4%BF%A1%E6%81%AF%E5%AE%89%E5%85%A8/" itemprop="url" rel="index"><span itemprop="name">信息安全</span></a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="客户端渗透"><a href="#客户端渗透" class="headerlink" title="客户端渗透"></a>客户端渗透</h1><h2 id="一、客户端渗透原理"><a href="#一、客户端渗透原理" class="headerlink" title="一、客户端渗透原理"></a>一、客户端渗透原理</h2><p><img src="/2021/08/17/%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210816201142972.png" alt="image-20210816201142972"></p>
+<h2 id="二、制作Windows恶意软件获取shell"><a href="#二、制作Windows恶意软件获取shell" class="headerlink" title="二、制作Windows恶意软件获取shell"></a>二、制作Windows恶意软件获取shell</h2><p><img src="/2021/08/17/%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210816201337098.png" alt="image-20210816201337098"></p>
+<h3 id="实战1：使用msfvenom生成快播或西瓜影音看片神器后门木马"><a href="#实战1：使用msfvenom生成快播或西瓜影音看片神器后门木马" class="headerlink" title="实战1：使用msfvenom生成快播或西瓜影音看片神器后门木马"></a>实战1：使用msfvenom生成快播或西瓜影音看片神器后门木马</h3><p><img src="/2021/08/17/%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210816201528885.png" alt="image-20210816201528885"></p>
+<h3 id="2-1生成西瓜影音-exe后门程序"><a href="#2-1生成西瓜影音-exe后门程序" class="headerlink" title="2.1生成西瓜影音.exe后门程序"></a>2.1生成西瓜影音.exe后门程序</h3><p><img src="/2021/08/17/%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210816201708965.png" alt="image-20210816201708965"></p>
+<p><img src="/2021/08/17/%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210816201745558.png" alt="image-20210816201745558"></p>
+<p><img src="/2021/08/17/%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210816201820472.png" alt="image-20210816201820472"></p>
+<p>环境：kali、win7（靶机）</p>
+<h4 id="步骤1：生成后门程序并启动服务器"><a href="#步骤1：生成后门程序并启动服务器" class="headerlink" title="步骤1：生成后门程序并启动服务器"></a>步骤1：生成后门程序并启动服务器</h4><p><img src="/2021/08/17/%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210816201959791.png" alt="image-20210816201959791"></p>
+<h4 id="步骤2：在MSF上启动handler开始监听后门程序"><a href="#步骤2：在MSF上启动handler开始监听后门程序" class="headerlink" title="步骤2：在MSF上启动handler开始监听后门程序"></a>步骤2：在MSF上启动handler开始监听后门程序</h4><p><img src="/2021/08/17/%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210816203201351.png" alt="image-20210816203201351"></p>
+<p>启动msf</p>
+<p><img src="/2021/08/17/%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210816203308925.png" alt="image-20210816203308925"></p>
+<p>加载hander模块</p>
+<p><img src="/2021/08/17/%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210816203337202.png" alt="image-20210816203337202"></p>
+<p>配置payload</p>
+<p><img src="/2021/08/17/%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210816203450238.png" alt="image-20210816203450238"></p>
+<p>查看并配置参数、启动</p>
+<p><img src="/2021/08/17/%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210816203609271.png" alt="image-20210816203609271"></p>
+<p><img src="/2021/08/17/%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210816203656900.png" alt="image-20210816203656900"></p>
+<p>补充：启动后就在监听了</p>
+<h4 id="步骤3：win7下载木马文件并运行"><a href="#步骤3：win7下载木马文件并运行" class="headerlink" title="步骤3：win7下载木马文件并运行"></a>步骤3：win7下载木马文件并运行</h4><p><img src="/2021/08/17/%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210816202231441.png" alt="image-20210816202231441"></p>
+<p><img src="/2021/08/17/%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210816202251261.png" alt="image-20210816202251261"></p>
+<p><img src="/2021/08/17/%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210816203759663.png" alt="image-20210816203759663"></p>
+<h4 id="步骤4：查看结果并提升权限"><a href="#步骤4：查看结果并提升权限" class="headerlink" title="步骤4：查看结果并提升权限"></a>步骤4：查看结果并提升权限</h4><h4 id><a href="#" class="headerlink" title></a><img src="/2021/08/17/%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210816203911048.png" alt="image-20210816203911048"></h4><p>查看权限</p>
+<p><img src="/2021/08/17/%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210816204025799.png" alt="image-20210816204025799"></p>
+<p>提升权限</p>
+<p><img src="/2021/08/17/%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210816204236941.png" alt="image-20210816204236941"></p>
+<p>其他操作</p>
+<p><img src="/2021/08/17/%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210816204419164.png" alt="image-20210816204419164"></p>
+<p><img src="/2021/08/17/%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210816204435891.png" alt="image-20210816204435891"></p>
+<p><img src="/2021/08/17/%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210816204609219.png" alt="image-20210816204609219"></p>
+<p><img src="/2021/08/17/%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210816204637881.png" alt="image-20210816204637881"></p>
+<p><img src="/2021/08/17/%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210816204731011.png" alt="image-20210816204731011"></p>
+<p><img src="/2021/08/17/%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210816204847203.png" alt="image-20210816204847203"></p>
+<p>补充：软件病毒/木马等扫描网站</p>
+<p>1.可以把程序/软件会被那些杀毒软件扫描出来</p>
+<p>2.可以检测自己制作的木马可以避开率</p>
+<p>扫描网站1：<a target="_blank" rel="noopener" href="https://www.virscan.org/">https://www.virscan.org/</a></p>
+<p><img src="/2021/08/17/%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210816202542969.png" alt="image-20210816202542969"></p>
+<p><img src="/2021/08/17/%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210816202732647.png" alt="image-20210816202732647"></p>
+<p>扫描网站2：<a target="_blank" rel="noopener" href="https://www.virustotal.com/gui/home/upload">https://www.virustotal.com/gui/home/upload</a></p>
+<p><img src="/2021/08/17/%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210816202846223.png" alt="image-20210816202846223"></p>
+<h3 id="2-2模拟黑客给真正的软件加上后门"><a href="#2-2模拟黑客给真正的软件加上后门" class="headerlink" title="2.2模拟黑客给真正的软件加上后门"></a>2.2模拟黑客给真正的软件加上后门</h3><h4 id="步骤1：下载正版软件并安装上后门"><a href="#步骤1：下载正版软件并安装上后门" class="headerlink" title="步骤1：下载正版软件并安装上后门"></a>步骤1：下载正版软件并安装上后门</h4><p>下载程序</p>
+<p><img src="/2021/08/17/%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210816205146217.png" alt="image-20210816205146217"></p>
+<p><img src="/2021/08/17/%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210816205214862.png" alt="image-20210816205214862"></p>
+<p>查找要安装后门的程序（副程序：主程序启动会带动其启动）</p>
+<p><img src="/2021/08/17/%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210816205633896.png" alt="image-20210816205633896"></p>
+<h4 id="步骤2：把副程序复制到kali进行安装后门"><a href="#步骤2：把副程序复制到kali进行安装后门" class="headerlink" title="步骤2：把副程序复制到kali进行安装后门"></a>步骤2：把副程序复制到kali进行安装后门</h4><p><img src="/2021/08/17/%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210816205914655.png" alt="image-20210816205914655"></p>
+<p><img src="/2021/08/17/%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210816205939315.png" alt="image-20210816205939315"></p>
+<p>安装后门</p>
+<p><img src="/2021/08/17/%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210816210009776.png" alt="image-20210816210009776"></p>
+<p>win7下载安装了后门的程序并替换正版的程序</p>
+<p><img src="/2021/08/17/%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210816210157882.png" alt="image-20210816210157882"></p>
+<p><img src="/2021/08/17/%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210816210214266.png" alt="image-20210816210214266"></p>
+<p>步骤3：启动</p>
+<p><img src="/2021/08/17/%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210816210303111.png" alt="image-20210816210303111"></p>
+<p><img src="/2021/08/17/%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210816210315008.png" alt="image-20210816210315008"></p>
+<p><img src="/2021/08/17/%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210816210349331.png" alt="image-20210816210349331"></p>
+<p>回到win7启动软件</p>
+<p><img src="/2021/08/17/%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210816210438619.png" alt="image-20210816210438619"></p>
+<p><img src="/2021/08/17/%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210816210512609.png" alt="image-20210816210512609"></p>
+<p><img src="/2021/08/17/%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210816210616482.png" alt="image-20210816210616482"></p>
+<h3 id="2-3-使用metasploit的evasion模块生成后门木马"><a href="#2-3-使用metasploit的evasion模块生成后门木马" class="headerlink" title="2.3 使用metasploit的evasion模块生成后门木马"></a>2.3 使用metasploit的evasion模块生成后门木马</h3><p><img src="/2021/08/17/%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210816210719911.png" alt="image-20210816210719911"></p>
+<h4 id="步骤1：查找并加载模块"><a href="#步骤1：查找并加载模块" class="headerlink" title="步骤1：查找并加载模块"></a>步骤1：查找并加载模块</h4><p><img src="/2021/08/17/%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210816210803467.png" alt="image-20210816210803467"></p>
+<p><img src="/2021/08/17/%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210816210832486.png" alt="image-20210816210832486"></p>
+<h4 id="步骤2：修改木马文件名称（可以不修改）"><a href="#步骤2：修改木马文件名称（可以不修改）" class="headerlink" title="步骤2：修改木马文件名称（可以不修改）"></a>步骤2：修改木马文件名称（可以不修改）</h4><p><img src="/2021/08/17/%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210816210936108.png" alt="image-20210816210936108"></p>
+<h4 id="步骤3：设置payload"><a href="#步骤3：设置payload" class="headerlink" title="步骤3：设置payload"></a>步骤3：设置payload</h4><p><img src="/2021/08/17/%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210816211013243.png" alt="image-20210816211013243"></p>
+<p><img src="/2021/08/17/%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210816211051718.png" alt="image-20210816211051718"></p>
+<p><img src="/2021/08/17/%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210816211129141.png" alt="image-20210816211129141"></p>
+<p>启动生成文件</p>
+<p><img src="/2021/08/17/%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210816211209466.png" alt="image-20210816211209466"></p>
+<p>补充：上传文件，方便win7下载（也可以直接复制）</p>
+<p><img src="/2021/08/17/%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210816211330054.png" alt="image-20210816211330054"></p>
+<h4 id="步骤4：监听"><a href="#步骤4：监听" class="headerlink" title="步骤4：监听"></a>步骤4：监听</h4><p>渗透：加载模块、配置参数</p>
+<p><img src="/2021/08/17/%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210816211521609.png" alt="image-20210816211521609"></p>
+<p><img src="/2021/08/17/%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210816211559689.png" alt="image-20210816211559689"></p>
+<p><img src="/2021/08/17/%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210816211611575.png" alt="image-20210816211611575"></p>
+<h4 id="步骤5：win7启动木马文件"><a href="#步骤5：win7启动木马文件" class="headerlink" title="步骤5：win7启动木马文件"></a>步骤5：win7启动木马文件</h4><p>下载文件</p>
+<p><img src="/2021/08/17/%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210816211648937.png" alt="image-20210816211648937"></p>
+<p>启动木马文件</p>
+<p><img src="/2021/08/17/%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210816211730407.png" alt="image-20210816211730407"></p>
+<p>kali查看结果</p>
+<p><img src="/2021/08/17/%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210816211810550.png" alt="image-20210816211810550"></p>
+<h2 id="三、制作Linux恶意软件获取shell"><a href="#三、制作Linux恶意软件获取shell" class="headerlink" title="三、制作Linux恶意软件获取shell"></a>三、制作Linux恶意软件获取shell</h2><p><strong>步骤1：使用msfvenom生成linux可执行文件，再开启apache服务</strong></p>
+<p><img src="/2021/08/17/%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210817102634654.png" alt="image-20210817102634654"></p>
+<p>补充：这里的恶意文件是放在根目录下的，所以linux下载直接是ip地址+</p>
+<p><strong>步骤2：linux系统下载恶意文件</strong></p>
+<p><img src="/2021/08/17/%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210817102923861.png" alt="image-20210817102923861"></p>
+<p>此时文件是不可执行的，所以要提升权限</p>
+<p><img src="/2021/08/17/%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210817103147429.png" alt="image-20210817103147429"></p>
+<p>步骤3：设置linux的payload并</p>
+<p><img src="/2021/08/17/%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210817103256476.png" alt="image-20210817103256476"></p>
+<p><img src="/2021/08/17/%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210817103309884.png" alt="image-20210817103309884"></p>
+<p><img src="/2021/08/17/%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210817103341812.png" alt="image-20210817103341812"></p>
+<p>步骤4：linux启动程序</p>
+<p><img src="/2021/08/17/%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210817103420606.png" alt="image-20210817103420606"></p>
+<p>步骤5：查看结果与操作</p>
+<p><img src="/2021/08/17/%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210817103501914.png" alt="image-20210817103501914"></p>
+<p>查看当前目录</p>
+<p><img src="/2021/08/17/%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210817103601631.png" alt="image-20210817103601631"></p>
+<p>查看身份权限</p>
+<p><img src="/2021/08/17/%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210817103644708.png" alt="image-20210817103644708"></p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/kali%E6%B8%97%E9%80%8F/" rel="tag"># kali渗透</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2021/08/16/Metasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86/" rel="prev" title="Metasploit渗透测试之信息收集">
+      <i class="fa fa-chevron-left"></i> Metasploit渗透测试之信息收集
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F"><span class="nav-number">1.</span> <span class="nav-text">客户端渗透</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%80%E3%80%81%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F%E5%8E%9F%E7%90%86"><span class="nav-number">1.1.</span> <span class="nav-text">一、客户端渗透原理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%8C%E3%80%81%E5%88%B6%E4%BD%9CWindows%E6%81%B6%E6%84%8F%E8%BD%AF%E4%BB%B6%E8%8E%B7%E5%8F%96shell"><span class="nav-number">1.2.</span> <span class="nav-text">二、制作Windows恶意软件获取shell</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%9E%E6%88%981%EF%BC%9A%E4%BD%BF%E7%94%A8msfvenom%E7%94%9F%E6%88%90%E5%BF%AB%E6%92%AD%E6%88%96%E8%A5%BF%E7%93%9C%E5%BD%B1%E9%9F%B3%E7%9C%8B%E7%89%87%E7%A5%9E%E5%99%A8%E5%90%8E%E9%97%A8%E6%9C%A8%E9%A9%AC"><span class="nav-number">1.2.1.</span> <span class="nav-text">实战1：使用msfvenom生成快播或西瓜影音看片神器后门木马</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1%E7%94%9F%E6%88%90%E8%A5%BF%E7%93%9C%E5%BD%B1%E9%9F%B3-exe%E5%90%8E%E9%97%A8%E7%A8%8B%E5%BA%8F"><span class="nav-number">1.2.2.</span> <span class="nav-text">2.1生成西瓜影音.exe后门程序</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%AD%A5%E9%AA%A41%EF%BC%9A%E7%94%9F%E6%88%90%E5%90%8E%E9%97%A8%E7%A8%8B%E5%BA%8F%E5%B9%B6%E5%90%AF%E5%8A%A8%E6%9C%8D%E5%8A%A1%E5%99%A8"><span class="nav-number">1.2.2.1.</span> <span class="nav-text">步骤1：生成后门程序并启动服务器</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%AD%A5%E9%AA%A42%EF%BC%9A%E5%9C%A8MSF%E4%B8%8A%E5%90%AF%E5%8A%A8handler%E5%BC%80%E5%A7%8B%E7%9B%91%E5%90%AC%E5%90%8E%E9%97%A8%E7%A8%8B%E5%BA%8F"><span class="nav-number">1.2.2.2.</span> <span class="nav-text">步骤2：在MSF上启动handler开始监听后门程序</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%AD%A5%E9%AA%A43%EF%BC%9Awin7%E4%B8%8B%E8%BD%BD%E6%9C%A8%E9%A9%AC%E6%96%87%E4%BB%B6%E5%B9%B6%E8%BF%90%E8%A1%8C"><span class="nav-number">1.2.2.3.</span> <span class="nav-text">步骤3：win7下载木马文件并运行</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%AD%A5%E9%AA%A44%EF%BC%9A%E6%9F%A5%E7%9C%8B%E7%BB%93%E6%9E%9C%E5%B9%B6%E6%8F%90%E5%8D%87%E6%9D%83%E9%99%90"><span class="nav-number">1.2.2.4.</span> <span class="nav-text">步骤4：查看结果并提升权限</span></a></li><li class="nav-item nav-level-4"><a class="nav-link"><span class="nav-number">1.2.2.5.</span> <span class="nav-text"></span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2%E6%A8%A1%E6%8B%9F%E9%BB%91%E5%AE%A2%E7%BB%99%E7%9C%9F%E6%AD%A3%E7%9A%84%E8%BD%AF%E4%BB%B6%E5%8A%A0%E4%B8%8A%E5%90%8E%E9%97%A8"><span class="nav-number">1.2.3.</span> <span class="nav-text">2.2模拟黑客给真正的软件加上后门</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%AD%A5%E9%AA%A41%EF%BC%9A%E4%B8%8B%E8%BD%BD%E6%AD%A3%E7%89%88%E8%BD%AF%E4%BB%B6%E5%B9%B6%E5%AE%89%E8%A3%85%E4%B8%8A%E5%90%8E%E9%97%A8"><span class="nav-number">1.2.3.1.</span> <span class="nav-text">步骤1：下载正版软件并安装上后门</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%AD%A5%E9%AA%A42%EF%BC%9A%E6%8A%8A%E5%89%AF%E7%A8%8B%E5%BA%8F%E5%A4%8D%E5%88%B6%E5%88%B0kali%E8%BF%9B%E8%A1%8C%E5%AE%89%E8%A3%85%E5%90%8E%E9%97%A8"><span class="nav-number">1.2.3.2.</span> <span class="nav-text">步骤2：把副程序复制到kali进行安装后门</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-3-%E4%BD%BF%E7%94%A8metasploit%E7%9A%84evasion%E6%A8%A1%E5%9D%97%E7%94%9F%E6%88%90%E5%90%8E%E9%97%A8%E6%9C%A8%E9%A9%AC"><span class="nav-number">1.2.4.</span> <span class="nav-text">2.3 使用metasploit的evasion模块生成后门木马</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%AD%A5%E9%AA%A41%EF%BC%9A%E6%9F%A5%E6%89%BE%E5%B9%B6%E5%8A%A0%E8%BD%BD%E6%A8%A1%E5%9D%97"><span class="nav-number">1.2.4.1.</span> <span class="nav-text">步骤1：查找并加载模块</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%AD%A5%E9%AA%A42%EF%BC%9A%E4%BF%AE%E6%94%B9%E6%9C%A8%E9%A9%AC%E6%96%87%E4%BB%B6%E5%90%8D%E7%A7%B0%EF%BC%88%E5%8F%AF%E4%BB%A5%E4%B8%8D%E4%BF%AE%E6%94%B9%EF%BC%89"><span class="nav-number">1.2.4.2.</span> <span class="nav-text">步骤2：修改木马文件名称（可以不修改）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%AD%A5%E9%AA%A43%EF%BC%9A%E8%AE%BE%E7%BD%AEpayload"><span class="nav-number">1.2.4.3.</span> <span class="nav-text">步骤3：设置payload</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%AD%A5%E9%AA%A44%EF%BC%9A%E7%9B%91%E5%90%AC"><span class="nav-number">1.2.4.4.</span> <span class="nav-text">步骤4：监听</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%AD%A5%E9%AA%A45%EF%BC%9Awin7%E5%90%AF%E5%8A%A8%E6%9C%A8%E9%A9%AC%E6%96%87%E4%BB%B6"><span class="nav-number">1.2.4.5.</span> <span class="nav-text">步骤5：win7启动木马文件</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%89%E3%80%81%E5%88%B6%E4%BD%9CLinux%E6%81%B6%E6%84%8F%E8%BD%AF%E4%BB%B6%E8%8E%B7%E5%8F%96shell"><span class="nav-number">1.3.</span> <span class="nav-text">三、制作Linux恶意软件获取shell</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">北极星上的稻草人</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">30</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">5</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">18</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">北极星上的稻草人</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  
+  <script color='0,0,255' opacity='0.5' zIndex='-1' count='99' src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+
+<!-- 页面动态背景 -->
+
+<script type="text/javascript" src="//cdn.bootcss.com/canvas-nest.js/1.0.0/canvas-nest.min.js"></script>
+
+
+</body>
+</html>
+<!-- 页面点击小红心 -->
+<script type="text/javascript" src="/js/clicklove.js"></script>
