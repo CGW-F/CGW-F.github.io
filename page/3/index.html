@@ -126,7 +126,7 @@
   </li>
         <li class="menu-item menu-item-archives">
 
-    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">36</span></a>
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">32</span></a>
 
   </li>
   </ul>
@@ -152,440 +152,6 @@
 
           <div class="content index posts-expand">
             
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://wgc5.gitee.io/2021/01/31/%E8%A7%86%E9%A2%91%E6%92%AD%E6%94%BE/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="北极星上的稻草人">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="北极星上的稻草人">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2021/01/31/%E8%A7%86%E9%A2%91%E6%92%AD%E6%94%BE/" class="post-title-link" itemprop="url">视频播放</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2021-01-31 14:54:40" itemprop="dateCreated datePublished" datetime="2021-01-31T14:54:40+08:00">2021-01-31</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-02-21 09:48:33" itemprop="dateModified" datetime="2021-02-21T09:48:33+08:00">2021-02-21</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Android-Studio/" itemprop="url" rel="index"><span itemprop="name">Android Studio</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h3 id="视频播放"><a href="#视频播放" class="headerlink" title="视频播放"></a>视频播放</h3><p><img src="/2021/01/31/%E8%A7%86%E9%A2%91%E6%92%AD%E6%94%BE/image-20210131102301942.png" alt="image-20210131102301942"></p>
-<h4 id="MediaPlayer播放"><a href="#MediaPlayer播放" class="headerlink" title="MediaPlayer播放"></a>MediaPlayer播放</h4><p><img src="/2021/01/31/%E8%A7%86%E9%A2%91%E6%92%AD%E6%94%BE/image-20210131102320262.png" alt="image-20210131102320262"></p>
-<p>事例效果</p>
-<p><img src="/2021/01/31/%E8%A7%86%E9%A2%91%E6%92%AD%E6%94%BE/image-20210131110557052.png" alt="image-20210131110557052"></p>
-<p>实现：</p>
-<p><img src="/2021/01/31/%E8%A7%86%E9%A2%91%E6%92%AD%E6%94%BE/image-20210131110722396.png" alt="image-20210131110722396"></p>
-<p><img src="/2021/01/31/%E8%A7%86%E9%A2%91%E6%92%AD%E6%94%BE/image-20210131110753019.png" alt="image-20210131110753019"></p>
-<p><img src="/2021/01/31/%E8%A7%86%E9%A2%91%E6%92%AD%E6%94%BE/image-20210131110922292.png" alt="image-20210131110922292"></p>
-<p>MainActivity.java</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br></pre></td><td class="code"><pre><span class="line">import androidx.appcompat.app.AppCompatActivity;</span><br><span class="line">import androidx.core.app.ActivityCompat;</span><br><span class="line"></span><br><span class="line">import android.Manifest;</span><br><span class="line">import android.app.Activity;</span><br><span class="line">import android.app.ActivityManager;</span><br><span class="line">import android.content.pm.PackageManager;</span><br><span class="line">import android.media.AudioAttributes;</span><br><span class="line">import android.media.AudioManager;</span><br><span class="line">import android.media.MediaPlayer;</span><br><span class="line">import android.os.Build;</span><br><span class="line">import android.os.Bundle;</span><br><span class="line">import android.view.SurfaceHolder;</span><br><span class="line">import android.view.SurfaceView;</span><br><span class="line">import android.view.View;</span><br><span class="line">import android.widget.Button;</span><br><span class="line"></span><br><span class="line">import java.io.IOException;</span><br><span class="line"></span><br><span class="line">public class MainActivity extends AppCompatActivity &#123;</span><br><span class="line">    SurfaceView surfaceView;</span><br><span class="line">    Button play_btn;</span><br><span class="line">    MediaPlayer player;</span><br><span class="line">    SurfaceHolder play_window;    &#x2F;&#x2F;播放窗口</span><br><span class="line">    String path;                &#x2F;&#x2F;路径</span><br><span class="line">    @Override</span><br><span class="line">    protected void onCreate(Bundle savedInstanceState) &#123;</span><br><span class="line">        super.onCreate(savedInstanceState);</span><br><span class="line">        setContentView(R.layout.activity_main);</span><br><span class="line"></span><br><span class="line">        surfaceView &#x3D; findViewById(R.id.surfaceView1);</span><br><span class="line">        play_btn &#x3D; findViewById(R.id.play_btn);</span><br><span class="line">        player &#x3D; new MediaPlayer();</span><br><span class="line">        path &#x3D; &quot;&#x2F;sdcard&#x2F;Movies&#x2F;Movice.mp4&quot;;</span><br><span class="line">        &#x2F;&#x2F;与音频播放一样，安卓6.0需要动态获取权限</span><br><span class="line">        if(Build.VERSION.SDK_INT&gt;&#x3D;23)&#123;</span><br><span class="line">            int permission &#x3D; ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE);</span><br><span class="line">            if(permission !&#x3D; PackageManager.PERMISSION_GRANTED)&#123;</span><br><span class="line">                ActivityCompat.requestPermissions(this,new String[]&#123;Manifest.permission.READ_EXTERNAL_STORAGE&#125;,0);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public void  palyMovie(View view)&#123;</span><br><span class="line">        try &#123;</span><br><span class="line">            player.reset();</span><br><span class="line">            player.setDataSource(path);</span><br><span class="line">            if(Build.VERSION.SDK_INT&gt;&#x3D;23)&#123;</span><br><span class="line">                &#x2F;&#x2F;标签</span><br><span class="line">                AudioAttributes audioAttributes &#x3D; new AudioAttributes.Builder()</span><br><span class="line">                        .setUsage(AudioAttributes.USAGE_MEDIA)  &#x2F;&#x2F;设置用途：多媒体</span><br><span class="line">                        .setContentType(AudioAttributes.CONTENT_TYPE_MOVIE) &#x2F;&#x2F;类型：视频</span><br><span class="line">                        .setFlags(AudioAttributes.FLAG_AUDIBILITY_ENFORCED).build();&#x2F;&#x2F;同步</span><br><span class="line">                &#x2F;&#x2F;应用标签</span><br><span class="line">                player.setAudioAttributes(audioAttributes);</span><br><span class="line">            &#125;else &#123;     &#x2F;&#x2F;安卓6.0以下</span><br><span class="line">                player.setAudioStreamType(AudioManager.STREAM_MUSIC);</span><br><span class="line">            &#125;</span><br><span class="line">            &#x2F;&#x2F;表明处理对象赋值（可理解为播放窗口控制）</span><br><span class="line">            play_window &#x3D;surfaceView.getHolder();</span><br><span class="line">            player.setDisplay(play_window);</span><br><span class="line">            player.prepare();</span><br><span class="line">            player.start();</span><br><span class="line"></span><br><span class="line">        &#125; catch (IOException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h4 id="VideoView播放（更广泛、更灵活）"><a href="#VideoView播放（更广泛、更灵活）" class="headerlink" title="VideoView播放（更广泛、更灵活）"></a>VideoView播放（更广泛、更灵活）</h4><p><img src="/2021/01/31/%E8%A7%86%E9%A2%91%E6%92%AD%E6%94%BE/image-20210131111046916.png" alt="image-20210131111046916"></p>
-<p><img src="/2021/01/31/%E8%A7%86%E9%A2%91%E6%92%AD%E6%94%BE/image-20210131111223314.png" alt="image-20210131111223314"></p>
-<p><img src="/2021/01/31/%E8%A7%86%E9%A2%91%E6%92%AD%E6%94%BE/image-20210131111235773.png" alt="image-20210131111235773"></p>
-<p>事例（实现上面事例的效果）</p>
-<p>实现</p>
-<p><img src="/2021/01/31/%E8%A7%86%E9%A2%91%E6%92%AD%E6%94%BE/image-20210131112514645.png" alt="image-20210131112514645"></p>
-<p>MainActivity.java</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><span class="line">import androidx.appcompat.app.AppCompatActivity;</span><br><span class="line">import androidx.core.app.ActivityCompat;</span><br><span class="line"></span><br><span class="line">import android.Manifest;</span><br><span class="line">import android.content.pm.PackageManager;</span><br><span class="line">import android.os.Build;</span><br><span class="line">import android.os.Bundle;</span><br><span class="line">import android.view.View;</span><br><span class="line">import android.widget.Button;</span><br><span class="line">import android.widget.MediaController;</span><br><span class="line">import android.widget.VideoView;</span><br><span class="line"></span><br><span class="line">import java.text.StringCharacterIterator;</span><br><span class="line"></span><br><span class="line">public class MainActivity extends AppCompatActivity &#123;</span><br><span class="line">    String path;</span><br><span class="line">    VideoView videoView;</span><br><span class="line">    MediaController mediaController;</span><br><span class="line">    Button play_btn;</span><br><span class="line">    @Override</span><br><span class="line">    protected void onCreate(Bundle savedInstanceState) &#123;</span><br><span class="line">        super.onCreate(savedInstanceState);</span><br><span class="line">        setContentView(R.layout.activity_main);</span><br><span class="line"></span><br><span class="line">        videoView &#x3D; findViewById(R.id.VideoView1);</span><br><span class="line">        play_btn &#x3D; findViewById(R.id.play_btn);</span><br><span class="line">        &#x2F;&#x2F;区别；不是用videoController</span><br><span class="line">        mediaController &#x3D; new MediaController(this);</span><br><span class="line">        path &#x3D; &quot;&#x2F;sdcard&#x2F;Movies&#x2F;Movice.mp4&quot;;</span><br><span class="line"></span><br><span class="line">        if(Build.VERSION.SDK_INT&gt;&#x3D;23)&#123;</span><br><span class="line">            int permission &#x3D; ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE);</span><br><span class="line">            if(permission !&#x3D; PackageManager.PERMISSION_GRANTED)&#123;</span><br><span class="line">                ActivityCompat.requestPermissions(this,new String[]&#123;Manifest.permission.READ_EXTERNAL_STORAGE&#125;,0);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    public void  palyMovie(View view)&#123;</span><br><span class="line">        &#x2F;&#x2F;区别</span><br><span class="line">        videoView.setVideoPath(path);   &#x2F;&#x2F;设置路径</span><br><span class="line">        mediaController.setMediaPlayer(videoView); &#x2F;&#x2F;设置显示位置</span><br><span class="line">        videoView.setMediaController(mediaController);  &#x2F;&#x2F;设置控制器</span><br><span class="line">        videoView.start();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://wgc5.gitee.io/2021/01/30/%E9%9F%B3%E9%A2%91%E6%92%AD%E6%94%BE/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="北极星上的稻草人">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="北极星上的稻草人">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2021/01/30/%E9%9F%B3%E9%A2%91%E6%92%AD%E6%94%BE/" class="post-title-link" itemprop="url">音频播放</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2021-01-30 11:06:54" itemprop="dateCreated datePublished" datetime="2021-01-30T11:06:54+08:00">2021-01-30</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-02-21 09:48:47" itemprop="dateModified" datetime="2021-02-21T09:48:47+08:00">2021-02-21</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Android-Studio/" itemprop="url" rel="index"><span itemprop="name">Android Studio</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h3 id="音频播放"><a href="#音频播放" class="headerlink" title="音频播放"></a>音频播放</h3><p><img src="/2021/01/30/%E9%9F%B3%E9%A2%91%E6%92%AD%E6%94%BE/image-20210129201317042.png" alt="image-20210129201317042"></p>
-<p><img src="/2021/01/30/%E9%9F%B3%E9%A2%91%E6%92%AD%E6%94%BE/image-20210129201329844.png" alt="image-20210129201329844"></p>
-<p><img src="/2021/01/30/%E9%9F%B3%E9%A2%91%E6%92%AD%E6%94%BE/image-20210129201341856.png" alt="image-20210129201341856"></p>
-<p><img src="/2021/01/30/%E9%9F%B3%E9%A2%91%E6%92%AD%E6%94%BE/image-20210129201400883.png" alt="image-20210129201400883"></p>
-<p><img src="/2021/01/30/%E9%9F%B3%E9%A2%91%E6%92%AD%E6%94%BE/image-20210129201425186.png" alt="image-20210129201425186"></p>
-<p><img src="/2021/01/30/%E9%9F%B3%E9%A2%91%E6%92%AD%E6%94%BE/image-20210129201527413.png" alt="image-20210129201527413"></p>
-<p><img src="/2021/01/30/%E9%9F%B3%E9%A2%91%E6%92%AD%E6%94%BE/image-20210129201637946.png" alt="image-20210129201637946"></p>
-<p><img src="/2021/01/30/%E9%9F%B3%E9%A2%91%E6%92%AD%E6%94%BE/image-20210129201717833.png" alt="image-20210129201717833"></p>
-<p><img src="/2021/01/30/%E9%9F%B3%E9%A2%91%E6%92%AD%E6%94%BE/image-20210129201731517.png" alt="image-20210129201731517"></p>
-<p><img src="/2021/01/30/%E9%9F%B3%E9%A2%91%E6%92%AD%E6%94%BE/image-20210129201745527.png" alt="image-20210129201745527"></p>
-<p>事例：音乐播放器</p>
-<p><img src="/2021/01/30/%E9%9F%B3%E9%A2%91%E6%92%AD%E6%94%BE/image-20210129201827908.png" alt="image-20210129201827908"></p>
-<p>效果1：播放资源文件</p>
-<p><img src="/2021/01/30/%E9%9F%B3%E9%A2%91%E6%92%AD%E6%94%BE/image-20210130094215782.png" alt="image-20210130094215782"></p>
-<p><img src="/2021/01/30/%E9%9F%B3%E9%A2%91%E6%92%AD%E6%94%BE/image-20210130094305123.png" alt="image-20210130094305123"></p>
-<p>说明：第一个是播放按钮，第二个是暂停按钮，第三个是停止按钮</p>
-<p>实现：</p>
-<p>添加资源文件</p>
-<p><img src="/2021/01/30/%E9%9F%B3%E9%A2%91%E6%92%AD%E6%94%BE/image-20210130094546844.png" alt="image-20210130094546844"></p>
-<p><img src="/2021/01/30/%E9%9F%B3%E9%A2%91%E6%92%AD%E6%94%BE/image-20210130094816510.png" alt="image-20210130094816510"></p>
-<p>播放资源文件实现</p>
-<p>activity_main.xml</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version&#x3D;&quot;1.0&quot; encoding&#x3D;&quot;utf-8&quot;?&gt;</span><br><span class="line">&lt;LinearLayout</span><br><span class="line">    xmlns:android&#x3D;&quot;http:&#x2F;&#x2F;schemas.android.com&#x2F;apk&#x2F;res&#x2F;android&quot;</span><br><span class="line">    android:layout_width&#x3D;&quot;match_parent&quot;</span><br><span class="line">    android:layout_height&#x3D;&quot;match_parent&quot;</span><br><span class="line">    android:orientation&#x3D;&quot;vertical&quot;</span><br><span class="line">    &gt;</span><br><span class="line"></span><br><span class="line">    &lt;TextView</span><br><span class="line">        android:id&#x3D;&quot;@+id&#x2F;text1&quot;</span><br><span class="line">        android:layout_width&#x3D;&quot;wrap_content&quot;</span><br><span class="line">        android:layout_height&#x3D;&quot;wrap_content&quot;</span><br><span class="line">        android:text&#x3D;&quot;简易音乐播放器&quot;</span><br><span class="line">        android:textSize&#x3D;&quot;24dp&quot; &#x2F;&gt;</span><br><span class="line">    &lt;LinearLayout</span><br><span class="line">        android:layout_width&#x3D;&quot;match_parent&quot;</span><br><span class="line">        android:layout_height&#x3D;&quot;wrap_content&quot;</span><br><span class="line">        android:orientation&#x3D;&quot;horizontal&quot;&gt;</span><br><span class="line">        &lt;ImageButton</span><br><span class="line">            android:id&#x3D;&quot;@+id&#x2F;play_btn&quot;</span><br><span class="line">            android:layout_width&#x3D;&quot;wrap_content&quot;</span><br><span class="line">            android:layout_height&#x3D;&quot;wrap_content&quot;</span><br><span class="line">            android:src&#x3D;&quot;@drawable&#x2F;ic_baseline_play_arrow_24&quot;</span><br><span class="line">            android:tooltipText&#x3D;&quot;播放&quot;&gt;</span><br><span class="line">        &lt;&#x2F;ImageButton&gt;</span><br><span class="line">        &lt;ImageButton</span><br><span class="line">            android:id&#x3D;&quot;@+id&#x2F;pause_btn&quot;</span><br><span class="line">            android:layout_width&#x3D;&quot;wrap_content&quot;</span><br><span class="line">            android:layout_height&#x3D;&quot;wrap_content&quot;</span><br><span class="line">            android:src&#x3D;&quot;@drawable&#x2F;ic_baseline_pause_24&quot;</span><br><span class="line">            android:tooltipText&#x3D;&quot;暂停&quot;&gt;</span><br><span class="line">        &lt;&#x2F;ImageButton&gt;</span><br><span class="line">        &lt;ImageButton</span><br><span class="line">            android:id&#x3D;&quot;@+id&#x2F;stop_btn&quot;</span><br><span class="line">            android:layout_width&#x3D;&quot;wrap_content&quot;</span><br><span class="line">            android:layout_height&#x3D;&quot;wrap_content&quot;</span><br><span class="line">            android:src&#x3D;&quot;@drawable&#x2F;ic_baseline_stop_24&quot;</span><br><span class="line">            android:tooltipText&#x3D;&quot;停止&quot;&gt;</span><br><span class="line">        &lt;&#x2F;ImageButton&gt;</span><br><span class="line">    &lt;&#x2F;LinearLayout&gt;</span><br><span class="line">    </span><br><span class="line">    &lt;RadioGroup</span><br><span class="line">        android:layout_width&#x3D;&quot;match_parent&quot;</span><br><span class="line">        android:layout_height&#x3D;&quot;wrap_content&quot;&gt;</span><br><span class="line">        &lt;RadioButton</span><br><span class="line">            android:id&#x3D;&quot;@+id&#x2F;radio1&quot;</span><br><span class="line">            android:layout_width&#x3D;&quot;wrap_content&quot;</span><br><span class="line">            android:layout_height&#x3D;&quot;wrap_content&quot;</span><br><span class="line">            android:text&#x3D;&quot;播放资源文件音乐&quot;&gt;</span><br><span class="line">        &lt;&#x2F;RadioButton&gt;</span><br><span class="line">        &lt;RadioButton</span><br><span class="line">            android:id&#x3D;&quot;@+id&#x2F;radio2&quot;</span><br><span class="line">            android:layout_width&#x3D;&quot;wrap_content&quot;</span><br><span class="line">            android:layout_height&#x3D;&quot;wrap_content&quot;</span><br><span class="line">            android:text&#x3D;&quot;播放SD卡上的文件音乐&quot;&gt;</span><br><span class="line">        &lt;&#x2F;RadioButton&gt;</span><br><span class="line">    &lt;&#x2F;RadioGroup&gt;</span><br><span class="line"></span><br><span class="line">    &lt;&#x2F;LinearLayout&gt;</span><br></pre></td></tr></table></figure>
-<p>MainActivity.java</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br></pre></td><td class="code"><pre><span class="line">import androidx.appcompat.app.AppCompatActivity;</span><br><span class="line"></span><br><span class="line">import android.media.MediaParser;</span><br><span class="line">import android.media.MediaPlayer;</span><br><span class="line">import android.os.Bundle;</span><br><span class="line">import android.util.Log;</span><br><span class="line">import android.view.View;</span><br><span class="line">import android.widget.ImageButton;</span><br><span class="line">import android.widget.RadioButton;</span><br><span class="line">import android.widget.TextView;</span><br><span class="line">import android.widget.Toast;</span><br><span class="line"></span><br><span class="line">public class MainActivity extends AppCompatActivity &#123;</span><br><span class="line">    TextView text1;</span><br><span class="line">    ImageButton startButton,pauseBytton,stopButton;</span><br><span class="line">    RadioButton radioButton1,radioButton2;</span><br><span class="line">    MediaPlayer player;&#x2F;&#x2F;播放器对象</span><br><span class="line">     int res_file &#x3D;R.raw.music1;&#x2F;&#x2F;获取文件路径（返回0&#x2F;1表示成功&#x2F;失败）</span><br><span class="line">    @Override</span><br><span class="line">    protected void onCreate(Bundle savedInstanceState) &#123;</span><br><span class="line">        super.onCreate(savedInstanceState);</span><br><span class="line">        setContentView(R.layout.activity_main);</span><br><span class="line"></span><br><span class="line">        text1 &#x3D; findViewById(R.id.text1);</span><br><span class="line">        startButton &#x3D; findViewById(R.id.play_btn);</span><br><span class="line">        pauseBytton &#x3D; findViewById(R.id.pause_btn);</span><br><span class="line">        stopButton &#x3D; findViewById(R.id.stop_btn);</span><br><span class="line">        radioButton1 &#x3D; findViewById(R.id.radio1);</span><br><span class="line">        radioButton2 &#x3D; findViewById(R.id.radio2);</span><br><span class="line">        &#x2F;&#x2F;设置监听</span><br><span class="line">        startButton.setOnClickListener(new startClick());</span><br><span class="line">        pauseBytton.setOnClickListener(new pauseClick());</span><br><span class="line">        stopButton.setOnClickListener(new stopClick());</span><br><span class="line"></span><br><span class="line">        player &#x3D; new MediaPlayer();</span><br><span class="line">    &#125;</span><br><span class="line">    class startClick implements View.OnClickListener&#123;</span><br><span class="line"></span><br><span class="line">        @Override</span><br><span class="line">        public void onClick(View v) &#123;</span><br><span class="line">            if(radioButton1.isChecked())&#123;&#x2F;&#x2F;如果选择radio1</span><br><span class="line">                &#x2F;&#x2F;将播放文件资源赋值到【player播放对象】</span><br><span class="line">                player &#x3D; MediaPlayer.create(MainActivity.this,res_file);</span><br><span class="line">               &#x2F;&#x2F; MediaPlayer.cre</span><br><span class="line">                player.start();</span><br><span class="line">            &#125;</span><br><span class="line">            text1.setText(radioButton1.getText());</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    class pauseClick implements View.OnClickListener&#123;</span><br><span class="line"></span><br><span class="line">        @Override</span><br><span class="line">        public void onClick(View v) &#123;</span><br><span class="line">            if(player.isPlaying())&#123;     &#x2F;&#x2F;如果正在播放则暂停</span><br><span class="line">                player.pause();     &#x2F;&#x2F;停止</span><br><span class="line">            &#125;else &#123;                     &#x2F;&#x2F;否则启动</span><br><span class="line">                player.start();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    class stopClick implements View.OnClickListener&#123;</span><br><span class="line"></span><br><span class="line">        @Override</span><br><span class="line">        public void onClick(View v) &#123;</span><br><span class="line">            if(player.isPlaying())&#123;</span><br><span class="line">                player.reset();     &#x2F;&#x2F;重置</span><br><span class="line">                player.release();   &#x2F;&#x2F;释放</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-<p>效果2：播放SD卡上的音乐文件</p>
-<p><img src="/2021/01/30/%E9%9F%B3%E9%A2%91%E6%92%AD%E6%94%BE/image-20210130102612324.png" alt="image-20210130102612324"></p>
-<p>实现（暂停都是一样的）</p>
-<p><img src="/2021/01/30/%E9%9F%B3%E9%A2%91%E6%92%AD%E6%94%BE/image-20210130095745290.png" alt="image-20210130095745290"></p>
-<p><img src="/2021/01/30/%E9%9F%B3%E9%A2%91%E6%92%AD%E6%94%BE/image-20210130102218758.png" alt="image-20210130102218758"></p>
-<p><img src="/2021/01/30/%E9%9F%B3%E9%A2%91%E6%92%AD%E6%94%BE/image-20210130102246809.png" alt="image-20210130102246809"></p>
-<p><img src="/2021/01/30/%E9%9F%B3%E9%A2%91%E6%92%AD%E6%94%BE/image-20210130102342349.png" alt="image-20210130102342349"></p>
-<p><img src="/2021/01/30/%E9%9F%B3%E9%A2%91%E6%92%AD%E6%94%BE/image-20210130102517927.png" alt="image-20210130102517927"></p>
-<p><img src="/2021/01/30/%E9%9F%B3%E9%A2%91%E6%92%AD%E6%94%BE/image-20210130102545143.png" alt="image-20210130102545143"></p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://wgc5.gitee.io/2021/01/29/SQLite%E6%95%B0%E6%8D%AE%E5%BA%93/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="北极星上的稻草人">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="北极星上的稻草人">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2021/01/29/SQLite%E6%95%B0%E6%8D%AE%E5%BA%93/" class="post-title-link" itemprop="url">SQLite数据库</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2021-01-29 15:07:06" itemprop="dateCreated datePublished" datetime="2021-01-29T15:07:06+08:00">2021-01-29</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-04-13 09:03:21" itemprop="dateModified" datetime="2021-04-13T09:03:21+08:00">2021-04-13</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Android-Studio/" itemprop="url" rel="index"><span itemprop="name">Android Studio</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h3 id="SQLite数据库"><a href="#SQLite数据库" class="headerlink" title="SQLite数据库"></a>SQLite数据库</h3><p><img src="/2021/01/29/SQLite%E6%95%B0%E6%8D%AE%E5%BA%93/image-20210129111740561.png" alt="image-20210129111740561"></p>
-<p><img src="/2021/01/29/SQLite%E6%95%B0%E6%8D%AE%E5%BA%93/image-20210129111752975.png" alt="image-20210129111752975"></p>
-<p><img src="/2021/01/29/SQLite%E6%95%B0%E6%8D%AE%E5%BA%93/image-20210129111843481.png" alt="image-20210129111843481"></p>
-<p><img src="/2021/01/29/SQLite%E6%95%B0%E6%8D%AE%E5%BA%93/image-20210129111928385.png" alt="image-20210129111928385"></p>
-<p>事例（增删查改）</p>
-<p>增</p>
-<p><img src="/2021/01/29/SQLite%E6%95%B0%E6%8D%AE%E5%BA%93/image-20210129112228560.png" alt="image-20210129112228560"></p>
-<p>查</p>
-<p><img src="/2021/01/29/SQLite%E6%95%B0%E6%8D%AE%E5%BA%93/image-20210129112434891.png" alt="image-20210129112434891"></p>
-<p><img src="/2021/01/29/SQLite%E6%95%B0%E6%8D%AE%E5%BA%93/image-20210129112930251.png" alt="image-20210129112930251"></p>
-<p>改（更新）</p>
-<p> （原）</p>
-<p><img src="/2021/01/29/SQLite%E6%95%B0%E6%8D%AE%E5%BA%93/image-20210129112820024.png" alt="image-20210129112820024"></p>
-<p>（更新后）</p>
-<p><img src="/2021/01/29/SQLite%E6%95%B0%E6%8D%AE%E5%BA%93/image-20210129112920137.png" alt="image-20210129112920137"></p>
-<p>删</p>
-<p><img src="/2021/01/29/SQLite%E6%95%B0%E6%8D%AE%E5%BA%93/image-20210129113048778.png" alt="image-20210129113048778"></p>
-<p><img src="/2021/01/29/SQLite%E6%95%B0%E6%8D%AE%E5%BA%93/image-20210129113123696.png" alt="image-20210129113123696"></p>
-<p>实现</p>
-<p>步骤1：新建一个数据库java类</p>
-<p><img src="/2021/01/29/SQLite%E6%95%B0%E6%8D%AE%E5%BA%93/image-20210129113318797.png" alt="image-20210129113318797"></p>
-<p><img src="/2021/01/29/SQLite%E6%95%B0%E6%8D%AE%E5%BA%93/image-20210129114053342.png" alt="image-20210129114053342"></p>
-<p>步骤2：实现操作</p>
-<p>MainActivity.java</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br></pre></td><td class="code"><pre><span class="line">import androidx.appcompat.app.AppCompatActivity;</span><br><span class="line"></span><br><span class="line">import android.content.ContentValues;</span><br><span class="line">import android.database.Cursor;</span><br><span class="line">import android.database.sqlite.SQLiteDatabase;</span><br><span class="line">import android.os.Bundle;</span><br><span class="line">import android.util.Log;</span><br><span class="line">import android.view.View;</span><br><span class="line">import android.widget.EditText;</span><br><span class="line">import android.widget.Toast;</span><br><span class="line"></span><br><span class="line">import java.text.StringCharacterIterator;</span><br><span class="line"></span><br><span class="line">public class MainActivity extends AppCompatActivity &#123;</span><br><span class="line"></span><br><span class="line">    EditText username &#x3D; null;   &#x2F;&#x2F;数据库：用户名</span><br><span class="line">    EditText userpwd &#x3D; null;    &#x2F;&#x2F;数据库：密码</span><br><span class="line">    DatabaseHeper heper;        &#x2F;&#x2F;自定义数据库实例对象（用于初始化数据库）</span><br><span class="line">    SQLiteDatabase database;    &#x2F;&#x2F;数据库对象</span><br><span class="line">    String sql;                 &#x2F;&#x2F;存放sql语句</span><br><span class="line">    String uname;               &#x2F;&#x2F;编辑框：用户名</span><br><span class="line">    String upwd;                &#x2F;&#x2F;编辑框：密码</span><br><span class="line">    Cursor cursor &#x3D;null;        &#x2F;&#x2F;游标</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    protected void onCreate(Bundle savedInstanceState) &#123;</span><br><span class="line">        super.onCreate(savedInstanceState);</span><br><span class="line">        setContentView(R.layout.activity_main);</span><br><span class="line"></span><br><span class="line">        username &#x3D; findViewById(R.id.username);</span><br><span class="line">        userpwd &#x3D; findViewById(R.id.userpwd);</span><br><span class="line">        &#x2F;&#x2F;参数1：上下文；参数2：数据库名字；参数三：游标库；参数4：版本</span><br><span class="line">        heper &#x3D; new DatabaseHeper(this,&quot;demo.db&quot;,null,1);</span><br><span class="line">        &#x2F;&#x2F;获取数据库操作权限</span><br><span class="line">        database &#x3D; heper.getWritableDatabase();</span><br><span class="line">    &#125;</span><br><span class="line">    public void btnClick(View view)&#123;</span><br><span class="line">        &#x2F;&#x2F;获取内容（赋值）</span><br><span class="line">        uname &#x3D; username.getText().toString();</span><br><span class="line">        upwd &#x3D; userpwd.getText().toString();</span><br><span class="line">        switch (view.getId())&#123;</span><br><span class="line">            case R.id.btn1:        &#x2F;&#x2F;1.创建</span><br><span class="line">               sql &#x3D; &quot;INSERT INTO user(username, userpwd) VALUES ( &#39;&quot;+uname+&quot;&#39;, &#39;&quot;+upwd+&quot;&#39;)&quot;;</span><br><span class="line">               database.execSQL(sql);</span><br><span class="line">               username.setText(&quot;&quot;);</span><br><span class="line">               userpwd.setText(&quot;&quot;);</span><br><span class="line">               Toast.makeText(this,&quot;创建用户成功&quot;,Toast.LENGTH_SHORT).show();</span><br><span class="line">                break;</span><br><span class="line"></span><br><span class="line">            case R.id.btn2:        &#x2F;&#x2F;2.数据库内容更新(更新密码）</span><br><span class="line">                &#x2F;*方法一：原理</span><br><span class="line">                sql &#x3D; &quot;update user set userpwd&#x3D;&#39;&quot;+upwd+&quot;&#39; where username&#x3D;&#39;&quot;+uname+&quot;&#39; &quot;;</span><br><span class="line">                database.execSQL(sql);</span><br><span class="line">                 *&#x2F;</span><br><span class="line"></span><br><span class="line">                &#x2F;&#x2F;方法二：封装（主流）:都有封装好的方法，这里只展示更新和删除操作</span><br><span class="line">                ContentValues values &#x3D; new ContentValues();</span><br><span class="line">                values.put(&quot;userpwd&quot;,upwd);</span><br><span class="line">                &#x2F;&#x2F;user:表名；values：修改内容；whereClause：限制条件，参数4：限制条件补充</span><br><span class="line">                database.update(&quot;user&quot;,values,&quot;username&#x3D;?&quot;,new String[]&#123;uname&#125;);</span><br><span class="line">                username.setText(&quot;&quot;);</span><br><span class="line">                userpwd.setText(&quot;&quot;);</span><br><span class="line">                Toast.makeText(this,&quot;更新密码成功&quot;,Toast.LENGTH_SHORT).show();</span><br><span class="line">                break;</span><br><span class="line"></span><br><span class="line">            case R.id.btn3:       &#x2F;&#x2F;3.查询</span><br><span class="line">                sql &#x3D; &quot;select * from user&quot;;</span><br><span class="line">                String args[] &#x3D; null; &#x2F;&#x2F;存放查询的限制条件</span><br><span class="line">                &#x2F;&#x2F;全局查询和限制查询会有些不同</span><br><span class="line">                if(uname !&#x3D; null &amp;&amp; !uname.equals(&quot;&quot;))&#123;</span><br><span class="line">                    &#x2F;&#x2F;!!查询语句拼接!!</span><br><span class="line">                    &#x2F;&#x2F;根据名字查找</span><br><span class="line">                    if(!uname.equals(&quot;all&quot;))&#123;</span><br><span class="line">                        sql &#x3D; sql + &quot; where username&#x3D;?&quot;;&#x2F;&#x2F;注意：sql语句要拼接正确，所以这里where前有空格</span><br><span class="line">                        args &#x3D; new String[]&#123;uname&#125;;&#x2F;&#x2F;用于填充username&#x3D;？的“？”的内容</span><br><span class="line">                       &#x2F;&#x2F; 再加上根据密码查找</span><br><span class="line">                        if(upwd !&#x3D; null &amp;&amp; !upwd.equals(&quot;&quot;))&#123;</span><br><span class="line">                            sql &#x3D;sql +&quot; and userpwd&#x3D;?&quot;;&#x2F;&#x2F;and前有空格</span><br><span class="line">                            args &#x3D; new String[]&#123;uname,upwd&#125;;</span><br><span class="line">                        &#125;</span><br><span class="line">                    &#125;else&#123;</span><br><span class="line">                        args&#x3D;null;</span><br><span class="line">                    &#125;</span><br><span class="line"></span><br><span class="line">                    &#x2F;&#x2F;!!查询操作!!</span><br><span class="line">                    &#x2F;&#x2F;将查询（上面操作）表里的所有内容放在游标里</span><br><span class="line">                    cursor &#x3D; database.rawQuery(sql,args);</span><br><span class="line">                    cursor.moveToFirst();  &#x2F;&#x2F;把游标放在第一个位置</span><br><span class="line">                    String name &#x3D; null;</span><br><span class="line">                    String pwd &#x3D; null;</span><br><span class="line">                    while(!cursor.isAfterLast())&#123;  &#x2F;&#x2F;判断游标是否在最后的位置</span><br><span class="line">                        name &#x3D; cursor.getString(cursor.getColumnIndex(&quot;username&quot;));</span><br><span class="line">                        pwd &#x3D; cursor.getString(cursor.getColumnIndex(&quot;userpwd&quot;));</span><br><span class="line">                        Log.e(&quot;DATABASE&quot;,&quot;用户名：&quot;+name+&quot;,    密码：&quot;+pwd);</span><br><span class="line">                        cursor.moveToNext();</span><br><span class="line">                    &#125;</span><br><span class="line">                    Toast.makeText(this,&quot;查询成功&quot;,Toast.LENGTH_SHORT).show();</span><br><span class="line">                &#125;else &#123; &#x2F;&#x2F;查询失败</span><br><span class="line">                    Toast.makeText(this,&quot;请输入用户名&quot;,Toast.LENGTH_SHORT).show();</span><br><span class="line">                &#125;</span><br><span class="line">                break;</span><br><span class="line"></span><br><span class="line">            case R.id.btn4:     &#x2F;&#x2F;4.删除</span><br><span class="line">               &#x2F;*方法一：原理</span><br><span class="line">                sql &#x3D; &quot;delete from user where username&#x3D;&#39;&quot;+uname+&quot;&#39; &quot;;</span><br><span class="line">                database.execSQL(sql);</span><br><span class="line">                *&#x2F;</span><br><span class="line"></span><br><span class="line">               &#x2F;&#x2F;方法二：封装</span><br><span class="line">                database.delete(&quot;user&quot;,&quot;username&#x3D;?&quot;,new String[]&#123;uname&#125;);</span><br><span class="line">                username.setText(&quot;&quot;);</span><br><span class="line">                userpwd.setText(&quot;&quot;);</span><br><span class="line">                Toast.makeText(this,&quot;删除用户成功&quot;,Toast.LENGTH_SHORT).show();</span><br><span class="line">                break;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-<p>提升：更改表的结构（添加一个年龄的数据项）</p>
-<p><img src="/2021/01/29/SQLite%E6%95%B0%E6%8D%AE%E5%BA%93/image-20210129113503723.png" alt="image-20210129113503723"></p>
-<p><img src="/2021/01/29/SQLite%E6%95%B0%E6%8D%AE%E5%BA%93/image-20210129113700702.png" alt="image-20210129113700702"></p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://wgc5.gitee.io/2021/01/21/%E5%AD%98%E5%82%A8/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="北极星上的稻草人">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="北极星上的稻草人">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2021/01/21/%E5%AD%98%E5%82%A8/" class="post-title-link" itemprop="url">存储</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2021-01-21 11:19:01" itemprop="dateCreated datePublished" datetime="2021-01-21T11:19:01+08:00">2021-01-21</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-02-21 09:49:08" itemprop="dateModified" datetime="2021-02-21T09:49:08+08:00">2021-02-21</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Android-Studio/" itemprop="url" rel="index"><span itemprop="name">Android Studio</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h3 id="存储"><a href="#存储" class="headerlink" title="存储"></a>存储</h3><h4 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h4><p><img src="/2021/01/21/%E5%AD%98%E5%82%A8/image-20210120145329179.png" alt="image-20210120145329179"></p>
-<p><img src="/2021/01/21/%E5%AD%98%E5%82%A8/image-20210120145408848.png" alt="image-20210120145408848"></p>
-<p><img src="/2021/01/21/%E5%AD%98%E5%82%A8/image-20210120145428545.png" alt="image-20210120145428545"></p>
-<p><img src="/2021/01/21/%E5%AD%98%E5%82%A8/image-20210120145507319.png" alt="image-20210120145507319"></p>
-<p><img src="/2021/01/21/%E5%AD%98%E5%82%A8/image-20210120145533833.png" alt="image-20210120145533833"></p>
-<p>SharedPreferences事例</p>
-<p><img src="/2021/01/21/%E5%AD%98%E5%82%A8/image-20210120145555735.png" alt="image-20210120145555735"></p>
-<p><img src="/2021/01/21/%E5%AD%98%E5%82%A8/image-20210120152715758.png" alt="image-20210120152715758"></p>
-<p>MainActivity.java</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br></pre></td><td class="code"><pre><span class="line">import androidx.appcompat.app.AppCompatActivity;</span><br><span class="line"></span><br><span class="line">import android.content.SharedPreferences;</span><br><span class="line">import android.os.Bundle;</span><br><span class="line">import android.view.View;</span><br><span class="line">import android.widget.Button;</span><br><span class="line">import android.widget.EditText;</span><br><span class="line">import android.widget.Toast;</span><br><span class="line"></span><br><span class="line">public class MainActivity extends AppCompatActivity implements View.OnClickListener &#123;</span><br><span class="line">    Button btn1;</span><br><span class="line">    Button btn2;</span><br><span class="line">    SharedPreferences sharedPreferences ;</span><br><span class="line">    EditText editText;</span><br><span class="line">    @Override</span><br><span class="line">    protected void onCreate(Bundle savedInstanceState) &#123;</span><br><span class="line">        super.onCreate(savedInstanceState);</span><br><span class="line">        setContentView(R.layout.activity_main);</span><br><span class="line"></span><br><span class="line">        btn1 &#x3D; findViewById(R.id.btn1);</span><br><span class="line">        btn2 &#x3D; findViewById(R.id.btn2);</span><br><span class="line">        btn1.setOnClickListener(this);</span><br><span class="line">        btn2.setOnClickListener(this);</span><br><span class="line">        editText &#x3D; findViewById(R.id.et);</span><br><span class="line">        &#x2F;&#x2F;参数1：myFile:自定义文件名；参数2：MODE_PRIVATE：标志值</span><br><span class="line">        sharedPreferences &#x3D; getSharedPreferences(&quot;myFile&quot;,MODE_PRIVATE);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public void onClick(View v) &#123;</span><br><span class="line">        switch (v.getId())&#123;</span><br><span class="line">            case R.id.btn1: &#x2F;&#x2F;存储</span><br><span class="line">                String etString &#x3D; editText.getText().toString();  &#x2F;&#x2F;获取编辑框的数据</span><br><span class="line">                saveData(etString);</span><br><span class="line">                break;</span><br><span class="line">            case R.id.btn2: &#x2F;&#x2F;读取</span><br><span class="line">                &#x2F;&#x2F;读取content键值，若找不到这返回“自定义值”（这里写了空）</span><br><span class="line">                String content2 &#x3D; sharedPreferences.getString(&quot;content&quot;,&quot;空&quot;);</span><br><span class="line">                Toast.makeText(this,&quot;好好努力&quot;+content2,Toast.LENGTH_LONG).show();</span><br><span class="line">                break;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    public void saveData(String string)&#123;</span><br><span class="line">        &#x2F;&#x2F;获取编辑器数据</span><br><span class="line">       SharedPreferences.Editor editor &#x3D; sharedPreferences.edit();</span><br><span class="line">       &#x2F;&#x2F;将string的内容写入变量content中</span><br><span class="line">       editor.putString(&quot;content&quot;,string);</span><br><span class="line">       &#x2F;&#x2F;提交</span><br><span class="line">       editor.commit();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>效果</p>
-<p><img src="/2021/01/21/%E5%AD%98%E5%82%A8/image-20210120153004420.png" alt="image-20210120153004420"></p>
-<p><img src="/2021/01/21/%E5%AD%98%E5%82%A8/image-20210120153340925.png" alt="image-20210120153340925"></p>
-<p><img src="/2021/01/21/%E5%AD%98%E5%82%A8/image-20210120161026631.png" alt="image-20210120161026631"></p>
-<p><img src="/2021/01/21/%E5%AD%98%E5%82%A8/image-20210120161053037.png" alt="image-20210120161053037"></p>
-<p>Preferencescreen事例</p>
-<p><img src="/2021/01/21/%E5%AD%98%E5%82%A8/image-20210120161222226.png" alt="image-20210120161222226"></p>
-<p>效果：</p>
-<p><img src="/2021/01/21/%E5%AD%98%E5%82%A8/image-20210120170633139.png" alt="image-20210120170633139"></p>
-<p><img src="/2021/01/21/%E5%AD%98%E5%82%A8/image-20210120170749140.png" alt="image-20210120170749140"></p>
-<p><img src="/2021/01/21/%E5%AD%98%E5%82%A8/image-20210120170853444.png" alt="image-20210120170853444"></p>
-<p><img src="/2021/01/21/%E5%AD%98%E5%82%A8/image-20210120170927916.png" alt="image-20210120170927916"></p>
-<p>实现：</p>
-<p>新建项目（注意项目类型）</p>
-<p><img src="/2021/01/21/%E5%AD%98%E5%82%A8/image-20210120161336629.png" alt="image-20210120161336629"></p>
-<p><img src="/2021/01/21/%E5%AD%98%E5%82%A8/image-20210120161831059.png" alt="image-20210120161831059"></p>
-<p>添加库（implementation ‘androidx.preference:preference:1.1.0-alpha04’）</p>
-<p><img src="/2021/01/21/%E5%AD%98%E5%82%A8/image-20210120162054065.png" alt="image-20210120162054065"></p>
-<p><img src="/2021/01/21/%E5%AD%98%E5%82%A8/image-20210120171130771.png" alt="image-20210120171130771"></p>
-<p><img src="/2021/01/21/%E5%AD%98%E5%82%A8/image-20210120171412507.png" alt="image-20210120171412507"></p>
-<p>MainActivity.java</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">import androidx.appcompat.app.AppCompatActivity;</span><br><span class="line"></span><br><span class="line">import android.os.Bundle;</span><br><span class="line"></span><br><span class="line">import com.example.preferencescreendemo.ui.main.MainFragment;</span><br><span class="line"></span><br><span class="line">public class MainActivity extends AppCompatActivity &#123;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    protected void onCreate(Bundle savedInstanceState) &#123;</span><br><span class="line">        super.onCreate(savedInstanceState);</span><br><span class="line">        setContentView(R.layout.main_activity);</span><br><span class="line">        if (savedInstanceState &#x3D;&#x3D; null) &#123;</span><br><span class="line">            getSupportFragmentManager().beginTransaction()</span><br><span class="line">             &#x2F;&#x2F;将MainFragment绑定到R.id.container中（即其布局上下文内容）</span><br><span class="line">                    .replace(R.id.container, new MainFragment())</span><br><span class="line">                    .commitNow();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-<p>MainFragment.java</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line">import android.content.SharedPreferences;</span><br><span class="line">import android.os.Bundle;</span><br><span class="line">import androidx.preference.Preference;</span><br><span class="line">import androidx.preference.PreferenceFragmentCompat;</span><br><span class="line">import com.example.preferencescreendemo.R;</span><br><span class="line"></span><br><span class="line">public class MainFragment extends PreferenceFragmentCompat implements SharedPreferences.OnSharedPreferenceChangeListener &#123;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public void onCreatePreferences(Bundle savedInstanceState, String rootKey) &#123;</span><br><span class="line">        &#x2F;&#x2F;将preference布局进行绑定</span><br><span class="line">        setPreferencesFromResource(R.xml.preference,rootKey);</span><br><span class="line">    &#125;</span><br><span class="line">    &#x2F;&#x2F;发生改变时进行</span><br><span class="line">    @Override</span><br><span class="line">    public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) &#123;</span><br><span class="line">        if(key.equals(&quot;seting_message&quot;))&#123;</span><br><span class="line">            &#x2F;&#x2F;获得preference</span><br><span class="line">            Preference preference &#x3D; findPreference(key);</span><br><span class="line">            &#x2F;&#x2F;获得该获得preference的编辑框内容并修改到summary上</span><br><span class="line">            preference.setSummary(sharedPreferences.getString(key,&quot;&quot;));</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    &#x2F;&#x2F;当回复界面的时候</span><br><span class="line">    @Override</span><br><span class="line">    public void onResume() &#123;</span><br><span class="line">        super.onResume();</span><br><span class="line">        &#x2F;&#x2F;设置监听器</span><br><span class="line">        getPreferenceScreen().getSharedPreferences().registerOnSharedPreferenceChangeListener(this);</span><br><span class="line">    &#125;</span><br><span class="line">    &#x2F;&#x2F;当停止的时候</span><br><span class="line">    @Override</span><br><span class="line">    public void onPause() &#123;</span><br><span class="line">        super.onPause();</span><br><span class="line">        &#x2F;&#x2F;取消监听</span><br><span class="line">        getPreferenceScreen().getSharedPreferences().unregisterOnSharedPreferenceChangeListener(this);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h4 id="内部存储"><a href="#内部存储" class="headerlink" title="内部存储"></a>内部存储</h4><p><img src="/2021/01/21/%E5%AD%98%E5%82%A8/image-20210120183918249.png" alt="image-20210120183918249"></p>
-<p>（不是根据是否可以拆除区分）</p>
-<p><img src="/2021/01/21/%E5%AD%98%E5%82%A8/image-20210120183929581.png" alt="image-20210120183929581"></p>
-<p><img src="/2021/01/21/%E5%AD%98%E5%82%A8/image-20210120184021788.png" alt="image-20210120184021788"></p>
-<p><img src="/2021/01/21/%E5%AD%98%E5%82%A8/image-20210120184031283.png" alt="image-20210120184031283"></p>
-<p><img src="/2021/01/21/%E5%AD%98%E5%82%A8/image-20210120184043098.png" alt="image-20210120184043098"></p>
-<p>事例</p>
-<p><img src="/2021/01/21/%E5%AD%98%E5%82%A8/image-20210120184108306.png" alt="image-20210120184108306"></p>
-<p><img src="/2021/01/21/%E5%AD%98%E5%82%A8/image-20210120192523791.png" alt="image-20210120192523791"></p>
-<p><img src="/2021/01/21/%E5%AD%98%E5%82%A8/image-20210120192552328.png" alt="image-20210120192552328"></p>
-<p><img src="/2021/01/21/%E5%AD%98%E5%82%A8/image-20210120192607599.png" alt="image-20210120192607599"></p>
-<p>实现：</p>
-<p>MainActivity.java</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br></pre></td><td class="code"><pre><span class="line">import androidx.appcompat.app.AppCompatActivity;</span><br><span class="line"></span><br><span class="line">import android.content.Context;</span><br><span class="line">import android.os.Bundle;</span><br><span class="line">import android.view.View;</span><br><span class="line">import android.widget.Button;</span><br><span class="line">import android.widget.EditText;</span><br><span class="line">import android.widget.TextView;</span><br><span class="line">import android.widget.Toast;</span><br><span class="line"></span><br><span class="line">import java.io.FileInputStream;</span><br><span class="line">import java.io.FileNotFoundException;</span><br><span class="line">import java.io.FileOutputStream;</span><br><span class="line">import java.io.IOException;</span><br><span class="line"></span><br><span class="line">public class MainActivity extends AppCompatActivity &#123;</span><br><span class="line"></span><br><span class="line">    Button btn1,btn2;</span><br><span class="line">    TextView textView;</span><br><span class="line">    EditText editName,editPSW;</span><br><span class="line">    String fileName &#x3D; &quot;myFile&quot;;</span><br><span class="line">    @Override</span><br><span class="line">    protected void onCreate(Bundle savedInstanceState) &#123;</span><br><span class="line">        super.onCreate(savedInstanceState);</span><br><span class="line">        setContentView(R.layout.activity_main);</span><br><span class="line">        btn1 &#x3D; findViewById(R.id.btn1);</span><br><span class="line">        btn2 &#x3D; findViewById(R.id.btn2);</span><br><span class="line">        textView &#x3D; findViewById(R.id.txt);</span><br><span class="line">        editName &#x3D; findViewById(R.id.editName);</span><br><span class="line">        editPSW &#x3D; findViewById(R.id.editPWD);</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">    public void btn1Click(View view) throws IOException &#123;</span><br><span class="line">        String name &#x3D; editName.getText().toString();</span><br><span class="line">        String pwd &#x3D; editPSW.getText().toString();</span><br><span class="line">        &#x2F;&#x2F;输出流;openFileOutput(参数1，参数2)：参数1：文件名；参数2：输出类型：追加</span><br><span class="line">        FileOutputStream fileOutputStream &#x3D; openFileOutput(fileName, Context.MODE_PRIVATE);</span><br><span class="line">        fileOutputStream.write((name+&quot;##&quot;+pwd).getBytes());</span><br><span class="line">        &#x2F;&#x2F;记得关闭文件流</span><br><span class="line">        if(fileOutputStream !&#x3D; null)&#123;</span><br><span class="line">            fileOutputStream.close();</span><br><span class="line">        &#125;</span><br><span class="line">        Toast.makeText(this,&quot;登录成功&quot;,Toast.LENGTH_SHORT).show();</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">    public void btn2Click(View view) throws IOException &#123;</span><br><span class="line">        &#x2F;&#x2F;文件输入流</span><br><span class="line">        FileInputStream fileInputStream &#x3D; openFileInput(fileName);</span><br><span class="line">        &#x2F;&#x2F;创建缓冲区</span><br><span class="line">        byte input[] &#x3D; new byte[fileInputStream.available()];</span><br><span class="line">        &#x2F;&#x2F;判断是否到了文件末尾</span><br><span class="line">        while(fileInputStream.read(input) !&#x3D; -1)&#123;</span><br><span class="line">            String str &#x3D; new String(input);</span><br><span class="line">            &#x2F;&#x2F;分割</span><br><span class="line">            String s[] &#x3D;str.split(&quot;##&quot;);</span><br><span class="line">            textView.setText(&quot;用户名：&quot;+s[0]+&quot;   密码：&quot;+s[1]);</span><br><span class="line">        &#125;</span><br><span class="line">        &#x2F;&#x2F;判断是否关闭流</span><br><span class="line">        if(fileInputStream !&#x3D; null)&#123;</span><br><span class="line">            fileInputStream.close();</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-<h3 id="外部存储"><a href="#外部存储" class="headerlink" title="外部存储"></a>外部存储</h3><p><img src="/2021/01/21/%E5%AD%98%E5%82%A8/image-20210121100938803.png" alt="image-20210121100938803"></p>
-<p><img src="/2021/01/21/%E5%AD%98%E5%82%A8/image-20210121101002258.png" alt="image-20210121101002258"></p>
-<p><img src="/2021/01/21/%E5%AD%98%E5%82%A8/image-20210121101027512.png" alt="image-20210121101027512"></p>
-<p>事例（与内部存储事例区别：数据存放到外存)</p>
-<p><img src="/2021/01/21/%E5%AD%98%E5%82%A8/image-20210121104215603.png" alt="image-20210121104215603"></p>
-<p><img src="/2021/01/21/%E5%AD%98%E5%82%A8/image-20210121104340594.png" alt="image-20210121104340594"></p>
-<p>MainActivity.java</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br></pre></td><td class="code"><pre><span class="line">public class MainActivity extends AppCompatActivity &#123;</span><br><span class="line"></span><br><span class="line">    Button btn1,btn2;</span><br><span class="line">    TextView textView;</span><br><span class="line">    EditText editName,editPSW;</span><br><span class="line">    String fileName &#x3D; &quot;myFile.txt&quot;;</span><br><span class="line">    &#x2F;&#x2F;外部设备可用</span><br><span class="line">    boolean mExternalStroageAvailable &#x3D; false;</span><br><span class="line">    &#x2F;&#x2F;外部设备可写</span><br><span class="line">    boolean mExternalStroageWriteable &#x3D; false;</span><br><span class="line">    @Override</span><br><span class="line">    protected void onCreate(Bundle savedInstanceState) &#123;</span><br><span class="line">        super.onCreate(savedInstanceState);</span><br><span class="line">        setContentView(R.layout.activity_main);</span><br><span class="line">        btn1 &#x3D; findViewById(R.id.btn1);</span><br><span class="line">        btn2 &#x3D; findViewById(R.id.btn2);</span><br><span class="line">        textView &#x3D; findViewById(R.id.txt);</span><br><span class="line">        editName &#x3D; findViewById(R.id.editName);</span><br><span class="line">        editPSW &#x3D; findViewById(R.id.editPWD);</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">    public void btn1Click(View view) throws IOException &#123;</span><br><span class="line">        String name &#x3D; editName.getText().toString();</span><br><span class="line">        String pwd &#x3D; editPSW.getText().toString();</span><br><span class="line"></span><br><span class="line">        &#x2F;&#x2F;判断外部存储设备的环境(！！！与存内存比较的区别！！！)</span><br><span class="line">        checkExternalStorage();</span><br><span class="line">        &#x2F;&#x2F;可写</span><br><span class="line">        if(mExternalStroageWriteable)&#123;</span><br><span class="line">            OutputStream outputStream &#x3D; new FileOutputStream(new File(getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS),fileName));</span><br><span class="line">            outputStream.write((name+&quot;##&quot;+pwd).getBytes());</span><br><span class="line">            if(outputStream !&#x3D; null)&#123;</span><br><span class="line">                outputStream.close();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        Toast.makeText(this,&quot;登录成功&quot;,Toast.LENGTH_SHORT).show();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public void btn2Click(View view) throws IOException &#123;</span><br><span class="line">       &#x2F;&#x2F;可读 (！！！与存内存比较的区别！！！)</span><br><span class="line">        checkExternalStorage();</span><br><span class="line">        if(mExternalStroageAvailable)&#123;</span><br><span class="line">            &#x2F;&#x2F;找到文件</span><br><span class="line">            File file &#x3D; new File(getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS),fileName);</span><br><span class="line">            &#x2F;&#x2F;找到</span><br><span class="line">            if(file.exists())&#123;</span><br><span class="line">                &#x2F;&#x2F;文件输入流</span><br><span class="line">                FileInputStream fileInputStream &#x3D; new FileInputStream(file);</span><br><span class="line">                &#x2F;&#x2F;创建缓冲区</span><br><span class="line">                byte input[] &#x3D; new byte[fileInputStream.available()];</span><br><span class="line">                &#x2F;&#x2F;判断是否到了文件末尾</span><br><span class="line">                while(fileInputStream.read(input) !&#x3D; -1)&#123;</span><br><span class="line">                    String str &#x3D; new String(input);</span><br><span class="line">                    &#x2F;&#x2F;分割</span><br><span class="line">                    String s[] &#x3D;str.split(&quot;##&quot;);</span><br><span class="line">                    textView.setText(&quot;用户名：&quot;+s[0]+&quot;   密码：&quot;+s[1]);</span><br><span class="line">                &#125;</span><br><span class="line">                &#x2F;&#x2F;判断是否关闭流</span><br><span class="line">                if(fileInputStream !&#x3D; null)&#123;</span><br><span class="line">                    fileInputStream.close();</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public void  checkExternalStorage()&#123;</span><br><span class="line">        &#x2F;&#x2F;获取外部存储设备环境的状态</span><br><span class="line">        String state &#x3D; Environment.getExternalStorageState();</span><br><span class="line">        &#x2F;&#x2F;外部设备可用(MEDIA_MOUNTED表示可读、可写）</span><br><span class="line">        if(Environment.MEDIA_MOUNTED.equals(state))&#123;</span><br><span class="line">            mExternalStroageAvailable &#x3D;true;</span><br><span class="line">            mExternalStroageWriteable &#x3D;true;</span><br><span class="line">        &#125;else if (Environment.MEDIA_MOUNTED_READ_ONLY.equals(state))&#123;   &#x2F;&#x2F;外部设备可写</span><br><span class="line">            &#x2F;&#x2F;MEDIA_MOUNTED_READ_ONLY表示可用但不可写</span><br><span class="line">            mExternalStroageAvailable &#x3D; true;</span><br><span class="line">            mExternalStroageWriteable &#x3D; false;</span><br><span class="line">        &#125;else &#123;</span><br><span class="line">            mExternalStroageAvailable &#x3D; false;</span><br><span class="line">            mExternalStroageWriteable &#x3D; false;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
       
   
   
@@ -1334,6 +900,453 @@
   
   
 
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://wgc5.gitee.io/2021/01/13/Fragment/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="北极星上的稻草人">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="北极星上的稻草人">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2021/01/13/Fragment/" class="post-title-link" itemprop="url">Fragment</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-01-13 09:51:03" itemprop="dateCreated datePublished" datetime="2021-01-13T09:51:03+08:00">2021-01-13</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-02-21 09:53:20" itemprop="dateModified" datetime="2021-02-21T09:53:20+08:00">2021-02-21</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Android-Studio/" itemprop="url" rel="index"><span itemprop="name">Android Studio</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h3 id="Fragment"><a href="#Fragment" class="headerlink" title="Fragment"></a>Fragment</h3><p><img src="/2021/01/13/Fragment/image-20210111104211561.png" alt="image-20210111104211561"></p>
+<p>fragment的应用</p>
+<p>在layout文件夹里创建布局文件，并完善布局设置</p>
+<p><img src="/2021/01/13/Fragment/image-20210111145928558.png" alt="image-20210111145928558"></p>
+<p><img src="/2021/01/13/Fragment/image-20210111150036623.png" alt="image-20210111150036623"></p>
+<p>步骤2：新建一个实现类（实现fragment的操作）</p>
+<p><img src="/2021/01/13/Fragment/image-20210111150119403.png" alt="image-20210111150119403"></p>
+<p><img src="/2021/01/13/Fragment/image-20210111150336812.png" alt="image-20210111150336812"></p>
+<p>引用</p>
+<p><img src="/2021/01/13/Fragment/image-20210111150822890.png" alt="image-20210111150822890"></p>
+<p>效果</p>
+<p><img src="/2021/01/13/Fragment/image-20210111150954526.png" alt="image-20210111150954526"></p>
+<h4 id="事件处理"><a href="#事件处理" class="headerlink" title="事件处理"></a>事件处理</h4><p>例子1：获取文本框的内容并修改</p>
+<p>步骤1：创建一个新的活动，用于实现事件处理</p>
+<p><img src="/2021/01/13/Fragment/image-20210111161916805.png" alt="image-20210111161916805"></p>
+<p>步骤2：调用（静态）+配置布局内容</p>
+<p><img src="/2021/01/13/Fragment/image-20210111162812357.png" alt="image-20210111162812357"></p>
+<p><img src="/2021/01/13/Fragment/image-20210111162205958.png" alt="image-20210111162205958"></p>
+<p>事件处理（静态）</p>
+<p><img src="/2021/01/13/Fragment/image-20210111162254844.png" alt="image-20210111162254844"></p>
+<p>注意</p>
+<p><img src="/2021/01/13/Fragment/image-20210111162609106.png" alt="image-20210111162609106"></p>
+<p>效果</p>
+<p><img src="/2021/01/13/Fragment/image-20210111162332821.png" alt="image-20210111162332821"><img src="/2021/01/13/Fragment/image-20210111162342365.png" alt="image-20210111162342365"></p>
+<p>动态处理（也是最常用的）</p>
+<p><img src="/2021/01/13/Fragment/image-20210111163244118.png" alt="image-20210111163244118"></p>
+<p>方法1</p>
+<p><img src="/2021/01/13/Fragment/image-20210111164554034.png" alt="image-20210111164554034"></p>
+<p>方法2：匿名类实现（主流）</p>
+<p><img src="/2021/01/13/Fragment/image-20210111165121522.png" alt="image-20210111165121522"></p>
+<p>知识点</p>
+<p><img src="/2021/01/13/Fragment/image-20210111165201615.png" alt="image-20210111165201615"></p>
+<p><img src="/2021/01/13/Fragment/image-20210111165248784.png" alt="image-20210111165248784"></p>
+<p><img src="/2021/01/13/Fragment/image-20210111171600491.png" alt="image-20210111171600491"></p>
+<p>提示：</p>
+<p>滑动布局</p>
+<p><img src="/2021/01/13/Fragment/image-20210111200728479.png" alt="image-20210111200728479"></p>
+<h5 id="提升1"><a href="#提升1" class="headerlink" title="提升1"></a>提升1</h5><p>1、动态添加fragment</p>
+<p>该步主要是为了拿到fragment要展示的id位置）</p>
+<p><img src="/2021/01/13/Fragment/image-20210111201730030.png" alt="image-20210111201730030"></p>
+<p>动态调用</p>
+<p><img src="/2021/01/13/Fragment/image-20210111201924847.png" alt="image-20210111201924847"></p>
+<p>（语句说明在适应横竖屏的代码注释）</p>
+<p>2、适应横竖屏</p>
+<p><img src="/2021/01/13/Fragment/image-20210111201127114.png" alt="image-20210111201127114"></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">public class MainActivity extends AppCompatActivity &#123;</span><br><span class="line">    @Override</span><br><span class="line">    protected void onCreate(Bundle savedInstanceState) &#123;</span><br><span class="line">        super.onCreate(savedInstanceState);</span><br><span class="line">        &#x2F;&#x2F;装载界面</span><br><span class="line">        setContentView(R.layout.activity_main);</span><br><span class="line">        &#x2F;&#x2F;获得屏幕数据</span><br><span class="line">        DisplayMetrics dm &#x3D;new DisplayMetrics();</span><br><span class="line">        getWindowManager().getDefaultDisplay().getMetrics(dm);</span><br><span class="line">        int screenWidth &#x3D; dm.widthPixels;</span><br><span class="line">        int screenHeight &#x3D; dm.heightPixels;</span><br><span class="line">        &#x2F;&#x2F;追加装载界面</span><br><span class="line">        FragmentManager fm &#x3D; getSupportFragmentManager();</span><br><span class="line">        &#x2F;&#x2F;获得fragment</span><br><span class="line">        Fragment frag &#x3D; fm.findFragmentById(R.id.listFragment);</span><br><span class="line">        if(screenWidth&gt;screenHeight)&#123; &#x2F;&#x2F;横屏</span><br><span class="line">            if(frag!&#x3D;null)&#123;&#x2F;&#x2F;如果已添加fragment</span><br><span class="line">                fm.beginTransaction().remove(frag).commitNow();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;else&#123;&#x2F;&#x2F;竖屏</span><br><span class="line">            if(frag&#x3D;&#x3D;null) &#123;</span><br><span class="line"> &#x2F;&#x2F;开启事务（回滚：成功就提交，失败就报错）</span><br><span class="line">&#x2F;&#x2F;动态调用：在listFragment里添加ListViewfragment新界面；.commitNow表执行</span><br><span class="line">                fm.beginTransaction().add(R.id.listFragment, new ListViewfragment()).commitNow();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br></pre></td></tr></table></figure>
+
+
+<h5 id="提升2：事件处理–滚动框图片展示到上面框架"><a href="#提升2：事件处理–滚动框图片展示到上面框架" class="headerlink" title="提升2：事件处理–滚动框图片展示到上面框架"></a>提升2：事件处理–滚动框图片展示到上面框架</h5><h5 id="方法一：由Activity进行fragment控件的事件处理；在MainActivity-java里的MainActivity实例里添加onstart事件，并实现"><a href="#方法一：由Activity进行fragment控件的事件处理；在MainActivity-java里的MainActivity实例里添加onstart事件，并实现" class="headerlink" title="方法一：由Activity进行fragment控件的事件处理；在MainActivity.java里的MainActivity实例里添加onstart事件，并实现"></a>方法一：由Activity进行fragment控件的事件处理；在MainActivity.java里的MainActivity实例里添加onstart事件，并实现</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">private int img[]&#x3D;&#123;R.id.image1,R.id.image2,R.id.image3,R.id.image4&#125;;</span><br><span class="line">@Override</span><br><span class="line">protected void onStart() &#123;</span><br><span class="line">    super.onStart();</span><br><span class="line">    &#x2F;&#x2F;获取展示框的id</span><br><span class="line">    final ImageView img_fra &#x3D; findViewById(R.id.image_view);</span><br><span class="line">    for (int i&#x3D;0;i&lt;img.length;i++)&#123;</span><br><span class="line">        &#x2F;&#x2F;获取底部滚动框图片id</span><br><span class="line">        ImageView iv &#x3D; (ImageView)findViewById(img[i]);</span><br><span class="line">        if(iv !&#x3D; null)&#123;</span><br><span class="line">            &#x2F;&#x2F;设置点击监听器</span><br><span class="line">            iv.setOnClickListener(new View.OnClickListener()&#123;</span><br><span class="line">                @Override</span><br><span class="line">                &#x2F;&#x2F;事件处理</span><br><span class="line">                public void onClick(View view) &#123;</span><br><span class="line">                    ImageView view1 &#x3D; (ImageView)view;</span><br><span class="line">                    &#x2F;&#x2F;img_fra.setImageDrawable（*），将img_fra的图片设置*的内容图片</span><br><span class="line">                    &#x2F;&#x2F;view1.getDrawable()，获取到view1的图片内容</span><br><span class="line">                    img_fra.setImageDrawable(view1.getDrawable());</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="方法二：在下面滚动的框架的ListViewfragment-java文件里添加onActivityCreated实例（实现基本一样，只是所放的文件不同）：主流方法"><a href="#方法二：在下面滚动的框架的ListViewfragment-java文件里添加onActivityCreated实例（实现基本一样，只是所放的文件不同）：主流方法" class="headerlink" title="方法二：在下面滚动的框架的ListViewfragment.java文件里添加onActivityCreated实例（实现基本一样，只是所放的文件不同）：主流方法"></a>方法二：在下面滚动的框架的ListViewfragment.java文件里添加onActivityCreated实例（实现基本一样，只是所放的文件不同）：主流方法</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">private int img[]&#x3D;&#123;R.id.image1,R.id.image2,R.id.image3,R.id.image4&#125;;</span><br><span class="line">@Override</span><br><span class="line">public void onActivityCreated(@Nullable Bundle savedInstanceState) &#123;</span><br><span class="line">    super.onActivityCreated(savedInstanceState);</span><br><span class="line"></span><br><span class="line">    final ImageView img_fra &#x3D; this.getActivity().findViewById(R.id.image_view);</span><br><span class="line">    for (int i&#x3D;0;i&lt;img.length;i++)&#123;</span><br><span class="line">        ImageView iv &#x3D; (ImageView)this.getActivity().findViewById(img[i]);</span><br><span class="line">        if(iv !&#x3D; null)&#123;</span><br><span class="line">            iv.setOnClickListener(new View.OnClickListener()&#123;</span><br><span class="line">                @Override</span><br><span class="line">                public void onClick(View view) &#123;</span><br><span class="line">                    ImageView view1 &#x3D; (ImageView)view;</span><br><span class="line">                    img_fra.setImageDrawable(view1.getDrawable());</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="方法三：Fragment与Activity通讯（工程开发用）"><a href="#方法三：Fragment与Activity通讯（工程开发用）" class="headerlink" title="方法三：Fragment与Activity通讯（工程开发用）"></a>方法三：Fragment与Activity通讯（工程开发用）</h5><p>步骤1.所属Fragment的java类中定义接口<br>步骤2.Fragment中定义设置接口的方法<br>步骤3.Activity中实现接口<br>步骤4.Fragment中添加监听，事件处理环节调用事件处理接口，具体操作有Activity进行<br>步骤5.Activity的onAttachFragment方法中，调用fragment设置接口的方法，将自身引入</p>
+<p>下面提供2个关键文档代码</p>
+<p>ListViewfragment.java</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line">public class ListViewfragment extends Fragment &#123;</span><br><span class="line"></span><br><span class="line">    private int img[]&#x3D;&#123;R.id.image1,R.id.image2,R.id.image3,R.id.image4&#125;;</span><br><span class="line">    ListViewEvent listViewEvent;</span><br><span class="line">    &#x2F;&#x2F;步骤1</span><br><span class="line">    public interface ListViewEvent&#123;</span><br><span class="line">        public void onImageClinkListener(ImageView view);</span><br><span class="line">    &#125;</span><br><span class="line">    &#x2F;&#x2F;步骤2(上面的定义也是）</span><br><span class="line">    public void setListenerEvent(ListViewEvent listViewEvent)&#123;</span><br><span class="line">        this.listViewEvent &#x3D; listViewEvent;</span><br><span class="line">    &#125;</span><br><span class="line">    &#x2F;&#x2F;步骤4</span><br><span class="line">    @Nullable</span><br><span class="line">    @Override</span><br><span class="line">    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) &#123;      </span><br><span class="line">  return inflater.inflate(R.layout.fragme_listview,container,false);</span><br><span class="line">    &#125;</span><br><span class="line">    @Override</span><br><span class="line">    public void onActivityCreated(@Nullable Bundle savedInstanceState) &#123;</span><br><span class="line">        super.onActivityCreated(savedInstanceState);</span><br><span class="line">        for (int i&#x3D;0;i&lt;img.length;i++) &#123;</span><br><span class="line">            &#x2F;&#x2F;获取id</span><br><span class="line">ImageView iv &#x3D; (ImageView)this.getActivity().findViewById(img[i]);</span><br><span class="line">             &#x2F;&#x2F;设置监听器并调用实例实现操作</span><br><span class="line">         iv.setOnClickListener(new View.OnClickListener() &#123;</span><br><span class="line">                @Override</span><br><span class="line">             public void onClick(View view) &#123;</span><br><span class="line">              listViewEvent.onImageClinkListener((ImageView) view);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>MainActivity.java</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br></pre></td><td class="code"><pre><span class="line">public class MainActivity extends AppCompatActivity implements ListViewfragment.ListViewEvent &#123;</span><br><span class="line">    private int img[]&#x3D;&#123;R.id.image1,R.id.image2,R.id.image3,R.id.image4&#125;;</span><br><span class="line">    ImageView img_fra;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    protected void onCreate(Bundle savedInstanceState) &#123;</span><br><span class="line">        super.onCreate(savedInstanceState);</span><br><span class="line">        &#x2F;&#x2F;装载界面</span><br><span class="line">        setContentView(R.layout.activity_main);</span><br><span class="line">        &#x2F;&#x2F;获得屏幕数据</span><br><span class="line">        DisplayMetrics dm &#x3D;new DisplayMetrics();</span><br><span class="line">        getWindowManager().getDefaultDisplay().getMetrics(dm);</span><br><span class="line">        int screenWidth &#x3D; dm.widthPixels;</span><br><span class="line">        int screenHeight &#x3D; dm.heightPixels;</span><br><span class="line">        &#x2F;&#x2F;追加装载界面</span><br><span class="line">        FragmentManager fm &#x3D; getSupportFragmentManager();</span><br><span class="line">        &#x2F;&#x2F;获得fragment</span><br><span class="line">        Fragment frag &#x3D; fm.findFragmentById(R.id.listFragment);</span><br><span class="line">        if(screenWidth&gt;screenHeight)&#123; &#x2F;&#x2F;横屏</span><br><span class="line">            if(frag!&#x3D;null)&#123;&#x2F;&#x2F;如果已添加fragment</span><br><span class="line">                fm.beginTransaction().remove(frag).commitNow();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;else&#123;&#x2F;&#x2F;竖屏</span><br><span class="line">            if(frag&#x3D;&#x3D;null) &#123;</span><br><span class="line">                &#x2F;&#x2F;开启事务（回滚：成功就提交，失败就报错）</span><br><span class="line">                &#x2F;&#x2F;在listFragment里添加ListViewfragment新界面；.commitNow表执行</span><br><span class="line">                fm.beginTransaction().add(R.id.listFragment, new ListViewfragment()).commitNow();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    protected void onStart() &#123;</span><br><span class="line">        &#x2F;&#x2F;步骤3</span><br><span class="line">        super.onStart();</span><br><span class="line">        &#x2F;&#x2F;初始化</span><br><span class="line">        img_fra &#x3D; findViewById(R.id.image_view);</span><br><span class="line">    &#125;</span><br><span class="line">    &#x2F;&#x2F;步骤三（需要引入接口）</span><br><span class="line">    @Override</span><br><span class="line">    public void onImageClinkListener(ImageView view) &#123;</span><br><span class="line">        img_fra.setImageDrawable(view.getDrawable());</span><br><span class="line">    &#125;</span><br><span class="line">    &#x2F;&#x2F;步骤5，在创建fragment时</span><br><span class="line">    @Override</span><br><span class="line">    public void onAttachFragment(@NonNull Fragment fragment) &#123;</span><br><span class="line">        super.onAttachFragment(fragment);</span><br><span class="line">        &#x2F;&#x2F;如果遇到我们目标fragment时，就把这个引用给它</span><br><span class="line">        if(fragment instanceof ListViewfragment)&#123;</span><br><span class="line">            ListViewfragment lvf &#x3D; (ListViewfragment) fragment;</span><br><span class="line">            lvf.setListenerEvent(this);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://wgc5.gitee.io/2021/01/09/%E5%B8%83%E5%B1%80%E4%B8%8E%E6%8F%92%E4%BB%B6%E8%AE%BE%E8%AE%A1/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="北极星上的稻草人">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="北极星上的稻草人">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2021/01/09/%E5%B8%83%E5%B1%80%E4%B8%8E%E6%8F%92%E4%BB%B6%E8%AE%BE%E8%AE%A1/" class="post-title-link" itemprop="url">布局与插件设计</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-01-09 16:48:49" itemprop="dateCreated datePublished" datetime="2021-01-09T16:48:49+08:00">2021-01-09</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-02-21 09:49:43" itemprop="dateModified" datetime="2021-02-21T09:49:43+08:00">2021-02-21</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Android-Studio/" itemprop="url" rel="index"><span itemprop="name">Android Studio</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h3 id="布局基础配置"><a href="#布局基础配置" class="headerlink" title="布局基础配置"></a>布局基础配置</h3><p>布局设计</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">android:layout_width&#x3D;&quot;match_parent&quot; &#x2F;&#x2F;相对外边框</span><br><span class="line">android:layout_height&#x3D;&quot;300dp&quot;		&#x2F;&#x2F;权值</span><br><span class="line">android:orientation&#x3D;&quot;vertical&quot;		&#x2F;&#x2F;布局排版</span><br><span class="line">android:layout_gravity&#x3D;&quot;center&quot;     &#x2F;&#x2F;布局重心</span><br><span class="line">android:gravity&#x3D;&quot;center|top&quot;		&#x2F;&#x2F;内容重心</span><br><span class="line">android:layout_weight&#x3D;&quot;1&quot;			&#x2F;&#x2F;该布局所占全部布局的比重</span><br><span class="line">android:background&#x3D;&quot;#8DCCC2&quot;		&#x2F;&#x2F;布局背景颜色</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>文本设计</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">android:text&#x3D;&quot;***&quot;					&#x2F;&#x2F;文本内容</span><br><span class="line">android:textColor&#x3D;&quot;#A3C0D8&quot;			&#x2F;&#x2F;文本颜色</span><br><span class="line">android:textSize&#x3D;&quot;30sp&quot;				&#x2F;&#x2F;文本大小</span><br><span class="line">android:textStyle&#x3D;&quot;italic&quot;			&#x2F;&#x2F;文本样式</span><br></pre></td></tr></table></figure>
+<p>图片设计</p>
+<p><img src="/2021/01/09/%E5%B8%83%E5%B1%80%E4%B8%8E%E6%8F%92%E4%BB%B6%E8%AE%BE%E8%AE%A1/image-20210109164048406.png" alt="image-20210109164048406"></p>
+<p><img src="/2021/01/09/%E5%B8%83%E5%B1%80%E4%B8%8E%E6%8F%92%E4%BB%B6%E8%AE%BE%E8%AE%A1/image-20210109154224357.png" alt="image-20210109154224357"></p>
+<h4 id="linear线性布局"><a href="#linear线性布局" class="headerlink" title="linear线性布局"></a>linear线性布局</h4><p>说明：线性分布</p>
+<p>具体：略</p>
+<h4 id="Frame框架布局"><a href="#Frame框架布局" class="headerlink" title="Frame框架布局"></a>Frame框架布局</h4><p>说明：类似叠罗汉，一层层叠加</p>
+<p>具体：略</p>
+<h4 id="Relative相对布局"><a href="#Relative相对布局" class="headerlink" title="Relative相对布局"></a>Relative相对布局</h4><p>相对总布局</p>
+<p><img src="/2021/01/09/%E5%B8%83%E5%B1%80%E4%B8%8E%E6%8F%92%E4%BB%B6%E8%AE%BE%E8%AE%A1/image-20210109180619221.png" alt="image-20210109180619221"></p>
+<p>相对父控件</p>
+<p><img src="/2021/01/09/%E5%B8%83%E5%B1%80%E4%B8%8E%E6%8F%92%E4%BB%B6%E8%AE%BE%E8%AE%A1/image-20210109180625508.png" alt="image-20210109180625508"></p>
+<p>相对同级控件</p>
+<p><img src="/2021/01/09/%E5%B8%83%E5%B1%80%E4%B8%8E%E6%8F%92%E4%BB%B6%E8%AE%BE%E8%AE%A1/image-20210109180633786.png" alt="image-20210109180633786"></p>
+<p>例子</p>
+<p><img src="/2021/01/09/%E5%B8%83%E5%B1%80%E4%B8%8E%E6%8F%92%E4%BB%B6%E8%AE%BE%E8%AE%A1/image-20210109183745043.png" alt="image-20210109183745043"></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line">&lt;RelativeLayout android:layout_width&#x3D;&quot;wrap_content&quot;</span><br><span class="line">    android:layout_height&#x3D;&quot;wrap_content&quot;</span><br><span class="line">    xmlns:android&#x3D;&quot;http:&#x2F;&#x2F;schemas.android.com&#x2F;apk&#x2F;res&#x2F;android&quot;&gt;</span><br><span class="line">    &lt;TextView</span><br><span class="line">        android:id&#x3D;&quot;@+id&#x2F;lable&quot;</span><br><span class="line">        android:layout_width&#x3D;&quot;match_parent&quot;</span><br><span class="line">        android:layout_height&#x3D;&quot;wrap_content&quot;</span><br><span class="line">        android:text&#x3D;&quot;相对布局&quot;</span><br><span class="line">        android:textSize&#x3D;&quot;50sp&quot;</span><br><span class="line">        &gt;&lt;&#x2F;TextView&gt;</span><br><span class="line">        </span><br><span class="line">    &lt;!--    编辑框--&gt;</span><br><span class="line">    &lt;EditText</span><br><span class="line">        android:id&#x3D;&quot;@+id&#x2F;test&quot;</span><br><span class="line">        android:layout_width&#x3D;&quot;match_parent&quot;</span><br><span class="line">        android:layout_height&#x3D;&quot;wrap_content&quot;</span><br><span class="line">        android:layout_below&#x3D;&quot;@+id&#x2F;lable&quot;</span><br><span class="line">        &gt;&lt;&#x2F;EditText&gt;</span><br><span class="line">        </span><br><span class="line">    &lt;!--    OK按钮--&gt;   </span><br><span class="line">    &lt;Button</span><br><span class="line">    android:id&#x3D;&quot;@+id&#x2F;ok&quot;</span><br><span class="line">    android:layout_width&#x3D;&quot;wrap_content&quot;</span><br><span class="line">    android:layout_height&#x3D;&quot;wrap_content&quot;</span><br><span class="line">    android:text&#x3D;&quot;ok&quot;</span><br><span class="line">    android:layout_below&#x3D;&quot;@+id&#x2F;test&quot;</span><br><span class="line">    android:layout_alignParentRight&#x3D;&quot;true&quot;</span><br><span class="line">    &gt;&lt;&#x2F;Button&gt;</span><br><span class="line">    </span><br><span class="line">     &lt;!--    cannle按钮--&gt;</span><br><span class="line">    &lt;Button</span><br><span class="line">        android:id&#x3D;&quot;@+id&#x2F;cancle&quot;</span><br><span class="line">        android:layout_width&#x3D;&quot;wrap_content&quot;</span><br><span class="line">        android:layout_height&#x3D;&quot;wrap_content&quot;</span><br><span class="line">        android:text&#x3D;&quot;cancle&quot;</span><br><span class="line">        android:layout_below&#x3D;&quot;@+id&#x2F;test&quot;</span><br><span class="line">        android:layout_toLeftOf&#x3D;&quot;@+id&#x2F;ok&quot;</span><br><span class="line">        android:layout_marginRight&#x3D;&quot;10dp&quot;</span><br><span class="line">        &gt;&lt;&#x2F;Button&gt;</span><br><span class="line">&lt;&#x2F;RelativeLayout&gt;</span><br></pre></td></tr></table></figure>
+
+
+<h4 id="Table表格布局"><a href="#Table表格布局" class="headerlink" title="Table表格布局"></a>Table表格布局</h4><p><img src="/2021/01/09/%E5%B8%83%E5%B1%80%E4%B8%8E%E6%8F%92%E4%BB%B6%E8%AE%BE%E8%AE%A1/image-20210109224926787.png" alt="image-20210109224926787"></p>
+<p><img src="/2021/01/09/%E5%B8%83%E5%B1%80%E4%B8%8E%E6%8F%92%E4%BB%B6%E8%AE%BE%E8%AE%A1/image-20210109225349771.png" alt="image-20210109225349771"></p>
+<p><img src="/2021/01/09/%E5%B8%83%E5%B1%80%E4%B8%8E%E6%8F%92%E4%BB%B6%E8%AE%BE%E8%AE%A1/image-20210109225532969.png" alt="image-20210109225532969"></p>
+<p>Grid网格布局</p>
+<p><img src="/2021/01/09/%E5%B8%83%E5%B1%80%E4%B8%8E%E6%8F%92%E4%BB%B6%E8%AE%BE%E8%AE%A1/image-20210110160053350.png" alt="image-20210110160053350"></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">android:layout_columnSpan&#x3D;&quot;4&quot;		&#x2F;&#x2F;所占列数</span><br><span class="line">android:layout_rowSpan&#x3D;&quot;1&quot;			&#x2F;&#x2F;所占行数</span><br><span class="line">android:layout_column&#x3D;&quot;3&quot;			&#x2F;&#x2F;所在列</span><br><span class="line">android:layout_row&#x3D;&quot;1&quot;				&#x2F;&#x2F;所在行</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>没有标明位置的，会默认按顺序排列。</p>
+<h4 id="引用布局"><a href="#引用布局" class="headerlink" title="引用布局"></a>引用布局</h4><p>第一步：新建布局文件</p>
+<p><img src="/2021/01/09/%E5%B8%83%E5%B1%80%E4%B8%8E%E6%8F%92%E4%BB%B6%E8%AE%BE%E8%AE%A1/image-20210110162311588.png" alt="image-20210110162311588"></p>
+<p>第二步：写入常用/复用布局（不同布局也可以的）</p>
+<p><img src="/2021/01/09/%E5%B8%83%E5%B1%80%E4%B8%8E%E6%8F%92%E4%BB%B6%E8%AE%BE%E8%AE%A1/image-20210110162522822.png" alt="image-20210110162522822"></p>
+<p><img src="/2021/01/09/%E5%B8%83%E5%B1%80%E4%B8%8E%E6%8F%92%E4%BB%B6%E8%AE%BE%E8%AE%A1/image-20210110163415364.png" alt="image-20210110163415364"></p>
+<p>第三步：引用</p>
+<p><img src="/2021/01/09/%E5%B8%83%E5%B1%80%E4%B8%8E%E6%8F%92%E4%BB%B6%E8%AE%BE%E8%AE%A1/image-20210110163002720.png" alt="image-20210110163002720"></p>
+<p>注意：你会发现引用的那个布局没有像在里面写的button位于最右端（直接引用布局的一个问题）</p>
+<h4 id="样式与主题"><a href="#样式与主题" class="headerlink" title="样式与主题"></a>样式与主题</h4><p><strong>主题</strong></p>
+<p>创建/设置</p>
+<p><img src="/2021/01/09/%E5%B8%83%E5%B1%80%E4%B8%8E%E6%8F%92%E4%BB%B6%E8%AE%BE%E8%AE%A1/image-20210110171215482.png" alt="image-20210110171215482"></p>
+<p><img src="/2021/01/09/%E5%B8%83%E5%B1%80%E4%B8%8E%E6%8F%92%E4%BB%B6%E8%AE%BE%E8%AE%A1/image-20210110170411501.png" alt="image-20210110170411501"></p>
+<p>引用</p>
+<p><img src="/2021/01/09/%E5%B8%83%E5%B1%80%E4%B8%8E%E6%8F%92%E4%BB%B6%E8%AE%BE%E8%AE%A1/image-20210110171556108.png" alt="image-20210110171556108"></p>
+<p><strong>样式</strong></p>
+<p>创建</p>
+<p><img src="/2021/01/09/%E5%B8%83%E5%B1%80%E4%B8%8E%E6%8F%92%E4%BB%B6%E8%AE%BE%E8%AE%A1/image-20210110172259159.png" alt="image-20210110172259159"></p>
+<p>引用</p>
+<p><img src="/2021/01/09/%E5%B8%83%E5%B1%80%E4%B8%8E%E6%8F%92%E4%BB%B6%E8%AE%BE%E8%AE%A1/image-20210110173018896.png" alt="image-20210110173018896"></p>
+<p><img src="/2021/01/09/%E5%B8%83%E5%B1%80%E4%B8%8E%E6%8F%92%E4%BB%B6%E8%AE%BE%E8%AE%A1/image-20210110173450633.png" alt="image-20210110173450633"></p>
+<p><img src="/2021/01/09/%E5%B8%83%E5%B1%80%E4%B8%8E%E6%8F%92%E4%BB%B6%E8%AE%BE%E8%AE%A1/image-20210110173521977.png" alt="image-20210110173521977"></p>
+<p><img src="/2021/01/09/%E5%B8%83%E5%B1%80%E4%B8%8E%E6%8F%92%E4%BB%B6%E8%AE%BE%E8%AE%A1/image-20210110173532498.png" alt="image-20210110173532498"></p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://wgc5.gitee.io/2021/01/08/Android%E4%BA%8B%E4%BB%B6%E5%90%AF%E5%8A%A8/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="北极星上的稻草人">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="北极星上的稻草人">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2021/01/08/Android%E4%BA%8B%E4%BB%B6%E5%90%AF%E5%8A%A8/" class="post-title-link" itemprop="url">Android事件启动</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-01-08 15:11:52" itemprop="dateCreated datePublished" datetime="2021-01-08T15:11:52+08:00">2021-01-08</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-02-21 09:51:01" itemprop="dateModified" datetime="2021-02-21T09:51:01+08:00">2021-02-21</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Android-Studio/" itemprop="url" rel="index"><span itemprop="name">Android Studio</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h3 id="Android事件启动"><a href="#Android事件启动" class="headerlink" title="Android事件启动"></a>Android事件启动</h3><h4 id="显式启动"><a href="#显式启动" class="headerlink" title="显式启动"></a>显式启动</h4><p>方法一：class跳转（SecondActivity为要调用的活动类名）</p>
+<pre><code>ntent intent = new Intent(this,SecondActivity.class);
+this.startActivity(intent);</code></pre>
+<p>方法二：包名（com.example.mainactivity），类名（SecondActivity）</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Intent intent &#x3D; new Intent();     intent.setClassName(this,&quot;com.example.mainactivity.SecondActivity&quot;);</span><br><span class="line">startActivity(intent);</span><br></pre></td></tr></table></figure>
+<p>写法三：调用ComponentName</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Intent intent &#x3D; new Intent();</span><br><span class="line">ComponentName cname &#x3D; new ComponentName(this,SecondActivity.class);</span><br><span class="line">intent.setComponent(cname);</span><br><span class="line">startActivity(intent);</span><br></pre></td></tr></table></figure>
+
+
+<h4 id="隐式启动"><a href="#隐式启动" class="headerlink" title="隐式启动"></a>隐式启动</h4><p><img src="/2021/01/08/Android%E4%BA%8B%E4%BB%B6%E5%90%AF%E5%8A%A8/image-20210108152014917.png" alt="image-20210108152014917"></p>
+<p>隐式启动一（事件别名action.next）</p>
+<pre><code>Intent intent = new Intent();
+intent.setAction(&quot;action.next&quot;);
+startActivity(intent);</code></pre>
+<p>隐式启动二</p>
+<pre><code>Intent intent = new Intent(&quot;action.next&quot;);
+startActivity(intent);</code></pre>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://wgc5.gitee.io/2021/01/07/AndroidStudio%E7%AE%80%E5%8D%95%E4%BD%BF%E7%94%A8/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="北极星上的稻草人">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="北极星上的稻草人">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2021/01/07/AndroidStudio%E7%AE%80%E5%8D%95%E4%BD%BF%E7%94%A8/" class="post-title-link" itemprop="url">AndroidStudio简单使用</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-01-07 20:29:57" itemprop="dateCreated datePublished" datetime="2021-01-07T20:29:57+08:00">2021-01-07</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-02-21 09:51:17" itemprop="dateModified" datetime="2021-02-21T09:51:17+08:00">2021-02-21</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Android-Studio/" itemprop="url" rel="index"><span itemprop="name">Android Studio</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="Android-Studio-简单使用介绍"><a href="#Android-Studio-简单使用介绍" class="headerlink" title="Android Studio 简单使用介绍"></a>Android Studio 简单使用介绍</h1><h3 id="项目创建"><a href="#项目创建" class="headerlink" title="项目创建"></a>项目创建</h3><p>步骤1：创立新项目</p>
+<p><img src="/2021/01/07/AndroidStudio%E7%AE%80%E5%8D%95%E4%BD%BF%E7%94%A8/image-20210107203443822.png" alt="image-20210107203443822"></p>
+<p>步骤2：选择要创建的项目框架（一般创建空项目）</p>
+<p><img src="/2021/01/07/AndroidStudio%E7%AE%80%E5%8D%95%E4%BD%BF%E7%94%A8/image-20210107203657410.png" alt="image-20210107203657410"></p>
+<p><img src="/2021/01/07/AndroidStudio%E7%AE%80%E5%8D%95%E4%BD%BF%E7%94%A8/image-20210107204010238.png" alt="image-20210107204010238"></p>
+<h3 id="页面布局"><a href="#页面布局" class="headerlink" title="页面布局"></a>页面布局</h3><h4 id="代码设计"><a href="#代码设计" class="headerlink" title="代码设计"></a>代码设计</h4><p><img src="/2021/01/07/AndroidStudio%E7%AE%80%E5%8D%95%E4%BD%BF%E7%94%A8/image-20210107210001901.png" alt="image-20210107210001901"></p>
+<p><img src="/2021/01/07/AndroidStudio%E7%AE%80%E5%8D%95%E4%BD%BF%E7%94%A8/image-20210107210559520.png" alt="image-20210107210559520"></p>
+<h4 id="傻瓜式设计"><a href="#傻瓜式设计" class="headerlink" title="傻瓜式设计"></a>傻瓜式设计</h4><p><img src="/2021/01/07/AndroidStudio%E7%AE%80%E5%8D%95%E4%BD%BF%E7%94%A8/image-20210107211532925.png" alt="image-20210107211532925"></p>
+<p>混合式</p>
+<p><img src="/2021/01/07/AndroidStudio%E7%AE%80%E5%8D%95%E4%BD%BF%E7%94%A8/image-20210107211705826.png" alt="image-20210107211705826"></p>
+<h3 id="信息查看"><a href="#信息查看" class="headerlink" title="信息查看"></a>信息查看</h3><p>Run</p>
+<p><img src="/2021/01/07/AndroidStudio%E7%AE%80%E5%8D%95%E4%BD%BF%E7%94%A8/image-20210107212845786.png" alt="image-20210107212845786"></p>
+<p>logcat</p>
+<p><img src="/2021/01/07/AndroidStudio%E7%AE%80%E5%8D%95%E4%BD%BF%E7%94%A8/image-20210107210950775.png" alt="image-20210107210950775"></p>
+<h3 id="调试"><a href="#调试" class="headerlink" title="调试"></a>调试</h3><p><img src="/2021/01/07/AndroidStudio%E7%AE%80%E5%8D%95%E4%BD%BF%E7%94%A8/image-20210107212231030.png" alt="image-20210107212231030"></p>
+<p><img src="/2021/01/07/AndroidStudio%E7%AE%80%E5%8D%95%E4%BD%BF%E7%94%A8/image-20210107212714974.png" alt="image-20210107212714974"></p>
+<h3 id="字体设置"><a href="#字体设置" class="headerlink" title="字体设置"></a>字体设置</h3><p><img src="/2021/01/07/AndroidStudio%E7%AE%80%E5%8D%95%E4%BD%BF%E7%94%A8/image-20210107212943688.png" alt="image-20210107212943688"></p>
+<p><img src="/2021/01/07/AndroidStudio%E7%AE%80%E5%8D%95%E4%BD%BF%E7%94%A8/image-20210107213103685.png" alt="image-20210107213103685"></p>
+<p><img src="/2021/01/07/AndroidStudio%E7%AE%80%E5%8D%95%E4%BD%BF%E7%94%A8/image-20210107213556098.png" alt="image-20210107213556098"></p>
+<h3 id="功能区分布"><a href="#功能区分布" class="headerlink" title="功能区分布"></a>功能区分布</h3><p><img src="/2021/01/07/AndroidStudio%E7%AE%80%E5%8D%95%E4%BD%BF%E7%94%A8/image-20210107213934665.png" alt="image-20210107213934665"></p>
+<p><img src="/2021/01/07/AndroidStudio%E7%AE%80%E5%8D%95%E4%BD%BF%E7%94%A8/image-20210107215141476.png" alt="image-20210107215141476"></p>
+<h3 id="创建模拟器"><a href="#创建模拟器" class="headerlink" title="创建模拟器"></a>创建模拟器</h3><p><img src="/2021/01/07/AndroidStudio%E7%AE%80%E5%8D%95%E4%BD%BF%E7%94%A8/image-20210107215450366.png" alt="image-20210107215450366"></p>
+<p><img src="/2021/01/07/AndroidStudio%E7%AE%80%E5%8D%95%E4%BD%BF%E7%94%A8/image-20210107215734170.png" alt="image-20210107215734170"></p>
+<p><img src="/2021/01/07/AndroidStudio%E7%AE%80%E5%8D%95%E4%BD%BF%E7%94%A8/image-20210107215901780.png" alt="image-20210107215901780"></p>
+<p><img src="/2021/01/07/AndroidStudio%E7%AE%80%E5%8D%95%E4%BD%BF%E7%94%A8/image-20210107215935477.png" alt="image-20210107215935477"></p>
+<h4 id="manifests说明"><a href="#manifests说明" class="headerlink" title="manifests说明"></a>manifests说明</h4><p><img src="/2021/01/07/AndroidStudio%E7%AE%80%E5%8D%95%E4%BD%BF%E7%94%A8/image-20210108152634902.png" alt="image-20210108152634902"></p>
+<p>例子一：2个相同的启动图标原因</p>
+<p><img src="/2021/01/07/AndroidStudio%E7%AE%80%E5%8D%95%E4%BD%BF%E7%94%A8/image-20210108152746856.png" alt="image-20210108152746856"></p>
+<p><img src="/2021/01/07/AndroidStudio%E7%AE%80%E5%8D%95%E4%BD%BF%E7%94%A8/image-20210108152736788.png" alt="image-20210108152736788"></p>
+<p>解决方法</p>
+<p><img src="/2021/01/07/AndroidStudio%E7%AE%80%E5%8D%95%E4%BD%BF%E7%94%A8/image-20210108152809412.png" alt="image-20210108152809412"></p>
+<p><img src="/2021/01/07/AndroidStudio%E7%AE%80%E5%8D%95%E4%BD%BF%E7%94%A8/image-20210108152814597.png" alt="image-20210108152814597"></p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
 
   
   <nav class="pagination">
@@ -1403,7 +1416,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">36</span>
+          <span class="site-state-item-count">32</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
