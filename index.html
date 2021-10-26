@@ -121,12 +121,12 @@
   </li>
         <li class="menu-item menu-item-categories">
 
-    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">7</span></a>
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">8</span></a>
 
   </li>
         <li class="menu-item menu-item-archives">
 
-    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">36</span></a>
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">37</span></a>
 
   </li>
   </ul>
@@ -152,6 +152,173 @@
 
           <div class="content index posts-expand">
             
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://wgc5.gitee.io/2021/10/26/%E6%AC%A7%E5%87%A0%E9%87%8C%E5%BE%97%E6%89%A9%E5%B1%95%E7%AE%97%E6%B3%95/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="北极星上的稻草人">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="北极星上的稻草人">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2021/10/26/%E6%AC%A7%E5%87%A0%E9%87%8C%E5%BE%97%E6%89%A9%E5%B1%95%E7%AE%97%E6%B3%95/" class="post-title-link" itemprop="url">欧几里得扩展算法</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2021-10-26 21:55:29 / 修改时间：21:57:39" itemprop="dateCreated datePublished" datetime="2021-10-26T21:55:29+08:00">2021-10-26</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%AF%86%E7%A0%81%E5%AD%A6/" itemprop="url" rel="index"><span itemprop="name">密码学</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="欧几里得算法与欧几里得扩展算法"><a href="#欧几里得算法与欧几里得扩展算法" class="headerlink" title="欧几里得算法与欧几里得扩展算法"></a>欧几里得算法与欧几里得扩展算法</h1><h2 id="欧几里得算法"><a href="#欧几里得算法" class="headerlink" title="欧几里得算法"></a>欧几里得算法</h2><p>gcd(a,b) :a和b的最大公因子（公约数），下面同记为(a,b)，a，b∈Z</p>
+<p><strong>1.定理：(a,b) = (b,a mod b)**</strong> </p>
+<p>推导过程：</p>
+<p>∵ a，b∈Z， </p>
+<p>∴ 有a = kb + r  ,    k,r∈Z        ①</p>
+<p>则 a mod b = r                        ②</p>
+<p>联合①②： a mod b = a-kb   ③</p>
+<p>设g = gcd（a，b）</p>
+<p>则：a%g = 0（a mod g=0），b%g = 0；即a%g = b%g</p>
+<p>可以推出：(a - b)%g = 0        ④</p>
+<p>（a、b都是g的倍数关系，所以a和b的差值也是最大公因子g的倍数关系）</p>
+<p>结合③和④</p>
+<p>推出： （a mod b）%g = 0</p>
+<p>所以g是a，b，（a mod b）的公因子</p>
+<p>∴ (a,b) = (b,a mod b) </p>
+<p><strong>2.欧几里得算法（辗转相除法）</strong></p>
+<p>第一步：（a0，b0）</p>
+<p>第二步：（a1，b1），a1= b0, b1 = a0%b0</p>
+<p>……</p>
+<p>第n步：（an，bn），当bn = 0时，an就是（a，b）最大公约数</p>
+<h2 id="扩展欧几里得算法"><a href="#扩展欧几里得算法" class="headerlink" title="扩展欧几里得算法"></a>扩展欧几里得算法</h2><p><strong>1.求逆元原理</strong></p>
+<p>推导过程：</p>
+<p>设（a，b）是a，b的最大公约数，则有a.x1 = k1(a,b), b.y1 = k2(a,b) ,k1,k2∈Z       “.”是乘法</p>
+<p>可以推导出：a.x1 + b.y1 = k3(a,b)  ，k3 = k1+k2，k3∈Z</p>
+<p>所以必然存在</p>
+<p>​                    ax + by = （a，b ）</p>
+<p>当（a，b）=1时，a，b互质（又称为互为素数），得：</p>
+<p>​                    ax + by =1      （x是a的逆元，y是b的逆元）</p>
+<p>所以有：a*X = bY+1         （正负号写不写无所谓，因为它对公式没什么意义，Y可正可负）</p>
+<p>​                    X = （bY+1）/a        </p>
+<p>​                    Y = （aX+1）/a</p>
+<p><strong>2.扩展的欧几里得算法</strong></p>
+<p>由欧几里得算法得：</p>
+<p>​      （a，b） =  （b，a mod b）        ①</p>
+<p>​       ∵ ax + by =  (a,b)                            ②</p>
+<p> 联合①②得：</p>
+<p>​        b.x1 +（a mod b）.y1 =  (a,b)     ③    </p>
+<p>​       a mob b = a%b = a - (a/b).b         ④    “/“是除法</p>
+<p>联合③④</p>
+<p>​        gcd = （a，b） = b.x1+[a - (a/b).b].y1</p>
+<p>​                                    =b.x1 + a.y1 - (a/b).b.y1</p>
+<p>​                                    =a.y1 + b.[x1 - (a/b).y1]</p>
+<p>对比：(a,b) = ax + by</p>
+<p>可以推导出：</p>
+<p>​                x = y1</p>
+<p>​                y = x1 - (a/b).y1</p>
+<p>附：求逆元C++算法</p>
+<pre><code>#include &lt;iostream&gt;  
+using namespace std;  
+typedef long long LL;  
+typedef double DB;  
+
+//aX+bY=gcd；x是a的逆元，Y是b的逆元；ans（gcd）是最大公约数  
+LL e_gcd(LL a,LL b,LL &amp;x,LL &amp;y)  
+&#123;  
+    if(b==0)  
+    &#123;  
+        x=1;  
+        y=0;  
+        return a;  
+    &#125;  
+    LL ans=e_gcd(b,a%b,x,y);  
+    LL temp=x;  
+    x=y;  
+    y=temp-a/b*y;  
+    return ans;  
+&#125;  
+
+LL cal(LL a,LL b,LL c)  
+&#123;  
+    LL x,y;  
+    LL gcd=e_gcd(a,b,x,y);  
+    if(c%gcd!=0)&#123; 
+        printf(&quot;没有逆元&quot;);
+        return -1;  //判断是否有逆元or两个数（a、b）是否质，即gcd最大公约数是否是1     
+        &#125;
+    x*=c/gcd;  
+    b/=gcd;  
+    if(b&lt;0) b=-b;  
+    printf(&quot;x的逆元=%ld,y的逆元=%ld\n&quot;,x,y); 
+    //这里求得的逆元可能为负数，再求mod转回正数即可 
+    LL X=x%b;  
+    if(X&lt;=0) X+=b;      // X是a的逆元，当其小于0时，由aX+bY=gcd，即（a，b）=gcd得，a的逆元&lt;b,为了取正数，所以需要+b； 
+    return X;  
+&#125;  
+
+int main()  
+&#123;  
+    LL a,b,t;  
+    //a=1769;
+    //b=550;
+    cout &lt;&lt; &quot;请输入a:&quot;;
+    cin &gt;&gt; a;
+    cout &lt;&lt; &quot;请输入b:&quot;;
+    cin &gt;&gt; b;
+    LL ans=cal(a,b,1);   
+    printf(&quot;x的逆元=%lld\n&quot;,ans);  
+
+    return 0;  
+&#125; </code></pre>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
       
   
   
@@ -1871,118 +2038,6 @@
   
   
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://wgc5.gitee.io/2021/08/04/NESSUS%E6%BC%8F%E6%B4%9E%E6%A3%80%E6%B5%8B/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="北极星上的稻草人">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="北极星上的稻草人">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2021/08/04/NESSUS%E6%BC%8F%E6%B4%9E%E6%A3%80%E6%B5%8B/" class="post-title-link" itemprop="url">NESSUS漏洞检测</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2021-08-04 20:31:48" itemprop="dateCreated datePublished" datetime="2021-08-04T20:31:48+08:00">2021-08-04</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-08-06 17:38:05" itemprop="dateModified" datetime="2021-08-06T17:38:05+08:00">2021-08-06</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E4%BF%A1%E6%81%AF%E5%AE%89%E5%85%A8/" itemprop="url" rel="index"><span itemprop="name">信息安全</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h2 id="NESSUS漏洞检测"><a href="#NESSUS漏洞检测" class="headerlink" title="NESSUS漏洞检测"></a>NESSUS漏洞检测</h2><p><img src="/2021/08/04/NESSUS%E6%BC%8F%E6%B4%9E%E6%A3%80%E6%B5%8B/image-20210804103053150.png" alt="image-20210804103053150"></p>
-<p><img src="/2021/08/04/NESSUS%E6%BC%8F%E6%B4%9E%E6%A3%80%E6%B5%8B/image-20210804103108664.png" alt="image-20210804103108664"></p>
-<h3 id="安装："><a href="#安装：" class="headerlink" title="安装："></a>安装：</h3><p><img src="/2021/08/04/NESSUS%E6%BC%8F%E6%B4%9E%E6%A3%80%E6%B5%8B/image-20210804103131188.png" alt="image-20210804103131188"></p>
-<p><img src="/2021/08/04/NESSUS%E6%BC%8F%E6%B4%9E%E6%A3%80%E6%B5%8B/image-20210804103253607.png" alt="image-20210804103253607"></p>
-<p>补充：不一定是/etc/init.d/nessused地址，如果你不是root，就不是这个地址。自己文件搜索查看地址（如）</p>
-<p><img src="/2021/08/04/NESSUS%E6%BC%8F%E6%B4%9E%E6%A3%80%E6%B5%8B/image-20210806173640700.png" alt="image-20210806173640700"></p>
-<p><img src="/2021/08/04/NESSUS%E6%BC%8F%E6%B4%9E%E6%A3%80%E6%B5%8B/image-20210804103355995.png" alt="image-20210804103355995"></p>
-<p>补充：谷歌浏览器可能打不开，可以把http协议改为https协议或者直接用360浏览器打开</p>
-<p><img src="/2021/08/04/NESSUS%E6%BC%8F%E6%B4%9E%E6%A3%80%E6%B5%8B/image-20210804103738543.png" alt="image-20210804103738543"></p>
-<p><img src="/2021/08/04/NESSUS%E6%BC%8F%E6%B4%9E%E6%A3%80%E6%B5%8B/image-20210804103621929.png" alt="image-20210804103621929"></p>
-<p>（不要翻译网站，可能会跳转网址）</p>
-<p><img src="/2021/08/04/NESSUS%E6%BC%8F%E6%B4%9E%E6%A3%80%E6%B5%8B/image-20210804103908979.png" alt="image-20210804103908979"></p>
-<p><img src="/2021/08/04/NESSUS%E6%BC%8F%E6%B4%9E%E6%A3%80%E6%B5%8B/image-20210804104017520.png" alt="image-20210804104017520"></p>
-<p>回到这个网站填激活码</p>
-<p><img src="/2021/08/04/NESSUS%E6%BC%8F%E6%B4%9E%E6%A3%80%E6%B5%8B/image-20210804104048002.png" alt="image-20210804104048002"></p>
-<p><img src="/2021/08/04/NESSUS%E6%BC%8F%E6%B4%9E%E6%A3%80%E6%B5%8B/image-20210804104229941.png" alt="image-20210804104229941"></p>
-<p><img src="/2021/08/04/NESSUS%E6%BC%8F%E6%B4%9E%E6%A3%80%E6%B5%8B/image-20210804104259712.png" alt="image-20210804104259712"></p>
-<p>激活完成</p>
-<h3 id="配置："><a href="#配置：" class="headerlink" title="配置："></a>配置：</h3><p>将刚下载的插件all-2.0.tar.gz上传到kali系统/root下。（这里插件是2.0版本，如果不上传到root下，操作时需要进度该文件存放的地址路径下）</p>
-<p><img src="/2021/08/04/NESSUS%E6%BC%8F%E6%B4%9E%E6%A3%80%E6%B5%8B/image-20210804104842801.png" alt="image-20210804104842801"></p>
-<p>它会自动检查</p>
-<p><img src="/2021/08/04/NESSUS%E6%BC%8F%E6%B4%9E%E6%A3%80%E6%B5%8B/image-20210804104905954.png" alt="image-20210804104905954"></p>
-<h3 id="扫描"><a href="#扫描" class="headerlink" title="扫描"></a>扫描</h3><p>登录：</p>
-<p><img src="/2021/08/04/NESSUS%E6%BC%8F%E6%B4%9E%E6%A3%80%E6%B5%8B/image-20210804105621814.png" alt="image-20210804105621814"></p>
-<p>（英语不好，可以用谷歌浏览器翻译为中文网站使用）</p>
-<p><img src="/2021/08/04/NESSUS%E6%BC%8F%E6%B4%9E%E6%A3%80%E6%B5%8B/image-20210804105133629.png" alt="image-20210804105133629"></p>
-<p>有众多扫描方式，自己按照自己需求打钩配置即可</p>
-<p><img src="/2021/08/04/NESSUS%E6%BC%8F%E6%B4%9E%E6%A3%80%E6%B5%8B/image-20210804105255948.png" alt="image-20210804105255948"></p>
-<p>点击可以查看详情</p>
-<p><img src="/2021/08/04/NESSUS%E6%BC%8F%E6%B4%9E%E6%A3%80%E6%B5%8B/image-20210804105332136.png" alt="image-20210804105332136"></p>
-<p><img src="/2021/08/04/NESSUS%E6%BC%8F%E6%B4%9E%E6%A3%80%E6%B5%8B/image-20210804110120912.png" alt="image-20210804110120912"></p>
-<p><img src="/2021/08/04/NESSUS%E6%BC%8F%E6%B4%9E%E6%A3%80%E6%B5%8B/image-20210804110145277.png" alt="image-20210804110145277"></p>
-<p><img src="/2021/08/04/NESSUS%E6%BC%8F%E6%B4%9E%E6%A3%80%E6%B5%8B/image-20210804105422683.png" alt="image-20210804105422683"></p>
-<p><img src="/2021/08/04/NESSUS%E6%BC%8F%E6%B4%9E%E6%A3%80%E6%B5%8B/image-20210804105444083.png" alt="image-20210804105444083"></p>
-<p>如果扫描需要登录的web网站</p>
-<p><img src="/2021/08/04/NESSUS%E6%BC%8F%E6%B4%9E%E6%A3%80%E6%B5%8B/image-20210804105905216.png" alt="image-20210804105905216"></p>
-<p><img src="/2021/08/04/NESSUS%E6%BC%8F%E6%B4%9E%E6%A3%80%E6%B5%8B/image-20210804105925700.png" alt="image-20210804105925700"></p>
-<p>设置好点击保存</p>
-<p><img src="/2021/08/04/NESSUS%E6%BC%8F%E6%B4%9E%E6%A3%80%E6%B5%8B/image-20210804110046021.png" alt="image-20210804110046021"></p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
 
   
   <nav class="pagination">
@@ -2052,14 +2107,14 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">36</span>
+          <span class="site-state-item-count">37</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">7</span>
+        <span class="site-state-item-count">8</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">

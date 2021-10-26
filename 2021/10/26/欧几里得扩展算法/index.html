@@ -20,27 +20,19 @@
     var CONFIG = {"hostname":"wgc5.gitee.io","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
   </script>
 
-  <meta name="description" content="规范习惯1、编码规范 例如  2、引入模块（导包） 2.1 引入自定义模块（包）​    方法：from 目录  import 文件名  2.2 引入系统的模块​    方法：import 文件名 ​    例如：import sys，import os 2.3 引入第三方模块方法：import 文件名 注意：文件需要自己导入项目（如下）  3获取数据">
+  <meta name="description" content="欧几里得算法与欧几里得扩展算法欧几里得算法gcd(a,b) :a和b的最大公因子（公约数），下面同记为(a,b)，a，b∈Z 1.定理：(a,b) &#x3D; (b,a mod b)**  推导过程： ∵ a，b∈Z，  ∴ 有a &#x3D; kb + r  ,    k,r∈Z        ① 则 a mod b &#x3D; r                        ② 联合①②： a mod b &#x3D; a-k">
 <meta property="og:type" content="article">
-<meta property="og:title" content="python规范习惯">
-<meta property="og:url" content="https://wgc5.gitee.io/2021/07/29/%E8%A7%84%E8%8C%83%E4%B9%A0%E6%83%AF/index.html">
+<meta property="og:title" content="欧几里得扩展算法">
+<meta property="og:url" content="https://wgc5.gitee.io/2021/10/26/%E6%AC%A7%E5%87%A0%E9%87%8C%E5%BE%97%E6%89%A9%E5%B1%95%E7%AE%97%E6%B3%95/index.html">
 <meta property="og:site_name" content="北极星上的稻草人">
-<meta property="og:description" content="规范习惯1、编码规范 例如  2、引入模块（导包） 2.1 引入自定义模块（包）​    方法：from 目录  import 文件名  2.2 引入系统的模块​    方法：import 文件名 ​    例如：import sys，import os 2.3 引入第三方模块方法：import 文件名 注意：文件需要自己导入项目（如下）  3获取数据">
+<meta property="og:description" content="欧几里得算法与欧几里得扩展算法欧几里得算法gcd(a,b) :a和b的最大公因子（公约数），下面同记为(a,b)，a，b∈Z 1.定理：(a,b) &#x3D; (b,a mod b)**  推导过程： ∵ a，b∈Z，  ∴ 有a &#x3D; kb + r  ,    k,r∈Z        ① 则 a mod b &#x3D; r                        ② 联合①②： a mod b &#x3D; a-k">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://wgc5.gitee.io/2021/07/29/%E8%A7%84%E8%8C%83%E4%B9%A0%E6%83%AF/image-20210710181733893.png">
-<meta property="og:image" content="https://wgc5.gitee.io/2021/07/29/%E8%A7%84%E8%8C%83%E4%B9%A0%E6%83%AF/image-20210710181910978.png">
-<meta property="og:image" content="https://wgc5.gitee.io/2021/07/29/%E8%A7%84%E8%8C%83%E4%B9%A0%E6%83%AF/image-20210710181950296.png">
-<meta property="og:image" content="https://wgc5.gitee.io/2021/07/29/%E8%A7%84%E8%8C%83%E4%B9%A0%E6%83%AF/image-20210710182437380.png">
-<meta property="og:image" content="https://wgc5.gitee.io/2021/07/29/%E8%A7%84%E8%8C%83%E4%B9%A0%E6%83%AF/image-20210710182815440.png">
-<meta property="og:image" content="https://wgc5.gitee.io/2021/07/29/%E8%A7%84%E8%8C%83%E4%B9%A0%E6%83%AF/image-20210711093930342.png">
-<meta property="article:published_time" content="2021-07-29T01:16:48.000Z">
-<meta property="article:modified_time" content="2021-07-29T01:21:08.819Z">
+<meta property="article:published_time" content="2021-10-26T13:55:29.000Z">
+<meta property="article:modified_time" content="2021-10-26T13:57:39.055Z">
 <meta property="article:author" content="北极星上的稻草人">
-<meta property="article:tag" content="python">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://wgc5.gitee.io/2021/07/29/%E8%A7%84%E8%8C%83%E4%B9%A0%E6%83%AF/image-20210710181733893.png">
 
-<link rel="canonical" href="https://wgc5.gitee.io/2021/07/29/%E8%A7%84%E8%8C%83%E4%B9%A0%E6%83%AF/">
+<link rel="canonical" href="https://wgc5.gitee.io/2021/10/26/%E6%AC%A7%E5%87%A0%E9%87%8C%E5%BE%97%E6%89%A9%E5%B1%95%E7%AE%97%E6%B3%95/">
 
 
 <script id="page-configurations">
@@ -53,7 +45,7 @@
   };
 </script>
 
-  <title>python规范习惯 | 北极星上的稻草人</title>
+  <title>欧几里得扩展算法 | 北极星上的稻草人</title>
   
 
 
@@ -169,7 +161,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://wgc5.gitee.io/2021/07/29/%E8%A7%84%E8%8C%83%E4%B9%A0%E6%83%AF/">
+    <link itemprop="mainEntityOfPage" href="https://wgc5.gitee.io/2021/10/26/%E6%AC%A7%E5%87%A0%E9%87%8C%E5%BE%97%E6%89%A9%E5%B1%95%E7%AE%97%E6%B3%95/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -182,7 +174,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          python规范习惯
+          欧几里得扩展算法
         </h1>
 
         <div class="post-meta">
@@ -193,7 +185,7 @@
               <span class="post-meta-item-text">发表于</span>
               
 
-              <time title="创建时间：2021-07-29 09:16:48 / 修改时间：09:21:08" itemprop="dateCreated datePublished" datetime="2021-07-29T09:16:48+08:00">2021-07-29</time>
+              <time title="创建时间：2021-10-26 21:55:29 / 修改时间：21:57:39" itemprop="dateCreated datePublished" datetime="2021-10-26T21:55:29+08:00">2021-10-26</time>
             </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -201,7 +193,7 @@
               </span>
               <span class="post-meta-item-text">分类于</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/python%E5%85%A5%E9%97%A8/" itemprop="url" rel="index"><span itemprop="name">python入门</span></a>
+                  <a href="/categories/%E5%AF%86%E7%A0%81%E5%AD%A6/" itemprop="url" rel="index"><span itemprop="name">密码学</span></a>
                 </span>
             </span>
 
@@ -223,18 +215,106 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h2 id="规范习惯"><a href="#规范习惯" class="headerlink" title="规范习惯"></a>规范习惯</h2><h3 id="1、编码规范"><a href="#1、编码规范" class="headerlink" title="1、编码规范"></a>1、编码规范</h3><p><img src="/2021/07/29/%E8%A7%84%E8%8C%83%E4%B9%A0%E6%83%AF/image-20210710181733893.png" alt="image-20210710181733893"></p>
-<p>例如</p>
-<p><img src="/2021/07/29/%E8%A7%84%E8%8C%83%E4%B9%A0%E6%83%AF/image-20210710181910978.png" alt="image-20210710181910978"></p>
-<h3 id="2、引入模块（导包）"><a href="#2、引入模块（导包）" class="headerlink" title="2、引入模块（导包）"></a>2、引入模块（导包）</h3><p><img src="/2021/07/29/%E8%A7%84%E8%8C%83%E4%B9%A0%E6%83%AF/image-20210710181950296.png" alt="image-20210710181950296"></p>
-<h4 id="2-1-引入自定义模块（包）"><a href="#2-1-引入自定义模块（包）" class="headerlink" title="2.1 引入自定义模块（包）"></a>2.1 引入自定义模块（包）</h4><p>​    方法：from 目录  import 文件名</p>
-<p><img src="/2021/07/29/%E8%A7%84%E8%8C%83%E4%B9%A0%E6%83%AF/image-20210710182437380.png" alt="image-20210710182437380"></p>
-<h4 id="2-2-引入系统的模块"><a href="#2-2-引入系统的模块" class="headerlink" title="2.2 引入系统的模块"></a>2.2 引入系统的模块</h4><p>​    方法：import 文件名</p>
-<p>​    例如：import sys，import os</p>
-<h4 id="2-3-引入第三方模块"><a href="#2-3-引入第三方模块" class="headerlink" title="2.3 引入第三方模块"></a>2.3 引入第三方模块</h4><p>方法：import 文件名</p>
-<p>注意：文件需要自己导入项目（如下）</p>
-<p><img src="/2021/07/29/%E8%A7%84%E8%8C%83%E4%B9%A0%E6%83%AF/image-20210710182815440.png" alt="image-20210710182815440"></p>
-<h3 id="3获取数据"><a href="#3获取数据" class="headerlink" title="3获取数据"></a>3获取数据</h3><p><img src="/2021/07/29/%E8%A7%84%E8%8C%83%E4%B9%A0%E6%83%AF/image-20210711093930342.png" alt="image-20210711093930342"></p>
+        <h1 id="欧几里得算法与欧几里得扩展算法"><a href="#欧几里得算法与欧几里得扩展算法" class="headerlink" title="欧几里得算法与欧几里得扩展算法"></a>欧几里得算法与欧几里得扩展算法</h1><h2 id="欧几里得算法"><a href="#欧几里得算法" class="headerlink" title="欧几里得算法"></a>欧几里得算法</h2><p>gcd(a,b) :a和b的最大公因子（公约数），下面同记为(a,b)，a，b∈Z</p>
+<p><strong>1.定理：(a,b) = (b,a mod b)**</strong> </p>
+<p>推导过程：</p>
+<p>∵ a，b∈Z， </p>
+<p>∴ 有a = kb + r  ,    k,r∈Z        ①</p>
+<p>则 a mod b = r                        ②</p>
+<p>联合①②： a mod b = a-kb   ③</p>
+<p>设g = gcd（a，b）</p>
+<p>则：a%g = 0（a mod g=0），b%g = 0；即a%g = b%g</p>
+<p>可以推出：(a - b)%g = 0        ④</p>
+<p>（a、b都是g的倍数关系，所以a和b的差值也是最大公因子g的倍数关系）</p>
+<p>结合③和④</p>
+<p>推出： （a mod b）%g = 0</p>
+<p>所以g是a，b，（a mod b）的公因子</p>
+<p>∴ (a,b) = (b,a mod b) </p>
+<p><strong>2.欧几里得算法（辗转相除法）</strong></p>
+<p>第一步：（a0，b0）</p>
+<p>第二步：（a1，b1），a1= b0, b1 = a0%b0</p>
+<p>……</p>
+<p>第n步：（an，bn），当bn = 0时，an就是（a，b）最大公约数</p>
+<h2 id="扩展欧几里得算法"><a href="#扩展欧几里得算法" class="headerlink" title="扩展欧几里得算法"></a>扩展欧几里得算法</h2><p><strong>1.求逆元原理</strong></p>
+<p>推导过程：</p>
+<p>设（a，b）是a，b的最大公约数，则有a.x1 = k1(a,b), b.y1 = k2(a,b) ,k1,k2∈Z       “.”是乘法</p>
+<p>可以推导出：a.x1 + b.y1 = k3(a,b)  ，k3 = k1+k2，k3∈Z</p>
+<p>所以必然存在</p>
+<p>​                    ax + by = （a，b ）</p>
+<p>当（a，b）=1时，a，b互质（又称为互为素数），得：</p>
+<p>​                    ax + by =1      （x是a的逆元，y是b的逆元）</p>
+<p>所以有：a*X = bY+1         （正负号写不写无所谓，因为它对公式没什么意义，Y可正可负）</p>
+<p>​                    X = （bY+1）/a        </p>
+<p>​                    Y = （aX+1）/a</p>
+<p><strong>2.扩展的欧几里得算法</strong></p>
+<p>由欧几里得算法得：</p>
+<p>​      （a，b） =  （b，a mod b）        ①</p>
+<p>​       ∵ ax + by =  (a,b)                            ②</p>
+<p> 联合①②得：</p>
+<p>​        b.x1 +（a mod b）.y1 =  (a,b)     ③    </p>
+<p>​       a mob b = a%b = a - (a/b).b         ④    “/“是除法</p>
+<p>联合③④</p>
+<p>​        gcd = （a，b） = b.x1+[a - (a/b).b].y1</p>
+<p>​                                    =b.x1 + a.y1 - (a/b).b.y1</p>
+<p>​                                    =a.y1 + b.[x1 - (a/b).y1]</p>
+<p>对比：(a,b) = ax + by</p>
+<p>可以推导出：</p>
+<p>​                x = y1</p>
+<p>​                y = x1 - (a/b).y1</p>
+<p>附：求逆元C++算法</p>
+<pre><code>#include &lt;iostream&gt;  
+using namespace std;  
+typedef long long LL;  
+typedef double DB;  
+
+//aX+bY=gcd；x是a的逆元，Y是b的逆元；ans（gcd）是最大公约数  
+LL e_gcd(LL a,LL b,LL &amp;x,LL &amp;y)  
+&#123;  
+    if(b==0)  
+    &#123;  
+        x=1;  
+        y=0;  
+        return a;  
+    &#125;  
+    LL ans=e_gcd(b,a%b,x,y);  
+    LL temp=x;  
+    x=y;  
+    y=temp-a/b*y;  
+    return ans;  
+&#125;  
+
+LL cal(LL a,LL b,LL c)  
+&#123;  
+    LL x,y;  
+    LL gcd=e_gcd(a,b,x,y);  
+    if(c%gcd!=0)&#123; 
+        printf(&quot;没有逆元&quot;);
+        return -1;  //判断是否有逆元or两个数（a、b）是否质，即gcd最大公约数是否是1     
+        &#125;
+    x*=c/gcd;  
+    b/=gcd;  
+    if(b&lt;0) b=-b;  
+    printf(&quot;x的逆元=%ld,y的逆元=%ld\n&quot;,x,y); 
+    //这里求得的逆元可能为负数，再求mod转回正数即可 
+    LL X=x%b;  
+    if(X&lt;=0) X+=b;      // X是a的逆元，当其小于0时，由aX+bY=gcd，即（a，b）=gcd得，a的逆元&lt;b,为了取正数，所以需要+b； 
+    return X;  
+&#125;  
+
+int main()  
+&#123;  
+    LL a,b,t;  
+    //a=1769;
+    //b=550;
+    cout &lt;&lt; &quot;请输入a:&quot;;
+    cin &gt;&gt; a;
+    cout &lt;&lt; &quot;请输入b:&quot;;
+    cin &gt;&gt; b;
+    LL ans=cal(a,b,1);   
+    printf(&quot;x的逆元=%lld\n&quot;,ans);  
+
+    return 0;  
+&#125; </code></pre>
 
     </div>
 
@@ -243,9 +323,6 @@
     
 
       <footer class="post-footer">
-          <div class="post-tags">
-              <a href="/tags/python/" rel="tag"># python</a>
-          </div>
 
         
 
@@ -253,13 +330,10 @@
         
     <div class="post-nav">
       <div class="post-nav-item">
-    <a href="/2021/07/15/python%E7%88%AC%E5%8F%96%E6%95%B0%E6%8D%AE%E5%B9%B6%E5%AD%98%E5%88%B0SQLite%E6%95%B0%E6%8D%AE%E5%BA%93/" rel="prev" title="python爬取数据并存到SQLite数据库">
-      <i class="fa fa-chevron-left"></i> python爬取数据并存到SQLite数据库
+    <a href="/2021/10/07/SQL%E6%B3%A8%E5%85%A501/" rel="prev" title="SQL注入01">
+      <i class="fa fa-chevron-left"></i> SQL注入01
     </a></div>
-      <div class="post-nav-item">
-    <a href="/2021/07/30/kali%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86/" rel="next" title="kali信息收集">
-      kali信息收集 <i class="fa fa-chevron-right"></i>
-    </a></div>
+      <div class="post-nav-item"></div>
     </div>
       </footer>
     
@@ -318,7 +392,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%A7%84%E8%8C%83%E4%B9%A0%E6%83%AF"><span class="nav-number">1.</span> <span class="nav-text">规范习惯</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1%E3%80%81%E7%BC%96%E7%A0%81%E8%A7%84%E8%8C%83"><span class="nav-number">1.1.</span> <span class="nav-text">1、编码规范</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2%E3%80%81%E5%BC%95%E5%85%A5%E6%A8%A1%E5%9D%97%EF%BC%88%E5%AF%BC%E5%8C%85%EF%BC%89"><span class="nav-number">1.2.</span> <span class="nav-text">2、引入模块（导包）</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#2-1-%E5%BC%95%E5%85%A5%E8%87%AA%E5%AE%9A%E4%B9%89%E6%A8%A1%E5%9D%97%EF%BC%88%E5%8C%85%EF%BC%89"><span class="nav-number">1.2.1.</span> <span class="nav-text">2.1 引入自定义模块（包）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-2-%E5%BC%95%E5%85%A5%E7%B3%BB%E7%BB%9F%E7%9A%84%E6%A8%A1%E5%9D%97"><span class="nav-number">1.2.2.</span> <span class="nav-text">2.2 引入系统的模块</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-3-%E5%BC%95%E5%85%A5%E7%AC%AC%E4%B8%89%E6%96%B9%E6%A8%A1%E5%9D%97"><span class="nav-number">1.2.3.</span> <span class="nav-text">2.3 引入第三方模块</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3%E8%8E%B7%E5%8F%96%E6%95%B0%E6%8D%AE"><span class="nav-number">1.3.</span> <span class="nav-text">3获取数据</span></a></li></ol></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%AC%A7%E5%87%A0%E9%87%8C%E5%BE%97%E7%AE%97%E6%B3%95%E4%B8%8E%E6%AC%A7%E5%87%A0%E9%87%8C%E5%BE%97%E6%89%A9%E5%B1%95%E7%AE%97%E6%B3%95"><span class="nav-number">1.</span> <span class="nav-text">欧几里得算法与欧几里得扩展算法</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%AC%A7%E5%87%A0%E9%87%8C%E5%BE%97%E7%AE%97%E6%B3%95"><span class="nav-number">1.1.</span> <span class="nav-text">欧几里得算法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%89%A9%E5%B1%95%E6%AC%A7%E5%87%A0%E9%87%8C%E5%BE%97%E7%AE%97%E6%B3%95"><span class="nav-number">1.2.</span> <span class="nav-text">扩展欧几里得算法</span></a></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
