@@ -1,0 +1,742 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"wgc5.gitee.io","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="CTF-WEB渗透入门思路与技巧说明：图片只是一个展示效果，可能前后不对应 步骤一：信息探测1、扫描主机服务信息以及服务版本a.**扫描主机开放的端口号：namp -p -T4 靶场ip地址** 参数说明：-p指端口，-T4指线程数为4 b.快速扫描主机全部信息：namp -T4 -A -v 靶场ip地址  参数说明：-A指all（全部），-v指快速 说明：有时候b扫描方式的结果会漏（在端口开放扫">
+<meta property="og:type" content="article">
+<meta property="og:title" content="CTF-WEB渗透思路与技巧">
+<meta property="og:url" content="https://wgc5.gitee.io/2021/11/26/CTF-WEB%E6%B8%97%E9%80%8F%E6%80%9D%E8%B7%AF%E4%B8%8E%E6%8A%80%E5%B7%A7/index.html">
+<meta property="og:site_name" content="北极星上的稻草人">
+<meta property="og:description" content="CTF-WEB渗透入门思路与技巧说明：图片只是一个展示效果，可能前后不对应 步骤一：信息探测1、扫描主机服务信息以及服务版本a.**扫描主机开放的端口号：namp -p -T4 靶场ip地址** 参数说明：-p指端口，-T4指线程数为4 b.快速扫描主机全部信息：namp -T4 -A -v 靶场ip地址  参数说明：-A指all（全部），-v指快速 说明：有时候b扫描方式的结果会漏（在端口开放扫">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/11/26/CTF-WEB%E6%B8%97%E9%80%8F%E6%80%9D%E8%B7%AF%E4%B8%8E%E6%8A%80%E5%B7%A7/image-20211102200402655.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/11/26/CTF-WEB%E6%B8%97%E9%80%8F%E6%80%9D%E8%B7%AF%E4%B8%8E%E6%8A%80%E5%B7%A7/image-20211104160032606.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/11/26/CTF-WEB%E6%B8%97%E9%80%8F%E6%80%9D%E8%B7%AF%E4%B8%8E%E6%8A%80%E5%B7%A7/image-20211104155903347.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/11/26/CTF-WEB%E6%B8%97%E9%80%8F%E6%80%9D%E8%B7%AF%E4%B8%8E%E6%8A%80%E5%B7%A7/image-20211104152216258.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/11/26/CTF-WEB%E6%B8%97%E9%80%8F%E6%80%9D%E8%B7%AF%E4%B8%8E%E6%8A%80%E5%B7%A7/image-20211104152211299.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/11/26/CTF-WEB%E6%B8%97%E9%80%8F%E6%80%9D%E8%B7%AF%E4%B8%8E%E6%8A%80%E5%B7%A7/image-20211104152242903.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/11/26/CTF-WEB%E6%B8%97%E9%80%8F%E6%80%9D%E8%B7%AF%E4%B8%8E%E6%8A%80%E5%B7%A7/image-20211104152303730.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/11/26/CTF-WEB%E6%B8%97%E9%80%8F%E6%80%9D%E8%B7%AF%E4%B8%8E%E6%8A%80%E5%B7%A7/image-20211104152331126.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/11/26/CTF-WEB%E6%B8%97%E9%80%8F%E6%80%9D%E8%B7%AF%E4%B8%8E%E6%8A%80%E5%B7%A7/image-20211104152341971.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/11/26/CTF-WEB%E6%B8%97%E9%80%8F%E6%80%9D%E8%B7%AF%E4%B8%8E%E6%8A%80%E5%B7%A7/image-20211104152348212.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/11/26/CTF-WEB%E6%B8%97%E9%80%8F%E6%80%9D%E8%B7%AF%E4%B8%8E%E6%8A%80%E5%B7%A7/image-20211102202748686.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/11/26/CTF-WEB%E6%B8%97%E9%80%8F%E6%80%9D%E8%B7%AF%E4%B8%8E%E6%8A%80%E5%B7%A7/image-20211102203709341.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/11/26/CTF-WEB%E6%B8%97%E9%80%8F%E6%80%9D%E8%B7%AF%E4%B8%8E%E6%8A%80%E5%B7%A7/image-20211102204232751.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/11/26/CTF-WEB%E6%B8%97%E9%80%8F%E6%80%9D%E8%B7%AF%E4%B8%8E%E6%8A%80%E5%B7%A7/image-20211102214659335.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/11/26/CTF-WEB%E6%B8%97%E9%80%8F%E6%80%9D%E8%B7%AF%E4%B8%8E%E6%8A%80%E5%B7%A7/image-20211102214559780.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/11/26/CTF-WEB%E6%B8%97%E9%80%8F%E6%80%9D%E8%B7%AF%E4%B8%8E%E6%8A%80%E5%B7%A7/image-20211102215008230.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/11/26/CTF-WEB%E6%B8%97%E9%80%8F%E6%80%9D%E8%B7%AF%E4%B8%8E%E6%8A%80%E5%B7%A7/image-20211102215117240.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/11/26/CTF-WEB%E6%B8%97%E9%80%8F%E6%80%9D%E8%B7%AF%E4%B8%8E%E6%8A%80%E5%B7%A7/image-20211102215227610.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/11/26/CTF-WEB%E6%B8%97%E9%80%8F%E6%80%9D%E8%B7%AF%E4%B8%8E%E6%8A%80%E5%B7%A7/image-20211102215245319.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/11/26/CTF-WEB%E6%B8%97%E9%80%8F%E6%80%9D%E8%B7%AF%E4%B8%8E%E6%8A%80%E5%B7%A7/image-20211030105045103.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/11/26/CTF-WEB%E6%B8%97%E9%80%8F%E6%80%9D%E8%B7%AF%E4%B8%8E%E6%8A%80%E5%B7%A7/image-20211102220133905.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/11/26/CTF-WEB%E6%B8%97%E9%80%8F%E6%80%9D%E8%B7%AF%E4%B8%8E%E6%8A%80%E5%B7%A7/image-20211102220153317.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/11/26/CTF-WEB%E6%B8%97%E9%80%8F%E6%80%9D%E8%B7%AF%E4%B8%8E%E6%8A%80%E5%B7%A7/image-20211104153117467.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/11/26/CTF-WEB%E6%B8%97%E9%80%8F%E6%80%9D%E8%B7%AF%E4%B8%8E%E6%8A%80%E5%B7%A7/image-20211104161211476.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/11/26/CTF-WEB%E6%B8%97%E9%80%8F%E6%80%9D%E8%B7%AF%E4%B8%8E%E6%8A%80%E5%B7%A7/image-20211104160837857.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/11/26/CTF-WEB%E6%B8%97%E9%80%8F%E6%80%9D%E8%B7%AF%E4%B8%8E%E6%8A%80%E5%B7%A7/image-20211104153707417.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/11/26/CTF-WEB%E6%B8%97%E9%80%8F%E6%80%9D%E8%B7%AF%E4%B8%8E%E6%8A%80%E5%B7%A7/image-20211104153947435.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/11/26/CTF-WEB%E6%B8%97%E9%80%8F%E6%80%9D%E8%B7%AF%E4%B8%8E%E6%8A%80%E5%B7%A7/image-20211104193152596.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/11/26/CTF-WEB%E6%B8%97%E9%80%8F%E6%80%9D%E8%B7%AF%E4%B8%8E%E6%8A%80%E5%B7%A7/image-20211104194037138.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/11/26/CTF-WEB%E6%B8%97%E9%80%8F%E6%80%9D%E8%B7%AF%E4%B8%8E%E6%8A%80%E5%B7%A7/image-20211104193650252.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/11/26/CTF-WEB%E6%B8%97%E9%80%8F%E6%80%9D%E8%B7%AF%E4%B8%8E%E6%8A%80%E5%B7%A7/image-20211104193655617.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/11/26/CTF-WEB%E6%B8%97%E9%80%8F%E6%80%9D%E8%B7%AF%E4%B8%8E%E6%8A%80%E5%B7%A7/image-20211104195647852.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/11/26/CTF-WEB%E6%B8%97%E9%80%8F%E6%80%9D%E8%B7%AF%E4%B8%8E%E6%8A%80%E5%B7%A7/image-20211104195806884.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/11/26/CTF-WEB%E6%B8%97%E9%80%8F%E6%80%9D%E8%B7%AF%E4%B8%8E%E6%8A%80%E5%B7%A7/image-20211104195832261.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/11/26/CTF-WEB%E6%B8%97%E9%80%8F%E6%80%9D%E8%B7%AF%E4%B8%8E%E6%8A%80%E5%B7%A7/image-20211104194628075.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/11/26/CTF-WEB%E6%B8%97%E9%80%8F%E6%80%9D%E8%B7%AF%E4%B8%8E%E6%8A%80%E5%B7%A7/image-20211104200102859.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/11/26/CTF-WEB%E6%B8%97%E9%80%8F%E6%80%9D%E8%B7%AF%E4%B8%8E%E6%8A%80%E5%B7%A7/image-20211031163357930.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/11/26/CTF-WEB%E6%B8%97%E9%80%8F%E6%80%9D%E8%B7%AF%E4%B8%8E%E6%8A%80%E5%B7%A7/image-20211104200258439.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/11/26/CTF-WEB%E6%B8%97%E9%80%8F%E6%80%9D%E8%B7%AF%E4%B8%8E%E6%8A%80%E5%B7%A7/image-20211031163538379.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/11/26/CTF-WEB%E6%B8%97%E9%80%8F%E6%80%9D%E8%B7%AF%E4%B8%8E%E6%8A%80%E5%B7%A7/image-20211104200421430.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/11/26/CTF-WEB%E6%B8%97%E9%80%8F%E6%80%9D%E8%B7%AF%E4%B8%8E%E6%8A%80%E5%B7%A7/image-20211104200509299.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/11/26/CTF-WEB%E6%B8%97%E9%80%8F%E6%80%9D%E8%B7%AF%E4%B8%8E%E6%8A%80%E5%B7%A7/image-20211104200514650.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/11/26/CTF-WEB%E6%B8%97%E9%80%8F%E6%80%9D%E8%B7%AF%E4%B8%8E%E6%8A%80%E5%B7%A7/image-20211104200526368.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/11/26/CTF-WEB%E6%B8%97%E9%80%8F%E6%80%9D%E8%B7%AF%E4%B8%8E%E6%8A%80%E5%B7%A7/image-20211104200551621.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/11/26/CTF-WEB%E6%B8%97%E9%80%8F%E6%80%9D%E8%B7%AF%E4%B8%8E%E6%8A%80%E5%B7%A7/image-20211104200556107.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/11/26/CTF-WEB%E6%B8%97%E9%80%8F%E6%80%9D%E8%B7%AF%E4%B8%8E%E6%8A%80%E5%B7%A7/image-20211104200600049.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/11/26/CTF-WEB%E6%B8%97%E9%80%8F%E6%80%9D%E8%B7%AF%E4%B8%8E%E6%8A%80%E5%B7%A7/image-20211104200611821.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/11/26/CTF-WEB%E6%B8%97%E9%80%8F%E6%80%9D%E8%B7%AF%E4%B8%8E%E6%8A%80%E5%B7%A7/image-20211104200617555.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/11/26/CTF-WEB%E6%B8%97%E9%80%8F%E6%80%9D%E8%B7%AF%E4%B8%8E%E6%8A%80%E5%B7%A7/image-20211102140627873.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/11/26/CTF-WEB%E6%B8%97%E9%80%8F%E6%80%9D%E8%B7%AF%E4%B8%8E%E6%8A%80%E5%B7%A7/image-20211104201522077.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/11/26/CTF-WEB%E6%B8%97%E9%80%8F%E6%80%9D%E8%B7%AF%E4%B8%8E%E6%8A%80%E5%B7%A7/image-20211104201537419.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/11/26/CTF-WEB%E6%B8%97%E9%80%8F%E6%80%9D%E8%B7%AF%E4%B8%8E%E6%8A%80%E5%B7%A7/image-20211104201555173.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/11/26/CTF-WEB%E6%B8%97%E9%80%8F%E6%80%9D%E8%B7%AF%E4%B8%8E%E6%8A%80%E5%B7%A7/image-20211104201619332.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/11/26/CTF-WEB%E6%B8%97%E9%80%8F%E6%80%9D%E8%B7%AF%E4%B8%8E%E6%8A%80%E5%B7%A7/image-20211104201630302.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/11/26/CTF-WEB%E6%B8%97%E9%80%8F%E6%80%9D%E8%B7%AF%E4%B8%8E%E6%8A%80%E5%B7%A7/image-20211104201643667.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/11/26/CTF-WEB%E6%B8%97%E9%80%8F%E6%80%9D%E8%B7%AF%E4%B8%8E%E6%8A%80%E5%B7%A7/image-20211104201653148.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/11/26/CTF-WEB%E6%B8%97%E9%80%8F%E6%80%9D%E8%B7%AF%E4%B8%8E%E6%8A%80%E5%B7%A7/image-20211104201703598.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/11/26/CTF-WEB%E6%B8%97%E9%80%8F%E6%80%9D%E8%B7%AF%E4%B8%8E%E6%8A%80%E5%B7%A7/image-20211104201710210.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/11/26/CTF-WEB%E6%B8%97%E9%80%8F%E6%80%9D%E8%B7%AF%E4%B8%8E%E6%8A%80%E5%B7%A7/image-20211105103733193.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/11/26/CTF-WEB%E6%B8%97%E9%80%8F%E6%80%9D%E8%B7%AF%E4%B8%8E%E6%8A%80%E5%B7%A7/image-20211104210730250.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/11/26/CTF-WEB%E6%B8%97%E9%80%8F%E6%80%9D%E8%B7%AF%E4%B8%8E%E6%8A%80%E5%B7%A7/image-20211031151536728.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/11/26/CTF-WEB%E6%B8%97%E9%80%8F%E6%80%9D%E8%B7%AF%E4%B8%8E%E6%8A%80%E5%B7%A7/image-20211104211453611.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/11/26/CTF-WEB%E6%B8%97%E9%80%8F%E6%80%9D%E8%B7%AF%E4%B8%8E%E6%8A%80%E5%B7%A7/image-20211104211632043.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/11/26/CTF-WEB%E6%B8%97%E9%80%8F%E6%80%9D%E8%B7%AF%E4%B8%8E%E6%8A%80%E5%B7%A7/image-20211104211112036.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/11/26/CTF-WEB%E6%B8%97%E9%80%8F%E6%80%9D%E8%B7%AF%E4%B8%8E%E6%8A%80%E5%B7%A7/image-20211104211247531.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/11/26/CTF-WEB%E6%B8%97%E9%80%8F%E6%80%9D%E8%B7%AF%E4%B8%8E%E6%8A%80%E5%B7%A7/image-20211105094111832.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/11/26/CTF-WEB%E6%B8%97%E9%80%8F%E6%80%9D%E8%B7%AF%E4%B8%8E%E6%8A%80%E5%B7%A7/image-20211102170833011.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/11/26/CTF-WEB%E6%B8%97%E9%80%8F%E6%80%9D%E8%B7%AF%E4%B8%8E%E6%8A%80%E5%B7%A7/image-20211104220108129.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/11/26/CTF-WEB%E6%B8%97%E9%80%8F%E6%80%9D%E8%B7%AF%E4%B8%8E%E6%8A%80%E5%B7%A7/image-20211105103954832.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/11/26/CTF-WEB%E6%B8%97%E9%80%8F%E6%80%9D%E8%B7%AF%E4%B8%8E%E6%8A%80%E5%B7%A7/image-20211105103820072.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/11/26/CTF-WEB%E6%B8%97%E9%80%8F%E6%80%9D%E8%B7%AF%E4%B8%8E%E6%8A%80%E5%B7%A7/image-20211105102839635.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/11/26/CTF-WEB%E6%B8%97%E9%80%8F%E6%80%9D%E8%B7%AF%E4%B8%8E%E6%8A%80%E5%B7%A7/image-20211105104134139.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/11/26/CTF-WEB%E6%B8%97%E9%80%8F%E6%80%9D%E8%B7%AF%E4%B8%8E%E6%8A%80%E5%B7%A7/image-20211030112056550.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/11/26/CTF-WEB%E6%B8%97%E9%80%8F%E6%80%9D%E8%B7%AF%E4%B8%8E%E6%8A%80%E5%B7%A7/image-20211101222507358.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/11/26/CTF-WEB%E6%B8%97%E9%80%8F%E6%80%9D%E8%B7%AF%E4%B8%8E%E6%8A%80%E5%B7%A7/image-20211105102320820.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/11/26/CTF-WEB%E6%B8%97%E9%80%8F%E6%80%9D%E8%B7%AF%E4%B8%8E%E6%8A%80%E5%B7%A7/image-20211105101709122.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/11/26/CTF-WEB%E6%B8%97%E9%80%8F%E6%80%9D%E8%B7%AF%E4%B8%8E%E6%8A%80%E5%B7%A7/image-20211105101312890.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/11/26/CTF-WEB%E6%B8%97%E9%80%8F%E6%80%9D%E8%B7%AF%E4%B8%8E%E6%8A%80%E5%B7%A7/image-20211105101645298.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/11/26/CTF-WEB%E6%B8%97%E9%80%8F%E6%80%9D%E8%B7%AF%E4%B8%8E%E6%8A%80%E5%B7%A7/image-20211105101737053.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/11/26/CTF-WEB%E6%B8%97%E9%80%8F%E6%80%9D%E8%B7%AF%E4%B8%8E%E6%8A%80%E5%B7%A7/image-20211105101818781.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/11/26/CTF-WEB%E6%B8%97%E9%80%8F%E6%80%9D%E8%B7%AF%E4%B8%8E%E6%8A%80%E5%B7%A7/image-20211105103144827.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/11/26/CTF-WEB%E6%B8%97%E9%80%8F%E6%80%9D%E8%B7%AF%E4%B8%8E%E6%8A%80%E5%B7%A7/image-20211105103210995.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/11/26/CTF-WEB%E6%B8%97%E9%80%8F%E6%80%9D%E8%B7%AF%E4%B8%8E%E6%8A%80%E5%B7%A7/image-20211105103236376.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/11/26/CTF-WEB%E6%B8%97%E9%80%8F%E6%80%9D%E8%B7%AF%E4%B8%8E%E6%8A%80%E5%B7%A7/image-20211105103256494.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/11/26/CTF-WEB%E6%B8%97%E9%80%8F%E6%80%9D%E8%B7%AF%E4%B8%8E%E6%8A%80%E5%B7%A7/image-20211105105225124.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/11/26/CTF-WEB%E6%B8%97%E9%80%8F%E6%80%9D%E8%B7%AF%E4%B8%8E%E6%8A%80%E5%B7%A7/image-20211126110613621.png">
+<meta property="article:published_time" content="2021-11-26T03:04:23.000Z">
+<meta property="article:modified_time" content="2021-11-26T03:07:08.360Z">
+<meta property="article:author" content="北极星上的稻草人">
+<meta property="article:tag" content="web渗透">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://wgc5.gitee.io/2021/11/26/CTF-WEB%E6%B8%97%E9%80%8F%E6%80%9D%E8%B7%AF%E4%B8%8E%E6%8A%80%E5%B7%A7/image-20211102200402655.png">
+
+<link rel="canonical" href="https://wgc5.gitee.io/2021/11/26/CTF-WEB%E6%B8%97%E9%80%8F%E6%80%9D%E8%B7%AF%E4%B8%8E%E6%8A%80%E5%B7%A7/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>CTF-WEB渗透思路与技巧 | 北极星上的稻草人</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">北极星上的稻草人</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">稻草人笔记</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">21</span></a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">9</span></a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">51</span></a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://wgc5.gitee.io/2021/11/26/CTF-WEB%E6%B8%97%E9%80%8F%E6%80%9D%E8%B7%AF%E4%B8%8E%E6%8A%80%E5%B7%A7/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="北极星上的稻草人">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="北极星上的稻草人">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          CTF-WEB渗透思路与技巧
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2021-11-26 11:04:23 / 修改时间：11:07:08" itemprop="dateCreated datePublished" datetime="2021-11-26T11:04:23+08:00">2021-11-26</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/CTF/" itemprop="url" rel="index"><span itemprop="name">CTF</span></a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="CTF-WEB渗透入门思路与技巧"><a href="#CTF-WEB渗透入门思路与技巧" class="headerlink" title="CTF-WEB渗透入门思路与技巧"></a>CTF-WEB渗透入门思路与技巧</h1><p>说明：图片只是一个展示效果，可能前后不对应</p>
+<h2 id="步骤一：信息探测"><a href="#步骤一：信息探测" class="headerlink" title="步骤一：信息探测"></a>步骤一：信息探测</h2><h4 id="1、扫描主机服务信息以及服务版本"><a href="#1、扫描主机服务信息以及服务版本" class="headerlink" title="1、扫描主机服务信息以及服务版本"></a>1、扫描主机服务信息以及服务版本</h4><p><strong>a.**扫描主机</strong>开放的端口号<strong>：</strong>namp -p -T4 靶场ip地址**</p>
+<p>参数说明：-p指端口，-T4指线程数为4</p>
+<p><strong>b.快速扫描主机全部信息</strong>：<strong>namp -T4 -A -v 靶场ip地址</strong> </p>
+<p>参数说明：-A指all（全部），-v指快速</p>
+<p>说明：有时候b扫描方式的结果会漏（在端口开放扫描部分）</p>
+<p><strong>c.探测开放服务信息</strong>：<strong>namp -sV 靶场ip地址</strong></p>
+<p><img src="/2021/11/26/CTF-WEB%E6%B8%97%E9%80%8F%E6%80%9D%E8%B7%AF%E4%B8%8E%E6%8A%80%E5%B7%A7/image-20211102200402655.png" alt="image-20211102200402655"></p>
+<p>tip0：一般用b、c操作就足够了。</p>
+<p>tip1：注意开放的服务与其可能存在的漏洞/攻击方法：ssh服务：远程登录；ftp服务：文件上传</p>
+<p>tip3：后面所有操作都要考虑端口占用情况，可以用netstat -pantu来查看占用端口</p>
+<h4 id="2、探测目录信息"><a href="#2、探测目录信息" class="headerlink" title="2、探测目录信息"></a>2、探测目录信息</h4><p>！！这里要求靶场开启了http服务！！</p>
+<p>**a.**nikto -host http://靶场IP地址：端口 </p>
+<p><img src="/2021/11/26/CTF-WEB%E6%B8%97%E9%80%8F%E6%80%9D%E8%B7%AF%E4%B8%8E%E6%8A%80%E5%B7%A7/image-20211104160032606.png" alt="image-20211104160032606"></p>
+<p>**b.**dirb http://靶场IP地址：端口</p>
+<p><img src="/2021/11/26/CTF-WEB%E6%B8%97%E9%80%8F%E6%80%9D%E8%B7%AF%E4%B8%8E%E6%8A%80%E5%B7%A7/image-20211104155903347.png" alt="image-20211104155903347"></p>
+<p>说明：</p>
+<p>（1）端口不填，默认是80端口；</p>
+<p>（2）虽然都是探测目录信息，但探测到的信息往往是互补的，a操作侧重于敏感信息，b操作侧重于敏感目录。</p>
+<h4 id="3、用sparta探测（图形化界面工具）"><a href="#3、用sparta探测（图形化界面工具）" class="headerlink" title="3、用sparta探测（图形化界面工具）"></a>3、用sparta探测（图形化界面工具）</h4><p>启动软件（kali自带）</p>
+<p><img src="/2021/11/26/CTF-WEB%E6%B8%97%E9%80%8F%E6%80%9D%E8%B7%AF%E4%B8%8E%E6%8A%80%E5%B7%A7/image-20211104152216258.png" alt="image-20211104152216258"></p>
+<p><img src="/2021/11/26/CTF-WEB%E6%B8%97%E9%80%8F%E6%80%9D%E8%B7%AF%E4%B8%8E%E6%8A%80%E5%B7%A7/image-20211104152211299.png" alt="image-20211104152211299"></p>
+<p>软件会进行namp、nikto、screenshot扫描</p>
+<p><img src="/2021/11/26/CTF-WEB%E6%B8%97%E9%80%8F%E6%80%9D%E8%B7%AF%E4%B8%8E%E6%8A%80%E5%B7%A7/image-20211104152242903.png" alt="image-20211104152242903"></p>
+<p>点击下面的扫描模块就可以查看详情，也可以单独对某个端口进行扫描</p>
+<p><img src="/2021/11/26/CTF-WEB%E6%B8%97%E9%80%8F%E6%80%9D%E8%B7%AF%E4%B8%8E%E6%8A%80%E5%B7%A7/image-20211104152303730.png" alt="image-20211104152303730"></p>
+<p><img src="/2021/11/26/CTF-WEB%E6%B8%97%E9%80%8F%E6%80%9D%E8%B7%AF%E4%B8%8E%E6%8A%80%E5%B7%A7/image-20211104152331126.png" alt="image-20211104152331126"></p>
+<p>还可以用dirt进行暴力探测</p>
+<p><img src="/2021/11/26/CTF-WEB%E6%B8%97%E9%80%8F%E6%80%9D%E8%B7%AF%E4%B8%8E%E6%8A%80%E5%B7%A7/image-20211104152341971.png" alt="image-20211104152341971"></p>
+<p><img src="/2021/11/26/CTF-WEB%E6%B8%97%E9%80%8F%E6%80%9D%E8%B7%AF%E4%B8%8E%E6%8A%80%E5%B7%A7/image-20211104152348212.png" alt="image-20211104152348212"></p>
+<h2 id="步骤2：深入挖掘信息-分析探测结果"><a href="#步骤2：深入挖掘信息-分析探测结果" class="headerlink" title="步骤2：深入挖掘信息/分析探测结果"></a>步骤2：深入挖掘信息/分析探测结果</h2><h3 id="端口-服务利用"><a href="#端口-服务利用" class="headerlink" title="端口/服务利用"></a>端口/服务利用</h3><h4 id="1、大端口利用"><a href="#1、大端口利用" class="headerlink" title="1、大端口利用"></a>1、大端口利用</h4><p>​    常用端口为0~1023，要注意大于1024的端口和一些不知名或乱起名的服务</p>
+<p><img src="/2021/11/26/CTF-WEB%E6%B8%97%E9%80%8F%E6%80%9D%E8%B7%AF%E4%B8%8E%E6%8A%80%E5%B7%A7/image-20211102202748686.png" alt="image-20211102202748686"></p>
+<p>技巧1：利用nc扫描大端口（非http服务）</p>
+<p><img src="/2021/11/26/CTF-WEB%E6%B8%97%E9%80%8F%E6%80%9D%E8%B7%AF%E4%B8%8E%E6%8A%80%E5%B7%A7/image-20211102203709341.png" alt="image-20211102203709341"></p>
+<p>技巧2：直接访问大端口http服务</p>
+<p><img src="/2021/11/26/CTF-WEB%E6%B8%97%E9%80%8F%E6%80%9D%E8%B7%AF%E4%B8%8E%E6%8A%80%E5%B7%A7/image-20211102204232751.png" alt="image-20211102204232751"></p>
+<h4 id="2、SMB服务利用"><a href="#2、SMB服务利用" class="headerlink" title="2、SMB服务利用"></a>2、SMB服务利用</h4><p>​    SMB协议又叫samba，是一种通讯协议，它基于TCP协议，一般使用139、445端口。SMB允许计算机访问网络资源，下载对应的源文件。</p>
+<p><img src="/2021/11/26/CTF-WEB%E6%B8%97%E9%80%8F%E6%80%9D%E8%B7%AF%E4%B8%8E%E6%8A%80%E5%B7%A7/image-20211102214659335.png" alt="image-20211102214659335"></p>
+<p><img src="/2021/11/26/CTF-WEB%E6%B8%97%E9%80%8F%E6%80%9D%E8%B7%AF%E4%B8%8E%E6%8A%80%E5%B7%A7/image-20211102214559780.png" alt="image-20211102214559780"></p>
+<p><strong>a、smbclient -L IP：</strong>扫描出对应IP地址的主机共享的文件夹</p>
+<p>（若空密码不行，可能需要另外方法寻找方法）</p>
+<p><img src="/2021/11/26/CTF-WEB%E6%B8%97%E9%80%8F%E6%80%9D%E8%B7%AF%E4%B8%8E%E6%8A%80%E5%B7%A7/image-20211102215008230.png" alt="image-20211102215008230"></p>
+<p><strong>b、smbclient  ‘\\IP\$share’：</strong>查看对应IP主机上的共享文件（share指文件名）</p>
+<p><img src="/2021/11/26/CTF-WEB%E6%B8%97%E9%80%8F%E6%80%9D%E8%B7%AF%E4%B8%8E%E6%8A%80%E5%B7%A7/image-20211102215117240.png" alt="image-20211102215117240"></p>
+<p><strong>c、get （敏感信息）文件名：</strong>下载文件</p>
+<p><img src="/2021/11/26/CTF-WEB%E6%B8%97%E9%80%8F%E6%80%9D%E8%B7%AF%E4%B8%8E%E6%8A%80%E5%B7%A7/image-20211102215227610.png" alt="image-20211102215227610"></p>
+<p><img src="/2021/11/26/CTF-WEB%E6%B8%97%E9%80%8F%E6%80%9D%E8%B7%AF%E4%B8%8E%E6%8A%80%E5%B7%A7/image-20211102215245319.png" alt="image-20211102215245319"></p>
+<p><strong>d、searchsploit samba 版本号：</strong>查看某个版本号的SMB协议是否有（溢出）漏洞：这里没有</p>
+<p><img src="/2021/11/26/CTF-WEB%E6%B8%97%E9%80%8F%E6%80%9D%E8%B7%AF%E4%B8%8E%E6%8A%80%E5%B7%A7/image-20211030105045103.png" alt="image-20211030105045103"></p>
+<p><img src="/2021/11/26/CTF-WEB%E6%B8%97%E9%80%8F%E6%80%9D%E8%B7%AF%E4%B8%8E%E6%8A%80%E5%B7%A7/image-20211102220133905.png" alt="image-20211102220133905"></p>
+<p><img src="/2021/11/26/CTF-WEB%E6%B8%97%E9%80%8F%E6%80%9D%E8%B7%AF%E4%B8%8E%E6%8A%80%E5%B7%A7/image-20211102220153317.png" alt="image-20211102220153317"></p>
+<h4 id="3、ssh服务利用"><a href="#3、ssh服务利用" class="headerlink" title="3、ssh服务利用"></a>3、ssh服务利用</h4><p>​    SSH（secure shell）是基于TCP 22号端口的服务，是建立在应用层基础上的安全协议，它专为远程登录会话和其他网络服务提供安全性的协议，利用SSH协议可以有效防止远程管理过程中的信息泄露问题。</p>
+<p><strong>ssh远程登录：</strong>ssh -p 用户名@ip地址</p>
+<h5 id="ssh协议认证机制及其漏洞利用"><a href="#ssh协议认证机制及其漏洞利用" class="headerlink" title="ssh协议认证机制及其漏洞利用"></a>ssh协议认证机制及其漏洞利用</h5><p><strong>a.基于口令的安全验证：</strong>利用账号和口令就可以登录远程主机；传输的数据会被加密，但不能保证正在连接的服务器就是你想连接的服务器，因此会受到“中间人”攻击（有人冒充服务器）。</p>
+<p><strong>漏洞利用</strong>：基于字典的暴力破解，破解对应用户名和密码，通过ssh客户端服务连接远程主机的ssh服务，实现对服务器的一定控制。</p>
+<p><strong>b.基于密钥的安全验证：</strong>需要依靠密钥，用户必须创建一对密钥（公钥和私钥），把私钥放在服务器上，通过SSH连接服务器时提供正确私钥即可登录。</p>
+<p><strong>漏洞利用：</strong>通过对主机信息收集，获取到泄露的用户名和对应的密钥</p>
+<h4 id="4、FTP服务利用"><a href="#4、FTP服务利用" class="headerlink" title="4、FTP服务利用"></a>4、FTP服务利用</h4><p>​    FTP服务是一个文件传输协议。</p>
+<p>漏洞利用：在浏览器中输入 ftp://靶场IP地址，进行匿名登录ftp根目录，再查看敏感文件（配置文件要查看源代码）。</p>
+<p><img src="/2021/11/26/CTF-WEB%E6%B8%97%E9%80%8F%E6%80%9D%E8%B7%AF%E4%B8%8E%E6%8A%80%E5%B7%A7/image-20211104153117467.png" alt="image-20211104153117467"></p>
+<h3 id="目录利用"><a href="#目录利用" class="headerlink" title="目录利用"></a>目录利用</h3><p>​    对于用dirt、nikto等工具探测到的目录，要特备关注一些敏感目录/文件；如名字带有：</p>
+<p>​        ●admin：管理员界面，一般是服务器后台界面或其登录界面</p>
+<p>​        ●passwd：password的缩写，尝包含密码信息</p>
+<p>​        ●shadow：常保存用户名，与passwd的密码匹配</p>
+<p>​        ●index：主页，往往会留下提示/漏洞，需要审计其源码</p>
+<p>​        ●robots：隐藏文件目录，常保存敏感文件</p>
+<p>​        ●backup：备份文件，常保存密钥等敏感文件</p>
+<p>​        ●config：配置文件，常可以发现漏洞/密钥信息，需要审计源码（要留意注释）</p>
+<p>​        ●login：登录界面，先尝试弱密码登录，要么需要寻找用户名和口令/密钥，要么利用注入漏洞，最后才用爆破法</p>
+<p>​        ●home：普通用户根目录，有时可以发现用户名等敏感信息</p>
+<p>​        ●upload：上传文件，常需要上传webshell获取shell</p>
+<p>​        ●download：下载文件，常可以下载敏感文件</p>
+<p>​        ●.php/.python等：可代码审计，已达到利用语句或发现漏洞</p>
+<p>​        ●mysql/sql/__db：数据库，需要登录其数据库，查找用户名和密码</p>
+<p>​        ●ssi：可能存在ssi漏洞的页面</p>
+<p>​        ●.txt文件：常存有密钥（可能是加密形式）、口令、用户名等信息</p>
+<p>​        ●icon：特别文件</p>
+<p>​        ●wordpress（wp缩写）：常保存与密钥或登录的相关信息</p>
+<p>​        ●ssh/samba等：对应漏洞的利用</p>
+<p>​        ●secure：敏感文件</p>
+<p>​        ●nothing：常是假404页面，需要代码审计</p>
+<p>​    还有根目录和一些乱七八糟的目录需要注意；有时候文件/目录背后会有提示该文件/目录是敏感的。对于敏感网站还要查看其源码（注意注释、代码审计等），如主页、登录界面等等页面</p>
+<p>如：</p>
+<p><img src="/2021/11/26/CTF-WEB%E6%B8%97%E9%80%8F%E6%80%9D%E8%B7%AF%E4%B8%8E%E6%8A%80%E5%B7%A7/image-20211104161211476.png" alt="image-20211104161211476"></p>
+<p><img src="/2021/11/26/CTF-WEB%E6%B8%97%E9%80%8F%E6%80%9D%E8%B7%AF%E4%B8%8E%E6%8A%80%E5%B7%A7/image-20211104160837857.png" alt="image-20211104160837857"></p>
+<p>​    目录利用是信息挖掘最重要的一步，往往很多重要的信息（用户名、密钥、敏感漏洞）都是在这一步发现的。</p>
+<h2 id="步骤3：弱点-漏洞扫描-信息利用"><a href="#步骤3：弱点-漏洞扫描-信息利用" class="headerlink" title="步骤3：弱点/漏洞扫描/信息利用"></a>步骤3：弱点/漏洞扫描/信息利用</h2><h3 id="漏洞扫描"><a href="#漏洞扫描" class="headerlink" title="漏洞扫描"></a>漏洞扫描</h3><h4 id="1、使用metasploit扫描漏洞"><a href="#1、使用metasploit扫描漏洞" class="headerlink" title="1、使用metasploit扫描漏洞"></a>1、使用metasploit扫描漏洞</h4><p>a、seachsploit 服务的软件版本查找漏洞信息</p>
+<p>服务的软件版本号可以用namp -sV ip地址查询</p>
+<p>如：扫描ftp服务的软件</p>
+<p><img src="/2021/11/26/CTF-WEB%E6%B8%97%E9%80%8F%E6%80%9D%E8%B7%AF%E4%B8%8E%E6%8A%80%E5%B7%A7/image-20211104153707417.png" alt="image-20211104153707417"></p>
+<p>ProFTPD是ftp服务的软件，1.3.3c是版本号</p>
+<p><img src="/2021/11/26/CTF-WEB%E6%B8%97%E9%80%8F%E6%80%9D%E8%B7%AF%E4%B8%8E%E6%8A%80%E5%B7%A7/image-20211104153947435.png" alt="image-20211104153947435"></p>
+<p>b、使用metasploit的search查找漏洞模块</p>
+<p><img src="/2021/11/26/CTF-WEB%E6%B8%97%E9%80%8F%E6%80%9D%E8%B7%AF%E4%B8%8E%E6%8A%80%E5%B7%A7/image-20211104193152596.png" alt="image-20211104193152596"></p>
+<h4 id="2、使用owasp-zap扫描漏洞"><a href="#2、使用owasp-zap扫描漏洞" class="headerlink" title="2、使用owasp-zap扫描漏洞"></a>2、使用owasp-zap扫描漏洞</h4><p>​    kali自带owasp-zap</p>
+<p>终端启动</p>
+<p><img src="/2021/11/26/CTF-WEB%E6%B8%97%E9%80%8F%E6%80%9D%E8%B7%AF%E4%B8%8E%E6%8A%80%E5%B7%A7/image-20211104194037138.png" alt="image-20211104194037138"></p>
+<p>图形化界面启动</p>
+<p><img src="/2021/11/26/CTF-WEB%E6%B8%97%E9%80%8F%E6%80%9D%E8%B7%AF%E4%B8%8E%E6%8A%80%E5%B7%A7/image-20211104193650252.png" alt="image-20211104193650252"></p>
+<p><img src="/2021/11/26/CTF-WEB%E6%B8%97%E9%80%8F%E6%80%9D%E8%B7%AF%E4%B8%8E%E6%8A%80%E5%B7%A7/image-20211104193655617.png" alt="image-20211104193655617"></p>
+<h4 id="3、使用AVWS（Acunetix）扫描漏洞"><a href="#3、使用AVWS（Acunetix）扫描漏洞" class="headerlink" title="3、使用AVWS（Acunetix）扫描漏洞"></a>3、使用AVWS（Acunetix）扫描漏洞</h4><p><img src="/2021/11/26/CTF-WEB%E6%B8%97%E9%80%8F%E6%80%9D%E8%B7%AF%E4%B8%8E%E6%8A%80%E5%B7%A7/image-20211104195647852.png" alt="image-20211104195647852"></p>
+<p><img src="/2021/11/26/CTF-WEB%E6%B8%97%E9%80%8F%E6%80%9D%E8%B7%AF%E4%B8%8E%E6%8A%80%E5%B7%A7/image-20211104195806884.png" alt="image-20211104195806884"></p>
+<p><img src="/2021/11/26/CTF-WEB%E6%B8%97%E9%80%8F%E6%80%9D%E8%B7%AF%E4%B8%8E%E6%8A%80%E5%B7%A7/image-20211104195832261.png" alt="image-20211104195832261"></p>
+<h4 id="4、探测中间件PUT漏洞"><a href="#4、探测中间件PUT漏洞" class="headerlink" title="4、探测中间件PUT漏洞"></a>4、探测中间件PUT漏洞</h4><p>​    只要HTTP方法开启了PUT功能，PUT可以直接从客户机上传文件到服务器。 探测http开启中间件指令：curl -v -X OPTIONS 目标地址</p>
+<p><img src="/2021/11/26/CTF-WEB%E6%B8%97%E9%80%8F%E6%80%9D%E8%B7%AF%E4%B8%8E%E6%8A%80%E5%B7%A7/image-20211104194628075.png" alt="image-20211104194628075"></p>
+<h3 id="弱点漏洞"><a href="#弱点漏洞" class="headerlink" title="弱点漏洞"></a>弱点漏洞</h3><p>有输入的地方，就可以存在注入漏洞！；具体操作查看本博客对应的文章</p>
+<p>​    a、sql注入：《CTF渗透引入》、《SQL注入》</p>
+<p>​    b、SSI注入：《SSI注入》</p>
+<p>​    c、命令注入：《命令注入》</p>
+<p>​    d、目录遍历：《目录遍历漏洞》</p>
+<h3 id="暴力破解"><a href="#暴力破解" class="headerlink" title="暴力破解"></a>暴力破解</h3><h4 id="1、使用msf暴力破解"><a href="#1、使用msf暴力破解" class="headerlink" title="1、使用msf暴力破解"></a>1、使用msf暴力破解</h4><p><img src="/2021/11/26/CTF-WEB%E6%B8%97%E9%80%8F%E6%80%9D%E8%B7%AF%E4%B8%8E%E6%8A%80%E5%B7%A7/image-20211104200102859.png" alt="image-20211104200102859"></p>
+<p>《web安全暴力破解》</p>
+<p>a.利用wpscan获取用户名和密码（如果没有探测到）</p>
+<p><img src="/2021/11/26/CTF-WEB%E6%B8%97%E9%80%8F%E6%80%9D%E8%B7%AF%E4%B8%8E%E6%8A%80%E5%B7%A7/image-20211031163357930.png" alt="image-20211031163357930"></p>
+<p><img src="/2021/11/26/CTF-WEB%E6%B8%97%E9%80%8F%E6%80%9D%E8%B7%AF%E4%B8%8E%E6%8A%80%E5%B7%A7/image-20211104200258439.png" alt="image-20211104200258439"></p>
+<p><img src="/2021/11/26/CTF-WEB%E6%B8%97%E9%80%8F%E6%80%9D%E8%B7%AF%E4%B8%8E%E6%8A%80%E5%B7%A7/image-20211031163538379.png" alt="image-20211031163538379"></p>
+<p><img src="/2021/11/26/CTF-WEB%E6%B8%97%E9%80%8F%E6%80%9D%E8%B7%AF%E4%B8%8E%E6%8A%80%E5%B7%A7/image-20211104200421430.png" alt="image-20211104200421430"></p>
+<p>b.利用msf暴力破解登录密码</p>
+<p><img src="/2021/11/26/CTF-WEB%E6%B8%97%E9%80%8F%E6%80%9D%E8%B7%AF%E4%B8%8E%E6%8A%80%E5%B7%A7/image-20211104200509299.png" alt="image-20211104200509299"></p>
+<p><img src="/2021/11/26/CTF-WEB%E6%B8%97%E9%80%8F%E6%80%9D%E8%B7%AF%E4%B8%8E%E6%8A%80%E5%B7%A7/image-20211104200514650.png" alt="image-20211104200514650"></p>
+<p><img src="/2021/11/26/CTF-WEB%E6%B8%97%E9%80%8F%E6%80%9D%E8%B7%AF%E4%B8%8E%E6%8A%80%E5%B7%A7/image-20211104200526368.png" alt="image-20211104200526368"></p>
+<p>rhost：靶机地址（lhost：攻击地址）</p>
+<p><img src="/2021/11/26/CTF-WEB%E6%B8%97%E9%80%8F%E6%80%9D%E8%B7%AF%E4%B8%8E%E6%8A%80%E5%B7%A7/image-20211104200551621.png" alt="image-20211104200551621"></p>
+<p><img src="/2021/11/26/CTF-WEB%E6%B8%97%E9%80%8F%E6%80%9D%E8%B7%AF%E4%B8%8E%E6%8A%80%E5%B7%A7/image-20211104200556107.png" alt="image-20211104200556107"></p>
+<p><img src="/2021/11/26/CTF-WEB%E6%B8%97%E9%80%8F%E6%80%9D%E8%B7%AF%E4%B8%8E%E6%8A%80%E5%B7%A7/image-20211104200600049.png" alt="image-20211104200600049"></p>
+<p><img src="/2021/11/26/CTF-WEB%E6%B8%97%E9%80%8F%E6%80%9D%E8%B7%AF%E4%B8%8E%E6%8A%80%E5%B7%A7/image-20211104200611821.png" alt="image-20211104200611821"></p>
+<p><img src="/2021/11/26/CTF-WEB%E6%B8%97%E9%80%8F%E6%80%9D%E8%B7%AF%E4%B8%8E%E6%8A%80%E5%B7%A7/image-20211104200617555.png" alt="image-20211104200617555"></p>
+<h4 id="2、使用burpsuite爆破"><a href="#2、使用burpsuite爆破" class="headerlink" title="2、使用burpsuite爆破"></a>2、使用burpsuite爆破</h4><p>a、获取爆破用的字典（这里是kali自带的sql注入字典）</p>
+<p><img src="/2021/11/26/CTF-WEB%E6%B8%97%E9%80%8F%E6%80%9D%E8%B7%AF%E4%B8%8E%E6%8A%80%E5%B7%A7/image-20211102140627873.png" alt="image-20211102140627873"></p>
+<p>b、设置中断获取爆破页面数据</p>
+<p>设置浏览器代理服务器</p>
+<p><img src="/2021/11/26/CTF-WEB%E6%B8%97%E9%80%8F%E6%80%9D%E8%B7%AF%E4%B8%8E%E6%8A%80%E5%B7%A7/image-20211104201522077.png" alt="image-20211104201522077"></p>
+<p>启动中断</p>
+<p><img src="/2021/11/26/CTF-WEB%E6%B8%97%E9%80%8F%E6%80%9D%E8%B7%AF%E4%B8%8E%E6%8A%80%E5%B7%A7/image-20211104201537419.png" alt="image-20211104201537419"></p>
+<p>截取数据</p>
+<p><img src="/2021/11/26/CTF-WEB%E6%B8%97%E9%80%8F%E6%80%9D%E8%B7%AF%E4%B8%8E%E6%8A%80%E5%B7%A7/image-20211104201555173.png" alt="image-20211104201555173"></p>
+<p>c、爆破</p>
+<p>将抓取的页面发到intruder模块进行爆破</p>
+<p><img src="/2021/11/26/CTF-WEB%E6%B8%97%E9%80%8F%E6%80%9D%E8%B7%AF%E4%B8%8E%E6%8A%80%E5%B7%A7/image-20211104201619332.png" alt="image-20211104201619332"></p>
+<p>设置爆破区域</p>
+<p><img src="/2021/11/26/CTF-WEB%E6%B8%97%E9%80%8F%E6%80%9D%E8%B7%AF%E4%B8%8E%E6%8A%80%E5%B7%A7/image-20211104201630302.png" alt="image-20211104201630302"></p>
+<p>设置爆破字典</p>
+<p><img src="/2021/11/26/CTF-WEB%E6%B8%97%E9%80%8F%E6%80%9D%E8%B7%AF%E4%B8%8E%E6%8A%80%E5%B7%A7/image-20211104201643667.png" alt="image-20211104201643667"></p>
+<p>启动</p>
+<p><img src="/2021/11/26/CTF-WEB%E6%B8%97%E9%80%8F%E6%80%9D%E8%B7%AF%E4%B8%8E%E6%8A%80%E5%B7%A7/image-20211104201653148.png" alt="image-20211104201653148"></p>
+<p>查看结果</p>
+<p><img src="/2021/11/26/CTF-WEB%E6%B8%97%E9%80%8F%E6%80%9D%E8%B7%AF%E4%B8%8E%E6%8A%80%E5%B7%A7/image-20211104201703598.png" alt="image-20211104201703598"></p>
+<p><img src="/2021/11/26/CTF-WEB%E6%B8%97%E9%80%8F%E6%80%9D%E8%B7%AF%E4%B8%8E%E6%8A%80%E5%B7%A7/image-20211104201710210.png" alt="image-20211104201710210"></p>
+<p>（最后发现输入返回长度为2900的是正确密码：例子出自《CTF综合测试》）</p>
+<h2 id="步骤4：上传webshell"><a href="#步骤4：上传webshell" class="headerlink" title="步骤4：上传webshell"></a>步骤4：上传webshell</h2><p><img src="/2021/11/26/CTF-WEB%E6%B8%97%E9%80%8F%E6%80%9D%E8%B7%AF%E4%B8%8E%E6%8A%80%E5%B7%A7/image-20211105103733193.png" alt="image-20211105103733193"></p>
+<h3 id="制作webshell"><a href="#制作webshell" class="headerlink" title="制作webshell"></a>制作webshell</h3><h4 id="1、制作php的webshell"><a href="#1、制作php的webshell" class="headerlink" title="1、制作php的webshell"></a>1、制作php的webshell</h4><p>​    a、使用/usr/share/webshell/php下的webshell（kali自带）</p>
+<p><img src="/2021/11/26/CTF-WEB%E6%B8%97%E9%80%8F%E6%80%9D%E8%B7%AF%E4%B8%8E%E6%8A%80%E5%B7%A7/image-20211104210730250.png" alt="image-20211104210730250"></p>
+<p><img src="/2021/11/26/CTF-WEB%E6%B8%97%E9%80%8F%E6%80%9D%E8%B7%AF%E4%B8%8E%E6%8A%80%E5%B7%A7/image-20211031151536728.png" alt="image-20211031151536728"></p>
+<p>b、利用kali生成php的webshell</p>
+<p>输入正确的参数（lhost、端口号等），再把内容拷贝到php文件即可使用</p>
+<p><img src="/2021/11/26/CTF-WEB%E6%B8%97%E9%80%8F%E6%80%9D%E8%B7%AF%E4%B8%8E%E6%8A%80%E5%B7%A7/image-20211104211453611.png" alt="image-20211104211453611"></p>
+<h4 id="2、制作python的websehll"><a href="#2、制作python的websehll" class="headerlink" title="2、制作python的websehll"></a>2、制作python的websehll</h4><p>这里的方法和生成php的webshell是一样的，只是这里加了重定向。</p>
+<p><img src="/2021/11/26/CTF-WEB%E6%B8%97%E9%80%8F%E6%80%9D%E8%B7%AF%E4%B8%8E%E6%8A%80%E5%B7%A7/image-20211104211632043.png" alt="image-20211104211632043"></p>
+<h4 id="3、制作elf的webshell"><a href="#3、制作elf的webshell" class="headerlink" title="3、制作elf的webshell"></a>3、制作elf的webshell</h4><p>用于命令注入</p>
+<p><img src="/2021/11/26/CTF-WEB%E6%B8%97%E9%80%8F%E6%80%9D%E8%B7%AF%E4%B8%8E%E6%8A%80%E5%B7%A7/image-20211104211112036.png" alt="image-20211104211112036"></p>
+<h4 id="4、命令执行webshell"><a href="#4、命令执行webshell" class="headerlink" title="4、命令执行webshell"></a>4、命令执行webshell</h4><p>在输入端输入一下webshell（要按实际情况改）</p>
+<p><img src="/2021/11/26/CTF-WEB%E6%B8%97%E9%80%8F%E6%80%9D%E8%B7%AF%E4%B8%8E%E6%8A%80%E5%B7%A7/image-20211104211247531.png" alt="image-20211104211247531"></p>
+<h3 id="上传webshell"><a href="#上传webshell" class="headerlink" title="上传webshell"></a>上传webshell</h3><p>​    一般而言，webshell都是上传到404页面，因为方便利用</p>
+<p>​    ●登录后台网站，直接上传文件，或者操作服务器下载文件</p>
+<p>​    ●通过upload等服务，上传文件，或者操作服务器下载文件</p>
+<p>​    ●有时候需要绕过防火墙上传文件，如《CTF综合测试》</p>
+<p>​    ●利用注入漏洞上传文件</p>
+<p>注意：如果需要服务器下载靶场的文件（如：webshell），需要在攻击机（kali）开启/创建http服务。</p>
+<p><strong>启动/创建HTTP服务</strong></p>
+<p><strong>方法一：</strong>python -m “SimpleHTTPServer”</p>
+<p><img src="/2021/11/26/CTF-WEB%E6%B8%97%E9%80%8F%E6%80%9D%E8%B7%AF%E4%B8%8E%E6%8A%80%E5%B7%A7/image-20211105094111832.png" alt="image-20211105094111832"></p>
+<h2 id="步骤5：渗透获取shell"><a href="#步骤5：渗透获取shell" class="headerlink" title="步骤5：渗透获取shell"></a>步骤5：渗透获取shell</h2><p><strong>说明：</strong>渗透的方法有很多，方法不唯一。</p>
+<h3 id="启动监听"><a href="#启动监听" class="headerlink" title="启动监听"></a>启动监听</h3><h4 id="a、利用msf监听"><a href="#a、利用msf监听" class="headerlink" title="a、利用msf监听"></a>a、利用msf监听</h4><p>启动msf</p>
+<p><img src="/2021/11/26/CTF-WEB%E6%B8%97%E9%80%8F%E6%80%9D%E8%B7%AF%E4%B8%8E%E6%8A%80%E5%B7%A7/image-20211102170833011.png" alt="image-20211102170833011"></p>
+<p>配置playload并启动监听（端口和lhost需要按实际来）</p>
+<p><img src="/2021/11/26/CTF-WEB%E6%B8%97%E9%80%8F%E6%80%9D%E8%B7%AF%E4%B8%8E%E6%8A%80%E5%B7%A7/image-20211104220108129.png" alt="image-20211104220108129"></p>
+<h4 id="b、使用nc-nlvp-port监听"><a href="#b、使用nc-nlvp-port监听" class="headerlink" title="b、使用nc -nlvp port监听"></a>b、使用nc -nlvp port监听</h4><p><img src="/2021/11/26/CTF-WEB%E6%B8%97%E9%80%8F%E6%80%9D%E8%B7%AF%E4%B8%8E%E6%8A%80%E5%B7%A7/image-20211105103954832.png" alt="image-20211105103954832"></p>
+<h3 id="触发反弹shell"><a href="#触发反弹shell" class="headerlink" title="触发反弹shell"></a>触发反弹shell</h3><p><img src="/2021/11/26/CTF-WEB%E6%B8%97%E9%80%8F%E6%80%9D%E8%B7%AF%E4%B8%8E%E6%8A%80%E5%B7%A7/image-20211105103820072.png" alt="image-20211105103820072"></p>
+<p>触发shell方法    </p>
+<p>​    ●点击点击/打开/查看文件</p>
+<p>​    ●通过访问链接触发shell</p>
+<p>​    ●等等</p>
+<p>顺利的话，触发wenshell文件就会反弹shell了。</p>
+<h2 id="步骤6：提权"><a href="#步骤6：提权" class="headerlink" title="步骤6：提权"></a>步骤6：提权</h2><p>​    反弹的shell一般都是普通用户权限，而flag常常在root权限，因此需要提权。如果反弹的shell不是终端（终端输入标识“$”、“~”、“#”），而是标准输入（什么都没或者是”&gt;”）;这是往往需要获取终端，因为sudo等操作往往需要终端输入。</p>
+<h3 id="1、获取-启动终端"><a href="#1、获取-启动终端" class="headerlink" title="1、获取/启动终端"></a>1、获取/启动终端</h3><p>​        ● python -c  “ import pty;pty.spawn(‘/bin/bash’)” </p>
+<p>​        ● python -c  “ import pty;pty.spawn(‘bin/sh’)”</p>
+<p>​        ● python /tmp/asdf.py</p>
+<p>​        ● echo “import pty;pty.spawn(‘/bin/bash’)” &gt; /tmp/asdf.py</p>
+<p><img src="/2021/11/26/CTF-WEB%E6%B8%97%E9%80%8F%E6%80%9D%E8%B7%AF%E4%B8%8E%E6%8A%80%E5%B7%A7/image-20211105102839635.png" alt="image-20211105102839635"></p>
+<p>​    获取终端后，可以尝试用su命令使用弱密码尝试提权</p>
+<p><img src="/2021/11/26/CTF-WEB%E6%B8%97%E9%80%8F%E6%80%9D%E8%B7%AF%E4%B8%8E%E6%8A%80%E5%B7%A7/image-20211105104134139.png" alt="image-20211105104134139"></p>
+<h3 id="2、查看用户可以使用那些root权限操作"><a href="#2、查看用户可以使用那些root权限操作" class="headerlink" title="2、查看用户可以使用那些root权限操作"></a>2、查看用户可以使用那些root权限操作</h3><p>​    <strong>sudo -l：</strong>查看普通用户可以使用那些sudo权限</p>
+<h3 id="3、提权"><a href="#3、提权" class="headerlink" title="3、提权"></a>3、提权</h3><h4 id="a、利用密码提权"><a href="#a、利用密码提权" class="headerlink" title="a、利用密码提权"></a>a、利用密码提权</h4><p>​    su -用户名；再输入密码即可；更多的时候是需要自己探测用户名和密码；如进入数据库查找（《CTF综合测试》）、利用注入漏洞寻找等</p>
+<p><img src="/2021/11/26/CTF-WEB%E6%B8%97%E9%80%8F%E6%80%9D%E8%B7%AF%E4%B8%8E%E6%8A%80%E5%B7%A7/image-20211030112056550.png" alt="image-20211030112056550"></p>
+<h4 id="b、使用perl命令提权"><a href="#b、使用perl命令提权" class="headerlink" title="b、使用perl命令提权"></a>b、使用perl命令提权</h4><p>​    ①前提：用户可以执行perl命令</p>
+<p><img src="/2021/11/26/CTF-WEB%E6%B8%97%E9%80%8F%E6%80%9D%E8%B7%AF%E4%B8%8E%E6%8A%80%E5%B7%A7/image-20211101222507358.png" alt="image-20211101222507358"></p>
+<p>​    ②步：sudo perl -e “exec ‘/bin/sh’ “：运行sh，通过perl命令提权</p>
+<p>​    ③步：bash -i ：以交互模式运行bash</p>
+<p><img src="/2021/11/26/CTF-WEB%E6%B8%97%E9%80%8F%E6%80%9D%E8%B7%AF%E4%B8%8E%E6%8A%80%E5%B7%A7/image-20211105102320820.png" alt="image-20211105102320820"></p>
+<h4 id="c、溢出提权"><a href="#c、溢出提权" class="headerlink" title="c、溢出提权"></a>c、溢出提权</h4><p>​    详情看《FTP服务后门利用》</p>
+<h4 id="d、内核溢出提权"><a href="#d、内核溢出提权" class="headerlink" title="d、内核溢出提权"></a>d、内核溢出提权</h4><p>查找漏洞：searchsploit 系统 版本号</p>
+<p>​    如：searchsploit ubuntu 4.4.0</p>
+<p><img src="/2021/11/26/CTF-WEB%E6%B8%97%E9%80%8F%E6%80%9D%E8%B7%AF%E4%B8%8E%E6%8A%80%E5%B7%A7/image-20211105101709122.png" alt="image-20211105101709122"></p>
+<p>​    使用第三个漏洞（内核溢出代码文件名：41458.c）</p>
+<p>将其内核溢出代码复制到桌面并编译为可以执行的文件<br>    cp /usr/share/exploitdb/exploits/linux/local/41458.c /root/desktop/1234.c</p>
+<p>​    gcc 1234.c -o shellroot</p>
+<p>​    参数说明：-o是输入，输出文件名问shellroot</p>
+<p><img src="/2021/11/26/CTF-WEB%E6%B8%97%E9%80%8F%E6%80%9D%E8%B7%AF%E4%B8%8E%E6%8A%80%E5%B7%A7/image-20211105101312890.png" alt="image-20211105101312890"></p>
+<p>利用获取的shell将sehllroot上传到靶机并设置文件执行权限</p>
+<p><img src="/2021/11/26/CTF-WEB%E6%B8%97%E9%80%8F%E6%80%9D%E8%B7%AF%E4%B8%8E%E6%8A%80%E5%B7%A7/image-20211105101645298.png" alt="image-20211105101645298"></p>
+<p><img src="/2021/11/26/CTF-WEB%E6%B8%97%E9%80%8F%E6%80%9D%E8%B7%AF%E4%B8%8E%E6%8A%80%E5%B7%A7/image-20211105101737053.png" alt="image-20211105101737053"></p>
+<p>执行shellroot</p>
+<p><img src="/2021/11/26/CTF-WEB%E6%B8%97%E9%80%8F%E6%80%9D%E8%B7%AF%E4%B8%8E%E6%8A%80%E5%B7%A7/image-20211105101818781.png" alt="image-20211105101818781"></p>
+<h4 id="e、利用john破解"><a href="#e、利用john破解" class="headerlink" title="e、利用john破解"></a>e、利用john破解</h4><p><img src="/2021/11/26/CTF-WEB%E6%B8%97%E9%80%8F%E6%80%9D%E8%B7%AF%E4%B8%8E%E6%8A%80%E5%B7%A7/image-20211105103144827.png" alt="image-20211105103144827"></p>
+<p>进入会话，下载passwd和shadow</p>
+<p><img src="/2021/11/26/CTF-WEB%E6%B8%97%E9%80%8F%E6%80%9D%E8%B7%AF%E4%B8%8E%E6%8A%80%E5%B7%A7/image-20211105103210995.png" alt="image-20211105103210995"></p>
+<p>文件格式化并重定向</p>
+<p><img src="/2021/11/26/CTF-WEB%E6%B8%97%E9%80%8F%E6%80%9D%E8%B7%AF%E4%B8%8E%E6%8A%80%E5%B7%A7/image-20211105103236376.png" alt="image-20211105103236376"></p>
+<p>使用john爆破出用户名和密码</p>
+<p><img src="/2021/11/26/CTF-WEB%E6%B8%97%E9%80%8F%E6%80%9D%E8%B7%AF%E4%B8%8E%E6%8A%80%E5%B7%A7/image-20211105103256494.png" alt="image-20211105103256494"></p>
+<h2 id="步骤7：获取flag"><a href="#步骤7：获取flag" class="headerlink" title="步骤7：获取flag"></a>步骤7：获取flag</h2><p>a、可疑网页及其源码处：有时候网页会存在flag信息，通过源码的注释或代码审计也有可能发现flag</p>
+<p>b、当获取到普通shell时，需要有意识的查看其home目录下的文件，有时候会发现flag</p>
+<p>c、root根目录下的flag，渗透模块，root目录下必然会存在falg，它常常存在root的根目录下</p>
+<p><img src="/2021/11/26/CTF-WEB%E6%B8%97%E9%80%8F%E6%80%9D%E8%B7%AF%E4%B8%8E%E6%8A%80%E5%B7%A7/image-20211105105225124.png" alt="image-20211105105225124"></p>
+<p><img src="/2021/11/26/CTF-WEB%E6%B8%97%E9%80%8F%E6%80%9D%E8%B7%AF%E4%B8%8E%E6%8A%80%E5%B7%A7/image-20211126110613621.png" alt="image-20211126110613621"></p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/web%E6%B8%97%E9%80%8F/" rel="tag"># web渗透</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2021/10/26/%E6%AC%A7%E5%87%A0%E9%87%8C%E5%BE%97%E6%89%A9%E5%B1%95%E7%AE%97%E6%B3%95/" rel="prev" title="欧几里得扩展算法">
+      <i class="fa fa-chevron-left"></i> 欧几里得扩展算法
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2021/11/26/CTF%E6%B8%97%E9%80%8F%E5%BC%95%E5%85%A5/" rel="next" title="CTF渗透引入">
+      CTF渗透引入 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#CTF-WEB%E6%B8%97%E9%80%8F%E5%85%A5%E9%97%A8%E6%80%9D%E8%B7%AF%E4%B8%8E%E6%8A%80%E5%B7%A7"><span class="nav-number">1.</span> <span class="nav-text">CTF-WEB渗透入门思路与技巧</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%AD%A5%E9%AA%A4%E4%B8%80%EF%BC%9A%E4%BF%A1%E6%81%AF%E6%8E%A2%E6%B5%8B"><span class="nav-number">1.1.</span> <span class="nav-text">步骤一：信息探测</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1%E3%80%81%E6%89%AB%E6%8F%8F%E4%B8%BB%E6%9C%BA%E6%9C%8D%E5%8A%A1%E4%BF%A1%E6%81%AF%E4%BB%A5%E5%8F%8A%E6%9C%8D%E5%8A%A1%E7%89%88%E6%9C%AC"><span class="nav-number">1.1.0.1.</span> <span class="nav-text">1、扫描主机服务信息以及服务版本</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2%E3%80%81%E6%8E%A2%E6%B5%8B%E7%9B%AE%E5%BD%95%E4%BF%A1%E6%81%AF"><span class="nav-number">1.1.0.2.</span> <span class="nav-text">2、探测目录信息</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3%E3%80%81%E7%94%A8sparta%E6%8E%A2%E6%B5%8B%EF%BC%88%E5%9B%BE%E5%BD%A2%E5%8C%96%E7%95%8C%E9%9D%A2%E5%B7%A5%E5%85%B7%EF%BC%89"><span class="nav-number">1.1.0.3.</span> <span class="nav-text">3、用sparta探测（图形化界面工具）</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%AD%A5%E9%AA%A42%EF%BC%9A%E6%B7%B1%E5%85%A5%E6%8C%96%E6%8E%98%E4%BF%A1%E6%81%AF-%E5%88%86%E6%9E%90%E6%8E%A2%E6%B5%8B%E7%BB%93%E6%9E%9C"><span class="nav-number">1.2.</span> <span class="nav-text">步骤2：深入挖掘信息&#x2F;分析探测结果</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%AB%AF%E5%8F%A3-%E6%9C%8D%E5%8A%A1%E5%88%A9%E7%94%A8"><span class="nav-number">1.2.1.</span> <span class="nav-text">端口&#x2F;服务利用</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1%E3%80%81%E5%A4%A7%E7%AB%AF%E5%8F%A3%E5%88%A9%E7%94%A8"><span class="nav-number">1.2.1.1.</span> <span class="nav-text">1、大端口利用</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2%E3%80%81SMB%E6%9C%8D%E5%8A%A1%E5%88%A9%E7%94%A8"><span class="nav-number">1.2.1.2.</span> <span class="nav-text">2、SMB服务利用</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3%E3%80%81ssh%E6%9C%8D%E5%8A%A1%E5%88%A9%E7%94%A8"><span class="nav-number">1.2.1.3.</span> <span class="nav-text">3、ssh服务利用</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#ssh%E5%8D%8F%E8%AE%AE%E8%AE%A4%E8%AF%81%E6%9C%BA%E5%88%B6%E5%8F%8A%E5%85%B6%E6%BC%8F%E6%B4%9E%E5%88%A9%E7%94%A8"><span class="nav-number">1.2.1.3.1.</span> <span class="nav-text">ssh协议认证机制及其漏洞利用</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4%E3%80%81FTP%E6%9C%8D%E5%8A%A1%E5%88%A9%E7%94%A8"><span class="nav-number">1.2.1.4.</span> <span class="nav-text">4、FTP服务利用</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%9B%AE%E5%BD%95%E5%88%A9%E7%94%A8"><span class="nav-number">1.2.2.</span> <span class="nav-text">目录利用</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%AD%A5%E9%AA%A43%EF%BC%9A%E5%BC%B1%E7%82%B9-%E6%BC%8F%E6%B4%9E%E6%89%AB%E6%8F%8F-%E4%BF%A1%E6%81%AF%E5%88%A9%E7%94%A8"><span class="nav-number">1.3.</span> <span class="nav-text">步骤3：弱点&#x2F;漏洞扫描&#x2F;信息利用</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%BC%8F%E6%B4%9E%E6%89%AB%E6%8F%8F"><span class="nav-number">1.3.1.</span> <span class="nav-text">漏洞扫描</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1%E3%80%81%E4%BD%BF%E7%94%A8metasploit%E6%89%AB%E6%8F%8F%E6%BC%8F%E6%B4%9E"><span class="nav-number">1.3.1.1.</span> <span class="nav-text">1、使用metasploit扫描漏洞</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2%E3%80%81%E4%BD%BF%E7%94%A8owasp-zap%E6%89%AB%E6%8F%8F%E6%BC%8F%E6%B4%9E"><span class="nav-number">1.3.1.2.</span> <span class="nav-text">2、使用owasp-zap扫描漏洞</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3%E3%80%81%E4%BD%BF%E7%94%A8AVWS%EF%BC%88Acunetix%EF%BC%89%E6%89%AB%E6%8F%8F%E6%BC%8F%E6%B4%9E"><span class="nav-number">1.3.1.3.</span> <span class="nav-text">3、使用AVWS（Acunetix）扫描漏洞</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4%E3%80%81%E6%8E%A2%E6%B5%8B%E4%B8%AD%E9%97%B4%E4%BB%B6PUT%E6%BC%8F%E6%B4%9E"><span class="nav-number">1.3.1.4.</span> <span class="nav-text">4、探测中间件PUT漏洞</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%BC%B1%E7%82%B9%E6%BC%8F%E6%B4%9E"><span class="nav-number">1.3.2.</span> <span class="nav-text">弱点漏洞</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9A%B4%E5%8A%9B%E7%A0%B4%E8%A7%A3"><span class="nav-number">1.3.3.</span> <span class="nav-text">暴力破解</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1%E3%80%81%E4%BD%BF%E7%94%A8msf%E6%9A%B4%E5%8A%9B%E7%A0%B4%E8%A7%A3"><span class="nav-number">1.3.3.1.</span> <span class="nav-text">1、使用msf暴力破解</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2%E3%80%81%E4%BD%BF%E7%94%A8burpsuite%E7%88%86%E7%A0%B4"><span class="nav-number">1.3.3.2.</span> <span class="nav-text">2、使用burpsuite爆破</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%AD%A5%E9%AA%A44%EF%BC%9A%E4%B8%8A%E4%BC%A0webshell"><span class="nav-number">1.4.</span> <span class="nav-text">步骤4：上传webshell</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%88%B6%E4%BD%9Cwebshell"><span class="nav-number">1.4.1.</span> <span class="nav-text">制作webshell</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1%E3%80%81%E5%88%B6%E4%BD%9Cphp%E7%9A%84webshell"><span class="nav-number">1.4.1.1.</span> <span class="nav-text">1、制作php的webshell</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2%E3%80%81%E5%88%B6%E4%BD%9Cpython%E7%9A%84websehll"><span class="nav-number">1.4.1.2.</span> <span class="nav-text">2、制作python的websehll</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3%E3%80%81%E5%88%B6%E4%BD%9Celf%E7%9A%84webshell"><span class="nav-number">1.4.1.3.</span> <span class="nav-text">3、制作elf的webshell</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4%E3%80%81%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8Cwebshell"><span class="nav-number">1.4.1.4.</span> <span class="nav-text">4、命令执行webshell</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%8A%E4%BC%A0webshell"><span class="nav-number">1.4.2.</span> <span class="nav-text">上传webshell</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%AD%A5%E9%AA%A45%EF%BC%9A%E6%B8%97%E9%80%8F%E8%8E%B7%E5%8F%96shell"><span class="nav-number">1.5.</span> <span class="nav-text">步骤5：渗透获取shell</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%90%AF%E5%8A%A8%E7%9B%91%E5%90%AC"><span class="nav-number">1.5.1.</span> <span class="nav-text">启动监听</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#a%E3%80%81%E5%88%A9%E7%94%A8msf%E7%9B%91%E5%90%AC"><span class="nav-number">1.5.1.1.</span> <span class="nav-text">a、利用msf监听</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#b%E3%80%81%E4%BD%BF%E7%94%A8nc-nlvp-port%E7%9B%91%E5%90%AC"><span class="nav-number">1.5.1.2.</span> <span class="nav-text">b、使用nc -nlvp port监听</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%A7%A6%E5%8F%91%E5%8F%8D%E5%BC%B9shell"><span class="nav-number">1.5.2.</span> <span class="nav-text">触发反弹shell</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%AD%A5%E9%AA%A46%EF%BC%9A%E6%8F%90%E6%9D%83"><span class="nav-number">1.6.</span> <span class="nav-text">步骤6：提权</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1%E3%80%81%E8%8E%B7%E5%8F%96-%E5%90%AF%E5%8A%A8%E7%BB%88%E7%AB%AF"><span class="nav-number">1.6.1.</span> <span class="nav-text">1、获取&#x2F;启动终端</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2%E3%80%81%E6%9F%A5%E7%9C%8B%E7%94%A8%E6%88%B7%E5%8F%AF%E4%BB%A5%E4%BD%BF%E7%94%A8%E9%82%A3%E4%BA%9Broot%E6%9D%83%E9%99%90%E6%93%8D%E4%BD%9C"><span class="nav-number">1.6.2.</span> <span class="nav-text">2、查看用户可以使用那些root权限操作</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3%E3%80%81%E6%8F%90%E6%9D%83"><span class="nav-number">1.6.3.</span> <span class="nav-text">3、提权</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#a%E3%80%81%E5%88%A9%E7%94%A8%E5%AF%86%E7%A0%81%E6%8F%90%E6%9D%83"><span class="nav-number">1.6.3.1.</span> <span class="nav-text">a、利用密码提权</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#b%E3%80%81%E4%BD%BF%E7%94%A8perl%E5%91%BD%E4%BB%A4%E6%8F%90%E6%9D%83"><span class="nav-number">1.6.3.2.</span> <span class="nav-text">b、使用perl命令提权</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#c%E3%80%81%E6%BA%A2%E5%87%BA%E6%8F%90%E6%9D%83"><span class="nav-number">1.6.3.3.</span> <span class="nav-text">c、溢出提权</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#d%E3%80%81%E5%86%85%E6%A0%B8%E6%BA%A2%E5%87%BA%E6%8F%90%E6%9D%83"><span class="nav-number">1.6.3.4.</span> <span class="nav-text">d、内核溢出提权</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#e%E3%80%81%E5%88%A9%E7%94%A8john%E7%A0%B4%E8%A7%A3"><span class="nav-number">1.6.3.5.</span> <span class="nav-text">e、利用john破解</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%AD%A5%E9%AA%A47%EF%BC%9A%E8%8E%B7%E5%8F%96flag"><span class="nav-number">1.7.</span> <span class="nav-text">步骤7：获取flag</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">北极星上的稻草人</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">51</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">9</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">21</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">北极星上的稻草人</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  
+  <script color='0,0,255' opacity='0.5' zIndex='-1' count='99' src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+
+<!-- 页面动态背景 -->
+
+<script type="text/javascript" src="//cdn.bootcss.com/canvas-nest.js/1.0.0/canvas-nest.min.js"></script>
+
+
+</body>
+</html>
+<!-- 页面点击小红心 -->
+<script type="text/javascript" src="/js/clicklove.js"></script>

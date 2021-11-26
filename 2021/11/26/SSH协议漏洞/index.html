@@ -1,0 +1,592 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"wgc5.gitee.io","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="SSHssh介绍  ssh协议认证机制  ssh协议验证机制弱点   ssh私钥泄露（引入ssh的使用） 第一步：信息探测获得开发端口、服务、系统版本等   第二步：分析探测结果   注意：先查看源代码，flag可能存在于源代码中；若没有，则探测隐藏文件  robots.txt：存放搜索引擎不可访问的文件，flag可能隐藏在这里的文件内容中 .ssh：远程服务，往往需要入侵&#x2F;登录靶机，登录后往往需">
+<meta property="og:type" content="article">
+<meta property="og:title" content="SSH协议漏洞">
+<meta property="og:url" content="https://wgc5.gitee.io/2021/11/26/SSH%E5%8D%8F%E8%AE%AE%E6%BC%8F%E6%B4%9E/index.html">
+<meta property="og:site_name" content="北极星上的稻草人">
+<meta property="og:description" content="SSHssh介绍  ssh协议认证机制  ssh协议验证机制弱点   ssh私钥泄露（引入ssh的使用） 第一步：信息探测获得开发端口、服务、系统版本等   第二步：分析探测结果   注意：先查看源代码，flag可能存在于源代码中；若没有，则探测隐藏文件  robots.txt：存放搜索引擎不可访问的文件，flag可能隐藏在这里的文件内容中 .ssh：远程服务，往往需要入侵&#x2F;登录靶机，登录后往往需">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/11/26/SSH%E5%8D%8F%E8%AE%AE%E6%BC%8F%E6%B4%9E/image-20211029170203107.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/11/26/SSH%E5%8D%8F%E8%AE%AE%E6%BC%8F%E6%B4%9E/image-20211029170253976.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/11/26/SSH%E5%8D%8F%E8%AE%AE%E6%BC%8F%E6%B4%9E/image-20211029170348903.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/11/26/SSH%E5%8D%8F%E8%AE%AE%E6%BC%8F%E6%B4%9E/image-20211029165949329.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/11/26/SSH%E5%8D%8F%E8%AE%AE%E6%BC%8F%E6%B4%9E/image-20211029161051686.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/11/26/SSH%E5%8D%8F%E8%AE%AE%E6%BC%8F%E6%B4%9E/image-20211029161143308.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/11/26/SSH%E5%8D%8F%E8%AE%AE%E6%BC%8F%E6%B4%9E/image-20211029161218411.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/11/26/SSH%E5%8D%8F%E8%AE%AE%E6%BC%8F%E6%B4%9E/image-20211029161257308.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/11/26/SSH%E5%8D%8F%E8%AE%AE%E6%BC%8F%E6%B4%9E/image-20211029161312670.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/11/26/SSH%E5%8D%8F%E8%AE%AE%E6%BC%8F%E6%B4%9E/image-20211029161417325.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/11/26/SSH%E5%8D%8F%E8%AE%AE%E6%BC%8F%E6%B4%9E/image-20211029161626493.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/11/26/SSH%E5%8D%8F%E8%AE%AE%E6%BC%8F%E6%B4%9E/image-20211029162013578.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/11/26/SSH%E5%8D%8F%E8%AE%AE%E6%BC%8F%E6%B4%9E/image-20211029162034115.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/11/26/SSH%E5%8D%8F%E8%AE%AE%E6%BC%8F%E6%B4%9E/image-20211029162346124.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/11/26/SSH%E5%8D%8F%E8%AE%AE%E6%BC%8F%E6%B4%9E/image-20211029162449846.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/11/26/SSH%E5%8D%8F%E8%AE%AE%E6%BC%8F%E6%B4%9E/image-20211029162600060.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/11/26/SSH%E5%8D%8F%E8%AE%AE%E6%BC%8F%E6%B4%9E/image-20211029162940534.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/11/26/SSH%E5%8D%8F%E8%AE%AE%E6%BC%8F%E6%B4%9E/image-20211029162746262.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/11/26/SSH%E5%8D%8F%E8%AE%AE%E6%BC%8F%E6%B4%9E/image-20211029163215809.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/11/26/SSH%E5%8D%8F%E8%AE%AE%E6%BC%8F%E6%B4%9E/image-20211029163246468.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/11/26/SSH%E5%8D%8F%E8%AE%AE%E6%BC%8F%E6%B4%9E/image-20211029163539774.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/11/26/SSH%E5%8D%8F%E8%AE%AE%E6%BC%8F%E6%B4%9E/image-20211029164045373.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/11/26/SSH%E5%8D%8F%E8%AE%AE%E6%BC%8F%E6%B4%9E/image-20211029163701539.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/11/26/SSH%E5%8D%8F%E8%AE%AE%E6%BC%8F%E6%B4%9E/image-20211029163913469.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/11/26/SSH%E5%8D%8F%E8%AE%AE%E6%BC%8F%E6%B4%9E/image-20211029164206096.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/11/26/SSH%E5%8D%8F%E8%AE%AE%E6%BC%8F%E6%B4%9E/image-20211029164347672.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/11/26/SSH%E5%8D%8F%E8%AE%AE%E6%BC%8F%E6%B4%9E/image-20211029164756677.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/11/26/SSH%E5%8D%8F%E8%AE%AE%E6%BC%8F%E6%B4%9E/image-20211029165629113.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/11/26/SSH%E5%8D%8F%E8%AE%AE%E6%BC%8F%E6%B4%9E/image-20211029170410316.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/11/26/SSH%E5%8D%8F%E8%AE%AE%E6%BC%8F%E6%B4%9E/image-20211029170445103.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/11/26/SSH%E5%8D%8F%E8%AE%AE%E6%BC%8F%E6%B4%9E/image-20211029170637066.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/11/26/SSH%E5%8D%8F%E8%AE%AE%E6%BC%8F%E6%B4%9E/image-20211029171711069.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/11/26/SSH%E5%8D%8F%E8%AE%AE%E6%BC%8F%E6%B4%9E/image-20211029170916309.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/11/26/SSH%E5%8D%8F%E8%AE%AE%E6%BC%8F%E6%B4%9E/image-20211029171121203.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/11/26/SSH%E5%8D%8F%E8%AE%AE%E6%BC%8F%E6%B4%9E/image-20211029171254542.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/11/26/SSH%E5%8D%8F%E8%AE%AE%E6%BC%8F%E6%B4%9E/image-20211029171450593.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/11/26/SSH%E5%8D%8F%E8%AE%AE%E6%BC%8F%E6%B4%9E/image-20211029171634929.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/11/26/SSH%E5%8D%8F%E8%AE%AE%E6%BC%8F%E6%B4%9E/image-20211029171810374.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/11/26/SSH%E5%8D%8F%E8%AE%AE%E6%BC%8F%E6%B4%9E/image-20211029171945525.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/11/26/SSH%E5%8D%8F%E8%AE%AE%E6%BC%8F%E6%B4%9E/image-20211029193512772.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/11/26/SSH%E5%8D%8F%E8%AE%AE%E6%BC%8F%E6%B4%9E/image-20211029193731529.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/11/26/SSH%E5%8D%8F%E8%AE%AE%E6%BC%8F%E6%B4%9E/image-20211029193817115.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/11/26/SSH%E5%8D%8F%E8%AE%AE%E6%BC%8F%E6%B4%9E/image-20211029193854635.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/11/26/SSH%E5%8D%8F%E8%AE%AE%E6%BC%8F%E6%B4%9E/image-20211029194138609.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/11/26/SSH%E5%8D%8F%E8%AE%AE%E6%BC%8F%E6%B4%9E/image-20211029194446429.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/11/26/SSH%E5%8D%8F%E8%AE%AE%E6%BC%8F%E6%B4%9E/image-20211029194515405.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/11/26/SSH%E5%8D%8F%E8%AE%AE%E6%BC%8F%E6%B4%9E/image-20211029194626796.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/11/26/SSH%E5%8D%8F%E8%AE%AE%E6%BC%8F%E6%B4%9E/image-20211029195047333.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/11/26/SSH%E5%8D%8F%E8%AE%AE%E6%BC%8F%E6%B4%9E/image-20211029195118357.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/11/26/SSH%E5%8D%8F%E8%AE%AE%E6%BC%8F%E6%B4%9E/image-20211029195156501.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/11/26/SSH%E5%8D%8F%E8%AE%AE%E6%BC%8F%E6%B4%9E/image-20211029195314110.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/11/26/SSH%E5%8D%8F%E8%AE%AE%E6%BC%8F%E6%B4%9E/image-20211029195549382.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/11/26/SSH%E5%8D%8F%E8%AE%AE%E6%BC%8F%E6%B4%9E/image-20211029195642958.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/11/26/SSH%E5%8D%8F%E8%AE%AE%E6%BC%8F%E6%B4%9E/image-20211029195819239.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/11/26/SSH%E5%8D%8F%E8%AE%AE%E6%BC%8F%E6%B4%9E/image-20211029200029066.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/11/26/SSH%E5%8D%8F%E8%AE%AE%E6%BC%8F%E6%B4%9E/image-20211029200202357.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/11/26/SSH%E5%8D%8F%E8%AE%AE%E6%BC%8F%E6%B4%9E/image-20211029200339377.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/11/26/SSH%E5%8D%8F%E8%AE%AE%E6%BC%8F%E6%B4%9E/image-20211029200551326.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/11/26/SSH%E5%8D%8F%E8%AE%AE%E6%BC%8F%E6%B4%9E/image-20211029200709823.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/11/26/SSH%E5%8D%8F%E8%AE%AE%E6%BC%8F%E6%B4%9E/image-20211029201128148.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/11/26/SSH%E5%8D%8F%E8%AE%AE%E6%BC%8F%E6%B4%9E/image-20211029201050566.png">
+<meta property="article:published_time" content="2021-11-26T03:18:50.000Z">
+<meta property="article:modified_time" content="2021-11-26T03:19:14.282Z">
+<meta property="article:author" content="北极星上的稻草人">
+<meta property="article:tag" content="web渗透">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://wgc5.gitee.io/2021/11/26/SSH%E5%8D%8F%E8%AE%AE%E6%BC%8F%E6%B4%9E/image-20211029170203107.png">
+
+<link rel="canonical" href="https://wgc5.gitee.io/2021/11/26/SSH%E5%8D%8F%E8%AE%AE%E6%BC%8F%E6%B4%9E/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>SSH协议漏洞 | 北极星上的稻草人</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">北极星上的稻草人</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">稻草人笔记</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">21</span></a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">9</span></a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">51</span></a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://wgc5.gitee.io/2021/11/26/SSH%E5%8D%8F%E8%AE%AE%E6%BC%8F%E6%B4%9E/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="北极星上的稻草人">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="北极星上的稻草人">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          SSH协议漏洞
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2021-11-26 11:18:50 / 修改时间：11:19:14" itemprop="dateCreated datePublished" datetime="2021-11-26T11:18:50+08:00">2021-11-26</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/CTF/" itemprop="url" rel="index"><span itemprop="name">CTF</span></a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="SSH"><a href="#SSH" class="headerlink" title="SSH"></a>SSH</h1><p>ssh介绍</p>
+<p><img src="/2021/11/26/SSH%E5%8D%8F%E8%AE%AE%E6%BC%8F%E6%B4%9E/image-20211029170203107.png" alt="image-20211029170203107"></p>
+<p>ssh协议认证机制</p>
+<p><img src="/2021/11/26/SSH%E5%8D%8F%E8%AE%AE%E6%BC%8F%E6%B4%9E/image-20211029170253976.png" alt="image-20211029170253976"></p>
+<p>ssh协议验证机制弱点</p>
+<p><img src="/2021/11/26/SSH%E5%8D%8F%E8%AE%AE%E6%BC%8F%E6%B4%9E/image-20211029170348903.png" alt="image-20211029170348903"></p>
+<p><img src="/2021/11/26/SSH%E5%8D%8F%E8%AE%AE%E6%BC%8F%E6%B4%9E/image-20211029165949329.png" alt="image-20211029165949329"></p>
+<h2 id="ssh私钥泄露（引入ssh的使用）"><a href="#ssh私钥泄露（引入ssh的使用）" class="headerlink" title="ssh私钥泄露（引入ssh的使用）"></a>ssh私钥泄露（引入ssh的使用）</h2><p><img src="/2021/11/26/SSH%E5%8D%8F%E8%AE%AE%E6%BC%8F%E6%B4%9E/image-20211029161051686.png" alt="image-20211029161051686"></p>
+<h4 id="第一步：信息探测"><a href="#第一步：信息探测" class="headerlink" title="第一步：信息探测"></a>第一步：信息探测</h4><p>获得开发端口、服务、系统版本等</p>
+<p><img src="/2021/11/26/SSH%E5%8D%8F%E8%AE%AE%E6%BC%8F%E6%B4%9E/image-20211029161143308.png" alt="image-20211029161143308"></p>
+<p><img src="/2021/11/26/SSH%E5%8D%8F%E8%AE%AE%E6%BC%8F%E6%B4%9E/image-20211029161218411.png" alt="image-20211029161218411"></p>
+<h4 id="第二步：分析探测结果"><a href="#第二步：分析探测结果" class="headerlink" title="第二步：分析探测结果"></a>第二步：分析探测结果</h4><p><img src="/2021/11/26/SSH%E5%8D%8F%E8%AE%AE%E6%BC%8F%E6%B4%9E/image-20211029161257308.png" alt="image-20211029161257308"></p>
+<p><img src="/2021/11/26/SSH%E5%8D%8F%E8%AE%AE%E6%BC%8F%E6%B4%9E/image-20211029161312670.png" alt="image-20211029161312670"></p>
+<p><img src="/2021/11/26/SSH%E5%8D%8F%E8%AE%AE%E6%BC%8F%E6%B4%9E/image-20211029161417325.png" alt="image-20211029161417325"></p>
+<p><strong>注意：先查看源代码，flag可能存在于源代码中；若没有，则探测隐藏文件</strong></p>
+<p><img src="/2021/11/26/SSH%E5%8D%8F%E8%AE%AE%E6%BC%8F%E6%B4%9E/image-20211029161626493.png" alt="image-20211029161626493"></p>
+<p>robots.txt：存放搜索引擎不可访问的文件，flag可能隐藏在这里的文件内容中</p>
+<p>.ssh：远程服务，往往需要入侵/登录靶机，登录后往往需要提权</p>
+<h5 id="利用robots-txt"><a href="#利用robots-txt" class="headerlink" title="利用robots.txt"></a>利用robots.txt</h5><p><img src="/2021/11/26/SSH%E5%8D%8F%E8%AE%AE%E6%BC%8F%E6%B4%9E/image-20211029162013578.png" alt="image-20211029162013578"></p>
+<p>查看文件，可能存在flag</p>
+<p><img src="/2021/11/26/SSH%E5%8D%8F%E8%AE%AE%E6%BC%8F%E6%B4%9E/image-20211029162034115.png" alt="image-20211029162034115"></p>
+<h5 id="利用-ssh文件"><a href="#利用-ssh文件" class="headerlink" title="利用.ssh文件"></a>利用.ssh文件</h5><p><img src="/2021/11/26/SSH%E5%8D%8F%E8%AE%AE%E6%BC%8F%E6%B4%9E/image-20211029162346124.png" alt="image-20211029162346124"></p>
+<p>authorized_keys：认证关键字文件</p>
+<p>A、访问该文件，猜测是否存在文件（可以利用这些密钥文件进行登录）</p>
+<p>一般下载私钥和认证关键字文件即可</p>
+<p><img src="/2021/11/26/SSH%E5%8D%8F%E8%AE%AE%E6%BC%8F%E6%B4%9E/image-20211029162449846.png" alt="image-20211029162449846"></p>
+<p><img src="/2021/11/26/SSH%E5%8D%8F%E8%AE%AE%E6%BC%8F%E6%B4%9E/image-20211029162600060.png" alt="image-20211029162600060"></p>
+<p>打开用户关键字文件</p>
+<p><img src="/2021/11/26/SSH%E5%8D%8F%E8%AE%AE%E6%BC%8F%E6%B4%9E/image-20211029162940534.png" alt="image-20211029162940534"></p>
+<p><img src="/2021/11/26/SSH%E5%8D%8F%E8%AE%AE%E6%BC%8F%E6%B4%9E/image-20211029162746262.png" alt="image-20211029162746262"></p>
+<p>设置文件权限</p>
+<p><img src="/2021/11/26/SSH%E5%8D%8F%E8%AE%AE%E6%BC%8F%E6%B4%9E/image-20211029163215809.png" alt="image-20211029163215809"></p>
+<p>B、<strong>解密ssh密钥信息</strong>：获得解密后的密码</p>
+<p><img src="/2021/11/26/SSH%E5%8D%8F%E8%AE%AE%E6%BC%8F%E6%B4%9E/image-20211029163246468.png" alt="image-20211029163246468"></p>
+<p>isacrack：是自定义的文件名</p>
+<p><img src="/2021/11/26/SSH%E5%8D%8F%E8%AE%AE%E6%BC%8F%E6%B4%9E/image-20211029163539774.png" alt="image-20211029163539774"></p>
+<p>C、登录目标主机</p>
+<p><img src="/2021/11/26/SSH%E5%8D%8F%E8%AE%AE%E6%BC%8F%E6%B4%9E/image-20211029164045373.png" alt="image-20211029164045373"></p>
+<p><img src="/2021/11/26/SSH%E5%8D%8F%E8%AE%AE%E6%BC%8F%E6%B4%9E/image-20211029163701539.png" alt="image-20211029163701539"></p>
+<p>D、提权</p>
+<p>登录目标主机后，到根目录查看是否存在可疑的文件查看权限</p>
+<p><img src="/2021/11/26/SSH%E5%8D%8F%E8%AE%AE%E6%BC%8F%E6%B4%9E/image-20211029163913469.png" alt="image-20211029163913469"></p>
+<p>发现可疑文件，但访问权限不够</p>
+<p>提权前，先查看一下那些文件需要root权限</p>
+<p><img src="/2021/11/26/SSH%E5%8D%8F%E8%AE%AE%E6%BC%8F%E6%B4%9E/image-20211029164206096.png" alt="image-20211029164206096"></p>
+<p>寻找可疑文件</p>
+<p><img src="/2021/11/26/SSH%E5%8D%8F%E8%AE%AE%E6%BC%8F%E6%B4%9E/image-20211029164347672.png" alt="image-20211029164347672"></p>
+<p>查看可疑文件（可能发现flag）</p>
+<p><img src="/2021/11/26/SSH%E5%8D%8F%E8%AE%AE%E6%BC%8F%E6%B4%9E/image-20211029164756677.png" alt="image-20211029164756677"></p>
+<p>调试进行 代码审计的文件</p>
+<p><img src="/2021/11/26/SSH%E5%8D%8F%E8%AE%AE%E6%BC%8F%E6%B4%9E/image-20211029165629113.png" alt="image-20211029165629113"></p>
+<p>（execve的参数被溢出覆盖了）</p>
+<h2 id="利用ssh服务进行渗透"><a href="#利用ssh服务进行渗透" class="headerlink" title="利用ssh服务进行渗透"></a>利用ssh服务进行渗透</h2><p><img src="/2021/11/26/SSH%E5%8D%8F%E8%AE%AE%E6%BC%8F%E6%B4%9E/image-20211029170410316.png" alt="image-20211029170410316"></p>
+<h5 id="第一步：信息探测-1"><a href="#第一步：信息探测-1" class="headerlink" title="第一步：信息探测"></a>第一步：信息探测</h5><p><img src="/2021/11/26/SSH%E5%8D%8F%E8%AE%AE%E6%BC%8F%E6%B4%9E/image-20211029170445103.png" alt="image-20211029170445103"></p>
+<h5 id="第二步：分析探测结果-1"><a href="#第二步：分析探测结果-1" class="headerlink" title="第二步：分析探测结果"></a>第二步：分析探测结果</h5><p><img src="/2021/11/26/SSH%E5%8D%8F%E8%AE%AE%E6%BC%8F%E6%B4%9E/image-20211029170637066.png" alt="image-20211029170637066"></p>
+<h5 id="第三步：挖掘敏感信息"><a href="#第三步：挖掘敏感信息" class="headerlink" title="第三步：挖掘敏感信息"></a>第三步：挖掘敏感信息</h5><p><img src="/2021/11/26/SSH%E5%8D%8F%E8%AE%AE%E6%BC%8F%E6%B4%9E/image-20211029171711069.png" alt="image-20211029171711069">s\Cwin\AppData\Roaming\Typora\typora-user-images\image-20211029170714434.png)</p>
+<p>a、利用靶场ip的http服务探测</p>
+<p><img src="/2021/11/26/SSH%E5%8D%8F%E8%AE%AE%E6%BC%8F%E6%B4%9E/image-20211029170916309.png" alt="image-20211029170916309"></p>
+<p>b、利用dirb扫描目录/文件</p>
+<p><img src="/2021/11/26/SSH%E5%8D%8F%E8%AE%AE%E6%BC%8F%E6%B4%9E/image-20211029171121203.png" alt="image-20211029171121203"></p>
+<p><img src="/2021/11/26/SSH%E5%8D%8F%E8%AE%AE%E6%BC%8F%E6%B4%9E/image-20211029171254542.png" alt="image-20211029171254542"></p>
+<p><img src="/2021/11/26/SSH%E5%8D%8F%E8%AE%AE%E6%BC%8F%E6%B4%9E/image-20211029171450593.png" alt="image-20211029171450593"></p>
+<p><img src="/2021/11/26/SSH%E5%8D%8F%E8%AE%AE%E6%BC%8F%E6%B4%9E/image-20211029171634929.png" alt="image-20211029171634929"></p>
+<p>c、利用nikto -host 主机ip扫描</p>
+<p><img src="/2021/11/26/SSH%E5%8D%8F%E8%AE%AE%E6%BC%8F%E6%B4%9E/image-20211029171810374.png" alt="image-20211029171810374"></p>
+<h5 id="第四步：利用敏感、弱点信息"><a href="#第四步：利用敏感、弱点信息" class="headerlink" title="第四步：利用敏感、弱点信息"></a>第四步：利用敏感、弱点信息</h5><p><img src="/2021/11/26/SSH%E5%8D%8F%E8%AE%AE%E6%BC%8F%E6%B4%9E/image-20211029171945525.png" alt="image-20211029171945525"></p>
+<p>利用找到的RSA私钥文件（这里的RSA文件没加密）</p>
+<p><img src="/2021/11/26/SSH%E5%8D%8F%E8%AE%AE%E6%BC%8F%E6%B4%9E/image-20211029193512772.png" alt="image-20211029193512772"></p>
+<p>尝试登录靶机（账户一个个试）</p>
+<p><img src="/2021/11/26/SSH%E5%8D%8F%E8%AE%AE%E6%BC%8F%E6%B4%9E/image-20211029193731529.png" alt="image-20211029193731529"></p>
+<p><img src="/2021/11/26/SSH%E5%8D%8F%E8%AE%AE%E6%BC%8F%E6%B4%9E/image-20211029193817115.png" alt="image-20211029193817115"></p>
+<p>扩大战果</p>
+<p><img src="/2021/11/26/SSH%E5%8D%8F%E8%AE%AE%E6%BC%8F%E6%B4%9E/image-20211029193854635.png" alt="image-20211029193854635"></p>
+<p>深入挖掘</p>
+<p><img src="/2021/11/26/SSH%E5%8D%8F%E8%AE%AE%E6%BC%8F%E6%B4%9E/image-20211029194138609.png" alt="image-20211029194138609"></p>
+<p><img src="/2021/11/26/SSH%E5%8D%8F%E8%AE%AE%E6%BC%8F%E6%B4%9E/image-20211029194446429.png" alt="image-20211029194446429"></p>
+<p>反弹shell</p>
+<p><img src="/2021/11/26/SSH%E5%8D%8F%E8%AE%AE%E6%BC%8F%E6%B4%9E/image-20211029194515405.png" alt="image-20211029194515405"></p>
+<p><img src="/2021/11/26/SSH%E5%8D%8F%E8%AE%AE%E6%BC%8F%E6%B4%9E/image-20211029194626796.png" alt="image-20211029194626796"></p>
+<p>创建一个python文件，并把反弹shell代码写入（这里是先自己建了个1.py文件，再把其改名为已存在的临时sekurity.py文件（覆盖））</p>
+<p><img src="/2021/11/26/SSH%E5%8D%8F%E8%AE%AE%E6%BC%8F%E6%B4%9E/image-20211029195047333.png" alt="image-20211029195047333"></p>
+<p><img src="/2021/11/26/SSH%E5%8D%8F%E8%AE%AE%E6%BC%8F%E6%B4%9E/image-20211029195118357.png" alt="image-20211029195118357"></p>
+<p><img src="/2021/11/26/SSH%E5%8D%8F%E8%AE%AE%E6%BC%8F%E6%B4%9E/image-20211029195156501.png" alt="image-20211029195156501"></p>
+<p>提升（破解）权限</p>
+<p><img src="/2021/11/26/SSH%E5%8D%8F%E8%AE%AE%E6%BC%8F%E6%B4%9E/image-20211029195314110.png" alt="image-20211029195314110"></p>
+<p><img src="/2021/11/26/SSH%E5%8D%8F%E8%AE%AE%E6%BC%8F%E6%B4%9E/image-20211029195549382.png" alt="image-20211029195549382"></p>
+<p><img src="/2021/11/26/SSH%E5%8D%8F%E8%AE%AE%E6%BC%8F%E6%B4%9E/image-20211029195642958.png" alt="image-20211029195642958"></p>
+<p><strong>使用metasploit破解ssh</strong></p>
+<p><img src="/2021/11/26/SSH%E5%8D%8F%E8%AE%AE%E6%BC%8F%E6%B4%9E/image-20211029195819239.png" alt="image-20211029195819239"></p>
+<p>输入msfconsole进入msf</p>
+<p><img src="/2021/11/26/SSH%E5%8D%8F%E8%AE%AE%E6%BC%8F%E6%B4%9E/image-20211029200029066.png" alt="image-20211029200029066"></p>
+<p><img src="/2021/11/26/SSH%E5%8D%8F%E8%AE%AE%E6%BC%8F%E6%B4%9E/image-20211029200202357.png" alt="image-20211029200202357"></p>
+<p>（设置的参数都是之前获得的）</p>
+<p><img src="/2021/11/26/SSH%E5%8D%8F%E8%AE%AE%E6%BC%8F%E6%B4%9E/image-20211029200339377.png" alt="image-20211029200339377"></p>
+<p><img src="/2021/11/26/SSH%E5%8D%8F%E8%AE%AE%E6%BC%8F%E6%B4%9E/image-20211029200551326.png" alt="image-20211029200551326"></p>
+<p>（msf设置的参数：用户名（hadi）和密码（hadi123））</p>
+<p><img src="/2021/11/26/SSH%E5%8D%8F%E8%AE%AE%E6%BC%8F%E6%B4%9E/image-20211029200709823.png" alt="image-20211029200709823"></p>
+<p>获取flag（一般是在根目录下：这里没有写flag）</p>
+<p><img src="/2021/11/26/SSH%E5%8D%8F%E8%AE%AE%E6%BC%8F%E6%B4%9E/image-20211029201128148.png" alt="image-20211029201128148"></p>
+<p><img src="/2021/11/26/SSH%E5%8D%8F%E8%AE%AE%E6%BC%8F%E6%B4%9E/image-20211029201050566.png" alt="image-20211029201050566"></p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/web%E6%B8%97%E9%80%8F/" rel="tag"># web渗透</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2021/11/26/SSI%E6%B3%A8%E5%85%A5/" rel="prev" title="SSI注入">
+      <i class="fa fa-chevron-left"></i> SSI注入
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2021/11/26/web%E5%AE%89%E5%85%A8%E6%9A%B4%E5%8A%9B%E7%A0%B4%E8%A7%A3/" rel="next" title="web安全暴力破解">
+      web安全暴力破解 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#SSH"><span class="nav-number">1.</span> <span class="nav-text">SSH</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#ssh%E7%A7%81%E9%92%A5%E6%B3%84%E9%9C%B2%EF%BC%88%E5%BC%95%E5%85%A5ssh%E7%9A%84%E4%BD%BF%E7%94%A8%EF%BC%89"><span class="nav-number">1.1.</span> <span class="nav-text">ssh私钥泄露（引入ssh的使用）</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%AC%AC%E4%B8%80%E6%AD%A5%EF%BC%9A%E4%BF%A1%E6%81%AF%E6%8E%A2%E6%B5%8B"><span class="nav-number">1.1.0.1.</span> <span class="nav-text">第一步：信息探测</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%AC%AC%E4%BA%8C%E6%AD%A5%EF%BC%9A%E5%88%86%E6%9E%90%E6%8E%A2%E6%B5%8B%E7%BB%93%E6%9E%9C"><span class="nav-number">1.1.0.2.</span> <span class="nav-text">第二步：分析探测结果</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%88%A9%E7%94%A8robots-txt"><span class="nav-number">1.1.0.2.1.</span> <span class="nav-text">利用robots.txt</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%88%A9%E7%94%A8-ssh%E6%96%87%E4%BB%B6"><span class="nav-number">1.1.0.2.2.</span> <span class="nav-text">利用.ssh文件</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%88%A9%E7%94%A8ssh%E6%9C%8D%E5%8A%A1%E8%BF%9B%E8%A1%8C%E6%B8%97%E9%80%8F"><span class="nav-number">1.2.</span> <span class="nav-text">利用ssh服务进行渗透</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E7%AC%AC%E4%B8%80%E6%AD%A5%EF%BC%9A%E4%BF%A1%E6%81%AF%E6%8E%A2%E6%B5%8B-1"><span class="nav-number">1.2.0.0.1.</span> <span class="nav-text">第一步：信息探测</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E7%AC%AC%E4%BA%8C%E6%AD%A5%EF%BC%9A%E5%88%86%E6%9E%90%E6%8E%A2%E6%B5%8B%E7%BB%93%E6%9E%9C-1"><span class="nav-number">1.2.0.0.2.</span> <span class="nav-text">第二步：分析探测结果</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E7%AC%AC%E4%B8%89%E6%AD%A5%EF%BC%9A%E6%8C%96%E6%8E%98%E6%95%8F%E6%84%9F%E4%BF%A1%E6%81%AF"><span class="nav-number">1.2.0.0.3.</span> <span class="nav-text">第三步：挖掘敏感信息</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E7%AC%AC%E5%9B%9B%E6%AD%A5%EF%BC%9A%E5%88%A9%E7%94%A8%E6%95%8F%E6%84%9F%E3%80%81%E5%BC%B1%E7%82%B9%E4%BF%A1%E6%81%AF"><span class="nav-number">1.2.0.0.4.</span> <span class="nav-text">第四步：利用敏感、弱点信息</span></a></li></ol></li></ol></li></ol></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">北极星上的稻草人</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">51</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">9</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">21</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">北极星上的稻草人</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  
+  <script color='0,0,255' opacity='0.5' zIndex='-1' count='99' src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+
+<!-- 页面动态背景 -->
+
+<script type="text/javascript" src="//cdn.bootcss.com/canvas-nest.js/1.0.0/canvas-nest.min.js"></script>
+
+
+</body>
+</html>
+<!-- 页面点击小红心 -->
+<script type="text/javascript" src="/js/clicklove.js"></script>
