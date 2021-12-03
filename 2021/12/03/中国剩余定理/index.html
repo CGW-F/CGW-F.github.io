@@ -1,0 +1,615 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"wgc5.gitee.io","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="中国剩余定理1、引入 ​    中国剩余定理是数论中最有用的工具之一，它有两个用途：一是如果某个数是关于一些两两互素的同余类集，就可以用中国剩余定理求解这个数（同余问题）；而是可以将大数用小数表示、大数的运算可以用小数实现。 例1：（同余问题）存在一个数x，x mod 2 &#x3D;0，x mod 5 &#x3D;3，问这个数是多少？ ​    答：可以通过枚举的方式得出其中的一个解为：x&#x3D;8。 ​">
+<meta property="og:type" content="article">
+<meta property="og:title" content="中国剩余定理">
+<meta property="og:url" content="https://wgc5.gitee.io/2021/12/03/%E4%B8%AD%E5%9B%BD%E5%89%A9%E4%BD%99%E5%AE%9A%E7%90%86/index.html">
+<meta property="og:site_name" content="北极星上的稻草人">
+<meta property="og:description" content="中国剩余定理1、引入 ​    中国剩余定理是数论中最有用的工具之一，它有两个用途：一是如果某个数是关于一些两两互素的同余类集，就可以用中国剩余定理求解这个数（同余问题）；而是可以将大数用小数表示、大数的运算可以用小数实现。 例1：（同余问题）存在一个数x，x mod 2 &#x3D;0，x mod 5 &#x3D;3，问这个数是多少？ ​    答：可以通过枚举的方式得出其中的一个解为：x&#x3D;8。 ​">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/12/03/%E4%B8%AD%E5%9B%BD%E5%89%A9%E4%BD%99%E5%AE%9A%E7%90%86/clip_image002.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/12/03/%E4%B8%AD%E5%9B%BD%E5%89%A9%E4%BD%99%E5%AE%9A%E7%90%86/clip_image002-16383241400951.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/12/03/%E4%B8%AD%E5%9B%BD%E5%89%A9%E4%BD%99%E5%AE%9A%E7%90%86/Users/Cwin/Desktop/CTF/笔记/中国剩余定理/clip_image002-16383241400951.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/12/03/%E4%B8%AD%E5%9B%BD%E5%89%A9%E4%BD%99%E5%AE%9A%E7%90%86/Users/Cwin/Desktop/CTF/笔记/中国剩余定理/clip_image002-16383241400951.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/12/03/%E4%B8%AD%E5%9B%BD%E5%89%A9%E4%BD%99%E5%AE%9A%E7%90%86/Users/Cwin/Desktop/CTF/笔记/中国剩余定理/clip_image002-16383241400951.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/12/03/%E4%B8%AD%E5%9B%BD%E5%89%A9%E4%BD%99%E5%AE%9A%E7%90%86/Users/Cwin/Desktop/CTF/笔记/中国剩余定理/clip_image002-16383241400951.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/12/03/%E4%B8%AD%E5%9B%BD%E5%89%A9%E4%BD%99%E5%AE%9A%E7%90%86/clip_image002-16383259721102.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/12/03/%E4%B8%AD%E5%9B%BD%E5%89%A9%E4%BD%99%E5%AE%9A%E7%90%86/clip_image002-16383259997163.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/12/03/%E4%B8%AD%E5%9B%BD%E5%89%A9%E4%BD%99%E5%AE%9A%E7%90%86/Users/Cwin/Desktop/CTF/笔记/中国剩余定理/clip_image002-16383241400951.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/12/03/%E4%B8%AD%E5%9B%BD%E5%89%A9%E4%BD%99%E5%AE%9A%E7%90%86/clip_image002-16383259721102.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/12/03/%E4%B8%AD%E5%9B%BD%E5%89%A9%E4%BD%99%E5%AE%9A%E7%90%86/clip_image002-16383259997163.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/12/03/%E4%B8%AD%E5%9B%BD%E5%89%A9%E4%BD%99%E5%AE%9A%E7%90%86/Users/Cwin/Desktop/CTF/笔记/中国剩余定理/clip_image002-16383241400951.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/12/03/%E4%B8%AD%E5%9B%BD%E5%89%A9%E4%BD%99%E5%AE%9A%E7%90%86/clip_image002-16383259721102.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/12/03/%E4%B8%AD%E5%9B%BD%E5%89%A9%E4%BD%99%E5%AE%9A%E7%90%86/clip_image002-16383259997163.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/12/03/%E4%B8%AD%E5%9B%BD%E5%89%A9%E4%BD%99%E5%AE%9A%E7%90%86/clip_image002-16383269790714.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/12/03/%E4%B8%AD%E5%9B%BD%E5%89%A9%E4%BD%99%E5%AE%9A%E7%90%86/clip_image002-16383270515135.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/12/03/%E4%B8%AD%E5%9B%BD%E5%89%A9%E4%BD%99%E5%AE%9A%E7%90%86/clip_image002-16383272474026.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/12/03/%E4%B8%AD%E5%9B%BD%E5%89%A9%E4%BD%99%E5%AE%9A%E7%90%86/clip_image002-16383275764387.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/12/03/%E4%B8%AD%E5%9B%BD%E5%89%A9%E4%BD%99%E5%AE%9A%E7%90%86/clip_image002-163832776713410.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/12/03/%E4%B8%AD%E5%9B%BD%E5%89%A9%E4%BD%99%E5%AE%9A%E7%90%86/clip_image002-16383277599059.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/12/03/%E4%B8%AD%E5%9B%BD%E5%89%A9%E4%BD%99%E5%AE%9A%E7%90%86/clip_image002-16383276509558.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/12/03/%E4%B8%AD%E5%9B%BD%E5%89%A9%E4%BD%99%E5%AE%9A%E7%90%86/clip_image002-163832784475311.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/12/03/%E4%B8%AD%E5%9B%BD%E5%89%A9%E4%BD%99%E5%AE%9A%E7%90%86/clip_image002-163832793629812.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/12/03/%E4%B8%AD%E5%9B%BD%E5%89%A9%E4%BD%99%E5%AE%9A%E7%90%86/clip_image002-163832809670513.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/12/03/%E4%B8%AD%E5%9B%BD%E5%89%A9%E4%BD%99%E5%AE%9A%E7%90%86/clip_image002-163832814995614.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/12/03/%E4%B8%AD%E5%9B%BD%E5%89%A9%E4%BD%99%E5%AE%9A%E7%90%86/clip_image002-163832820349515.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/12/03/%E4%B8%AD%E5%9B%BD%E5%89%A9%E4%BD%99%E5%AE%9A%E7%90%86/clip_image002-163832838888016.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/12/03/%E4%B8%AD%E5%9B%BD%E5%89%A9%E4%BD%99%E5%AE%9A%E7%90%86/clip_image002-163832843630817.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/12/03/%E4%B8%AD%E5%9B%BD%E5%89%A9%E4%BD%99%E5%AE%9A%E7%90%86/clip_image002-163832852702918.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/12/03/%E4%B8%AD%E5%9B%BD%E5%89%A9%E4%BD%99%E5%AE%9A%E7%90%86/clip_image002-163835583179320.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/12/03/%E4%B8%AD%E5%9B%BD%E5%89%A9%E4%BD%99%E5%AE%9A%E7%90%86/clip_image002-163835651675532.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/12/03/%E4%B8%AD%E5%9B%BD%E5%89%A9%E4%BD%99%E5%AE%9A%E7%90%86/clip_image002-163835600512821.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/12/03/%E4%B8%AD%E5%9B%BD%E5%89%A9%E4%BD%99%E5%AE%9A%E7%90%86/clip_image002-163835603303722.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/12/03/%E4%B8%AD%E5%9B%BD%E5%89%A9%E4%BD%99%E5%AE%9A%E7%90%86/clip_image002-163835605012623.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/12/03/%E4%B8%AD%E5%9B%BD%E5%89%A9%E4%BD%99%E5%AE%9A%E7%90%86/clip_image002-163835608694924.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/12/03/%E4%B8%AD%E5%9B%BD%E5%89%A9%E4%BD%99%E5%AE%9A%E7%90%86/clip_image002-163835617681925.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/12/03/%E4%B8%AD%E5%9B%BD%E5%89%A9%E4%BD%99%E5%AE%9A%E7%90%86/clip_image002-163835620140926.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/12/03/%E4%B8%AD%E5%9B%BD%E5%89%A9%E4%BD%99%E5%AE%9A%E7%90%86/clip_image002-163835626702128.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/12/03/%E4%B8%AD%E5%9B%BD%E5%89%A9%E4%BD%99%E5%AE%9A%E7%90%86/clip_image002-163835631925329.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/12/03/%E4%B8%AD%E5%9B%BD%E5%89%A9%E4%BD%99%E5%AE%9A%E7%90%86/clip_image002-163835634755130.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/12/03/%E4%B8%AD%E5%9B%BD%E5%89%A9%E4%BD%99%E5%AE%9A%E7%90%86/clip_image002-163835636430531.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/12/03/%E4%B8%AD%E5%9B%BD%E5%89%A9%E4%BD%99%E5%AE%9A%E7%90%86/clip_image002-163832793629812.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/12/03/%E4%B8%AD%E5%9B%BD%E5%89%A9%E4%BD%99%E5%AE%9A%E7%90%86/clip_image002-163835693319833.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/12/03/%E4%B8%AD%E5%9B%BD%E5%89%A9%E4%BD%99%E5%AE%9A%E7%90%86/clip_image002-163835707953934.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/12/03/%E4%B8%AD%E5%9B%BD%E5%89%A9%E4%BD%99%E5%AE%9A%E7%90%86/clip_image002-163835824979441.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/12/03/%E4%B8%AD%E5%9B%BD%E5%89%A9%E4%BD%99%E5%AE%9A%E7%90%86/clip_image002-163835717495635.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/12/03/%E4%B8%AD%E5%9B%BD%E5%89%A9%E4%BD%99%E5%AE%9A%E7%90%86/clip_image002-163835720161036.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/12/03/%E4%B8%AD%E5%9B%BD%E5%89%A9%E4%BD%99%E5%AE%9A%E7%90%86/clip_image002-163835726695437.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/12/03/%E4%B8%AD%E5%9B%BD%E5%89%A9%E4%BD%99%E5%AE%9A%E7%90%86/clip_image002-163835831507542.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/12/03/%E4%B8%AD%E5%9B%BD%E5%89%A9%E4%BD%99%E5%AE%9A%E7%90%86/clip_image002-163835746084739.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/12/03/%E4%B8%AD%E5%9B%BD%E5%89%A9%E4%BD%99%E5%AE%9A%E7%90%86/clip_image002-163835750068740.png">
+<meta property="article:published_time" content="2021-12-03T06:54:50.000Z">
+<meta property="article:modified_time" content="2021-12-03T06:55:22.578Z">
+<meta property="article:author" content="北极星上的稻草人">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://wgc5.gitee.io/2021/12/03/%E4%B8%AD%E5%9B%BD%E5%89%A9%E4%BD%99%E5%AE%9A%E7%90%86/clip_image002.png">
+
+<link rel="canonical" href="https://wgc5.gitee.io/2021/12/03/%E4%B8%AD%E5%9B%BD%E5%89%A9%E4%BD%99%E5%AE%9A%E7%90%86/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>中国剩余定理 | 北极星上的稻草人</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">北极星上的稻草人</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">稻草人笔记</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">22</span></a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">9</span></a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">59</span></a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://wgc5.gitee.io/2021/12/03/%E4%B8%AD%E5%9B%BD%E5%89%A9%E4%BD%99%E5%AE%9A%E7%90%86/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="北极星上的稻草人">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="北极星上的稻草人">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          中国剩余定理
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2021-12-03 14:54:50 / 修改时间：14:55:22" itemprop="dateCreated datePublished" datetime="2021-12-03T14:54:50+08:00">2021-12-03</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%AF%86%E7%A0%81%E5%AD%A6/" itemprop="url" rel="index"><span itemprop="name">密码学</span></a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h3 id="中国剩余定理"><a href="#中国剩余定理" class="headerlink" title="中国剩余定理"></a>中国剩余定理</h3><p><strong>1、引入</strong></p>
+<p>​    中国剩余定理是数论中最有用的工具之一，它有两个用途：一是如果某个数是关于一些两两互素的同余类集，就可以用中国剩余定理求解这个数（同余问题）；而是可以将大数用小数表示、大数的运算可以用小数实现。</p>
+<p>例1：（同余问题）存在一个数x，x mod 2 =0，x mod 5 =3，问这个数是多少？</p>
+<p>​    答：可以通过枚举的方式得出其中的一个解为：x=8。</p>
+<p>​            注意：x可能不唯一；这里只是2个式子，如果式子多起来，枚举的方式就不可取了</p>
+<p>例2：（同余+大数简化运算问题）对于mod运算，假设只能处理5以内的数，但是需要处理15以内的数。</p>
+<ul>
+<li>将15分解为一些小于5的素数的乘积：15 = 3 x 5</li>
+<li>将1-15之间的数用数列表来表示；表行数为3，行号0<del>2；列数为5，列号0</del>4；按照规则将1-15的数填入表中（规则：某个数x的行号：x%3（即x除3的余数），列号：x%5）。如x=12,行号：12 mod 3=0，列号：12 mod 5 =2，所以12 对应的位置在第0行，第2列（也可理解为12的坐标为（0，2））；重复以上操作，得到下表1：</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>0</th>
+<th>1</th>
+<th>2</th>
+<th>3</th>
+<th>4</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>0</td>
+<td>0</td>
+<td>6</td>
+<td>12</td>
+<td>3</td>
+<td>9</td>
+</tr>
+<tr>
+<td>1</td>
+<td>10</td>
+<td>1</td>
+<td>7</td>
+<td>13</td>
+<td>4</td>
+</tr>
+<tr>
+<td>2</td>
+<td>5</td>
+<td>11</td>
+<td>2</td>
+<td>8</td>
+<td>14</td>
+</tr>
+</tbody></table>
+<ul>
+<li><p>现在就可以通过表格处理15以内的数的模运算了</p>
+<p>对于乘法：两数行号相乘再mod 3得到结果数所在的行号；两数列号相乘再mod 5得到结果数所在的列号</p>
+<p>对于加法：</p>
+<p>例如：求（12 x 13）mod 15</p>
+<p>解：12和13所在的行号分别是0和1，所在的列号分别是2和3；</p>
+<p>​        行号：（0 x 1）mod 3 =0，列号：（2 x 3）mod 5=1</p>
+<p>​        查表得位于0行1列的数是6，即（12 x 13）mod 15 = 6.</p>
+<p>例如：求（12+13）mod 15</p>
+<p>​        行号：（0 x+1）mod 3 =1，列号：（2 + 3）mod 5=0</p>
+<p>​        查表得位于1行0列的数是10，即（12 x 13）mod 15 = 10. </p>
+<p>上述2例只是中国剩余定理的直观应用，下面进行详细介绍。</p>
+</li>
+</ul>
+<p><strong>2、推导/介绍</strong></p>
+<p>​    中国剩余定理最早出于《孙子算经》的”物不知数“问题：今有物不知其数，三三数之余二，五五数之余三，七七数之余二，问物有多少？韩信点兵也是这类问题。</p>
+<p>​    根据上述问题，可得如下方程组：</p>
+<p>​                                            <img src="/2021/12/03/%E4%B8%AD%E5%9B%BD%E5%89%A9%E4%BD%99%E5%AE%9A%E7%90%86/clip_image002.png" alt="img"></p>
+<p>解决思路：</p>
+<p>​    首先</p>
+<ul>
+<li><p>写出3个余数和的形式：假设x=2+3+2</p>
+</li>
+<li><p>为了满足第一个等式，x的后2项乘3，进而运算时可以消去后2项：</p>
+<p>（注意：这里说的满足是指mod 3后，后2项消失；结果不一定符合x = 2 mod 3，只是指消去另外两项）</p>
+<p>​        x = 2+3x3  +  2x3</p>
+</li>
+<li><p>为了满足第一个等式的同时又第二个等式，x的1、3项乘5：</p>
+<p>​        x = 2x5 + 3x3 +2x3x5</p>
+</li>
+<li><p>同理，为了同时满足上面3个等式</p>
+<p>​        x = 2x5x7 + 3x3x7 +2x3x5</p>
+</li>
+</ul>
+<p>​     然后</p>
+<ul>
+<li><p>将最后的x代入第一个等式，得到2x5x7，为了消去5x7使得完全符合第一个等式（x=2 mod 3），可以将第一项结果乘以<img src="/2021/12/03/%E4%B8%AD%E5%9B%BD%E5%89%A9%E4%BD%99%E5%AE%9A%E7%90%86/clip_image002-16383241400951.png" alt="img">mod 3（注：(5x7)<img src="/2021/12/03/%E4%B8%AD%E5%9B%BD%E5%89%A9%E4%BD%99%E5%AE%9A%E7%90%86/Users/Cwin/Desktop/CTF/笔记/中国剩余定理/clip_image002-16383241400951.png" alt="img">=1 mod 3，<img src="/2021/12/03/%E4%B8%AD%E5%9B%BD%E5%89%A9%E4%BD%99%E5%AE%9A%E7%90%86/Users/Cwin/Desktop/CTF/笔记/中国剩余定理/clip_image002-16383241400951.png" alt="img">=<img src="/2021/12/03/%E4%B8%AD%E5%9B%BD%E5%89%A9%E4%BD%99%E5%AE%9A%E7%90%86/Users/Cwin/Desktop/CTF/笔记/中国剩余定理/clip_image002-16383241400951.png" alt="img">mod 3 取唯一值)，即：</p>
+<p>​         x = 2x5x7<img src="/2021/12/03/%E4%B8%AD%E5%9B%BD%E5%89%A9%E4%BD%99%E5%AE%9A%E7%90%86/Users/Cwin/Desktop/CTF/笔记/中国剩余定理/clip_image002-16383241400951.png" alt="img">+ 3x3x7 +2x3x5</p>
+<p>类似地第二项乘以<img src="/2021/12/03/%E4%B8%AD%E5%9B%BD%E5%89%A9%E4%BD%99%E5%AE%9A%E7%90%86/clip_image002-16383259721102.png" alt="img">，第三项乘以<img src="/2021/12/03/%E4%B8%AD%E5%9B%BD%E5%89%A9%E4%BD%99%E5%AE%9A%E7%90%86/clip_image002-16383259997163.png" alt="img">；得：</p>
+<p>​         x = 2x5x7<img src="/2021/12/03/%E4%B8%AD%E5%9B%BD%E5%89%A9%E4%BD%99%E5%AE%9A%E7%90%86/Users/Cwin/Desktop/CTF/笔记/中国剩余定理/clip_image002-16383241400951.png" alt="img">+ 3x3x7<img src="/2021/12/03/%E4%B8%AD%E5%9B%BD%E5%89%A9%E4%BD%99%E5%AE%9A%E7%90%86/clip_image002-16383259721102.png" alt="img"> +2x3x5<img src="/2021/12/03/%E4%B8%AD%E5%9B%BD%E5%89%A9%E4%BD%99%E5%AE%9A%E7%90%86/clip_image002-16383259997163.png" alt="img">=233</p>
+<p>说明：求解逆元方法有欧几里得算法和欧几里得扩展算法，可以参考本博客的《欧几里得扩展算法》        </p>
+</li>
+<li><p>因为233+k(3x5x7)=233+105k（k为整数）都是满足方程的解；可以取k=-2，得到小于105（=3x5x7）的最小且唯一的正数解23，即：</p>
+<p>​        x = [2x5x7<img src="/2021/12/03/%E4%B8%AD%E5%9B%BD%E5%89%A9%E4%BD%99%E5%AE%9A%E7%90%86/Users/Cwin/Desktop/CTF/笔记/中国剩余定理/clip_image002-16383241400951.png" alt="img">+ 3x3x7<img src="/2021/12/03/%E4%B8%AD%E5%9B%BD%E5%89%A9%E4%BD%99%E5%AE%9A%E7%90%86/clip_image002-16383259721102.png" alt="img"> +2x3x5<img src="/2021/12/03/%E4%B8%AD%E5%9B%BD%E5%89%A9%E4%BD%99%E5%AE%9A%E7%90%86/clip_image002-16383259997163.png" alt="img">] mod (3x5x7)</p>
+</li>
+</ul>
+<p>这种构造方式推广到一般形式就是中国剩余定理的一种形式。</p>
+<p><strong>3、中国剩余定理</strong></p>
+<p>​    设<img src="/2021/12/03/%E4%B8%AD%E5%9B%BD%E5%89%A9%E4%BD%99%E5%AE%9A%E7%90%86/clip_image002-16383269790714.png" alt="img">是两两互素的正整数，<img src="/2021/12/03/%E4%B8%AD%E5%9B%BD%E5%89%A9%E4%BD%99%E5%AE%9A%E7%90%86/clip_image002-16383270515135.png" alt="img"> 则一次同余方程为：</p>
+<p><img src="/2021/12/03/%E4%B8%AD%E5%9B%BD%E5%89%A9%E4%BD%99%E5%AE%9A%E7%90%86/clip_image002-16383272474026.png" alt="img"></p>
+<p>​    根据第2部分进行推广到一般形式并对模M有唯一解：</p>
+<p><img src="/2021/12/03/%E4%B8%AD%E5%9B%BD%E5%89%A9%E4%BD%99%E5%AE%9A%E7%90%86/clip_image002-16383275764387.png" alt="img"></p>
+<p>​    其中<img src="/2021/12/03/%E4%B8%AD%E5%9B%BD%E5%89%A9%E4%BD%99%E5%AE%9A%E7%90%86/clip_image002-163832776713410.png" alt="img">满足<img src="/2021/12/03/%E4%B8%AD%E5%9B%BD%E5%89%A9%E4%BD%99%E5%AE%9A%E7%90%86/clip_image002-16383277599059.png" alt="img">；设<img src="/2021/12/03/%E4%B8%AD%E5%9B%BD%E5%89%A9%E4%BD%99%E5%AE%9A%E7%90%86/clip_image002-16383276509558.png" alt="img">，则<img src="/2021/12/03/%E4%B8%AD%E5%9B%BD%E5%89%A9%E4%BD%99%E5%AE%9A%E7%90%86/clip_image002-163832784475311.png" alt="img">：</p>
+<p><img src="/2021/12/03/%E4%B8%AD%E5%9B%BD%E5%89%A9%E4%BD%99%E5%AE%9A%E7%90%86/clip_image002-163832793629812.png" alt="img"></p>
+<p>推论：</p>
+<p>​    若A可以由一组小数<img src="/2021/12/03/%E4%B8%AD%E5%9B%BD%E5%89%A9%E4%BD%99%E5%AE%9A%E7%90%86/clip_image002-163832809670513.png" alt="img">表达，若同理存在B：</p>
+<p>​                                    <img src="/2021/12/03/%E4%B8%AD%E5%9B%BD%E5%89%A9%E4%BD%99%E5%AE%9A%E7%90%86/clip_image002-163832814995614.png" alt="img">，<img src="/2021/12/03/%E4%B8%AD%E5%9B%BD%E5%89%A9%E4%BD%99%E5%AE%9A%E7%90%86/clip_image002-163832820349515.png" alt="img"></p>
+<p>​    那么：</p>
+<p>​                            <img src="/2021/12/03/%E4%B8%AD%E5%9B%BD%E5%89%A9%E4%BD%99%E5%AE%9A%E7%90%86/clip_image002-163832838888016.png" alt="img"></p>
+<p>​                            <img src="/2021/12/03/%E4%B8%AD%E5%9B%BD%E5%89%A9%E4%BD%99%E5%AE%9A%E7%90%86/clip_image002-163832843630817.png" alt="img"> </p>
+<p>​                            <img src="/2021/12/03/%E4%B8%AD%E5%9B%BD%E5%89%A9%E4%BD%99%E5%AE%9A%E7%90%86/clip_image002-163832852702918.png" alt="img"></p>
+<p>证明tip：（a*b）mod p =[(a mod p) * (b mod p)] mod p</p>
+<p><strong>4、应用例子</strong></p>
+<p>​    <strong>a.求x</strong></p>
+<p>​                                <img src="/2021/12/03/%E4%B8%AD%E5%9B%BD%E5%89%A9%E4%BD%99%E5%AE%9A%E7%90%86/clip_image002-163835583179320.png" alt="img"></p>
+<p>​    解：</p>
+<p>​        依提议得：<img src="/2021/12/03/%E4%B8%AD%E5%9B%BD%E5%89%A9%E4%BD%99%E5%AE%9A%E7%90%86/clip_image002-163835651675532.png" alt="img"></p>
+<p>​        M=2x3x5x7=210,<img src="/2021/12/03/%E4%B8%AD%E5%9B%BD%E5%89%A9%E4%BD%99%E5%AE%9A%E7%90%86/clip_image002-163835600512821.png" alt="img">,<img src="/2021/12/03/%E4%B8%AD%E5%9B%BD%E5%89%A9%E4%BD%99%E5%AE%9A%E7%90%86/clip_image002-163835603303722.png" alt="img">,<img src="/2021/12/03/%E4%B8%AD%E5%9B%BD%E5%89%A9%E4%BD%99%E5%AE%9A%E7%90%86/clip_image002-163835605012623.png" alt="img">,<img src="/2021/12/03/%E4%B8%AD%E5%9B%BD%E5%89%A9%E4%BD%99%E5%AE%9A%E7%90%86/clip_image002-163835608694924.png" alt="img"></p>
+<p>​        由<img src="/2021/12/03/%E4%B8%AD%E5%9B%BD%E5%89%A9%E4%BD%99%E5%AE%9A%E7%90%86/clip_image002-163835617681925.png" alt="img">求得：<img src="/2021/12/03/%E4%B8%AD%E5%9B%BD%E5%89%A9%E4%BD%99%E5%AE%9A%E7%90%86/clip_image002-163835620140926.png" alt="img">= <img src="/2021/12/03/%E4%B8%AD%E5%9B%BD%E5%89%A9%E4%BD%99%E5%AE%9A%E7%90%86/clip_image002-163835626702128.png" alt="img">mod 2 = 1，<img src="/2021/12/03/%E4%B8%AD%E5%9B%BD%E5%89%A9%E4%BD%99%E5%AE%9A%E7%90%86/clip_image002-163835631925329.png" alt="img">，<img src="/2021/12/03/%E4%B8%AD%E5%9B%BD%E5%89%A9%E4%BD%99%E5%AE%9A%E7%90%86/clip_image002-163835634755130.png" alt="img">，<img src="/2021/12/03/%E4%B8%AD%E5%9B%BD%E5%89%A9%E4%BD%99%E5%AE%9A%E7%90%86/clip_image002-163835636430531.png" alt="img">，</p>
+<p>​        由中国剩余定理<img src="/2021/12/03/%E4%B8%AD%E5%9B%BD%E5%89%A9%E4%BD%99%E5%AE%9A%E7%90%86/clip_image002-163832793629812.png" alt="img">得：</p>
+<p>​        x=（150x1x1 + 70x1x2 + 42x3x3 + 30x4x5）mod 210 = 173</p>
+<p>说明：求逆元方法有欧几里得算法/欧几里得扩展算法，可以参考本博客的《欧几里得扩展算法》；这里的逆元用枚举法就可以算出。</p>
+<p><strong>b.中国剩余定理推论的应用</strong></p>
+<p>​    问题：将973 mod 1813的模数换成37和49两个数表示</p>
+<p>​        可取：x=973，M=1813，<img src="/2021/12/03/%E4%B8%AD%E5%9B%BD%E5%89%A9%E4%BD%99%E5%AE%9A%E7%90%86/clip_image002-163835693319833.png" alt="img"> 。</p>
+<ul>
+<li><p>求<img src="/2021/12/03/%E4%B8%AD%E5%9B%BD%E5%89%A9%E4%BD%99%E5%AE%9A%E7%90%86/clip_image002-163835707953934.png" alt="img">，也是求 <img src="/2021/12/03/%E4%B8%AD%E5%9B%BD%E5%89%A9%E4%BD%99%E5%AE%9A%E7%90%86/clip_image002-163835824979441.png" alt="img"></p>
+<p><img src="/2021/12/03/%E4%B8%AD%E5%9B%BD%E5%89%A9%E4%BD%99%E5%AE%9A%E7%90%86/clip_image002-163835717495635.png" alt="img">，<img src="/2021/12/03/%E4%B8%AD%E5%9B%BD%E5%89%A9%E4%BD%99%E5%AE%9A%E7%90%86/clip_image002-163835720161036.png" alt="img"></p>
+<p>得x在模37和模49下的表达式为<img src="/2021/12/03/%E4%B8%AD%E5%9B%BD%E5%89%A9%E4%BD%99%E5%AE%9A%E7%90%86/clip_image002-163835726695437.png" alt="img">，（注意X就是A)</p>
+<p>​                            <img src="/2021/12/03/%E4%B8%AD%E5%9B%BD%E5%89%A9%E4%BD%99%E5%AE%9A%E7%90%86/clip_image002-163835831507542.png" alt="img"></p>
+</li>
+</ul>
+<ul>
+<li><p>求（973 mod 1813） + （678 mod 1813）的表达形式<img src="/2021/12/03/%E4%B8%AD%E5%9B%BD%E5%89%A9%E4%BD%99%E5%AE%9A%E7%90%86/clip_image002-163835746084739.png" alt="img"></p>
+<p>先求：678<img src="/2021/12/03/%E4%B8%AD%E5%9B%BD%E5%89%A9%E4%BD%99%E5%AE%9A%E7%90%86/clip_image002-163835750068740.png" alt="img">（678 mod 37,678 mod 49) = （12,41)</p>
+<p>由于模数相同，都是1813；根据中国剩余定理的推论可得：</p>
+<p>（973 mod 1813） + （678 mod 1813）</p>
+<p>=（（11+12）mod 37,（42+41）mod 49）</p>
+<p>=（23,24）</p>
+</li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2021/12/03/%E5%AF%86%E7%A0%81%E5%AD%A6%E7%9A%84%E9%97%A8%E9%99%90%E9%97%AE%E9%A2%98/" rel="prev" title="密码学的门限问题">
+      <i class="fa fa-chevron-left"></i> 密码学的门限问题
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2021/12/03/%E8%83%8C%E5%8C%85%E5%AF%86%E7%A0%81%E4%BD%93%E5%88%B6/" rel="next" title="背包密码体制">
+      背包密码体制 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%AD%E5%9B%BD%E5%89%A9%E4%BD%99%E5%AE%9A%E7%90%86"><span class="nav-number">1.</span> <span class="nav-text">中国剩余定理</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">北极星上的稻草人</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">59</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">9</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">22</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">北极星上的稻草人</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  
+  <script color='0,0,255' opacity='0.5' zIndex='-1' count='99' src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+
+<!-- 页面动态背景 -->
+
+<script type="text/javascript" src="//cdn.bootcss.com/canvas-nest.js/1.0.0/canvas-nest.min.js"></script>
+
+
+</body>
+</html>
+<!-- 页面点击小红心 -->
+<script type="text/javascript" src="/js/clicklove.js"></script>

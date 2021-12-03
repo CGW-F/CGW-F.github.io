@@ -20,12 +20,12 @@
     var CONFIG = {"hostname":"wgc5.gitee.io","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
   </script>
 
-  <meta name="description" content="区块链基础知识区块链：​        分布式数据库（本质：一个个区块形成的链表），区块就像一个个账本，链就是将一个个账本联系起来的纽带；2个区块之间采用p2p方式链接，整体呈现网状分部；每个账本记录着一些公认的信息；综上所述，区块链就笼统的解释为分布式数据库。 第一代区块链： ​        去中心话的加密货币；典型例子就是比特币；每个加密货币都会产生一个伪随机数，可以用于加追踪和验证交易。​">
+  <meta name="description" content="区块链基础知识区块链：​        分布式数据库（本质：一个个区块形成的链表），区块就像一个个账本，链就是将一个个账本联系起来的纽带；2个区块之间采用p2p方式链接，整体呈现网状分部；每个账本记录着一些公认的信息；综上所述，区块链就笼统的解释为分布式数据库。 常用的共识算法&#x2F;机制：工作量证明(Proof of Work，简称POW）、权益证明(Proof of Stake，简称POS）、委托权">
 <meta property="og:type" content="article">
 <meta property="og:title" content="区块链基础知识">
 <meta property="og:url" content="https://wgc5.gitee.io/2021/09/08/%E5%8C%BA%E5%9D%97%E9%93%BE%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/index.html">
 <meta property="og:site_name" content="北极星上的稻草人">
-<meta property="og:description" content="区块链基础知识区块链：​        分布式数据库（本质：一个个区块形成的链表），区块就像一个个账本，链就是将一个个账本联系起来的纽带；2个区块之间采用p2p方式链接，整体呈现网状分部；每个账本记录着一些公认的信息；综上所述，区块链就笼统的解释为分布式数据库。 第一代区块链： ​        去中心话的加密货币；典型例子就是比特币；每个加密货币都会产生一个伪随机数，可以用于加追踪和验证交易。​">
+<meta property="og:description" content="区块链基础知识区块链：​        分布式数据库（本质：一个个区块形成的链表），区块就像一个个账本，链就是将一个个账本联系起来的纽带；2个区块之间采用p2p方式链接，整体呈现网状分部；每个账本记录着一些公认的信息；综上所述，区块链就笼统的解释为分布式数据库。 常用的共识算法&#x2F;机制：工作量证明(Proof of Work，简称POW）、权益证明(Proof of Stake，简称POS）、委托权">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://wgc5.gitee.io/2021/09/08/%E5%8C%BA%E5%9D%97%E9%93%BE%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/image-20210904100457419.png">
 <meta property="og:image" content="https://wgc5.gitee.io/2021/09/08/%E5%8C%BA%E5%9D%97%E9%93%BE%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/image-20210904102345008.png">
@@ -76,7 +76,7 @@
 <meta property="og:image" content="https://wgc5.gitee.io/2021/09/08/%E5%8C%BA%E5%9D%97%E9%93%BE%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/image-20210908104646321.png">
 <meta property="og:image" content="https://wgc5.gitee.io/2021/09/08/%E5%8C%BA%E5%9D%97%E9%93%BE%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/image-20210908104755939.png">
 <meta property="article:published_time" content="2021-09-08T04:42:58.000Z">
-<meta property="article:modified_time" content="2021-10-08T01:20:23.151Z">
+<meta property="article:modified_time" content="2021-12-01T14:17:49.306Z">
 <meta property="article:author" content="北极星上的稻草人">
 <meta property="article:tag" content="区块链入门">
 <meta name="twitter:card" content="summary">
@@ -170,7 +170,7 @@
   </li>
         <li class="menu-item menu-item-tags">
 
-    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">21</span></a>
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">22</span></a>
 
   </li>
         <li class="menu-item menu-item-categories">
@@ -180,7 +180,7 @@
   </li>
         <li class="menu-item menu-item-archives">
 
-    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">51</span></a>
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">59</span></a>
 
   </li>
   </ul>
@@ -241,7 +241,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-10-08 09:20:23" itemprop="dateModified" datetime="2021-10-08T09:20:23+08:00">2021-10-08</time>
+                <time title="修改时间：2021-12-01 22:17:49" itemprop="dateModified" datetime="2021-12-01T22:17:49+08:00">2021-12-01</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -272,6 +272,7 @@
 
       
         <h1 id="区块链基础知识"><a href="#区块链基础知识" class="headerlink" title="区块链基础知识"></a>区块链基础知识</h1><h2 id="区块链："><a href="#区块链：" class="headerlink" title="区块链："></a>区块链：</h2><p>​        分布式数据库（本质：一个个区块形成的链表），区块就像一个个账本，链就是将一个个账本联系起来的纽带；2个区块之间采用p2p方式链接，整体呈现网状分部；每个账本记录着一些公认的信息；综上所述，区块链就笼统的解释为分布式数据库。</p>
+<p><strong>常用的共识算法/机制：</strong>工作量证明(Proof of Work，简称POW）、权益证明(Proof of Stake，简称POS）、委托权益证明(Delegated Proof of Stake，简称DPOS)、验证池共识机制Pool</p>
 <p><strong>第一代区块链：</strong></p>
 <p>​        去中心话的加密货币；典型例子就是比特币；每个加密货币都会产生一个伪随机数，可以用于加追踪和验证交易。<br>​    特点：安全性高，可追踪和验证、透明度高<br>​    缺点：耗时、成本高</p>
 <p><img src="/2021/09/08/%E5%8C%BA%E5%9D%97%E9%93%BE%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/image-20210904100457419.png" alt="image-20210904100457419"></p>
@@ -285,7 +286,7 @@
 <p><strong>区块链创建账号</strong></p>
 <p>​    自己创建私钥和公钥；验证：用私钥签名，用公钥验证。关键，随机源的取值</p>
 <p><strong>说明：以下图片出自b站北大肖老师授课视频，内容为学习笔记</strong></p>
-<h3 id="比特币"><a href="#比特币" class="headerlink" title="比特币"></a>比特币</h3><p>​     挖矿模式：pow（proof of work）</p>
+<h3 id="比特币"><a href="#比特币" class="headerlink" title="比特币"></a>比特币</h3><p>​     挖矿模式/共识算法：pow（proof of work）</p>
 <p>​    数据结构：区块链+merkle tree（如下图）；Merkle Tree 相比 Balance Tree，也是普通指针换成了哈希指针</p>
 <p><img src="/2021/09/08/%E5%8C%BA%E5%9D%97%E9%93%BE%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/image-20210904102345008.png"></p>
 <p><img src="/2021/09/08/%E5%8C%BA%E5%9D%97%E9%93%BE%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/image-20210904102735472.png" alt="image-20210904102735472"></p>
@@ -322,7 +323,7 @@
 <p><strong>量子计算与比特币</strong></p>
 <p>​        比特币只是第一代区块链的典型产物，如今已经开始研发第三代区块链了（第二段区块链典型产物：以太坊）。虽然量子计算有着惊人的算力，但是就目前知识发展来说，其对比特币威胁并非是致命的。原因如下：（1）量子计算机如今虽然发展迅速，但截止2020年12月，目前最强的量子计算机–九章，最理想状态下能控制76个量子比特；但要想破解比特币理论上需要控制4000个量子比特。而且目前量子计算机的量子控制的准确性还非常低，误差和出错率都很大。（2）目前，要想破解比特币，即使全球计算机同时运行，都破解不了（难度是2的256次方，因为其密钥值是256位）；而理论上，量子计算机只需要以分钟，甚至是秒做单位就可以破解。但这是在知道公钥的情况下破解。但是目前有的区块链技术已经不需要公布公钥了，只需要公布公钥的hash值，从公钥的hash值破解得到公钥，再从公钥破解到私钥；就目前的学术理论水平来说，即使是量子计算机也是不可能算出；首先是hash运算不可逆，而且其过程可能会出现有效数据丢失，而量子计算机主流认为的破解方法是暴力破解（该想法主要来源北京大学肖臻老师《区块链技术与应用》第13节课程的思考）（3）量子计算机是新型物理设备，而区块链只是软件；而且，目前用的是图灵计算机，属于不同的设备；再者，软件和硬件之间存在非常大的隔阂，以后很有可能会研发出量子计算机上的区块链（移植）。（4）目前区块链正在落实应用到我们的现实生活中，发展方向多，如：电子钞票（如：电子人民币）、电子发票、药品/食物标签追踪、公益、联盟链等等。存在既有理，所以区块链技术还是很有存在和发展的意义的。</p>
 <p>​    总之，本人不认为区块链技术在量子计算机面前不值一提；量子计算机的发展还有很长的路，几年甚至几十年也不一定；按目前的发展速度，比特币在未来10年里应该是安全的（只是说在量子计算机威胁方面），至于以后的事，谁都不好说。再补充一下，量子计算机和区块链技术都是非常有用的技术，不能片面的评价谁好谁不好。</p>
-<h3 id="以太坊"><a href="#以太坊" class="headerlink" title="以太坊"></a>以太坊</h3><p>​     <strong>挖矿模式</strong>：pow（proof of work）</p>
+<h3 id="以太坊"><a href="#以太坊" class="headerlink" title="以太坊"></a>以太坊</h3><p>​     <strong>挖矿模式/共识算法</strong>：pow（proof of work）</p>
 <p>​    <strong>用户机制：</strong>（1）比特币每次交易必须把已有的币花光，例如，B有10个币，B与C的交易只需要3个币，那么B还要把7个币转给自己，这是由于要保证币的来源所决定的。以太坊只验证币的支出交易，这样可以防御双花攻击（double spending attack，由于支付者A不诚实，同一笔钱进行多次交易并发布到区块链上：A-B，A-C…，这样A用一笔钱进行了多次交易，还可以把钱转回到自己地址上）；随机而来会造成应答攻击（replay attack，由于接收者B不诚实，把A-B重复发到链上，这样其他矿工看到了，就一起写入区块，最后写到区块链上，B就收到重复的多笔交易）</p>
 <p><img src="/2021/09/08/%E5%8C%BA%E5%9D%97%E9%93%BE%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/image-20210905170220959.png" alt="image-20210905170220959"></p>
 <p>（2）比特币用户身份不确定性，一个用户可以拥有多个账号，多个身份，进而迷惑交易。而以太坊采用了身份确认/固定机制，一个用户可以由多个账号，但是身份固定。</p>
@@ -547,7 +548,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">51</span>
+          <span class="site-state-item-count">59</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -560,7 +561,7 @@
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">21</span>
+        <span class="site-state-item-count">22</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
