@@ -1,0 +1,554 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"wgc5.gitee.io","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="SHA算法一、算法概述​        安全哈希算法（Secure Hash Algorithm，简称SHA），这里介绍的是SHA是指SHA-1；由于SHA算法与MD5算法都是基于MD4算法的，所以两者非常相似，主要区别在于位数和压缩函数。  说明：SHA的算法框图和MD5的算法框图一样，只是位数有所不同。其算法步骤也基本相同。 ​    输入：小于比特长的任意消息 ​    输出：160比特长的">
+<meta property="og:type" content="article">
+<meta property="og:title" content="SHA算法">
+<meta property="og:url" content="https://wgc5.gitee.io/2021/12/10/SHA%E7%AE%97%E6%B3%95/index.html">
+<meta property="og:site_name" content="北极星上的稻草人">
+<meta property="og:description" content="SHA算法一、算法概述​        安全哈希算法（Secure Hash Algorithm，简称SHA），这里介绍的是SHA是指SHA-1；由于SHA算法与MD5算法都是基于MD4算法的，所以两者非常相似，主要区别在于位数和压缩函数。  说明：SHA的算法框图和MD5的算法框图一样，只是位数有所不同。其算法步骤也基本相同。 ​    输入：小于比特长的任意消息 ​    输出：160比特长的">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/12/10/SHA%E7%AE%97%E6%B3%95/image-20211210103332022.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/12/10/SHA%E7%AE%97%E6%B3%95/clip_image002-16389291063891.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/12/10/SHA%E7%AE%97%E6%B3%95/image-20211206212544669.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/12/10/SHA%E7%AE%97%E6%B3%95/Users/Cwin/Desktop/CTF/笔记/SHA算法/image-20211206212544669.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/12/10/SHA%E7%AE%97%E6%B3%95/clip_image002-16386966712272.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/12/10/SHA%E7%AE%97%E6%B3%95/clip_image002-16386967730493.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/12/10/SHA%E7%AE%97%E6%B3%95/clip_image002-16386971393284.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/12/10/SHA%E7%AE%97%E6%B3%95/clip_image002-16387043637515.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/12/10/SHA%E7%AE%97%E6%B3%95/clip_image002-16387978318521.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/12/10/SHA%E7%AE%97%E6%B3%95/clip_image002-16387978465052.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/12/10/SHA%E7%AE%97%E6%B3%95/clip_image002-16387980654394.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/12/10/SHA%E7%AE%97%E6%B3%95/clip_image002-16387043637515-16387981917645.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/12/10/SHA%E7%AE%97%E6%B3%95/clip_image002-163870467501710.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/12/10/SHA%E7%AE%97%E6%B3%95/clip_image002-163870469537911.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/12/10/SHA%E7%AE%97%E6%B3%95/clip_image002-163870471717112-16391020373331.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/12/10/SHA%E7%AE%97%E6%B3%95/clip_image002-163870471717112.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/12/10/SHA%E7%AE%97%E6%B3%95/clip_image002-163870479135413.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/12/10/SHA%E7%AE%97%E6%B3%95/clip_image002-16387988914396.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/12/10/SHA%E7%AE%97%E6%B3%95/clip_image002-16387978465052.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/12/10/SHA%E7%AE%97%E6%B3%95/clip_image002-16387980654394.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/12/10/SHA%E7%AE%97%E6%B3%95/clip_image002-16387043637515-16387981917645.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/12/10/SHA%E7%AE%97%E6%B3%95/clip_image002-16389299873542.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/12/10/SHA%E7%AE%97%E6%B3%95/clip_image002-16389300305813.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/12/10/SHA%E7%AE%97%E6%B3%95/image-20211208102820988.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/12/10/SHA%E7%AE%97%E6%B3%95/clip_image002-16389311212494.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/12/10/SHA%E7%AE%97%E6%B3%95/clip_image002-16389314414286.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/12/10/SHA%E7%AE%97%E6%B3%95/clip_image006.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/12/10/SHA%E7%AE%97%E6%B3%95/clip_image002-16389314643307.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/12/10/SHA%E7%AE%97%E6%B3%95/clip_image002-16389312706475.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/12/10/SHA%E7%AE%97%E6%B3%95/clip_image002-16389315068438.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/12/10/SHA%E7%AE%97%E6%B3%95/clip_image002-16389315534629.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/12/10/SHA%E7%AE%97%E6%B3%95/clip_image002-163893157593910.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/12/10/SHA%E7%AE%97%E6%B3%95/image-20211208103438208.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/12/10/SHA%E7%AE%97%E6%B3%95/clip_image002-163893388198711.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/12/10/SHA%E7%AE%97%E6%B3%95/clip_image002-16389300305813.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/12/10/SHA%E7%AE%97%E6%B3%95/clip_image002-163893393523412.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/12/10/SHA%E7%AE%97%E6%B3%95/clip_image002-163893401984313.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/12/10/SHA%E7%AE%97%E6%B3%95/clip_image002-163893404657314.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/12/10/SHA%E7%AE%97%E6%B3%95/clip_image002-16389299873542.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/12/10/SHA%E7%AE%97%E6%B3%95/clip_image002-163893157593910.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/12/10/SHA%E7%AE%97%E6%B3%95/image-20211208110945765.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/12/10/SHA%E7%AE%97%E6%B3%95/image-20211208113229122.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/12/10/SHA%E7%AE%97%E6%B3%95/image-20211208115928891.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/12/10/SHA%E7%AE%97%E6%B3%95/clip_image002-163893404657314.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/12/10/SHA%E7%AE%97%E6%B3%95/clip_image002-163893404657314.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/12/10/SHA%E7%AE%97%E6%B3%95/clip_image002-163895638990915.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/12/10/SHA%E7%AE%97%E6%B3%95/clip_image002-163895645985716.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/12/10/SHA%E7%AE%97%E6%B3%95/clip_image002-163895657247317.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/12/10/SHA%E7%AE%97%E6%B3%95/clip_image002-163893404657314.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/12/10/SHA%E7%AE%97%E6%B3%95/image-20211208174429511.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/12/10/SHA%E7%AE%97%E6%B3%95/clip_image002-163895715425918.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/12/10/SHA%E7%AE%97%E6%B3%95/clip_image002-163895719579319.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/12/10/SHA%E7%AE%97%E6%B3%95/clip_image002-163895724376520.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/12/10/SHA%E7%AE%97%E6%B3%95/clip_image002-163895727134521.png">
+<meta property="article:published_time" content="2021-12-10T02:39:32.000Z">
+<meta property="article:modified_time" content="2021-12-10T02:40:20.904Z">
+<meta property="article:author" content="北极星上的稻草人">
+<meta property="article:tag" content="哈希函数算法">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://wgc5.gitee.io/2021/12/10/SHA%E7%AE%97%E6%B3%95/image-20211210103332022.png">
+
+<link rel="canonical" href="https://wgc5.gitee.io/2021/12/10/SHA%E7%AE%97%E6%B3%95/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>SHA算法 | 北极星上的稻草人</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">北极星上的稻草人</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">稻草人笔记</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">24</span></a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">9</span></a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">62</span></a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://wgc5.gitee.io/2021/12/10/SHA%E7%AE%97%E6%B3%95/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="北极星上的稻草人">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="北极星上的稻草人">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          SHA算法
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2021-12-10 10:39:32 / 修改时间：10:40:20" itemprop="dateCreated datePublished" datetime="2021-12-10T10:39:32+08:00">2021-12-10</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%AF%86%E7%A0%81%E5%AD%A6/" itemprop="url" rel="index"><span itemprop="name">密码学</span></a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="SHA算法"><a href="#SHA算法" class="headerlink" title="SHA算法"></a>SHA算法</h2><h4 id="一、算法概述"><a href="#一、算法概述" class="headerlink" title="一、算法概述"></a>一、算法概述</h4><p>​        安全哈希算法（Secure Hash Algorithm，简称SHA），这里介绍的是SHA是指SHA-1；由于SHA算法与MD5算法都是基于MD4算法的，所以两者非常相似，主要区别在于位数和压缩函数。</p>
+<p><img src="/2021/12/10/SHA%E7%AE%97%E6%B3%95/image-20211210103332022.png" alt="image-20211210103332022"></p>
+<p>说明：SHA的算法框图和MD5的算法框图一样，只是位数有所不同。其算法步骤也基本相同。</p>
+<p>​    输入：小于<img src="/2021/12/10/SHA%E7%AE%97%E6%B3%95/clip_image002-16389291063891.png" alt="img">比特长的任意消息</p>
+<p>​    输出：160比特长的消息摘要</p>
+<ul>
+<li><p><strong>步骤1：</strong>消息填充（与MD5算法相同）</p>
+<p>​        消息填充是必要的，消息填充后的比特长度len满足448 = n mod 512，即len模512的余数为448；留下64比特记录步骤2的消息长度（512-448=64）。填充规则：首位填充位为1，其余补0；要注意，即使消息长度恰好为448比特，也要进行填充（填充512位），所以填充位的长度为1~512位。 </p>
+</li>
+<li><p><strong>步骤2：</strong>附加消息长度</p>
+<p>​        消息长度为64比特（步骤1留下的），其表示还没被填充前的真实消息长度。采用的是大端方式填写，如果消息长度大于<img src="/2021/12/10/SHA%E7%AE%97%E6%B3%95/image-20211206212544669.png" alt="image-20211206212544669">，则对其进行取模，模数为<img src="/2021/12/10/SHA%E7%AE%97%E6%B3%95/Users/Cwin/Desktop/CTF/笔记/SHA算法/image-20211206212544669.png" alt="image-20211206212544669">。（与MD5算法相似，不同之处在于SHA采取的是大端方式填充消息长度。)</p>
+<p>大端方式：按数据的最高有效位优先的顺序进行存储数据，从高地址位开始存，如最高有效位存在最高地址位；注意的是：填充长度是一个无符号整数。相反的存储方式为小段方式。</p>
+</li>
+<li><p><strong>步骤3：</strong>消息分组（与MD5算法相同）</p>
+<p>​        执行完步骤1,2，消息总长度为512的倍数（这里记为L倍），把消息分为<strong>L</strong>组，每组512比特，分组记为<img src="/2021/12/10/SHA%E7%AE%97%E6%B3%95/clip_image002-16386966712272.png" alt="img">，每一个分组<img src="/2021/12/10/SHA%E7%AE%97%E6%B3%95/clip_image002-16386967730493.png" alt="img">可以表示16个32比特的字（16 x 32 =512)，那么消息的总字数<strong>N</strong>=16L，若按字节来分组，则为<img src="/2021/12/10/SHA%E7%AE%97%E6%B3%95/clip_image002-16386971393284.png" alt="img"> </p>
+</li>
+<li><p><strong>步骤4：</strong>MD缓冲区初始化</p>
+<p>​        算法使用160比特长的缓冲区存储中间结果和最终哈希值，缓冲区可以表示为5个32比特长的寄存器（A，B，C，D，E），每个寄存器都以大端方式存储数据，其初始值<strong>IV</strong>如下：</p>
+<p>​                A = 67452301</p>
+<p>​                B = EFCDAB89</p>
+<p>​                C = 98BADCFE</p>
+<p>​                D = 10325476</p>
+<p>​                E = C3D2E1F0</p>
+</li>
+<li><p><strong>步骤5：</strong>以分组为单位对消息进行处理</p>
+<p>​        每一个分组<img src="/2021/12/10/SHA%E7%AE%97%E6%B3%95/clip_image002-16387043637515.png" alt="img">（q=0,1,2，…，L-1)经过压缩函数<img src="/2021/12/10/SHA%E7%AE%97%E6%B3%95/clip_image002-16387978318521.png" alt="img">处理；<img src="/2021/12/10/SHA%E7%AE%97%E6%B3%95/clip_image002-16387978465052.png" alt="img">由4轮处理过程构成，每一轮由20步迭代运算组成，每轮的结构相同，只是逻辑函数不同（<img src="/2021/12/10/SHA%E7%AE%97%E6%B3%95/clip_image002-16387980654394.png" alt="img">)。每组处理的输入是（<img src="/2021/12/10/SHA%E7%AE%97%E6%B3%95/clip_image002-16387043637515-16387981917645.png" alt="img">，<img src="/2021/12/10/SHA%E7%AE%97%E6%B3%95/clip_image002-163870467501710.png" alt="img">），<img src="/2021/12/10/SHA%E7%AE%97%E6%B3%95/clip_image002-163870469537911.png" alt="img">是A，B，C，D、E 5个缓冲区当前值，其初始值是IV。其中，每一轮输出为<img src="/2021/12/10/SHA%E7%AE%97%E6%B3%95/clip_image002-163870471717112-16391020373331.png" alt="img">，<img src="/2021/12/10/SHA%E7%AE%97%E6%B3%95/clip_image002-163870471717112.png" alt="img">也是下一轮处理的输入。分组处理的具体结构在第二部分介绍。</p>
+</li>
+<li><p><strong>步骤6：</strong>输出</p>
+<p>​        步骤5的最后一个输出（<img src="/2021/12/10/SHA%E7%AE%97%E6%B3%95/clip_image002-163870479135413.png" alt="img">)就是最终结果：160位的消息摘要。</p>
+</li>
+</ul>
+<h4 id="二、的分组处理"><a href="#二、的分组处理" class="headerlink" title="二、的分组处理"></a>二、<img src="/2021/12/10/SHA%E7%AE%97%E6%B3%95/clip_image002-16387988914396.png" alt="img">的分组处理</h4><p>​        第一部分的步骤3~步骤6都可以归结为分组处理。</p>
+<p>​        <img src="/2021/12/10/SHA%E7%AE%97%E6%B3%95/clip_image002-16387978465052.png" alt="img">由4轮处理过程构成，每一轮由20步迭代运算组成，每轮的结构相同，只是逻辑函数不同（<img src="/2021/12/10/SHA%E7%AE%97%E6%B3%95/clip_image002-16387980654394.png" alt="img">)。每轮的输入为当前处理的分组<img src="/2021/12/10/SHA%E7%AE%97%E6%B3%95/clip_image002-16387043637515-16387981917645.png" alt="img">和缓冲区的当前值A，B，C，D，E；输出仍放在缓冲区以替代下一轮的A，B，C，D，E作为输入值，每轮处理过程还需加上一个加法常量<img src="/2021/12/10/SHA%E7%AE%97%E6%B3%95/clip_image002-16389299873542.png" alt="img">，t指的是迭代步数且<img src="/2021/12/10/SHA%E7%AE%97%E6%B3%95/clip_image002-16389300305813.png" alt="img">，每轮20步，4轮共80步。80个常量实际只有4个不同的值，SHA加法常量表如下，其中┕x┘为x的整数部分。</p>
+<p>SHA加法常量表：</p>
+<p><img src="/2021/12/10/SHA%E7%AE%97%E6%B3%95/image-20211208102820988.png" alt="image-20211208102820988"></p>
+<p>​        步骤（4）到步骤（6）的处理过程可以总结为：</p>
+<p>​                    <img src="/2021/12/10/SHA%E7%AE%97%E6%B3%95/clip_image002-16389311212494.png" alt="img"></p>
+<p>​                    <img src="/2021/12/10/SHA%E7%AE%97%E6%B3%95/clip_image002-16389314414286.png" alt="img"></p>
+<p>​                    MD=<img src="/2021/12/10/SHA%E7%AE%97%E6%B3%95/clip_image006.png" alt="img"></p>
+<p>​        其中，IV是缓冲区ABCDE的初始值，<img src="/2021/12/10/SHA%E7%AE%97%E6%B3%95/clip_image002-16389314643307.png" alt="img">是第q个缓冲区<img src="/2021/12/10/SHA%E7%AE%97%E6%B3%95/clip_image002-16389312706475.png" alt="img">输出的值；<img src="/2021/12/10/SHA%E7%AE%97%E6%B3%95/clip_image002-16389315068438.png" alt="img">是第q个消息分组；L是消息分组数，<img src="/2021/12/10/SHA%E7%AE%97%E6%B3%95/clip_image002-16389315534629.png" alt="img">是执行模<img src="/2021/12/10/SHA%E7%AE%97%E6%B3%95/clip_image002-163893157593910.png" alt="img">的加法运算，MD是最终消息摘要。</p>
+<p>​        流程图如下：</p>
+<img src="/2021/12/10/SHA%E7%AE%97%E6%B3%95/image-20211208103438208.png" alt="image-20211208103438208" style="zoom: 33%;">
+
+<h4 id="三、SHA的压缩函数"><a href="#三、SHA的压缩函数" class="headerlink" title="三、SHA的压缩函数"></a>三、SHA的压缩函数</h4><p>​        分组操作流程图里的4个椭圆框执行的就是压缩函数运算，SHA的压缩函数由4轮处理过程组成，每轮处理过程会执行20步迭代运算，4轮共80步；每一步<strong>迭代运算</strong>形式如下：</p>
+<p>​                    <img src="/2021/12/10/SHA%E7%AE%97%E6%B3%95/clip_image002-163893388198711.png" alt="img"></p>
+<p>​        其中，ABCDE是缓冲区的5个字，t是迭代的步数（<img src="/2021/12/10/SHA%E7%AE%97%E6%B3%95/clip_image002-16389300305813.png" alt="img">)，<img src="/2021/12/10/SHA%E7%AE%97%E6%B3%95/clip_image002-163893393523412.png" alt="img">是第t步迭代使用的基本逻辑函数（函数形式后面会介绍）；<img src="/2021/12/10/SHA%E7%AE%97%E6%B3%95/clip_image002-163893401984313.png" alt="img">是循环左移s位，<img src="/2021/12/10/SHA%E7%AE%97%E6%B3%95/clip_image002-163893404657314.png" alt="img">是当前512比特长的分组导出的一个32位比特长的字（导出方法后面介绍)，<img src="/2021/12/10/SHA%E7%AE%97%E6%B3%95/clip_image002-16389299873542.png" alt="img">是加法常量，+是模<img src="/2021/12/10/SHA%E7%AE%97%E6%B3%95/clip_image002-163893157593910.png" alt="img">的加法运算。</p>
+<p>​    每一步<strong>迭代运算流程</strong>如如下：（非对称的feistel结构）</p>
+<img src="/2021/12/10/SHA%E7%AE%97%E6%B3%95/image-20211208110945765.png" alt="image-20211208110945765" style="zoom: 67%;">
+
+
+
+<p>​    <strong>基本逻辑函数</strong></p>
+<p>​    输入：3个32比特的字（B，C，D）</p>
+<p>​    输出：1个32比特的字</p>
+<p>​    运算方式：位运算，即逐个比特的逻辑运算基本逻辑函数的定义如下：</p>
+<p><img src="/2021/12/10/SHA%E7%AE%97%E6%B3%95/image-20211208113229122.png" alt="image-20211208113229122"></p>
+<p>附：真值表</p>
+<p><img src="/2021/12/10/SHA%E7%AE%97%E6%B3%95/image-20211208115928891.png" alt="image-20211208115928891"></p>
+<p>​    <strong>导出<img src="/2021/12/10/SHA%E7%AE%97%E6%B3%95/clip_image002-163893404657314.png" alt="img">字</strong></p>
+<p>​        现在解说如何有当前的输入（512比特长）导出<img src="/2021/12/10/SHA%E7%AE%97%E6%B3%95/clip_image002-163893404657314.png" alt="img">（32比特)。前16个值<img src="/2021/12/10/SHA%E7%AE%97%E6%B3%95/clip_image002-163895638990915.png" alt="img">直接取输入分组Y的16个字，剩下<img src="/2021/12/10/SHA%E7%AE%97%E6%B3%95/clip_image002-163895645985716.png" alt="img">的定义为：</p>
+<p>​            <img src="/2021/12/10/SHA%E7%AE%97%E6%B3%95/clip_image002-163895657247317.png" alt="img"></p>
+<p><img src="/2021/12/10/SHA%E7%AE%97%E6%B3%95/clip_image002-163893404657314.png" alt="img">的产生流程为：</p>
+<p>​        <img src="/2021/12/10/SHA%E7%AE%97%E6%B3%95/image-20211208174429511.png" alt="image-20211208174429511" style="zoom:67%;"></p>
+<p>​    与MD5比较，MD5直接用第一个消息分组Y的16个字作为每步迭代的输入，而SHA则将输入分组的16个字扩展为80个字以供压缩函数使用，从而是的寻找具有相同压缩值的不同消息难度增大。</p>
+<h4 id="四、SHA的攻击状况"><a href="#四、SHA的攻击状况" class="headerlink" title="四、SHA的攻击状况"></a>四、SHA的攻击状况</h4><p>​        2005年，王小云院士利用差分攻击，找到了SHA强碰撞的方法（只有破解弱碰撞，才是完全破解SHA算法），该方法用于攻击完全版的SHA-0时，复杂度为<img src="/2021/12/10/SHA%E7%AE%97%E6%B3%95/clip_image002-163895715425918.png" alt="img">；攻击58步的SHA-1是，运算次数少于<img src="/2021/12/10/SHA%E7%AE%97%E6%B3%95/clip_image002-163895719579319.png" alt="img">。他们分析出，利用他们的方法，攻击70步的SHA-1，复杂度为<img src="/2021/12/10/SHA%E7%AE%97%E6%B3%95/clip_image002-163895724376520.png" alt="img">，攻击80步的SHA-1，复杂度为<img src="/2021/12/10/SHA%E7%AE%97%E6%B3%95/clip_image002-163895727134521.png" alt="img">。具体的细节可以查看王小云院长的论文。（论文只是对碰撞算法作了介绍，没有给出完整的算法和代码)</p>
+<ul>
+<li>Wang2005_Chapter_FindingCollisionsInTheFullSHA-1</li>
+<li>Wang2005_Chapter_EfficientCollisionSearchAttack</li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E5%93%88%E5%B8%8C%E5%87%BD%E6%95%B0%E7%AE%97%E6%B3%95/" rel="tag"># 哈希函数算法</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2021/12/10/MD5%E7%AE%97%E6%B3%95/" rel="prev" title="MD5算法">
+      <i class="fa fa-chevron-left"></i> MD5算法
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2021/12/10/SM3%E5%93%88%E5%B8%8C%E7%AE%97%E6%B3%95/" rel="next" title="SM3哈希算法">
+      SM3哈希算法 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#SHA%E7%AE%97%E6%B3%95"><span class="nav-number">1.</span> <span class="nav-text">SHA算法</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%B8%80%E3%80%81%E7%AE%97%E6%B3%95%E6%A6%82%E8%BF%B0"><span class="nav-number">1.0.1.</span> <span class="nav-text">一、算法概述</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BA%8C%E3%80%81%E7%9A%84%E5%88%86%E7%BB%84%E5%A4%84%E7%90%86"><span class="nav-number">1.0.2.</span> <span class="nav-text">二、的分组处理</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%B8%89%E3%80%81SHA%E7%9A%84%E5%8E%8B%E7%BC%A9%E5%87%BD%E6%95%B0"><span class="nav-number">1.0.3.</span> <span class="nav-text">三、SHA的压缩函数</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%9B%9B%E3%80%81SHA%E7%9A%84%E6%94%BB%E5%87%BB%E7%8A%B6%E5%86%B5"><span class="nav-number">1.0.4.</span> <span class="nav-text">四、SHA的攻击状况</span></a></li></ol></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">北极星上的稻草人</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">62</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">9</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">24</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">北极星上的稻草人</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  
+  <script color='0,0,255' opacity='0.5' zIndex='-1' count='99' src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+
+<!-- 页面动态背景 -->
+
+<script type="text/javascript" src="//cdn.bootcss.com/canvas-nest.js/1.0.0/canvas-nest.min.js"></script>
+
+
+</body>
+</html>
+<!-- 页面点击小红心 -->
+<script type="text/javascript" src="/js/clicklove.js"></script>

@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"wgc5.gitee.io","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="MD5算法一、算法描述 ​    参数说明： ​        L：分组数 ​        N：消息总的字数     算法的输入为任意长，输出为128比特的消息摘要；算法过程一般分一下几个步骤：  步骤1：消息填充。 ​       消息填充是必要的，消息填充后的比特长度len满足448 &#x3D; n mod 512，即len模512的余数为448；留下64比特记录步骤2的消息长度（512-448&#x3D;6">
+<meta property="og:type" content="article">
+<meta property="og:title" content="MD5算法">
+<meta property="og:url" content="https://wgc5.gitee.io/2021/12/10/MD5%E7%AE%97%E6%B3%95/index.html">
+<meta property="og:site_name" content="北极星上的稻草人">
+<meta property="og:description" content="MD5算法一、算法描述 ​    参数说明： ​        L：分组数 ​        N：消息总的字数     算法的输入为任意长，输出为128比特的消息摘要；算法过程一般分一下几个步骤：  步骤1：消息填充。 ​       消息填充是必要的，消息填充后的比特长度len满足448 &#x3D; n mod 512，即len模512的余数为448；留下64比特记录步骤2的消息长度（512-448&#x3D;6">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/12/10/MD5%E7%AE%97%E6%B3%95/image-20211205170412739.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/12/10/MD5%E7%AE%97%E6%B3%95/clip_image002.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/12/10/MD5%E7%AE%97%E6%B3%95/clip_image002-16386960493661.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/12/10/MD5%E7%AE%97%E6%B3%95/clip_image002-16386966712272.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/12/10/MD5%E7%AE%97%E6%B3%95/clip_image002-16386967730493.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/12/10/MD5%E7%AE%97%E6%B3%95/clip_image002-16386971393284.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/12/10/MD5%E7%AE%97%E6%B3%95/clip_image002-16387043637515.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/12/10/MD5%E7%AE%97%E6%B3%95/clip_image002-16387044374336.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/12/10/MD5%E7%AE%97%E6%B3%95/clip_image002-16387044553457.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/12/10/MD5%E7%AE%97%E6%B3%95/Users/Cwin/Desktop/CTF/笔记/MD5算法/clip_image002-16387043637515.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/12/10/MD5%E7%AE%97%E6%B3%95/clip_image002-163870467501710.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/12/10/MD5%E7%AE%97%E6%B3%95/clip_image002-163870469537911.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/12/10/MD5%E7%AE%97%E6%B3%95/clip_image002-163870471717112.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/12/10/MD5%E7%AE%97%E6%B3%95/Users/Cwin/Desktop/CTF/笔记/MD5算法/clip_image002-163870471717112.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/12/10/MD5%E7%AE%97%E6%B3%95/clip_image002-163870479135413.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/12/10/MD5%E7%AE%97%E6%B3%95/clip_image002-163870531369614.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/12/10/MD5%E7%AE%97%E6%B3%95/clip_image002-163870531369614.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/12/10/MD5%E7%AE%97%E6%B3%95/Users/Cwin/Desktop/CTF/笔记/MD5算法/clip_image002-16387043637515.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/12/10/MD5%E7%AE%97%E6%B3%95/clip_image002-163870467501710.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/12/10/MD5%E7%AE%97%E6%B3%95/Users/Cwin/Desktop/CTF/笔记/MD5算法/clip_image002-16387043637515.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/12/10/MD5%E7%AE%97%E6%B3%95/clip_image002-163870469537911.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/12/10/MD5%E7%AE%97%E6%B3%95/Users/Cwin/Desktop/CTF/笔记/MD5算法/clip_image002-163870469537911.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/12/10/MD5%E7%AE%97%E6%B3%95/Users/Cwin/Desktop/CTF/笔记/MD5算法/clip_image002-163870469537911.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/12/10/MD5%E7%AE%97%E6%B3%95/clip_image002-163871180507815.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/12/10/MD5%E7%AE%97%E6%B3%95/clip_image002-163871239182316.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/12/10/MD5%E7%AE%97%E6%B3%95/Users/Cwin/Desktop/CTF/笔记/MD5算法/clip_image002-163871239182316.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/12/10/MD5%E7%AE%97%E6%B3%95/clip_image002-163871248502117.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/12/10/MD5%E7%AE%97%E6%B3%95/Users/Cwin/Desktop/CTF/笔记/MD5算法/clip_image002-163870469537911.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/12/10/MD5%E7%AE%97%E6%B3%95/clip_image002-16389311212494.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/12/10/MD5%E7%AE%97%E6%B3%95/clip_image002-16389318447731.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/12/10/MD5%E7%AE%97%E6%B3%95/clip_image006.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/12/10/MD5%E7%AE%97%E6%B3%95/clip_image002-16389314643307.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/12/10/MD5%E7%AE%97%E6%B3%95/clip_image002-16389315068438.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/12/10/MD5%E7%AE%97%E6%B3%95/clip_image002-163893157593910.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/12/10/MD5%E7%AE%97%E6%B3%95/image-20211205215829658.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/12/10/MD5%E7%AE%97%E6%B3%95/image-20211205220040713.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/12/10/MD5%E7%AE%97%E6%B3%95/clip_image002-16387044553457.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/12/10/MD5%E7%AE%97%E6%B3%95/clip_image002-16387565359142.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/12/10/MD5%E7%AE%97%E6%B3%95/image-20211206100445631.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/12/10/MD5%E7%AE%97%E6%B3%95/clip_image002-16387567557533.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/12/10/MD5%E7%AE%97%E6%B3%95/clip_image002-16387569732394.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/12/10/MD5%E7%AE%97%E6%B3%95/Users/Cwin/Desktop/CTF/笔记/MD5算法/clip_image002-16387043637515.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/12/10/MD5%E7%AE%97%E6%B3%95/image-20211206105636198.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/12/10/MD5%E7%AE%97%E6%B3%95/image-20211206110633789.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/12/10/MD5%E7%AE%97%E6%B3%95/image-20211206110933366.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/12/10/MD5%E7%AE%97%E6%B3%95/clip_image002-16387605320706.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/12/10/MD5%E7%AE%97%E6%B3%95/clip_image002-16387606001387.png">
+<meta property="article:published_time" content="2021-12-10T02:37:59.000Z">
+<meta property="article:modified_time" content="2021-12-10T02:38:52.570Z">
+<meta property="article:author" content="北极星上的稻草人">
+<meta property="article:tag" content="哈希函数算法">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://wgc5.gitee.io/2021/12/10/MD5%E7%AE%97%E6%B3%95/image-20211205170412739.png">
+
+<link rel="canonical" href="https://wgc5.gitee.io/2021/12/10/MD5%E7%AE%97%E6%B3%95/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>MD5算法 | 北极星上的稻草人</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">北极星上的稻草人</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">稻草人笔记</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">24</span></a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">9</span></a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">62</span></a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://wgc5.gitee.io/2021/12/10/MD5%E7%AE%97%E6%B3%95/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="北极星上的稻草人">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="北极星上的稻草人">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          MD5算法
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2021-12-10 10:37:59 / 修改时间：10:38:52" itemprop="dateCreated datePublished" datetime="2021-12-10T10:37:59+08:00">2021-12-10</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%AF%86%E7%A0%81%E5%AD%A6/" itemprop="url" rel="index"><span itemprop="name">密码学</span></a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="MD5算法"><a href="#MD5算法" class="headerlink" title="MD5算法"></a>MD5算法</h2><h4 id="一、算法描述"><a href="#一、算法描述" class="headerlink" title="一、算法描述"></a>一、算法描述</h4><p><img src="/2021/12/10/MD5%E7%AE%97%E6%B3%95/image-20211205170412739.png" alt="image-20211205170412739"></p>
+<p>​    参数说明：</p>
+<p>​        L：分组数</p>
+<p>​        N：消息总的字数    </p>
+<p>算法的输入为任意长，输出为128比特的消息摘要；算法过程一般分一下几个步骤：</p>
+<ul>
+<li><p><strong>步骤1：</strong>消息填充。</p>
+<p>​       消息填充是必要的，消息填充后的比特长度len满足448 = n mod 512，即len模512的余数为448；留下64比特记录步骤2的消息长度（512-448=64）。填充规则：首位填充位为1，其余补0；要注意，即使消息长度恰好为448比特，也要进行填充（填充512位），所以填充位的长度为1~512位。 </p>
+</li>
+<li><p><strong>步骤2：</strong>附加消息长度</p>
+<p>​        消息长度为64比特（步骤1留下的），其表示还没被填充前的真实消息长度。采用的是小端方式填写，如果消息长度大于<img src="/2021/12/10/MD5%E7%AE%97%E6%B3%95/clip_image002.png" alt="img">，则对其进行取模，模数为<img src="/2021/12/10/MD5%E7%AE%97%E6%B3%95/clip_image002-16386960493661.png" alt="img">。</p>
+<p>小端方式：按数据的最低有效位优先的顺序进行存储数据，从低地址位开始存，如最低有效位存在最低地址位。相反的存储方式为大段方式。</p>
+</li>
+<li><p><strong>步骤3：</strong>消息分组</p>
+<p>​       执行完步骤1,2，消息总长度为512的倍数（这里记为L倍），把消息分为<strong>L</strong>组，每组512比特，分组记为<img src="/2021/12/10/MD5%E7%AE%97%E6%B3%95/clip_image002-16386966712272.png" alt="img">，每一个分组<img src="/2021/12/10/MD5%E7%AE%97%E6%B3%95/clip_image002-16386967730493.png" alt="img">可以表示16个32比特的字（16 x 32 =512)，那么消息的总字数<strong>N</strong>=16L，若按字节来分组，则为<img src="/2021/12/10/MD5%E7%AE%97%E6%B3%95/clip_image002-16386971393284.png" alt="img"> </p>
+</li>
+<li><p><strong>步骤4：</strong>MD缓冲区初始化</p>
+<p>​        缓冲区的大小为128比特，用于存储中间结果和最终摘要。缓冲区可以表示为4个32比特长的寄存器（A、B、C、D），每个寄存器都是以小端方式存储数据，其初始值<strong>IV</strong>如下：</p>
+<p>​                A = 67452301</p>
+<p>​                B = EFCDAB89</p>
+<p>​                C = 98BADCFE</p>
+<p>​                D = 10325476</p>
+</li>
+<li><p><strong>步骤5：</strong>以分组为单位对消息进行处理</p>
+<p>​        每一个分组<img src="/2021/12/10/MD5%E7%AE%97%E6%B3%95/clip_image002-16387043637515.png" alt="img">（q=0,1,2，…，L-1)经过压缩函数<img src="/2021/12/10/MD5%E7%AE%97%E6%B3%95/clip_image002-16387044374336.png" alt="img">处理。<img src="/2021/12/10/MD5%E7%AE%97%E6%B3%95/clip_image002-16387044553457.png" alt="img">是算法的核心，其包括4轮处理过程，每一轮经过16步迭代运算。每轮处理的输入是（<img src="/2021/12/10/MD5%E7%AE%97%E6%B3%95/Users/Cwin/Desktop/CTF/笔记/MD5算法/clip_image002-16387043637515.png" alt="img">，<img src="/2021/12/10/MD5%E7%AE%97%E6%B3%95/clip_image002-163870467501710.png" alt="img">），<img src="/2021/12/10/MD5%E7%AE%97%E6%B3%95/clip_image002-163870469537911.png" alt="img">是A，B，C，D 4个缓冲区当前值，其初始值是IV；其中，每一轮输出为<img src="/2021/12/10/MD5%E7%AE%97%E6%B3%95/clip_image002-163870471717112.png" alt="img">，<img src="/2021/12/10/MD5%E7%AE%97%E6%B3%95/Users/Cwin/Desktop/CTF/笔记/MD5算法/clip_image002-163870471717112.png" alt="img">也是下一轮处理的输入。分组处理的具体结构在第二部分介绍。</p>
+</li>
+<li><p><strong>步骤6：</strong>输出</p>
+<p>步骤5的最后一个输出（<img src="/2021/12/10/MD5%E7%AE%97%E6%B3%95/clip_image002-163870479135413.png" alt="img">)就是最终结果：128位的消息摘要。</p>
+</li>
+</ul>
+<h4 id="二、的分组处理"><a href="#二、的分组处理" class="headerlink" title="二、的分组处理"></a>二、<img src="/2021/12/10/MD5%E7%AE%97%E6%B3%95/clip_image002-163870531369614.png" alt="img">的分组处理</h4><p>​        第一部分的步骤3~步骤6都可以归结为分组处理。</p>
+<p>​        <img src="/2021/12/10/MD5%E7%AE%97%E6%B3%95/clip_image002-163870531369614.png" alt="img">的4轮处理过程和结构是一样的，只是所用的逻辑函数不同，逻辑函数有F、G、H、I。<strong>输入</strong>：（<img src="/2021/12/10/MD5%E7%AE%97%E6%B3%95/Users/Cwin/Desktop/CTF/笔记/MD5算法/clip_image002-16387043637515.png" alt="img">，<img src="/2021/12/10/MD5%E7%AE%97%E6%B3%95/clip_image002-163870467501710.png" alt="img">)；<img src="/2021/12/10/MD5%E7%AE%97%E6%B3%95/Users/Cwin/Desktop/CTF/笔记/MD5算法/clip_image002-16387043637515.png" alt="img">（q=0,1,2，…，L-1)是当前的消息分组；<img src="/2021/12/10/MD5%E7%AE%97%E6%B3%95/clip_image002-163870469537911.png" alt="img">是寄存器四个A、B、C、D的存储值，本轮输出的<img src="/2021/12/10/MD5%E7%AE%97%E6%B3%95/Users/Cwin/Desktop/CTF/笔记/MD5算法/clip_image002-163870469537911.png" alt="img">也是下一轮运算的输入，<img src="/2021/12/10/MD5%E7%AE%97%E6%B3%95/Users/Cwin/Desktop/CTF/笔记/MD5算法/clip_image002-163870469537911.png" alt="img">的初始值是IV需要注意的是。   此外，每轮处理过程还需要计算常数表T中的16个子元素，分别是T[1..16]，T[17..32]，T[33..48]，T[49..64]。常数表的数据生成T[i]为<img src="/2021/12/10/MD5%E7%AE%97%E6%B3%95/clip_image002-163871180507815.png" alt="img">x abs(sin(i))的整数部分，其中i是弧度单位，由于0 &lt; abs（sin(i)) &lt; 1，所以T[i]可以由32位表示。第4轮的输出需要再与第一轮输入的<img src="/2021/12/10/MD5%E7%AE%97%E6%B3%95/clip_image002-163871239182316.png" alt="img">相加，相加是可以将<img src="/2021/12/10/MD5%E7%AE%97%E6%B3%95/Users/Cwin/Desktop/CTF/笔记/MD5算法/clip_image002-163871239182316.png" alt="img">看作4个32比特的子，每个字与第4轮输出对应的字按mod<img src="/2021/12/10/MD5%E7%AE%97%E6%B3%95/clip_image002-163871248502117.png" alt="img">相加，相加的结果即为输出，即<strong>输出</strong>：（A、B、C、D)4个寄存器的当前值，即128位的<img src="/2021/12/10/MD5%E7%AE%97%E6%B3%95/Users/Cwin/Desktop/CTF/笔记/MD5算法/clip_image002-163870469537911.png" alt="img">，最终输出值为128位消息摘要。</p>
+<p>​    说明：Y是512比特，即16个字节；这4个椭圆框里运算函数就是压缩函数，这里出X[i]，T[…]是逻辑函数的输入，16步代表进行16步迭代运算；F、G、H、I是逻辑函数的名字。具体的压缩函数运算会在第3部分介绍。</p>
+<p>​    步骤（4）到步骤（6）的处理过程可以总结为：</p>
+<p>​                    <img src="/2021/12/10/MD5%E7%AE%97%E6%B3%95/clip_image002-16389311212494.png" alt="img"></p>
+<p>​                    <img src="/2021/12/10/MD5%E7%AE%97%E6%B3%95/clip_image002-16389318447731.png" alt="img"></p>
+<p>​                    MD=<img src="/2021/12/10/MD5%E7%AE%97%E6%B3%95/clip_image006.png" alt="img"></p>
+<p>​    其中，IV是缓冲区ABCD的初始值，<img src="/2021/12/10/MD5%E7%AE%97%E6%B3%95/clip_image002-16389314643307.png" alt="img">是第q个缓冲区输出的值；<img src="/2021/12/10/MD5%E7%AE%97%E6%B3%95/clip_image002-16389315068438.png" alt="img">是第q个消息分组；L是消息分组数，RF是逻辑函数（FGHI)，+是模<img src="/2021/12/10/MD5%E7%AE%97%E6%B3%95/clip_image002-163893157593910.png" alt="img">加法，MD是最终消息摘要。</p>
+<p>​    其流程图如下：</p>
+<img src="/2021/12/10/MD5%E7%AE%97%E6%B3%95/image-20211205215829658.png" alt="image-20211205215829658" style="zoom:80%;">
+
+<p>​            <strong>常数表T：</strong></p>
+<img src="/2021/12/10/MD5%E7%AE%97%E6%B3%95/image-20211205220040713.png" alt="image-20211205220040713" style="zoom:80%;">
+
+<h4 id="三、MD5的压缩函数"><a href="#三、MD5的压缩函数" class="headerlink" title="三、MD5的压缩函数"></a>三、MD5的压缩函数</h4><p>​    压缩函数<img src="/2021/12/10/MD5%E7%AE%97%E6%B3%95/clip_image002-16387044553457.png" alt="img">有4轮处理过程（4个椭圆框里的操作），4轮运算只有逻辑函数有所不同（F、G、H、I)；每轮运算会对A，B，C，D 4个缓冲区进行16步迭代运算，每一步的运算的过程相同，只是参数位号和次序有所不同。16次迭代运算的每一步的运算如下：</p>
+<p>​    数学表达式：<img src="/2021/12/10/MD5%E7%AE%97%E6%B3%95/clip_image002-16387565359142.png" alt="img"></p>
+<p>​    压缩函数中的一步<strong>迭代结构图</strong>如下：（非对称的feistel结构）</p>
+<img src="/2021/12/10/MD5%E7%AE%97%E6%B3%95/image-20211206100445631.png" alt="image-20211206100445631" style="zoom:33%;">
+
+<p>​    其中，a，b，c，d为A，B，C，D 4个缓冲区的4个字；g是基本逻辑函数F，G，H，I之一；<img src="/2021/12/10/MD5%E7%AE%97%E6%B3%95/clip_image002-16387567557533.png" alt="img">是对32位的数进行循环左移s位，s的取值有“压缩函数循环左移位数s-表”给出。T[i]为表T中的第i个字，+为模<img src="/2021/12/10/MD5%E7%AE%97%E6%B3%95/clip_image002-16387569732394.png" alt="img">加法。X[j]=M[q x 16 + j]，即<img src="/2021/12/10/MD5%E7%AE%97%E6%B3%95/Users/Cwin/Desktop/CTF/笔记/MD5算法/clip_image002-16387043637515.png" alt="img">的第j个字（j=1,…,16)。4轮运算过程中，除了第一轮的16个字是按照初始次序使用，其余的3轮的字的次序i都是要先经过置换得到，再按新的次序使用16个字。每轮的置换如下：</p>
+<ul>
+<li><p>第2轮：p(i) = (1+5i)mod 16</p>
+</li>
+<li><p>第3轮：p(i) = (5+3i)mod 16</p>
+</li>
+<li><p>第4轮：p(i) = 7i mod 16    </p>
+<p>运算完成后再循环右移一个字，即得到这一步迭代的输出。</p>
+</li>
+</ul>
+<p><strong>压缩函数循环左移位数s-表</strong>    </p>
+<p><img src="/2021/12/10/MD5%E7%AE%97%E6%B3%95/image-20211206105636198.png" alt="image-20211206105636198"></p>
+<p><strong>逻辑函数F，G，H，I的结构</strong></p>
+<p>​    输入：3个32比特的字</p>
+<p>​    输出：1个32比特的字</p>
+<p>​    运算方式：位运算，即逐个比特的逻辑运算</p>
+<p>​    运算结构如下表：</p>
+<p>​                <img src="/2021/12/10/MD5%E7%AE%97%E6%B3%95/image-20211206110633789.png" alt="image-20211206110633789"></p>
+<p><strong>附</strong>：逻辑函数的真值表</p>
+<p><img src="/2021/12/10/MD5%E7%AE%97%E6%B3%95/image-20211206110933366.png" alt="image-20211206110933366"></p>
+<h4 id="四、MD5的安全性"><a href="#四、MD5的安全性" class="headerlink" title="四、MD5的安全性"></a>四、MD5的安全性</h4><p>​    MD5的安全性主要取决于压缩函数，128位的MD5算法；寻找具有相同哈希值的两个输入（类似第二类生日攻击）的攻击方法的复杂度为<img src="/2021/12/10/MD5%E7%AE%97%E6%B3%95/clip_image002-16387605320706.png" alt="img">；给出一个特定的输入，找出具有相同哈希值的输入的攻击方法（类似第一类生日攻击）复杂度为<img src="/2021/12/10/MD5%E7%AE%97%E6%B3%95/clip_image002-16387606001387.png" alt="img">；然而上述的攻击手段只是基于<strong>暴力破解</strong>。2004年，山东大学的王小云找出了MD5的碰撞，但只是属于破解强碰撞，还不算真正意义的破解，强碰撞就是找到任意2个具有相同哈希值的输入；并不是给出任意一个输入x，都能找出y，使得H(x)=H(y)且x！=y。王小云采用的<strong>差分攻击</strong>方法；此外针对哈希函数的攻击方法还有：<strong>哈希链表和彩虹表法、扩展长度攻击</strong>。</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E5%93%88%E5%B8%8C%E5%87%BD%E6%95%B0%E7%AE%97%E6%B3%95/" rel="tag"># 哈希函数算法</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2021/12/03/SM2%E6%A4%AD%E5%9C%86%E6%9B%B2%E7%BA%BF%E5%85%AC%E9%92%A5%E5%AF%86%E7%A0%81%E5%8A%A0%E5%AF%86%E7%AE%97%E6%B3%95%E5%8F%8A%E5%85%B6%E6%95%B0%E5%AD%97%E7%AD%BE%E5%90%8D/" rel="prev" title="SM2椭圆曲线公钥密码加密算法及其数字签名">
+      <i class="fa fa-chevron-left"></i> SM2椭圆曲线公钥密码加密算法及其数字签名
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2021/12/10/SHA%E7%AE%97%E6%B3%95/" rel="next" title="SHA算法">
+      SHA算法 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#MD5%E7%AE%97%E6%B3%95"><span class="nav-number">1.</span> <span class="nav-text">MD5算法</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%B8%80%E3%80%81%E7%AE%97%E6%B3%95%E6%8F%8F%E8%BF%B0"><span class="nav-number">1.0.1.</span> <span class="nav-text">一、算法描述</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BA%8C%E3%80%81%E7%9A%84%E5%88%86%E7%BB%84%E5%A4%84%E7%90%86"><span class="nav-number">1.0.2.</span> <span class="nav-text">二、的分组处理</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%B8%89%E3%80%81MD5%E7%9A%84%E5%8E%8B%E7%BC%A9%E5%87%BD%E6%95%B0"><span class="nav-number">1.0.3.</span> <span class="nav-text">三、MD5的压缩函数</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%9B%9B%E3%80%81MD5%E7%9A%84%E5%AE%89%E5%85%A8%E6%80%A7"><span class="nav-number">1.0.4.</span> <span class="nav-text">四、MD5的安全性</span></a></li></ol></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">北极星上的稻草人</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">62</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">9</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">24</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">北极星上的稻草人</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  
+  <script color='0,0,255' opacity='0.5' zIndex='-1' count='99' src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+
+<!-- 页面动态背景 -->
+
+<script type="text/javascript" src="//cdn.bootcss.com/canvas-nest.js/1.0.0/canvas-nest.min.js"></script>
+
+
+</body>
+</html>
+<!-- 页面点击小红心 -->
+<script type="text/javascript" src="/js/clicklove.js"></script>

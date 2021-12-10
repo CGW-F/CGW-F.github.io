@@ -1,0 +1,568 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"wgc5.gitee.io","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="SM3哈希算法一、算法概述​        SM3哈希算法是我国国产密码算法。除了SM3加密算法外，我国还有SM2、SM4、SM9等加密算法。SM3算法的结构与SHA-512的结构有些相似，采用了Merkle-Damgard结构（简称M-D结构），这是一种压缩迭代结构，是构造压缩函数的核心；有压缩必然有碰撞，这是M-D结构的主要缺点；为了“完全”避免哈希碰撞，第三代SHA采取了海绵结构（Spong">
+<meta property="og:type" content="article">
+<meta property="og:title" content="SM3哈希算法">
+<meta property="og:url" content="https://wgc5.gitee.io/2021/12/10/SM3%E5%93%88%E5%B8%8C%E7%AE%97%E6%B3%95/index.html">
+<meta property="og:site_name" content="北极星上的稻草人">
+<meta property="og:description" content="SM3哈希算法一、算法概述​        SM3哈希算法是我国国产密码算法。除了SM3加密算法外，我国还有SM2、SM4、SM9等加密算法。SM3算法的结构与SHA-512的结构有些相似，采用了Merkle-Damgard结构（简称M-D结构），这是一种压缩迭代结构，是构造压缩函数的核心；有压缩必然有碰撞，这是M-D结构的主要缺点；为了“完全”避免哈希碰撞，第三代SHA采取了海绵结构（Spong">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/12/10/SM3%E5%93%88%E5%B8%8C%E7%AE%97%E6%B3%95/clip_image002-16390417889584.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/12/10/SM3%E5%93%88%E5%B8%8C%E7%AE%97%E6%B3%95/image-20211209171255398.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/12/10/SM3%E5%93%88%E5%B8%8C%E7%AE%97%E6%B3%95/image-20211209171241849.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/12/10/SM3%E5%93%88%E5%B8%8C%E7%AE%97%E6%B3%95/image-20211209171633786.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/12/10/SM3%E5%93%88%E5%B8%8C%E7%AE%97%E6%B3%95/clip_image002-16390414076863.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/12/10/SM3%E5%93%88%E5%B8%8C%E7%AE%97%E6%B3%95/Users/Cwin/Desktop/CTF/笔记/SM3哈希算法/clip_image002-16390414076863.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/12/10/SM3%E5%93%88%E5%B8%8C%E7%AE%97%E6%B3%95/clip_image002-16390482914395.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/12/10/SM3%E5%93%88%E5%B8%8C%E7%AE%97%E6%B3%95/image-20211209202922674.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/12/10/SM3%E5%93%88%E5%B8%8C%E7%AE%97%E6%B3%95/image-20211206212544669.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/12/10/SM3%E5%93%88%E5%B8%8C%E7%AE%97%E6%B3%95/image-20211206212544669.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/12/10/SM3%E5%93%88%E5%B8%8C%E7%AE%97%E6%B3%95/clip_image002-16386966712272.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/12/10/SM3%E5%93%88%E5%B8%8C%E7%AE%97%E6%B3%95/clip_image002-16386967730493.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/12/10/SM3%E5%93%88%E5%B8%8C%E7%AE%97%E6%B3%95/clip_image002-16386967730493.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/12/10/SM3%E5%93%88%E5%B8%8C%E7%AE%97%E6%B3%95/clip_image002-16390489126666.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/12/10/SM3%E5%93%88%E5%B8%8C%E7%AE%97%E6%B3%95/clip_image002-16390493743187.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/12/10/SM3%E5%93%88%E5%B8%8C%E7%AE%97%E6%B3%95/clip_image002-16390494333008.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/12/10/SM3%E5%93%88%E5%B8%8C%E7%AE%97%E6%B3%95/clip_image002-16390496682339.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/12/10/SM3%E5%93%88%E5%B8%8C%E7%AE%97%E6%B3%95/clip_image002-163904968935410.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/12/10/SM3%E5%93%88%E5%B8%8C%E7%AE%97%E6%B3%95/clip_image002-16386967730493.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/12/10/SM3%E5%93%88%E5%B8%8C%E7%AE%97%E6%B3%95/clip_image002-163905055276814.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/12/10/SM3%E5%93%88%E5%B8%8C%E7%AE%97%E6%B3%95/image-20211209194954393.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/12/10/SM3%E5%93%88%E5%B8%8C%E7%AE%97%E6%B3%95/image-20211209195024019.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/12/10/SM3%E5%93%88%E5%B8%8C%E7%AE%97%E6%B3%95/clip_image002-163905080719916.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/12/10/SM3%E5%93%88%E5%B8%8C%E7%AE%97%E6%B3%95/image-20211209195045374.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/12/10/SM3%E5%93%88%E5%B8%8C%E7%AE%97%E6%B3%95/clip_image002-163905067428515.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/12/10/SM3%E5%93%88%E5%B8%8C%E7%AE%97%E6%B3%95/clip_image002-163905082932617.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/12/10/SM3%E5%93%88%E5%B8%8C%E7%AE%97%E6%B3%95/clip_image002-163905082932617.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/12/10/SM3%E5%93%88%E5%B8%8C%E7%AE%97%E6%B3%95/clip_image002-163905171546018.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/12/10/SM3%E5%93%88%E5%B8%8C%E7%AE%97%E6%B3%95/clip_image002-163905172278019.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/12/10/SM3%E5%93%88%E5%B8%8C%E7%AE%97%E6%B3%95/clip_image002-163905172913220.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/12/10/SM3%E5%93%88%E5%B8%8C%E7%AE%97%E6%B3%95/clip_image002-163905173995721.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/12/10/SM3%E5%93%88%E5%B8%8C%E7%AE%97%E6%B3%95/image-20211209195024019.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/12/10/SM3%E5%93%88%E5%B8%8C%E7%AE%97%E6%B3%95/clip_image002-163905301356022.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/12/10/SM3%E5%93%88%E5%B8%8C%E7%AE%97%E6%B3%95/clip_image004.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/12/10/SM3%E5%93%88%E5%B8%8C%E7%AE%97%E6%B3%95/clip_image006.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/12/10/SM3%E5%93%88%E5%B8%8C%E7%AE%97%E6%B3%95/clip_image008.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/12/10/SM3%E5%93%88%E5%B8%8C%E7%AE%97%E6%B3%95/clip_image010.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/12/10/SM3%E5%93%88%E5%B8%8C%E7%AE%97%E6%B3%95/clip_image012.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/12/10/SM3%E5%93%88%E5%B8%8C%E7%AE%97%E6%B3%95/clip_image014.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/12/10/SM3%E5%93%88%E5%B8%8C%E7%AE%97%E6%B3%95/clip_image016.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/12/10/SM3%E5%93%88%E5%B8%8C%E7%AE%97%E6%B3%95/clip_image018.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/12/10/SM3%E5%93%88%E5%B8%8C%E7%AE%97%E6%B3%95/clip_image020.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/12/10/SM3%E5%93%88%E5%B8%8C%E7%AE%97%E6%B3%95/clip_image022.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/12/10/SM3%E5%93%88%E5%B8%8C%E7%AE%97%E6%B3%95/clip_image024.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/12/10/SM3%E5%93%88%E5%B8%8C%E7%AE%97%E6%B3%95/clip_image026.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/12/10/SM3%E5%93%88%E5%B8%8C%E7%AE%97%E6%B3%95/clip_image002-163905314376823.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/12/10/SM3%E5%93%88%E5%B8%8C%E7%AE%97%E6%B3%95/image-20211209211608036.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/12/10/SM3%E5%93%88%E5%B8%8C%E7%AE%97%E6%B3%95/clip_image002-163905614625424.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/12/10/SM3%E5%93%88%E5%B8%8C%E7%AE%97%E6%B3%95/clip_image002-163905615232425.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/12/10/SM3%E5%93%88%E5%B8%8C%E7%AE%97%E6%B3%95/image-20211209212739041.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/12/10/SM3%E5%93%88%E5%B8%8C%E7%AE%97%E6%B3%95/image-20211210104226470.png">
+<meta property="article:published_time" content="2021-12-10T02:40:42.000Z">
+<meta property="article:modified_time" content="2021-12-10T02:45:25.983Z">
+<meta property="article:author" content="北极星上的稻草人">
+<meta property="article:tag" content="哈希函数算法,国产密码">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://wgc5.gitee.io/2021/12/10/SM3%E5%93%88%E5%B8%8C%E7%AE%97%E6%B3%95/clip_image002-16390417889584.png">
+
+<link rel="canonical" href="https://wgc5.gitee.io/2021/12/10/SM3%E5%93%88%E5%B8%8C%E7%AE%97%E6%B3%95/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>SM3哈希算法 | 北极星上的稻草人</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">北极星上的稻草人</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">稻草人笔记</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">24</span></a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">9</span></a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">62</span></a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://wgc5.gitee.io/2021/12/10/SM3%E5%93%88%E5%B8%8C%E7%AE%97%E6%B3%95/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="北极星上的稻草人">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="北极星上的稻草人">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          SM3哈希算法
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2021-12-10 10:40:42 / 修改时间：10:45:25" itemprop="dateCreated datePublished" datetime="2021-12-10T10:40:42+08:00">2021-12-10</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%AF%86%E7%A0%81%E5%AD%A6/" itemprop="url" rel="index"><span itemprop="name">密码学</span></a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="SM3哈希算法"><a href="#SM3哈希算法" class="headerlink" title="SM3哈希算法"></a>SM3哈希算法</h2><h4 id="一、算法概述"><a href="#一、算法概述" class="headerlink" title="一、算法概述"></a>一、算法概述</h4><p>​        SM3哈希算法是我国国产密码算法。除了SM3加密算法外，我国还有SM2、SM4、SM9等加密算法。SM3算法的结构与SHA-512的结构有些相似，采用了Merkle-Damgard结构（简称M-D结构），这是一种压缩迭代结构，是构造压缩函数的核心；有压缩必然有碰撞，这是M-D结构的主要缺点；为了“完全”避免哈希碰撞，第三代SHA采取了海绵结构（Sponge结构）。</p>
+<p>作者建议：在看本本章前，建议先看《MD5算法》、《SHA算法》</p>
+<p>​    </p>
+<p><strong>常量与函数介绍</strong></p>
+<ul>
+<li><p>常量IV</p>
+<p>由A，B，C，D，E，F，G，H共8个寄存器的值组成，其初始值为：</p>
+<p>A = 7380166F        B = 4914B2B9    C = 172442D7    D = DA8A0600    </p>
+<p>E = A96F30BC        F = 163138AA    G = E38DEE4D    H = B0FB0E4E</p>
+<p>IV = 7380166F    4914B2B9    172442D7    DA8A0600    A96F30BC    163138AA    E38DEE4D    B0FB0E4E</p>
+</li>
+<li><p>常量T</p>
+<p>​            <img src="/2021/12/10/SM3%E5%93%88%E5%B8%8C%E7%AE%97%E6%B3%95/clip_image002-16390417889584.png" alt="img"></p>
+</li>
+<li><p>布尔逻辑函数</p>
+<p>​            <img src="/2021/12/10/SM3%E5%93%88%E5%B8%8C%E7%AE%97%E6%B3%95/image-20211209171255398.png" alt="image-20211209171255398">    </p>
+<p>​            <img src="/2021/12/10/SM3%E5%93%88%E5%B8%8C%E7%AE%97%E6%B3%95/image-20211209171241849.png" alt="image-20211209171241849"></p>
+<p>X，Y，Z是32位的字，运算符均为位运算符</p>
+</li>
+<li><p>置换函数</p>
+<p><img src="/2021/12/10/SM3%E5%93%88%E5%B8%8C%E7%AE%97%E6%B3%95/image-20211209171633786.png" alt="image-20211209171633786"></p>
+<p>“<img src="/2021/12/10/SM3%E5%93%88%E5%B8%8C%E7%AE%97%E6%B3%95/clip_image002-16390414076863.png" alt="img"> ”表示循环左移，a<img src="/2021/12/10/SM3%E5%93%88%E5%B8%8C%E7%AE%97%E6%B3%95/Users/Cwin/Desktop/CTF/笔记/SM3哈希算法/clip_image002-16390414076863.png" alt="img">n表示a循环左移n位。</p>
+</li>
+</ul>
+<h4 id="二、算法描述"><a href="#二、算法描述" class="headerlink" title="二、算法描述"></a>二、算法描述</h4><p>​    算法可以分为5个步骤：消息填充、附加消息长度、消息扩展、迭代压缩、输出哈希值。SM3哈希算法框图如图1。</p>
+<p>​    输入：长度为<img src="/2021/12/10/SM3%E5%93%88%E5%B8%8C%E7%AE%97%E6%B3%95/clip_image002-16390482914395.png" alt="img">的任意消息</p>
+<p>​    输出：256比特的消息摘要</p>
+<p><img src="/2021/12/10/SM3%E5%93%88%E5%B8%8C%E7%AE%97%E6%B3%95/image-20211209202922674.png" alt="image-20211209202922674"></p>
+<ul>
+<li><p><strong>步骤1：</strong>消息填充</p>
+<p>​        （与SHA算法的填充方式一样）消息填充后的比特长度len满足448 = n mod 512，即len模512的余数为448；留下64比特记录步骤2的消息长度（512-448=64）。填充规则：首位填充位为1，其余补0；要注意，即使消息长度恰好为448比特，也要进行填充（填充512位），所以填充位的长度为1~512位。</p>
+</li>
+<li><p><strong>步骤2：</strong>附加消息长度</p>
+<p>​        （与SHA算法的附加消息长度方式一样）消息长度为64比特（步骤1留下的），其表示还没被填充前的真实消息长度。采用的是大端方式填写，如果消息长度大于<img src="/2021/12/10/SM3%E5%93%88%E5%B8%8C%E7%AE%97%E6%B3%95/image-20211206212544669.png" alt="image-20211206212544669">，则对其进行取模，模数为<img src="/2021/12/10/SM3%E5%93%88%E5%B8%8C%E7%AE%97%E6%B3%95/image-20211206212544669.png" alt="image-20211206212544669">。</p>
+<p>大端方式：按数据的最高有效位优先的顺序进行存储数据，从高地址位开始存，如最高有效位存在最高地址位；注意的是：填充长度是一个无符号整数。相反的存储方式为小段方式。</p>
+</li>
+<li><p><strong>步骤3：</strong>消息分组</p>
+<p>​        执行完步骤1,2，消息总长度为512的倍数（这里记为L倍），把消息m分为<strong>L</strong>组，每组512比特，分组记为<img src="/2021/12/10/SM3%E5%93%88%E5%B8%8C%E7%AE%97%E6%B3%95/clip_image002-16386966712272.png" alt="img">，每一个分组<img src="/2021/12/10/SM3%E5%93%88%E5%B8%8C%E7%AE%97%E6%B3%95/clip_image002-16386967730493.png" alt="img">可以表示16个32比特的字（16 x 32 =512)。</p>
+</li>
+<li><p><strong>步骤4：</strong>消息扩展</p>
+<p>在进行迭代运算前，需要对消息进行扩展，步骤如下：</p>
+<p>​    （1）将消息分组<img src="/2021/12/10/SM3%E5%93%88%E5%B8%8C%E7%AE%97%E6%B3%95/clip_image002-16386967730493.png" alt="img">（0&lt;q&lt;L-1）划分为16个32位的字<img src="/2021/12/10/SM3%E5%93%88%E5%B8%8C%E7%AE%97%E6%B3%95/clip_image002-16390489126666.png" alt="img"></p>
+<p>​    （2）循环执行（67-16+1）52轮以下操作产生52个字</p>
+<p>​            <img src="/2021/12/10/SM3%E5%93%88%E5%B8%8C%E7%AE%97%E6%B3%95/clip_image002-16390493743187.png" alt="img">   <img src="/2021/12/10/SM3%E5%93%88%E5%B8%8C%E7%AE%97%E6%B3%95/clip_image002-16390494333008.png" alt="img"></p>
+<p>​    （3）原来16个字 + 新产生的52个字 = 68个字，再由该68个字产生64个字，操作如下：</p>
+<p>​            <img src="/2021/12/10/SM3%E5%93%88%E5%B8%8C%E7%AE%97%E6%B3%95/clip_image002-16390496682339.png" alt="img">        <img src="/2021/12/10/SM3%E5%93%88%E5%B8%8C%E7%AE%97%E6%B3%95/clip_image002-163904968935410.png" alt="img"></p>
+<p>​    （4）最后第q个消息分组<img src="/2021/12/10/SM3%E5%93%88%E5%B8%8C%E7%AE%97%E6%B3%95/clip_image002-16386967730493.png" alt="img">扩展为132个字，记为<img src="/2021/12/10/SM3%E5%93%88%E5%B8%8C%E7%AE%97%E6%B3%95/clip_image002-163905055276814.png" alt="img">={<img src="/2021/12/10/SM3%E5%93%88%E5%B8%8C%E7%AE%97%E6%B3%95/image-20211209194954393.png" alt="image-20211209194954393">}</p>
+</li>
+<li><p><strong>步骤5：</strong>迭代压缩</p>
+<p>​        <img src="/2021/12/10/SM3%E5%93%88%E5%B8%8C%E7%AE%97%E6%B3%95/image-20211209195024019.png" alt="image-20211209195024019">    <img src="/2021/12/10/SM3%E5%93%88%E5%B8%8C%E7%AE%97%E6%B3%95/clip_image002-163905080719916.png" alt="img"></p>
+<p>其中，CF是压缩函数（压缩函数会在后面介绍）；CV由A，B，C，D，E，F，G，H 8个寄存器的值组成，初始值为IV；<img src="/2021/12/10/SM3%E5%93%88%E5%B8%8C%E7%AE%97%E6%B3%95/image-20211209195045374.png" alt="image-20211209195045374">是第i个分组<img src="/2021/12/10/SM3%E5%93%88%E5%B8%8C%E7%AE%97%E6%B3%95/clip_image002-163905067428515.png" alt="img">经过消息扩展后的值。<img src="/2021/12/10/SM3%E5%93%88%E5%B8%8C%E7%AE%97%E6%B3%95/clip_image002-163905082932617.png" alt="img">是消息的哈希值。</p>
+</li>
+<li><p><strong>步骤6：</strong>输出</p>
+<p>输出256比特的哈希值<img src="/2021/12/10/SM3%E5%93%88%E5%B8%8C%E7%AE%97%E6%B3%95/clip_image002-163905082932617.png" alt="img">。</p>
+</li>
+</ul>
+<h4 id="三、压缩函数"><a href="#三、压缩函数" class="headerlink" title="三、压缩函数"></a>三、压缩函数</h4><p>​    A、B、C、D、E、F、G、H为字寄存器，<img src="/2021/12/10/SM3%E5%93%88%E5%B8%8C%E7%AE%97%E6%B3%95/clip_image002-163905171546018.png" alt="img">、<img src="/2021/12/10/SM3%E5%93%88%E5%B8%8C%E7%AE%97%E6%B3%95/clip_image002-163905172278019.png" alt="img">、<img src="/2021/12/10/SM3%E5%93%88%E5%B8%8C%E7%AE%97%E6%B3%95/clip_image002-163905172913220.png" alt="img">、<img src="/2021/12/10/SM3%E5%93%88%E5%B8%8C%E7%AE%97%E6%B3%95/clip_image002-163905173995721.png" alt="img">为中间变量，压缩函数<img src="/2021/12/10/SM3%E5%93%88%E5%B8%8C%E7%AE%97%E6%B3%95/image-20211209195024019.png" alt="image-20211209195024019">的运算过程如下：</p>
+<p>​            ABCDEFGH<img src="/2021/12/10/SM3%E5%93%88%E5%B8%8C%E7%AE%97%E6%B3%95/clip_image002-163905301356022.png" alt="img"></p>
+<p>​            FOR j = 0 to 63</p>
+<p>​                    <img src="/2021/12/10/SM3%E5%93%88%E5%B8%8C%E7%AE%97%E6%B3%95/clip_image004.png" alt="img"> (A<img src="/2021/12/10/SM3%E5%93%88%E5%B8%8C%E7%AE%97%E6%B3%95/clip_image006.png" alt="img">+ E +(<img src="/2021/12/10/SM3%E5%93%88%E5%B8%8C%E7%AE%97%E6%B3%95/clip_image008.png" alt="img">))<img src="/2021/12/10/SM3%E5%93%88%E5%B8%8C%E7%AE%97%E6%B3%95/clip_image010.png" alt="img"></p>
+<p>​                    <img src="/2021/12/10/SM3%E5%93%88%E5%B8%8C%E7%AE%97%E6%B3%95/clip_image012.png" alt="img"> </p>
+<p>​                    <img src="/2021/12/10/SM3%E5%93%88%E5%B8%8C%E7%AE%97%E6%B3%95/clip_image014.png" alt="img"> </p>
+<p>​                    <img src="/2021/12/10/SM3%E5%93%88%E5%B8%8C%E7%AE%97%E6%B3%95/clip_image016.png" alt="img"> </p>
+<p>​                    D = C</p>
+<p>​                    C = B <img src="/2021/12/10/SM3%E5%93%88%E5%B8%8C%E7%AE%97%E6%B3%95/clip_image018.png" alt="img"></p>
+<p>​                    B = A</p>
+<p>​                    A = <img src="/2021/12/10/SM3%E5%93%88%E5%B8%8C%E7%AE%97%E6%B3%95/clip_image020.png" alt="img"></p>
+<p>​                   H = G</p>
+<p>​                  G = F<img src="/2021/12/10/SM3%E5%93%88%E5%B8%8C%E7%AE%97%E6%B3%95/clip_image022.png" alt="img"></p>
+<p>​                 F = E</p>
+<p>​                 E = <img src="/2021/12/10/SM3%E5%93%88%E5%B8%8C%E7%AE%97%E6%B3%95/clip_image024.png" alt="img"></p>
+<p>​        endFOR</p>
+<p>​        <img src="/2021/12/10/SM3%E5%93%88%E5%B8%8C%E7%AE%97%E6%B3%95/clip_image026.png" alt="img"> </p>
+<p>其中+为模<img src="/2021/12/10/SM3%E5%93%88%E5%B8%8C%E7%AE%97%E6%B3%95/clip_image002-163905314376823.png" alt="img">加运算，字的存储方式为大段格式，SM3压缩函数的一步迭代过程如下： （非对称的feistel结构)</p>
+<p><img src="/2021/12/10/SM3%E5%93%88%E5%B8%8C%E7%AE%97%E6%B3%95/image-20211209211608036.png" alt="image-20211209211608036"></p>
+<h4 id="四、SM3哈希函数的安全性"><a href="#四、SM3哈希函数的安全性" class="headerlink" title="四、SM3哈希函数的安全性"></a>四、SM3哈希函数的安全性</h4><p>​        压缩函数是哈希函数安全的关键，SM3的压缩函数CF中的布尔函数FF（X，Y，Z）和GG（X，Y，Z）是非线性函数，经过迭代循环后提供混淆作用。置换函数<img src="/2021/12/10/SM3%E5%93%88%E5%B8%8C%E7%AE%97%E6%B3%95/clip_image002-163905614625424.png" alt="img">和<img src="/2021/12/10/SM3%E5%93%88%E5%B8%8C%E7%AE%97%E6%B3%95/clip_image002-163905615232425.png" alt="img">是线性函数，经过循环迭代后提供扩散作用；加上其他运算共同作用，压缩函数CF具有很高的安全性，进而确保了SM3的高安全性。</p>
+<h4 id="五、拓展知识"><a href="#五、拓展知识" class="headerlink" title="五、拓展知识"></a>五、拓展知识</h4><ul>
+<li><p>海绵结构</p>
+<p>它是一种没有经过压缩迭代的运算结构，因此几乎不会出现哈希碰撞</p>
+</li>
+</ul>
+<img src="/2021/12/10/SM3%E5%93%88%E5%B8%8C%E7%AE%97%E6%B3%95/image-20211209212739041.png" alt="image-20211209212739041" style="zoom:50%;">
+
+<ul>
+<li><p>M-D压缩迭代结构</p>
+<p>输入的数为大位数，输出的是数为小位数数；且经过多轮迭代运算，如下图的SHA-1的M-D结构</p>
+<p><img src="/2021/12/10/SM3%E5%93%88%E5%B8%8C%E7%AE%97%E6%B3%95/image-20211210104226470.png" alt="image-20211210104226470"></p>
+</li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E5%93%88%E5%B8%8C%E5%87%BD%E6%95%B0%E7%AE%97%E6%B3%95-%E5%9B%BD%E4%BA%A7%E5%AF%86%E7%A0%81/" rel="tag"># 哈希函数算法,国产密码</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2021/12/10/SHA%E7%AE%97%E6%B3%95/" rel="prev" title="SHA算法">
+      <i class="fa fa-chevron-left"></i> SHA算法
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#SM3%E5%93%88%E5%B8%8C%E7%AE%97%E6%B3%95"><span class="nav-number">1.</span> <span class="nav-text">SM3哈希算法</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%B8%80%E3%80%81%E7%AE%97%E6%B3%95%E6%A6%82%E8%BF%B0"><span class="nav-number">1.0.1.</span> <span class="nav-text">一、算法概述</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BA%8C%E3%80%81%E7%AE%97%E6%B3%95%E6%8F%8F%E8%BF%B0"><span class="nav-number">1.0.2.</span> <span class="nav-text">二、算法描述</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%B8%89%E3%80%81%E5%8E%8B%E7%BC%A9%E5%87%BD%E6%95%B0"><span class="nav-number">1.0.3.</span> <span class="nav-text">三、压缩函数</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%9B%9B%E3%80%81SM3%E5%93%88%E5%B8%8C%E5%87%BD%E6%95%B0%E7%9A%84%E5%AE%89%E5%85%A8%E6%80%A7"><span class="nav-number">1.0.4.</span> <span class="nav-text">四、SM3哈希函数的安全性</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BA%94%E3%80%81%E6%8B%93%E5%B1%95%E7%9F%A5%E8%AF%86"><span class="nav-number">1.0.5.</span> <span class="nav-text">五、拓展知识</span></a></li></ol></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">北极星上的稻草人</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">62</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">9</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">24</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">北极星上的稻草人</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  
+  <script color='0,0,255' opacity='0.5' zIndex='-1' count='99' src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+
+<!-- 页面动态背景 -->
+
+<script type="text/javascript" src="//cdn.bootcss.com/canvas-nest.js/1.0.0/canvas-nest.min.js"></script>
+
+
+</body>
+</html>
+<!-- 页面点击小红心 -->
+<script type="text/javascript" src="/js/clicklove.js"></script>
