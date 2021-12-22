@@ -116,7 +116,7 @@
   </li>
         <li class="menu-item menu-item-tags">
 
-    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">24</span></a>
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">23</span></a>
 
   </li>
         <li class="menu-item menu-item-categories">
@@ -156,6 +156,297 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://wgc5.gitee.io/2021/12/22/%E6%AC%A7%E5%87%A0%E9%87%8C%E5%BE%97%E6%89%A9%E5%B1%95%E7%AE%97%E6%B3%95/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="北极星上的稻草人">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="北极星上的稻草人">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2021/12/22/%E6%AC%A7%E5%87%A0%E9%87%8C%E5%BE%97%E6%89%A9%E5%B1%95%E7%AE%97%E6%B3%95/" class="post-title-link" itemprop="url">欧几里得扩展算法</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2021-12-22 11:02:35 / 修改时间：11:03:05" itemprop="dateCreated datePublished" datetime="2021-12-22T11:02:35+08:00">2021-12-22</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%AF%86%E7%A0%81%E5%AD%A6/" itemprop="url" rel="index"><span itemprop="name">密码学</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="欧几里得算法与欧几里得扩展算法"><a href="#欧几里得算法与欧几里得扩展算法" class="headerlink" title="欧几里得算法与欧几里得扩展算法"></a>欧几里得算法与欧几里得扩展算法</h1><h2 id="欧几里得算法"><a href="#欧几里得算法" class="headerlink" title="欧几里得算法"></a>欧几里得算法</h2><p>gcd(a,b) :a和b的最大公因子（公约数），下面同记为(a,b)，a，b∈Z</p>
+<p><strong>1.定理：(a,b) = (b,a mod b)**</strong> </p>
+<p>推导过程：</p>
+<p>∵ a，b∈Z， </p>
+<p>∴ 有a = kb + r  ,    k,r∈Z        ①</p>
+<p>则 a mod b = r                        ②</p>
+<p>联合①②： a mod b = a-kb   ③</p>
+<p>设g = gcd（a，b）</p>
+<p>则：a%g = 0（a mod g=0），b%g = 0；即a%g = b%g</p>
+<p>可以推出：(a - b)%g = 0        ④</p>
+<p>（a、b都是g的倍数关系，所以a和b的差值也是最大公因子g的倍数关系）</p>
+<p>结合③和④</p>
+<p>推出： （a mod b）%g = 0</p>
+<p>所以g是a，b，（a mod b）的公因子</p>
+<p>∴ (a,b) = (b,a mod b) </p>
+<p><strong>2.欧几里得算法（辗转相除法）</strong></p>
+<p>第一步：（a0，b0）</p>
+<p>第二步：（a1，b1），a1= b0, b1 = a0%b0</p>
+<p>……</p>
+<p>第n步：（an，bn），当bn = 0时，an就是（a，b）最大公约数</p>
+<h2 id="扩展欧几里得算法"><a href="#扩展欧几里得算法" class="headerlink" title="扩展欧几里得算法"></a>扩展欧几里得算法</h2><p><strong>1.求逆元原理</strong></p>
+<p>推导过程：</p>
+<p>设（a，b）是a，b的最大公约数，则有a.x1 = k1(a,b), b.y1 = k2(a,b) ,k1,k2∈Z       “.”是乘法</p>
+<p>可以推导出：a.x1 + b.y1 = k3(a,b)  ，k3 = k1+k2，k3∈Z</p>
+<p>所以必然存在</p>
+<p>​                    ax + by = （a，b ）</p>
+<p>当（a，b）=1时，a，b互质（又称为互为素数），得：</p>
+<p>​                    ax + by =1      （x是a的逆元，y是b的逆元）</p>
+<p>所以有：a*X = bY+1         （正负号写不写无所谓，因为它对公式没什么意义，Y可正可负）</p>
+<p>​                    X = （bY+1）/a        </p>
+<p>​                    Y = （aX+1）/a</p>
+<p><strong>2.扩展的欧几里得算法</strong></p>
+<p>由欧几里得算法得：</p>
+<p>​      （a，b） =  （b，a mod b）        ①</p>
+<p>​       ∵ ax + by =  (a,b)                            ②</p>
+<p> 联合①②得：</p>
+<p>​        b.x1 +（a mod b）.y1 =  (a,b)     ③    </p>
+<p>​       a mob b = a%b = a - (a/b).b         ④    “/“是除法</p>
+<p>联合③④</p>
+<p>​        gcd = （a，b） = b.x1+[a - (a/b).b].y1</p>
+<p>​                                    =b.x1 + a.y1 - (a/b).b.y1</p>
+<p>​                                    =a.y1 + b.[x1 - (a/b).y1]</p>
+<p>对比：(a,b) = ax + by</p>
+<p>可以推导出：</p>
+<p>​                x = y1</p>
+<p>​                y = x1 - (a/b).y1</p>
+<p>附：求逆元C++算法（菜鸟版）</p>
+<pre><code>#include &lt;iostream&gt;  
+using namespace std;  
+typedef long long LL;  
+typedef double DB;  
+
+//aX+bY=gcd；x是a的逆元，Y是b的逆元；ans（gcd）是最大公约数  
+LL e_gcd(LL a,LL b,LL &amp;x,LL &amp;y)  
+&#123;  
+    if(b==0)  
+    &#123;  
+        x=1;  
+        y=0;  
+        return a;  
+    &#125;  
+    LL ans=e_gcd(b,a%b,x,y);  
+    LL temp=x;  
+    x=y;  
+    y=temp-a/b*y;  
+    return ans;  
+&#125;  
+
+LL cal(LL a,LL b,LL c)  
+&#123;  
+    LL x,y;  
+    LL gcd=e_gcd(a,b,x,y);  
+    if(c%gcd!=0)&#123; 
+        printf(&quot;没有逆元&quot;);
+        return -1;  //判断是否有逆元or两个数（a、b）是否质，即gcd最大公约数是否是1     
+        &#125;
+    x*=c/gcd;  
+    b/=gcd;  
+    if(b&lt;0) b=-b;  
+    printf(&quot;x的逆元=%ld,y的逆元=%ld\n&quot;,x,y); 
+    //这里求得的逆元可能为负数，再求mod转回正数即可 
+    LL X=x%b;  
+    if(X&lt;=0) X+=b;      // X是a的逆元，当其小于0时，由aX+bY=gcd，即（a，b）=gcd得，a的逆元&lt;b,为了取正数，所以需要+b； 
+    return X;  
+&#125;  
+
+int main()  
+&#123;  
+    LL a,b,t;  
+    //a=1769;
+    //b=550;
+    cout &lt;&lt; &quot;请输入a:&quot;;
+    cin &gt;&gt; a;
+    cout &lt;&lt; &quot;请输入b:&quot;;
+    cin &gt;&gt; b;
+    LL ans=cal(a,b,1);   
+    printf(&quot;x的逆元=%lld\n&quot;,ans);  
+
+    return 0;  
+&#125; </code></pre>
+<p><strong>进阶版伪代码</strong></p>
+<pre><code>EXTENDED EUCLID(a,b)     //b&lt;a
+1.(X1,X2,X3) ← (1,0,a);(Y1,Y2,Y3) ← (0,1,b)
+2.if Y3 = 0 then return X3 = (a,b);no inverse        //没有逆元
+3.if Y3 = 1 then Y3 = (a,b);Y2 = b^(-1) mod f        //b^(-1)为b的逆元
+4.Q = ┕ X3/Y3 ┘        //X3/Y3向下取整
+5.(T1,T2,T3) ← (X1-Q.Y1,X2-Q.Y2,X3-Q.Y3)
+6.(X1,X2,X3) ← (Y1,Y2,Y3)
+7.(Y1,Y2,Y3) ← (T1,T2,T3)
+8.go to 2.</code></pre>
+<p>上述的算法中存在关系：a.T1 + b.T2 = T3</p>
+<p><strong>笔算例子：</strong></p>
+<p>求gcd（1769,550）；因为（1769,550）=1，所以题意550*<img src="/2021/12/22/%E6%AC%A7%E5%87%A0%E9%87%8C%E5%BE%97%E6%89%A9%E5%B1%95%E7%AE%97%E6%B3%95/clip_image002-16380170166661.png" alt="img">=1 mod 1769，求<img src="/2021/12/22/%E6%AC%A7%E5%87%A0%E9%87%8C%E5%BE%97%E6%89%A9%E5%B1%95%E7%AE%97%E6%B3%95/clip_image002.png" alt="img">，</p>
+<table>
+<thead>
+<tr>
+<th>循环次数</th>
+<th>Q</th>
+<th>X1</th>
+<th>X2</th>
+<th>X3（a）</th>
+<th>Y1</th>
+<th>Y2</th>
+<th>Y3（b）</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>0</td>
+<td>-</td>
+<td>1</td>
+<td>0</td>
+<td>1769</td>
+<td>0</td>
+<td>1</td>
+<td>550</td>
+</tr>
+<tr>
+<td>1</td>
+<td>3</td>
+<td>0</td>
+<td>1</td>
+<td>550</td>
+<td>1</td>
+<td>-3</td>
+<td>119</td>
+</tr>
+<tr>
+<td>2</td>
+<td>4</td>
+<td>1</td>
+<td>-3</td>
+<td>119</td>
+<td>-4</td>
+<td>13</td>
+<td>74</td>
+</tr>
+<tr>
+<td>3</td>
+<td>1</td>
+<td>-4</td>
+<td>13</td>
+<td>74</td>
+<td>5</td>
+<td>-16</td>
+<td>45</td>
+</tr>
+<tr>
+<td>4</td>
+<td>1</td>
+<td>5</td>
+<td>-16</td>
+<td>45</td>
+<td>-9</td>
+<td>29</td>
+<td>29</td>
+</tr>
+<tr>
+<td>5</td>
+<td>1</td>
+<td>-9</td>
+<td>29</td>
+<td>29</td>
+<td>14</td>
+<td>-45</td>
+<td>16</td>
+</tr>
+<tr>
+<td>6</td>
+<td>1</td>
+<td>14</td>
+<td>-45</td>
+<td>16</td>
+<td>-23</td>
+<td>74</td>
+<td>13</td>
+</tr>
+<tr>
+<td>7</td>
+<td>1</td>
+<td>-23</td>
+<td>74</td>
+<td>13</td>
+<td>37</td>
+<td>-119</td>
+<td>3</td>
+</tr>
+<tr>
+<td>8</td>
+<td>4</td>
+<td>37</td>
+<td>-119</td>
+<td>3</td>
+<td>-171</td>
+<td>550</td>
+<td>1</td>
+</tr>
+</tbody></table>
+<p>​    Y3=1，即（1769,550）=1，<img src="/2021/12/22/%E6%AC%A7%E5%87%A0%E9%87%8C%E5%BE%97%E6%89%A9%E5%B1%95%E7%AE%97%E6%B3%95/clip_image002-16380179197372.png" alt="img">，即550*550 mod 1769 = 1</p>
+<p>​    <img src="/2021/12/22/%E6%AC%A7%E5%87%A0%E9%87%8C%E5%BE%97%E6%89%A9%E5%B1%95%E7%AE%97%E6%B3%95/clip_image004.png" alt="img">，379 *1769 mod 550 =379 * 119 mod 550 =1</p>
+<p>​    注意：a<em>b mod c = （a mod c）</em>（b mod c）mod c</p>
+<p><strong>笔算过程介绍：</strong></p>
+<p>​            <img src="/2021/12/22/%E6%AC%A7%E5%87%A0%E9%87%8C%E5%BE%97%E6%89%A9%E5%B1%95%E7%AE%97%E6%B3%95/clip_image002-16380182844974.png" alt="img">；<img src="/2021/12/22/%E6%AC%A7%E5%87%A0%E9%87%8C%E5%BE%97%E6%89%A9%E5%B1%95%E7%AE%97%E6%B3%95/clip_image002-16380184891145.png" alt="img">；<img src="/2021/12/22/%E6%AC%A7%E5%87%A0%E9%87%8C%E5%BE%97%E6%89%A9%E5%B1%95%E7%AE%97%E6%B3%95/clip_image002-16380185263996.png" alt="img">；<img src="/2021/12/22/%E6%AC%A7%E5%87%A0%E9%87%8C%E5%BE%97%E6%89%A9%E5%B1%95%E7%AE%97%E6%B3%95/clip_image002-16380181103953.png" alt="img"></p>
+<p>​            <img src="/2021/12/22/%E6%AC%A7%E5%87%A0%E9%87%8C%E5%BE%97%E6%89%A9%E5%B1%95%E7%AE%97%E6%B3%95/clip_image002-16380186865857.png" alt="img">；<img src="/2021/12/22/%E6%AC%A7%E5%87%A0%E9%87%8C%E5%BE%97%E6%89%A9%E5%B1%95%E7%AE%97%E6%B3%95/clip_image002-16380187037178.png" alt="img">；<img src="/2021/12/22/%E6%AC%A7%E5%87%A0%E9%87%8C%E5%BE%97%E6%89%A9%E5%B1%95%E7%AE%97%E6%B3%95/clip_image002-16380188124009.png" alt="img"></p>
+<p>i指循环次数，Q是向下取整的商，下一轮的X是对应上一轮的Y；下一轮Y3是上一轮X3和Y3的模运算结果。</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="https://wgc5.gitee.io/2021/12/10/SM3%E5%93%88%E5%B8%8C%E7%AE%97%E6%B3%95/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -181,7 +472,7 @@
               <span class="post-meta-item-text">发表于</span>
               
 
-              <time title="创建时间：2021-12-10 10:40:42 / 修改时间：10:45:25" itemprop="dateCreated datePublished" datetime="2021-12-10T10:40:42+08:00">2021-12-10</time>
+              <time title="创建时间：2021-12-10 10:40:42 / 修改时间：10:51:35" itemprop="dateCreated datePublished" datetime="2021-12-10T10:40:42+08:00">2021-12-10</time>
             </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -1396,210 +1687,6 @@
   
   
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://wgc5.gitee.io/2021/12/03/%E4%B8%AD%E5%9B%BD%E5%89%A9%E4%BD%99%E5%AE%9A%E7%90%86/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="北极星上的稻草人">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="北极星上的稻草人">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2021/12/03/%E4%B8%AD%E5%9B%BD%E5%89%A9%E4%BD%99%E5%AE%9A%E7%90%86/" class="post-title-link" itemprop="url">中国剩余定理</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-              
-
-              <time title="创建时间：2021-12-03 14:54:50 / 修改时间：14:55:22" itemprop="dateCreated datePublished" datetime="2021-12-03T14:54:50+08:00">2021-12-03</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E5%AF%86%E7%A0%81%E5%AD%A6/" itemprop="url" rel="index"><span itemprop="name">密码学</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h3 id="中国剩余定理"><a href="#中国剩余定理" class="headerlink" title="中国剩余定理"></a>中国剩余定理</h3><p><strong>1、引入</strong></p>
-<p>​    中国剩余定理是数论中最有用的工具之一，它有两个用途：一是如果某个数是关于一些两两互素的同余类集，就可以用中国剩余定理求解这个数（同余问题）；而是可以将大数用小数表示、大数的运算可以用小数实现。</p>
-<p>例1：（同余问题）存在一个数x，x mod 2 =0，x mod 5 =3，问这个数是多少？</p>
-<p>​    答：可以通过枚举的方式得出其中的一个解为：x=8。</p>
-<p>​            注意：x可能不唯一；这里只是2个式子，如果式子多起来，枚举的方式就不可取了</p>
-<p>例2：（同余+大数简化运算问题）对于mod运算，假设只能处理5以内的数，但是需要处理15以内的数。</p>
-<ul>
-<li>将15分解为一些小于5的素数的乘积：15 = 3 x 5</li>
-<li>将1-15之间的数用数列表来表示；表行数为3，行号0<del>2；列数为5，列号0</del>4；按照规则将1-15的数填入表中（规则：某个数x的行号：x%3（即x除3的余数），列号：x%5）。如x=12,行号：12 mod 3=0，列号：12 mod 5 =2，所以12 对应的位置在第0行，第2列（也可理解为12的坐标为（0，2））；重复以上操作，得到下表1：</li>
-</ul>
-<table>
-<thead>
-<tr>
-<th></th>
-<th>0</th>
-<th>1</th>
-<th>2</th>
-<th>3</th>
-<th>4</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>0</td>
-<td>0</td>
-<td>6</td>
-<td>12</td>
-<td>3</td>
-<td>9</td>
-</tr>
-<tr>
-<td>1</td>
-<td>10</td>
-<td>1</td>
-<td>7</td>
-<td>13</td>
-<td>4</td>
-</tr>
-<tr>
-<td>2</td>
-<td>5</td>
-<td>11</td>
-<td>2</td>
-<td>8</td>
-<td>14</td>
-</tr>
-</tbody></table>
-<ul>
-<li><p>现在就可以通过表格处理15以内的数的模运算了</p>
-<p>对于乘法：两数行号相乘再mod 3得到结果数所在的行号；两数列号相乘再mod 5得到结果数所在的列号</p>
-<p>对于加法：</p>
-<p>例如：求（12 x 13）mod 15</p>
-<p>解：12和13所在的行号分别是0和1，所在的列号分别是2和3；</p>
-<p>​        行号：（0 x 1）mod 3 =0，列号：（2 x 3）mod 5=1</p>
-<p>​        查表得位于0行1列的数是6，即（12 x 13）mod 15 = 6.</p>
-<p>例如：求（12+13）mod 15</p>
-<p>​        行号：（0 x+1）mod 3 =1，列号：（2 + 3）mod 5=0</p>
-<p>​        查表得位于1行0列的数是10，即（12 x 13）mod 15 = 10. </p>
-<p>上述2例只是中国剩余定理的直观应用，下面进行详细介绍。</p>
-</li>
-</ul>
-<p><strong>2、推导/介绍</strong></p>
-<p>​    中国剩余定理最早出于《孙子算经》的”物不知数“问题：今有物不知其数，三三数之余二，五五数之余三，七七数之余二，问物有多少？韩信点兵也是这类问题。</p>
-<p>​    根据上述问题，可得如下方程组：</p>
-<p>​                                            <img src="/2021/12/03/%E4%B8%AD%E5%9B%BD%E5%89%A9%E4%BD%99%E5%AE%9A%E7%90%86/clip_image002.png" alt="img"></p>
-<p>解决思路：</p>
-<p>​    首先</p>
-<ul>
-<li><p>写出3个余数和的形式：假设x=2+3+2</p>
-</li>
-<li><p>为了满足第一个等式，x的后2项乘3，进而运算时可以消去后2项：</p>
-<p>（注意：这里说的满足是指mod 3后，后2项消失；结果不一定符合x = 2 mod 3，只是指消去另外两项）</p>
-<p>​        x = 2+3x3  +  2x3</p>
-</li>
-<li><p>为了满足第一个等式的同时又第二个等式，x的1、3项乘5：</p>
-<p>​        x = 2x5 + 3x3 +2x3x5</p>
-</li>
-<li><p>同理，为了同时满足上面3个等式</p>
-<p>​        x = 2x5x7 + 3x3x7 +2x3x5</p>
-</li>
-</ul>
-<p>​     然后</p>
-<ul>
-<li><p>将最后的x代入第一个等式，得到2x5x7，为了消去5x7使得完全符合第一个等式（x=2 mod 3），可以将第一项结果乘以<img src="/2021/12/03/%E4%B8%AD%E5%9B%BD%E5%89%A9%E4%BD%99%E5%AE%9A%E7%90%86/clip_image002-16383241400951.png" alt="img">mod 3（注：(5x7)<img src="/2021/12/03/%E4%B8%AD%E5%9B%BD%E5%89%A9%E4%BD%99%E5%AE%9A%E7%90%86/Users/Cwin/Desktop/CTF/笔记/中国剩余定理/clip_image002-16383241400951.png" alt="img">=1 mod 3，<img src="/2021/12/03/%E4%B8%AD%E5%9B%BD%E5%89%A9%E4%BD%99%E5%AE%9A%E7%90%86/Users/Cwin/Desktop/CTF/笔记/中国剩余定理/clip_image002-16383241400951.png" alt="img">=<img src="/2021/12/03/%E4%B8%AD%E5%9B%BD%E5%89%A9%E4%BD%99%E5%AE%9A%E7%90%86/Users/Cwin/Desktop/CTF/笔记/中国剩余定理/clip_image002-16383241400951.png" alt="img">mod 3 取唯一值)，即：</p>
-<p>​         x = 2x5x7<img src="/2021/12/03/%E4%B8%AD%E5%9B%BD%E5%89%A9%E4%BD%99%E5%AE%9A%E7%90%86/Users/Cwin/Desktop/CTF/笔记/中国剩余定理/clip_image002-16383241400951.png" alt="img">+ 3x3x7 +2x3x5</p>
-<p>类似地第二项乘以<img src="/2021/12/03/%E4%B8%AD%E5%9B%BD%E5%89%A9%E4%BD%99%E5%AE%9A%E7%90%86/clip_image002-16383259721102.png" alt="img">，第三项乘以<img src="/2021/12/03/%E4%B8%AD%E5%9B%BD%E5%89%A9%E4%BD%99%E5%AE%9A%E7%90%86/clip_image002-16383259997163.png" alt="img">；得：</p>
-<p>​         x = 2x5x7<img src="/2021/12/03/%E4%B8%AD%E5%9B%BD%E5%89%A9%E4%BD%99%E5%AE%9A%E7%90%86/Users/Cwin/Desktop/CTF/笔记/中国剩余定理/clip_image002-16383241400951.png" alt="img">+ 3x3x7<img src="/2021/12/03/%E4%B8%AD%E5%9B%BD%E5%89%A9%E4%BD%99%E5%AE%9A%E7%90%86/clip_image002-16383259721102.png" alt="img"> +2x3x5<img src="/2021/12/03/%E4%B8%AD%E5%9B%BD%E5%89%A9%E4%BD%99%E5%AE%9A%E7%90%86/clip_image002-16383259997163.png" alt="img">=233</p>
-<p>说明：求解逆元方法有欧几里得算法和欧几里得扩展算法，可以参考本博客的《欧几里得扩展算法》        </p>
-</li>
-<li><p>因为233+k(3x5x7)=233+105k（k为整数）都是满足方程的解；可以取k=-2，得到小于105（=3x5x7）的最小且唯一的正数解23，即：</p>
-<p>​        x = [2x5x7<img src="/2021/12/03/%E4%B8%AD%E5%9B%BD%E5%89%A9%E4%BD%99%E5%AE%9A%E7%90%86/Users/Cwin/Desktop/CTF/笔记/中国剩余定理/clip_image002-16383241400951.png" alt="img">+ 3x3x7<img src="/2021/12/03/%E4%B8%AD%E5%9B%BD%E5%89%A9%E4%BD%99%E5%AE%9A%E7%90%86/clip_image002-16383259721102.png" alt="img"> +2x3x5<img src="/2021/12/03/%E4%B8%AD%E5%9B%BD%E5%89%A9%E4%BD%99%E5%AE%9A%E7%90%86/clip_image002-16383259997163.png" alt="img">] mod (3x5x7)</p>
-</li>
-</ul>
-<p>这种构造方式推广到一般形式就是中国剩余定理的一种形式。</p>
-<p><strong>3、中国剩余定理</strong></p>
-<p>​    设<img src="/2021/12/03/%E4%B8%AD%E5%9B%BD%E5%89%A9%E4%BD%99%E5%AE%9A%E7%90%86/clip_image002-16383269790714.png" alt="img">是两两互素的正整数，<img src="/2021/12/03/%E4%B8%AD%E5%9B%BD%E5%89%A9%E4%BD%99%E5%AE%9A%E7%90%86/clip_image002-16383270515135.png" alt="img"> 则一次同余方程为：</p>
-<p><img src="/2021/12/03/%E4%B8%AD%E5%9B%BD%E5%89%A9%E4%BD%99%E5%AE%9A%E7%90%86/clip_image002-16383272474026.png" alt="img"></p>
-<p>​    根据第2部分进行推广到一般形式并对模M有唯一解：</p>
-<p><img src="/2021/12/03/%E4%B8%AD%E5%9B%BD%E5%89%A9%E4%BD%99%E5%AE%9A%E7%90%86/clip_image002-16383275764387.png" alt="img"></p>
-<p>​    其中<img src="/2021/12/03/%E4%B8%AD%E5%9B%BD%E5%89%A9%E4%BD%99%E5%AE%9A%E7%90%86/clip_image002-163832776713410.png" alt="img">满足<img src="/2021/12/03/%E4%B8%AD%E5%9B%BD%E5%89%A9%E4%BD%99%E5%AE%9A%E7%90%86/clip_image002-16383277599059.png" alt="img">；设<img src="/2021/12/03/%E4%B8%AD%E5%9B%BD%E5%89%A9%E4%BD%99%E5%AE%9A%E7%90%86/clip_image002-16383276509558.png" alt="img">，则<img src="/2021/12/03/%E4%B8%AD%E5%9B%BD%E5%89%A9%E4%BD%99%E5%AE%9A%E7%90%86/clip_image002-163832784475311.png" alt="img">：</p>
-<p><img src="/2021/12/03/%E4%B8%AD%E5%9B%BD%E5%89%A9%E4%BD%99%E5%AE%9A%E7%90%86/clip_image002-163832793629812.png" alt="img"></p>
-<p>推论：</p>
-<p>​    若A可以由一组小数<img src="/2021/12/03/%E4%B8%AD%E5%9B%BD%E5%89%A9%E4%BD%99%E5%AE%9A%E7%90%86/clip_image002-163832809670513.png" alt="img">表达，若同理存在B：</p>
-<p>​                                    <img src="/2021/12/03/%E4%B8%AD%E5%9B%BD%E5%89%A9%E4%BD%99%E5%AE%9A%E7%90%86/clip_image002-163832814995614.png" alt="img">，<img src="/2021/12/03/%E4%B8%AD%E5%9B%BD%E5%89%A9%E4%BD%99%E5%AE%9A%E7%90%86/clip_image002-163832820349515.png" alt="img"></p>
-<p>​    那么：</p>
-<p>​                            <img src="/2021/12/03/%E4%B8%AD%E5%9B%BD%E5%89%A9%E4%BD%99%E5%AE%9A%E7%90%86/clip_image002-163832838888016.png" alt="img"></p>
-<p>​                            <img src="/2021/12/03/%E4%B8%AD%E5%9B%BD%E5%89%A9%E4%BD%99%E5%AE%9A%E7%90%86/clip_image002-163832843630817.png" alt="img"> </p>
-<p>​                            <img src="/2021/12/03/%E4%B8%AD%E5%9B%BD%E5%89%A9%E4%BD%99%E5%AE%9A%E7%90%86/clip_image002-163832852702918.png" alt="img"></p>
-<p>证明tip：（a*b）mod p =[(a mod p) * (b mod p)] mod p</p>
-<p><strong>4、应用例子</strong></p>
-<p>​    <strong>a.求x</strong></p>
-<p>​                                <img src="/2021/12/03/%E4%B8%AD%E5%9B%BD%E5%89%A9%E4%BD%99%E5%AE%9A%E7%90%86/clip_image002-163835583179320.png" alt="img"></p>
-<p>​    解：</p>
-<p>​        依提议得：<img src="/2021/12/03/%E4%B8%AD%E5%9B%BD%E5%89%A9%E4%BD%99%E5%AE%9A%E7%90%86/clip_image002-163835651675532.png" alt="img"></p>
-<p>​        M=2x3x5x7=210,<img src="/2021/12/03/%E4%B8%AD%E5%9B%BD%E5%89%A9%E4%BD%99%E5%AE%9A%E7%90%86/clip_image002-163835600512821.png" alt="img">,<img src="/2021/12/03/%E4%B8%AD%E5%9B%BD%E5%89%A9%E4%BD%99%E5%AE%9A%E7%90%86/clip_image002-163835603303722.png" alt="img">,<img src="/2021/12/03/%E4%B8%AD%E5%9B%BD%E5%89%A9%E4%BD%99%E5%AE%9A%E7%90%86/clip_image002-163835605012623.png" alt="img">,<img src="/2021/12/03/%E4%B8%AD%E5%9B%BD%E5%89%A9%E4%BD%99%E5%AE%9A%E7%90%86/clip_image002-163835608694924.png" alt="img"></p>
-<p>​        由<img src="/2021/12/03/%E4%B8%AD%E5%9B%BD%E5%89%A9%E4%BD%99%E5%AE%9A%E7%90%86/clip_image002-163835617681925.png" alt="img">求得：<img src="/2021/12/03/%E4%B8%AD%E5%9B%BD%E5%89%A9%E4%BD%99%E5%AE%9A%E7%90%86/clip_image002-163835620140926.png" alt="img">= <img src="/2021/12/03/%E4%B8%AD%E5%9B%BD%E5%89%A9%E4%BD%99%E5%AE%9A%E7%90%86/clip_image002-163835626702128.png" alt="img">mod 2 = 1，<img src="/2021/12/03/%E4%B8%AD%E5%9B%BD%E5%89%A9%E4%BD%99%E5%AE%9A%E7%90%86/clip_image002-163835631925329.png" alt="img">，<img src="/2021/12/03/%E4%B8%AD%E5%9B%BD%E5%89%A9%E4%BD%99%E5%AE%9A%E7%90%86/clip_image002-163835634755130.png" alt="img">，<img src="/2021/12/03/%E4%B8%AD%E5%9B%BD%E5%89%A9%E4%BD%99%E5%AE%9A%E7%90%86/clip_image002-163835636430531.png" alt="img">，</p>
-<p>​        由中国剩余定理<img src="/2021/12/03/%E4%B8%AD%E5%9B%BD%E5%89%A9%E4%BD%99%E5%AE%9A%E7%90%86/clip_image002-163832793629812.png" alt="img">得：</p>
-<p>​        x=（150x1x1 + 70x1x2 + 42x3x3 + 30x4x5）mod 210 = 173</p>
-<p>说明：求逆元方法有欧几里得算法/欧几里得扩展算法，可以参考本博客的《欧几里得扩展算法》；这里的逆元用枚举法就可以算出。</p>
-<p><strong>b.中国剩余定理推论的应用</strong></p>
-<p>​    问题：将973 mod 1813的模数换成37和49两个数表示</p>
-<p>​        可取：x=973，M=1813，<img src="/2021/12/03/%E4%B8%AD%E5%9B%BD%E5%89%A9%E4%BD%99%E5%AE%9A%E7%90%86/clip_image002-163835693319833.png" alt="img"> 。</p>
-<ul>
-<li><p>求<img src="/2021/12/03/%E4%B8%AD%E5%9B%BD%E5%89%A9%E4%BD%99%E5%AE%9A%E7%90%86/clip_image002-163835707953934.png" alt="img">，也是求 <img src="/2021/12/03/%E4%B8%AD%E5%9B%BD%E5%89%A9%E4%BD%99%E5%AE%9A%E7%90%86/clip_image002-163835824979441.png" alt="img"></p>
-<p><img src="/2021/12/03/%E4%B8%AD%E5%9B%BD%E5%89%A9%E4%BD%99%E5%AE%9A%E7%90%86/clip_image002-163835717495635.png" alt="img">，<img src="/2021/12/03/%E4%B8%AD%E5%9B%BD%E5%89%A9%E4%BD%99%E5%AE%9A%E7%90%86/clip_image002-163835720161036.png" alt="img"></p>
-<p>得x在模37和模49下的表达式为<img src="/2021/12/03/%E4%B8%AD%E5%9B%BD%E5%89%A9%E4%BD%99%E5%AE%9A%E7%90%86/clip_image002-163835726695437.png" alt="img">，（注意X就是A)</p>
-<p>​                            <img src="/2021/12/03/%E4%B8%AD%E5%9B%BD%E5%89%A9%E4%BD%99%E5%AE%9A%E7%90%86/clip_image002-163835831507542.png" alt="img"></p>
-</li>
-</ul>
-<ul>
-<li><p>求（973 mod 1813） + （678 mod 1813）的表达形式<img src="/2021/12/03/%E4%B8%AD%E5%9B%BD%E5%89%A9%E4%BD%99%E5%AE%9A%E7%90%86/clip_image002-163835746084739.png" alt="img"></p>
-<p>先求：678<img src="/2021/12/03/%E4%B8%AD%E5%9B%BD%E5%89%A9%E4%BD%99%E5%AE%9A%E7%90%86/clip_image002-163835750068740.png" alt="img">（678 mod 37,678 mod 49) = （12,41)</p>
-<p>由于模数相同，都是1813；根据中国剩余定理的推论可得：</p>
-<p>（973 mod 1813） + （678 mod 1813）</p>
-<p>=（（11+12）mod 37,（42+41）mod 49）</p>
-<p>=（23,24）</p>
-</li>
-</ul>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
 
   
   <nav class="pagination">
@@ -1682,7 +1769,7 @@
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">24</span>
+        <span class="site-state-item-count">23</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>

@@ -116,7 +116,7 @@
   </li>
         <li class="menu-item menu-item-tags">
 
-    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">24</span></a>
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">23</span></a>
 
   </li>
         <li class="menu-item menu-item-categories">
@@ -152,6 +152,210 @@
 
           <div class="content index posts-expand">
             
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://wgc5.gitee.io/2021/12/03/%E4%B8%AD%E5%9B%BD%E5%89%A9%E4%BD%99%E5%AE%9A%E7%90%86/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="北极星上的稻草人">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="北极星上的稻草人">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2021/12/03/%E4%B8%AD%E5%9B%BD%E5%89%A9%E4%BD%99%E5%AE%9A%E7%90%86/" class="post-title-link" itemprop="url">中国剩余定理</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2021-12-03 14:54:50 / 修改时间：14:55:22" itemprop="dateCreated datePublished" datetime="2021-12-03T14:54:50+08:00">2021-12-03</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%AF%86%E7%A0%81%E5%AD%A6/" itemprop="url" rel="index"><span itemprop="name">密码学</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h3 id="中国剩余定理"><a href="#中国剩余定理" class="headerlink" title="中国剩余定理"></a>中国剩余定理</h3><p><strong>1、引入</strong></p>
+<p>​    中国剩余定理是数论中最有用的工具之一，它有两个用途：一是如果某个数是关于一些两两互素的同余类集，就可以用中国剩余定理求解这个数（同余问题）；而是可以将大数用小数表示、大数的运算可以用小数实现。</p>
+<p>例1：（同余问题）存在一个数x，x mod 2 =0，x mod 5 =3，问这个数是多少？</p>
+<p>​    答：可以通过枚举的方式得出其中的一个解为：x=8。</p>
+<p>​            注意：x可能不唯一；这里只是2个式子，如果式子多起来，枚举的方式就不可取了</p>
+<p>例2：（同余+大数简化运算问题）对于mod运算，假设只能处理5以内的数，但是需要处理15以内的数。</p>
+<ul>
+<li>将15分解为一些小于5的素数的乘积：15 = 3 x 5</li>
+<li>将1-15之间的数用数列表来表示；表行数为3，行号0<del>2；列数为5，列号0</del>4；按照规则将1-15的数填入表中（规则：某个数x的行号：x%3（即x除3的余数），列号：x%5）。如x=12,行号：12 mod 3=0，列号：12 mod 5 =2，所以12 对应的位置在第0行，第2列（也可理解为12的坐标为（0，2））；重复以上操作，得到下表1：</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>0</th>
+<th>1</th>
+<th>2</th>
+<th>3</th>
+<th>4</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>0</td>
+<td>0</td>
+<td>6</td>
+<td>12</td>
+<td>3</td>
+<td>9</td>
+</tr>
+<tr>
+<td>1</td>
+<td>10</td>
+<td>1</td>
+<td>7</td>
+<td>13</td>
+<td>4</td>
+</tr>
+<tr>
+<td>2</td>
+<td>5</td>
+<td>11</td>
+<td>2</td>
+<td>8</td>
+<td>14</td>
+</tr>
+</tbody></table>
+<ul>
+<li><p>现在就可以通过表格处理15以内的数的模运算了</p>
+<p>对于乘法：两数行号相乘再mod 3得到结果数所在的行号；两数列号相乘再mod 5得到结果数所在的列号</p>
+<p>对于加法：</p>
+<p>例如：求（12 x 13）mod 15</p>
+<p>解：12和13所在的行号分别是0和1，所在的列号分别是2和3；</p>
+<p>​        行号：（0 x 1）mod 3 =0，列号：（2 x 3）mod 5=1</p>
+<p>​        查表得位于0行1列的数是6，即（12 x 13）mod 15 = 6.</p>
+<p>例如：求（12+13）mod 15</p>
+<p>​        行号：（0 x+1）mod 3 =1，列号：（2 + 3）mod 5=0</p>
+<p>​        查表得位于1行0列的数是10，即（12 x 13）mod 15 = 10. </p>
+<p>上述2例只是中国剩余定理的直观应用，下面进行详细介绍。</p>
+</li>
+</ul>
+<p><strong>2、推导/介绍</strong></p>
+<p>​    中国剩余定理最早出于《孙子算经》的”物不知数“问题：今有物不知其数，三三数之余二，五五数之余三，七七数之余二，问物有多少？韩信点兵也是这类问题。</p>
+<p>​    根据上述问题，可得如下方程组：</p>
+<p>​                                            <img src="/2021/12/03/%E4%B8%AD%E5%9B%BD%E5%89%A9%E4%BD%99%E5%AE%9A%E7%90%86/clip_image002.png" alt="img"></p>
+<p>解决思路：</p>
+<p>​    首先</p>
+<ul>
+<li><p>写出3个余数和的形式：假设x=2+3+2</p>
+</li>
+<li><p>为了满足第一个等式，x的后2项乘3，进而运算时可以消去后2项：</p>
+<p>（注意：这里说的满足是指mod 3后，后2项消失；结果不一定符合x = 2 mod 3，只是指消去另外两项）</p>
+<p>​        x = 2+3x3  +  2x3</p>
+</li>
+<li><p>为了满足第一个等式的同时又第二个等式，x的1、3项乘5：</p>
+<p>​        x = 2x5 + 3x3 +2x3x5</p>
+</li>
+<li><p>同理，为了同时满足上面3个等式</p>
+<p>​        x = 2x5x7 + 3x3x7 +2x3x5</p>
+</li>
+</ul>
+<p>​     然后</p>
+<ul>
+<li><p>将最后的x代入第一个等式，得到2x5x7，为了消去5x7使得完全符合第一个等式（x=2 mod 3），可以将第一项结果乘以<img src="/2021/12/03/%E4%B8%AD%E5%9B%BD%E5%89%A9%E4%BD%99%E5%AE%9A%E7%90%86/clip_image002-16383241400951.png" alt="img">mod 3（注：(5x7)<img src="/2021/12/03/%E4%B8%AD%E5%9B%BD%E5%89%A9%E4%BD%99%E5%AE%9A%E7%90%86/Users/Cwin/Desktop/CTF/笔记/中国剩余定理/clip_image002-16383241400951.png" alt="img">=1 mod 3，<img src="/2021/12/03/%E4%B8%AD%E5%9B%BD%E5%89%A9%E4%BD%99%E5%AE%9A%E7%90%86/Users/Cwin/Desktop/CTF/笔记/中国剩余定理/clip_image002-16383241400951.png" alt="img">=<img src="/2021/12/03/%E4%B8%AD%E5%9B%BD%E5%89%A9%E4%BD%99%E5%AE%9A%E7%90%86/Users/Cwin/Desktop/CTF/笔记/中国剩余定理/clip_image002-16383241400951.png" alt="img">mod 3 取唯一值)，即：</p>
+<p>​         x = 2x5x7<img src="/2021/12/03/%E4%B8%AD%E5%9B%BD%E5%89%A9%E4%BD%99%E5%AE%9A%E7%90%86/Users/Cwin/Desktop/CTF/笔记/中国剩余定理/clip_image002-16383241400951.png" alt="img">+ 3x3x7 +2x3x5</p>
+<p>类似地第二项乘以<img src="/2021/12/03/%E4%B8%AD%E5%9B%BD%E5%89%A9%E4%BD%99%E5%AE%9A%E7%90%86/clip_image002-16383259721102.png" alt="img">，第三项乘以<img src="/2021/12/03/%E4%B8%AD%E5%9B%BD%E5%89%A9%E4%BD%99%E5%AE%9A%E7%90%86/clip_image002-16383259997163.png" alt="img">；得：</p>
+<p>​         x = 2x5x7<img src="/2021/12/03/%E4%B8%AD%E5%9B%BD%E5%89%A9%E4%BD%99%E5%AE%9A%E7%90%86/Users/Cwin/Desktop/CTF/笔记/中国剩余定理/clip_image002-16383241400951.png" alt="img">+ 3x3x7<img src="/2021/12/03/%E4%B8%AD%E5%9B%BD%E5%89%A9%E4%BD%99%E5%AE%9A%E7%90%86/clip_image002-16383259721102.png" alt="img"> +2x3x5<img src="/2021/12/03/%E4%B8%AD%E5%9B%BD%E5%89%A9%E4%BD%99%E5%AE%9A%E7%90%86/clip_image002-16383259997163.png" alt="img">=233</p>
+<p>说明：求解逆元方法有欧几里得算法和欧几里得扩展算法，可以参考本博客的《欧几里得扩展算法》        </p>
+</li>
+<li><p>因为233+k(3x5x7)=233+105k（k为整数）都是满足方程的解；可以取k=-2，得到小于105（=3x5x7）的最小且唯一的正数解23，即：</p>
+<p>​        x = [2x5x7<img src="/2021/12/03/%E4%B8%AD%E5%9B%BD%E5%89%A9%E4%BD%99%E5%AE%9A%E7%90%86/Users/Cwin/Desktop/CTF/笔记/中国剩余定理/clip_image002-16383241400951.png" alt="img">+ 3x3x7<img src="/2021/12/03/%E4%B8%AD%E5%9B%BD%E5%89%A9%E4%BD%99%E5%AE%9A%E7%90%86/clip_image002-16383259721102.png" alt="img"> +2x3x5<img src="/2021/12/03/%E4%B8%AD%E5%9B%BD%E5%89%A9%E4%BD%99%E5%AE%9A%E7%90%86/clip_image002-16383259997163.png" alt="img">] mod (3x5x7)</p>
+</li>
+</ul>
+<p>这种构造方式推广到一般形式就是中国剩余定理的一种形式。</p>
+<p><strong>3、中国剩余定理</strong></p>
+<p>​    设<img src="/2021/12/03/%E4%B8%AD%E5%9B%BD%E5%89%A9%E4%BD%99%E5%AE%9A%E7%90%86/clip_image002-16383269790714.png" alt="img">是两两互素的正整数，<img src="/2021/12/03/%E4%B8%AD%E5%9B%BD%E5%89%A9%E4%BD%99%E5%AE%9A%E7%90%86/clip_image002-16383270515135.png" alt="img"> 则一次同余方程为：</p>
+<p><img src="/2021/12/03/%E4%B8%AD%E5%9B%BD%E5%89%A9%E4%BD%99%E5%AE%9A%E7%90%86/clip_image002-16383272474026.png" alt="img"></p>
+<p>​    根据第2部分进行推广到一般形式并对模M有唯一解：</p>
+<p><img src="/2021/12/03/%E4%B8%AD%E5%9B%BD%E5%89%A9%E4%BD%99%E5%AE%9A%E7%90%86/clip_image002-16383275764387.png" alt="img"></p>
+<p>​    其中<img src="/2021/12/03/%E4%B8%AD%E5%9B%BD%E5%89%A9%E4%BD%99%E5%AE%9A%E7%90%86/clip_image002-163832776713410.png" alt="img">满足<img src="/2021/12/03/%E4%B8%AD%E5%9B%BD%E5%89%A9%E4%BD%99%E5%AE%9A%E7%90%86/clip_image002-16383277599059.png" alt="img">；设<img src="/2021/12/03/%E4%B8%AD%E5%9B%BD%E5%89%A9%E4%BD%99%E5%AE%9A%E7%90%86/clip_image002-16383276509558.png" alt="img">，则<img src="/2021/12/03/%E4%B8%AD%E5%9B%BD%E5%89%A9%E4%BD%99%E5%AE%9A%E7%90%86/clip_image002-163832784475311.png" alt="img">：</p>
+<p><img src="/2021/12/03/%E4%B8%AD%E5%9B%BD%E5%89%A9%E4%BD%99%E5%AE%9A%E7%90%86/clip_image002-163832793629812.png" alt="img"></p>
+<p>推论：</p>
+<p>​    若A可以由一组小数<img src="/2021/12/03/%E4%B8%AD%E5%9B%BD%E5%89%A9%E4%BD%99%E5%AE%9A%E7%90%86/clip_image002-163832809670513.png" alt="img">表达，若同理存在B：</p>
+<p>​                                    <img src="/2021/12/03/%E4%B8%AD%E5%9B%BD%E5%89%A9%E4%BD%99%E5%AE%9A%E7%90%86/clip_image002-163832814995614.png" alt="img">，<img src="/2021/12/03/%E4%B8%AD%E5%9B%BD%E5%89%A9%E4%BD%99%E5%AE%9A%E7%90%86/clip_image002-163832820349515.png" alt="img"></p>
+<p>​    那么：</p>
+<p>​                            <img src="/2021/12/03/%E4%B8%AD%E5%9B%BD%E5%89%A9%E4%BD%99%E5%AE%9A%E7%90%86/clip_image002-163832838888016.png" alt="img"></p>
+<p>​                            <img src="/2021/12/03/%E4%B8%AD%E5%9B%BD%E5%89%A9%E4%BD%99%E5%AE%9A%E7%90%86/clip_image002-163832843630817.png" alt="img"> </p>
+<p>​                            <img src="/2021/12/03/%E4%B8%AD%E5%9B%BD%E5%89%A9%E4%BD%99%E5%AE%9A%E7%90%86/clip_image002-163832852702918.png" alt="img"></p>
+<p>证明tip：（a*b）mod p =[(a mod p) * (b mod p)] mod p</p>
+<p><strong>4、应用例子</strong></p>
+<p>​    <strong>a.求x</strong></p>
+<p>​                                <img src="/2021/12/03/%E4%B8%AD%E5%9B%BD%E5%89%A9%E4%BD%99%E5%AE%9A%E7%90%86/clip_image002-163835583179320.png" alt="img"></p>
+<p>​    解：</p>
+<p>​        依提议得：<img src="/2021/12/03/%E4%B8%AD%E5%9B%BD%E5%89%A9%E4%BD%99%E5%AE%9A%E7%90%86/clip_image002-163835651675532.png" alt="img"></p>
+<p>​        M=2x3x5x7=210,<img src="/2021/12/03/%E4%B8%AD%E5%9B%BD%E5%89%A9%E4%BD%99%E5%AE%9A%E7%90%86/clip_image002-163835600512821.png" alt="img">,<img src="/2021/12/03/%E4%B8%AD%E5%9B%BD%E5%89%A9%E4%BD%99%E5%AE%9A%E7%90%86/clip_image002-163835603303722.png" alt="img">,<img src="/2021/12/03/%E4%B8%AD%E5%9B%BD%E5%89%A9%E4%BD%99%E5%AE%9A%E7%90%86/clip_image002-163835605012623.png" alt="img">,<img src="/2021/12/03/%E4%B8%AD%E5%9B%BD%E5%89%A9%E4%BD%99%E5%AE%9A%E7%90%86/clip_image002-163835608694924.png" alt="img"></p>
+<p>​        由<img src="/2021/12/03/%E4%B8%AD%E5%9B%BD%E5%89%A9%E4%BD%99%E5%AE%9A%E7%90%86/clip_image002-163835617681925.png" alt="img">求得：<img src="/2021/12/03/%E4%B8%AD%E5%9B%BD%E5%89%A9%E4%BD%99%E5%AE%9A%E7%90%86/clip_image002-163835620140926.png" alt="img">= <img src="/2021/12/03/%E4%B8%AD%E5%9B%BD%E5%89%A9%E4%BD%99%E5%AE%9A%E7%90%86/clip_image002-163835626702128.png" alt="img">mod 2 = 1，<img src="/2021/12/03/%E4%B8%AD%E5%9B%BD%E5%89%A9%E4%BD%99%E5%AE%9A%E7%90%86/clip_image002-163835631925329.png" alt="img">，<img src="/2021/12/03/%E4%B8%AD%E5%9B%BD%E5%89%A9%E4%BD%99%E5%AE%9A%E7%90%86/clip_image002-163835634755130.png" alt="img">，<img src="/2021/12/03/%E4%B8%AD%E5%9B%BD%E5%89%A9%E4%BD%99%E5%AE%9A%E7%90%86/clip_image002-163835636430531.png" alt="img">，</p>
+<p>​        由中国剩余定理<img src="/2021/12/03/%E4%B8%AD%E5%9B%BD%E5%89%A9%E4%BD%99%E5%AE%9A%E7%90%86/clip_image002-163832793629812.png" alt="img">得：</p>
+<p>​        x=（150x1x1 + 70x1x2 + 42x3x3 + 30x4x5）mod 210 = 173</p>
+<p>说明：求逆元方法有欧几里得算法/欧几里得扩展算法，可以参考本博客的《欧几里得扩展算法》；这里的逆元用枚举法就可以算出。</p>
+<p><strong>b.中国剩余定理推论的应用</strong></p>
+<p>​    问题：将973 mod 1813的模数换成37和49两个数表示</p>
+<p>​        可取：x=973，M=1813，<img src="/2021/12/03/%E4%B8%AD%E5%9B%BD%E5%89%A9%E4%BD%99%E5%AE%9A%E7%90%86/clip_image002-163835693319833.png" alt="img"> 。</p>
+<ul>
+<li><p>求<img src="/2021/12/03/%E4%B8%AD%E5%9B%BD%E5%89%A9%E4%BD%99%E5%AE%9A%E7%90%86/clip_image002-163835707953934.png" alt="img">，也是求 <img src="/2021/12/03/%E4%B8%AD%E5%9B%BD%E5%89%A9%E4%BD%99%E5%AE%9A%E7%90%86/clip_image002-163835824979441.png" alt="img"></p>
+<p><img src="/2021/12/03/%E4%B8%AD%E5%9B%BD%E5%89%A9%E4%BD%99%E5%AE%9A%E7%90%86/clip_image002-163835717495635.png" alt="img">，<img src="/2021/12/03/%E4%B8%AD%E5%9B%BD%E5%89%A9%E4%BD%99%E5%AE%9A%E7%90%86/clip_image002-163835720161036.png" alt="img"></p>
+<p>得x在模37和模49下的表达式为<img src="/2021/12/03/%E4%B8%AD%E5%9B%BD%E5%89%A9%E4%BD%99%E5%AE%9A%E7%90%86/clip_image002-163835726695437.png" alt="img">，（注意X就是A)</p>
+<p>​                            <img src="/2021/12/03/%E4%B8%AD%E5%9B%BD%E5%89%A9%E4%BD%99%E5%AE%9A%E7%90%86/clip_image002-163835831507542.png" alt="img"></p>
+</li>
+</ul>
+<ul>
+<li><p>求（973 mod 1813） + （678 mod 1813）的表达形式<img src="/2021/12/03/%E4%B8%AD%E5%9B%BD%E5%89%A9%E4%BD%99%E5%AE%9A%E7%90%86/clip_image002-163835746084739.png" alt="img"></p>
+<p>先求：678<img src="/2021/12/03/%E4%B8%AD%E5%9B%BD%E5%89%A9%E4%BD%99%E5%AE%9A%E7%90%86/clip_image002-163835750068740.png" alt="img">（678 mod 37,678 mod 49) = （12,41)</p>
+<p>由于模数相同，都是1813；根据中国剩余定理的推论可得：</p>
+<p>（973 mod 1813） + （678 mod 1813）</p>
+<p>=（（11+12）mod 37,（42+41）mod 49）</p>
+<p>=（23,24）</p>
+</li>
+</ul>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
       
   
   
@@ -1360,203 +1564,6 @@
   
   
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://wgc5.gitee.io/2021/11/26/SQL%E6%B3%A8%E5%85%A5/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="北极星上的稻草人">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="北极星上的稻草人">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2021/11/26/SQL%E6%B3%A8%E5%85%A5/" class="post-title-link" itemprop="url">SQL注入</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-              
-
-              <time title="创建时间：2021-11-26 11:13:12 / 修改时间：11:13:49" itemprop="dateCreated datePublished" datetime="2021-11-26T11:13:12+08:00">2021-11-26</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/CTF/" itemprop="url" rel="index"><span itemprop="name">CTF</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="SQL注入"><a href="#SQL注入" class="headerlink" title="SQL注入"></a>SQL注入</h1><h3 id="sql介绍"><a href="#sql介绍" class="headerlink" title="sql介绍"></a>sql介绍</h3><p><img src="/2021/11/26/SQL%E6%B3%A8%E5%85%A5/image-20211030195103555.png" alt="image-20211030195103555"></p>
-<h3 id="SQL注入：get"><a href="#SQL注入：get" class="headerlink" title="SQL注入：get"></a>SQL注入：get</h3><p><img src="/2021/11/26/SQL%E6%B3%A8%E5%85%A5/image-20211030195206062.png" alt="image-20211030195206062"></p>
-<h5 id="步骤1：信息探测"><a href="#步骤1：信息探测" class="headerlink" title="步骤1：信息探测"></a>步骤1：信息探测</h5><p><img src="/2021/11/26/SQL%E6%B3%A8%E5%85%A5/image-20211030195430406.png" alt="image-20211030195430406"></p>
-<p>nikto是探测http服务的，默认端口是80</p>
-<p><img src="/2021/11/26/SQL%E6%B3%A8%E5%85%A5/image-20211030195413097.png" alt="image-20211030195413097"></p>
-<h5 id="步骤2：深入挖掘"><a href="#步骤2：深入挖掘" class="headerlink" title="步骤2：深入挖掘"></a>步骤2：深入挖掘</h5><p><img src="/2021/11/26/SQL%E6%B3%A8%E5%85%A5/image-20211030195640496.png" alt="image-20211030195640496"></p>
-<p><img src="/2021/11/26/SQL%E6%B3%A8%E5%85%A5/image-20211030195628359.png" alt="image-20211030195628359"></p>
-<p><img src="/2021/11/26/SQL%E6%B3%A8%E5%85%A5/image-20211030195658976.png" alt="image-20211030195658976"></p>
-<h5 id="步骤3：漏洞扫描"><a href="#步骤3：漏洞扫描" class="headerlink" title="步骤3：漏洞扫描"></a>步骤3：漏洞扫描</h5><p><img src="/2021/11/26/SQL%E6%B3%A8%E5%85%A5/image-20211030195904984.png" alt="image-20211030195904984"></p>
-<p>kali自带</p>
-<p><img src="/2021/11/26/SQL%E6%B3%A8%E5%85%A5/image-20211030200009064.png" alt="image-20211030200009064"></p>
-<p><img src="/2021/11/26/SQL%E6%B3%A8%E5%85%A5/image-20211030200355880.png" alt="image-20211030200355880"></p>
-<h5 id="步骤4：漏洞利用"><a href="#步骤4：漏洞利用" class="headerlink" title="步骤4：漏洞利用"></a>步骤4：漏洞利用</h5><p><img src="/2021/11/26/SQL%E6%B3%A8%E5%85%A5/image-20211030201025832.png" alt="image-20211030201025832"></p>
-<p><img src="/2021/11/26/SQL%E6%B3%A8%E5%85%A5/image-20211030200617332.png" alt="image-20211030200617332"></p>
-<p>利用sqlmap探测有漏洞网址</p>
-<p><img src="/2021/11/26/SQL%E6%B3%A8%E5%85%A5/image-20211030200857314.png" alt="image-20211030200857314"></p>
-<p>a.查看数据库</p>
-<p><img src="/2021/11/26/SQL%E6%B3%A8%E5%85%A5/image-20211030201115476.png" alt="image-20211030201115476"></p>
-<p><img src="/2021/11/26/SQL%E6%B3%A8%E5%85%A5/image-20211030201330640.png" alt="image-20211030201330640"></p>
-<p>b.查看数据库的表</p>
-<p><img src="/2021/11/26/SQL%E6%B3%A8%E5%85%A5/image-20211030201401702.png" alt="image-20211030201401702"></p>
-<p><img src="/2021/11/26/SQL%E6%B3%A8%E5%85%A5/image-20211030201503525.png" alt="image-20211030201503525"></p>
-<p>c.查看表的列</p>
-<p><img src="/2021/11/26/SQL%E6%B3%A8%E5%85%A5/image-20211030201539039.png" alt="image-20211030201539039"></p>
-<p><img src="/2021/11/26/SQL%E6%B3%A8%E5%85%A5/image-20211030201631528.png" alt="image-20211030201631528"></p>
-<p>d.查看内容（用户名，密码）</p>
-<p><img src="/2021/11/26/SQL%E6%B3%A8%E5%85%A5/image-20211030201704046.png" alt="image-20211030201704046"></p>
-<p><img src="/2021/11/26/SQL%E6%B3%A8%E5%85%A5/image-20211030201838624.png" alt="image-20211030201838624"></p>
-<p>e.登录</p>
-<p><img src="/2021/11/26/SQL%E6%B3%A8%E5%85%A5/image-20211030201919623.png" alt="image-20211030201919623"></p>
-<p>登录成功（一般都是后台服务器）</p>
-<p><img src="/2021/11/26/SQL%E6%B3%A8%E5%85%A5/image-20211030201951643.png" alt="image-20211030201951643"></p>
-<h5 id="步骤5：上传shell反弹权限"><a href="#步骤5：上传shell反弹权限" class="headerlink" title="步骤5：上传shell反弹权限"></a>步骤5：上传shell反弹权限</h5><p><img src="/2021/11/26/SQL%E6%B3%A8%E5%85%A5/image-20211030202106015.png" alt="image-20211030202106015"></p>
-<p><img src="/2021/11/26/SQL%E6%B3%A8%E5%85%A5/image-20211030202206919.png" alt="image-20211030202206919"></p>
-<h6 id="生产一句话木马"><a href="#生产一句话木马" class="headerlink" title="生产一句话木马"></a>生产一句话木马</h6><p><img src="/2021/11/26/SQL%E6%B3%A8%E5%85%A5/image-20211030202303905.png" alt="image-20211030202303905"></p>
-<p><img src="/2021/11/26/SQL%E6%B3%A8%E5%85%A5/image-20211030202405758.png" alt="image-20211030202405758"></p>
-<h6 id="启动监听"><a href="#启动监听" class="headerlink" title="启动监听"></a>启动监听</h6><p><img src="/2021/11/26/SQL%E6%B3%A8%E5%85%A5/image-20211030202457644.png" alt="image-20211030202457644"></p>
-<p>步骤略…（按照上面的提示即可）</p>
-<h3 id="SQL注入：post"><a href="#SQL注入：post" class="headerlink" title="SQL注入：post"></a>SQL注入：post</h3><p><img src="/2021/11/26/SQL%E6%B3%A8%E5%85%A5/image-20211030202715197.png" alt="image-20211030202715197"></p>
-<p><img src="/2021/11/26/SQL%E6%B3%A8%E5%85%A5/image-20211030202734637.png" alt="image-20211030202734637"></p>
-<h5 id="步骤1：信息探测-1"><a href="#步骤1：信息探测-1" class="headerlink" title="步骤1：信息探测"></a>步骤1：信息探测</h5><p><img src="/2021/11/26/SQL%E6%B3%A8%E5%85%A5/image-20211030202838854.png" alt="image-20211030202838854"></p>
-<p><img src="/2021/11/26/SQL%E6%B3%A8%E5%85%A5/image-20211030203029825.png" alt="image-20211030203029825"></p>
-<h5 id="步骤2：漏洞扫描"><a href="#步骤2：漏洞扫描" class="headerlink" title="步骤2：漏洞扫描"></a>步骤2：漏洞扫描</h5><p><img src="/2021/11/26/SQL%E6%B3%A8%E5%85%A5/image-20211030203138724.png" alt="image-20211030203138724"></p>
-<p><img src="/2021/11/26/SQL%E6%B3%A8%E5%85%A5/image-20211030203259464.png" alt="image-20211030203259464"></p>
-<p>有时该软件是检测不出来漏洞，但通过扫描有时可以找到。</p>
-<p>（登录界面是sql注入敏感界面）</p>
-<p><img src="/2021/11/26/SQL%E6%B3%A8%E5%85%A5/image-20211030203441182.png" alt="image-20211030203441182"></p>
-<p><img src="/2021/11/26/SQL%E6%B3%A8%E5%85%A5/image-20211030203810208.png" alt="image-20211030203810208"></p>
-<h5 id="步骤3：漏洞利用"><a href="#步骤3：漏洞利用" class="headerlink" title="步骤3：漏洞利用"></a>步骤3：漏洞利用</h5><p><img src="/2021/11/26/SQL%E6%B3%A8%E5%85%A5/image-20211030203913929.png" alt="image-20211030203913929"></p>
-<p>a.用burp-StartBurp抓包（方法不唯一）</p>
-<p>避免端口冲突，这里用8081而不是8080端口</p>
-<p><img src="/2021/11/26/SQL%E6%B3%A8%E5%85%A5/image-20211030204207430.png" alt="image-20211030204207430"></p>
-<p><img src="/2021/11/26/SQL%E6%B3%A8%E5%85%A5/image-20211030204227407.png" alt="image-20211030204227407"></p>
-<p><img src="/2021/11/26/SQL%E6%B3%A8%E5%85%A5/image-20211030204330334.png" alt="image-20211030204330334"></p>
-<p><img src="/2021/11/26/SQL%E6%B3%A8%E5%85%A5/image-20211030204416814.png" alt="image-20211030204416814"></p>
-<p><img src="/2021/11/26/SQL%E6%B3%A8%E5%85%A5/image-20211030204518260.png" alt="image-20211030204518260"></p>
-<p><img src="/2021/11/26/SQL%E6%B3%A8%E5%85%A5/image-20211030204527245.png" alt="image-20211030204527245"></p>
-<p>b.探测数据库</p>
-<p><img src="/2021/11/26/SQL%E6%B3%A8%E5%85%A5/image-20211030204718382.png" alt="image-20211030204718382"></p>
-<p><img src="/2021/11/26/SQL%E6%B3%A8%E5%85%A5/image-20211030204803197.png" alt="image-20211030204803197"></p>
-<p>c.探测可疑数据库的表</p>
-<p><img src="/2021/11/26/SQL%E6%B3%A8%E5%85%A5/image-20211030204901021.png" alt="image-20211030204901021"></p>
-<p><img src="/2021/11/26/SQL%E6%B3%A8%E5%85%A5/image-20211030204914716.png" alt="image-20211030204914716"></p>
-<p>d.探测字段</p>
-<p><img src="/2021/11/26/SQL%E6%B3%A8%E5%85%A5/image-20211030205004109.png" alt="image-20211030205004109"></p>
-<p><img src="/2021/11/26/SQL%E6%B3%A8%E5%85%A5/image-20211030205014868.png" alt="image-20211030205014868"></p>
-<p>e.探测字段内容</p>
-<p><img src="/2021/11/26/SQL%E6%B3%A8%E5%85%A5/image-20211030205056260.png" alt="image-20211030205056260"></p>
-<p><img src="/2021/11/26/SQL%E6%B3%A8%E5%85%A5/image-20211030205111198.png" alt="image-20211030205111198"></p>
-<p>f.利用数据库获取到的用户名和密码</p>
-<p><img src="/2021/11/26/SQL%E6%B3%A8%E5%85%A5/image-20211030205309461.png" alt="image-20211030205309461"></p>
-<p>登录到后台</p>
-<p><img src="/2021/11/26/SQL%E6%B3%A8%E5%85%A5/image-20211030205406227.png" alt="image-20211030205406227"></p>
-<h5 id="步骤4：上传webshell获取控制权（另外一种方法：kali自带）"><a href="#步骤4：上传webshell获取控制权（另外一种方法：kali自带）" class="headerlink" title="步骤4：上传webshell获取控制权（另外一种方法：kali自带）"></a>步骤4：上传webshell获取控制权（另外一种方法：kali自带）</h5><h6 id="制作wenshell"><a href="#制作wenshell" class="headerlink" title="制作wenshell"></a>制作wenshell</h6><p><img src="/2021/11/26/SQL%E6%B3%A8%E5%85%A5/image-20211030210638514.png" alt="image-20211030210638514"></p>
-<p><img src="/2021/11/26/SQL%E6%B3%A8%E5%85%A5/image-20211030205649760.png" alt="image-20211030205649760"></p>
-<p>复制到桌面</p>
-<p><img src="/2021/11/26/SQL%E6%B3%A8%E5%85%A5/image-20211030205758479.png" alt="image-20211030205758479"></p>
-<p>注意：需要修改该webshell的shell返回地址</p>
-<p><img src="/2021/11/26/SQL%E6%B3%A8%E5%85%A5/image-20211030205845387.png" alt="image-20211030205845387"></p>
-<p><img src="/2021/11/26/SQL%E6%B3%A8%E5%85%A5/image-20211030205956630.png" alt="image-20211030205956630"></p>
-<h6 id="上传webshell"><a href="#上传webshell" class="headerlink" title="上传webshell"></a>上传webshell</h6><p><img src="/2021/11/26/SQL%E6%B3%A8%E5%85%A5/image-20211030210603631.png" alt="image-20211030210603631"></p>
-<p>主题名twentyhtirteen</p>
-<p>监听</p>
-<p><img src="/2021/11/26/SQL%E6%B3%A8%E5%85%A5/image-20211030210238468.png" alt="image-20211030210238468"></p>
-<p>监听后要访问对应的页面才可以生效</p>
-<p><img src="/2021/11/26/SQL%E6%B3%A8%E5%85%A5/image-20211030210421797.png" alt="image-20211030210421797"></p>
-<p><img src="/2021/11/26/SQL%E6%B3%A8%E5%85%A5/image-20211030210850545.png" alt="image-20211030210850545"></p>
-<h6 id="查看敏感文件（寻找flag）"><a href="#查看敏感文件（寻找flag）" class="headerlink" title="查看敏感文件（寻找flag）"></a>查看敏感文件（寻找flag）</h6><p><img src="/2021/11/26/SQL%E6%B3%A8%E5%85%A5/image-20211030210730741.png" alt="image-20211030210730741"></p>
-<p>查看敏感信息是个习惯，尽管这里没有找到flag</p>
-<p><img src="/2021/11/26/SQL%E6%B3%A8%E5%85%A5/image-20211030210918431.png" alt="image-20211030210918431"></p>
-<p><img src="/2021/11/26/SQL%E6%B3%A8%E5%85%A5/image-20211030210945951.png" alt="image-20211030210945951"></p>
-<h6 id="提权"><a href="#提权" class="headerlink" title="提权"></a>提权</h6><p><img src="/2021/11/26/SQL%E6%B3%A8%E5%85%A5/image-20211030211136197.png" alt="image-20211030211136197"></p>
-<p><img src="/2021/11/26/SQL%E6%B3%A8%E5%85%A5/image-20211030211039365.png" alt="image-20211030211039365"></p>
-<p>获取了root权限后，就去根目录（root目录）寻找flag</p>
-<h3 id="SQL注入-X-Forwarded-For报文头"><a href="#SQL注入-X-Forwarded-For报文头" class="headerlink" title="SQL注入-X-Forwarded-For报文头"></a>SQL注入-X-Forwarded-For报文头</h3><p><img src="/2021/11/26/SQL%E6%B3%A8%E5%85%A5/image-20211030211429182.png" alt="image-20211030211429182"></p>
-<h5 id="步骤1：信息探测-2"><a href="#步骤1：信息探测-2" class="headerlink" title="步骤1：信息探测"></a>步骤1：信息探测</h5><p><img src="/2021/11/26/SQL%E6%B3%A8%E5%85%A5/image-20211030211518814.png" alt="image-20211030211518814"></p>
-<p><img src="/2021/11/26/SQL%E6%B3%A8%E5%85%A5/image-20211030211602431.png" alt="image-20211030211602431"></p>
-<p><img src="/2021/11/26/SQL%E6%B3%A8%E5%85%A5/image-20211030211630636.png" alt="image-20211030211630636"></p>
-<p><img src="/2021/11/26/SQL%E6%B3%A8%E5%85%A5/image-20211030211721024.png" alt="image-20211030211721024"></p>
-<p><img src="/2021/11/26/SQL%E6%B3%A8%E5%85%A5/image-20211030211811665.png" alt="image-20211030211811665"></p>
-<h5 id="步骤2：漏洞扫描-1"><a href="#步骤2：漏洞扫描-1" class="headerlink" title="步骤2：漏洞扫描"></a>步骤2：漏洞扫描</h5><p>这里用avws（acunetix），方法不唯一</p>
-<p><img src="/2021/11/26/SQL%E6%B3%A8%E5%85%A5/image-20211030211842798.png" alt="image-20211030211842798"></p>
-<p>填加目标</p>
-<p><img src="/2021/11/26/SQL%E6%B3%A8%E5%85%A5/image-20211030212002249.png" alt="image-20211030212002249"></p>
-<p><img src="/2021/11/26/SQL%E6%B3%A8%E5%85%A5/image-20211030212015856.png" alt="image-20211030212015856"></p>
-<p><img src="/2021/11/26/SQL%E6%B3%A8%E5%85%A5/image-20211030212108734.png" alt="image-20211030212108734"></p>
-<p><img src="/2021/11/26/SQL%E6%B3%A8%E5%85%A5/image-20211030212157113.png" alt="image-20211030212157113"></p>
-<p>（点击可以查看详情）</p>
-<h5 id="步骤3：漏洞利用-1"><a href="#步骤3：漏洞利用-1" class="headerlink" title="步骤3：漏洞利用"></a>步骤3：漏洞利用</h5><p><img src="/2021/11/26/SQL%E6%B3%A8%E5%85%A5/image-20211030213230888.png" alt="image-20211030213230888"></p>
-<p>a.探测数据库</p>
-<p><img src="/2021/11/26/SQL%E6%B3%A8%E5%85%A5/image-20211030212348421.png" alt="image-20211030212348421"></p>
-<p><img src="/2021/11/26/SQL%E6%B3%A8%E5%85%A5/image-20211030212559034.png" alt="image-20211030212559034"></p>
-<p>b.探测表</p>
-<p><img src="/2021/11/26/SQL%E6%B3%A8%E5%85%A5/image-20211030212622155.png" alt="image-20211030212622155"></p>
-<p><img src="/2021/11/26/SQL%E6%B3%A8%E5%85%A5/image-20211030212655679.png" alt="image-20211030212655679"></p>
-<p><img src="/2021/11/26/SQL%E6%B3%A8%E5%85%A5/image-20211030212706557.png" alt="image-20211030212706557">.c.探测users表的字段名</p>
-<p><img src="/2021/11/26/SQL%E6%B3%A8%E5%85%A5/image-20211030212749052.png" alt="image-20211030212749052"></p>
-<p><img src="/2021/11/26/SQL%E6%B3%A8%E5%85%A5/image-20211030212832324.png" alt="image-20211030212832324"></p>
-<p>d.探测账号（login）和密码（password）</p>
-<p><img src="/2021/11/26/SQL%E6%B3%A8%E5%85%A5/image-20211030212908773.png" alt="image-20211030212908773"></p>
-<p><img src="/2021/11/26/SQL%E6%B3%A8%E5%85%A5/image-20211030213119901.png" alt="image-20211030213119901"></p>
-<p>e.登录</p>
-<p><img src="/2021/11/26/SQL%E6%B3%A8%E5%85%A5/image-20211030213152488.png" alt="image-20211030213152488"></p>
-<p>登录到后台服务器</p>
-<p><img src="/2021/11/26/SQL%E6%B3%A8%E5%85%A5/image-20211030213211646.png" alt="image-20211030213211646"></p>
-<p>下面3个步骤具体过程省略。（与前面的实验一样）</p>
-<p>步骤4：上传webshell反弹shell</p>
-<p>步骤5：获取shell后提权，</p>
-<p>步骤6：获取root权限后，在根目录下找flag.txt文件</p>
-<h5 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h5><p><img src="/2021/11/26/SQL%E6%B3%A8%E5%85%A5/image-20211030213512529.png" alt="image-20211030213512529"></p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
 
   
   <nav class="pagination">
@@ -1639,7 +1646,7 @@
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">24</span>
+        <span class="site-state-item-count">23</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>

@@ -116,7 +116,7 @@
   </li>
         <li class="menu-item menu-item-tags">
 
-    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">24</span></a>
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">23</span></a>
 
   </li>
         <li class="menu-item menu-item-categories">
@@ -152,6 +152,203 @@
 
           <div class="content index posts-expand">
             
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://wgc5.gitee.io/2021/11/26/SQL%E6%B3%A8%E5%85%A5/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="北极星上的稻草人">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="北极星上的稻草人">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2021/11/26/SQL%E6%B3%A8%E5%85%A5/" class="post-title-link" itemprop="url">SQL注入</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2021-11-26 11:13:12 / 修改时间：11:13:49" itemprop="dateCreated datePublished" datetime="2021-11-26T11:13:12+08:00">2021-11-26</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/CTF/" itemprop="url" rel="index"><span itemprop="name">CTF</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="SQL注入"><a href="#SQL注入" class="headerlink" title="SQL注入"></a>SQL注入</h1><h3 id="sql介绍"><a href="#sql介绍" class="headerlink" title="sql介绍"></a>sql介绍</h3><p><img src="/2021/11/26/SQL%E6%B3%A8%E5%85%A5/image-20211030195103555.png" alt="image-20211030195103555"></p>
+<h3 id="SQL注入：get"><a href="#SQL注入：get" class="headerlink" title="SQL注入：get"></a>SQL注入：get</h3><p><img src="/2021/11/26/SQL%E6%B3%A8%E5%85%A5/image-20211030195206062.png" alt="image-20211030195206062"></p>
+<h5 id="步骤1：信息探测"><a href="#步骤1：信息探测" class="headerlink" title="步骤1：信息探测"></a>步骤1：信息探测</h5><p><img src="/2021/11/26/SQL%E6%B3%A8%E5%85%A5/image-20211030195430406.png" alt="image-20211030195430406"></p>
+<p>nikto是探测http服务的，默认端口是80</p>
+<p><img src="/2021/11/26/SQL%E6%B3%A8%E5%85%A5/image-20211030195413097.png" alt="image-20211030195413097"></p>
+<h5 id="步骤2：深入挖掘"><a href="#步骤2：深入挖掘" class="headerlink" title="步骤2：深入挖掘"></a>步骤2：深入挖掘</h5><p><img src="/2021/11/26/SQL%E6%B3%A8%E5%85%A5/image-20211030195640496.png" alt="image-20211030195640496"></p>
+<p><img src="/2021/11/26/SQL%E6%B3%A8%E5%85%A5/image-20211030195628359.png" alt="image-20211030195628359"></p>
+<p><img src="/2021/11/26/SQL%E6%B3%A8%E5%85%A5/image-20211030195658976.png" alt="image-20211030195658976"></p>
+<h5 id="步骤3：漏洞扫描"><a href="#步骤3：漏洞扫描" class="headerlink" title="步骤3：漏洞扫描"></a>步骤3：漏洞扫描</h5><p><img src="/2021/11/26/SQL%E6%B3%A8%E5%85%A5/image-20211030195904984.png" alt="image-20211030195904984"></p>
+<p>kali自带</p>
+<p><img src="/2021/11/26/SQL%E6%B3%A8%E5%85%A5/image-20211030200009064.png" alt="image-20211030200009064"></p>
+<p><img src="/2021/11/26/SQL%E6%B3%A8%E5%85%A5/image-20211030200355880.png" alt="image-20211030200355880"></p>
+<h5 id="步骤4：漏洞利用"><a href="#步骤4：漏洞利用" class="headerlink" title="步骤4：漏洞利用"></a>步骤4：漏洞利用</h5><p><img src="/2021/11/26/SQL%E6%B3%A8%E5%85%A5/image-20211030201025832.png" alt="image-20211030201025832"></p>
+<p><img src="/2021/11/26/SQL%E6%B3%A8%E5%85%A5/image-20211030200617332.png" alt="image-20211030200617332"></p>
+<p>利用sqlmap探测有漏洞网址</p>
+<p><img src="/2021/11/26/SQL%E6%B3%A8%E5%85%A5/image-20211030200857314.png" alt="image-20211030200857314"></p>
+<p>a.查看数据库</p>
+<p><img src="/2021/11/26/SQL%E6%B3%A8%E5%85%A5/image-20211030201115476.png" alt="image-20211030201115476"></p>
+<p><img src="/2021/11/26/SQL%E6%B3%A8%E5%85%A5/image-20211030201330640.png" alt="image-20211030201330640"></p>
+<p>b.查看数据库的表</p>
+<p><img src="/2021/11/26/SQL%E6%B3%A8%E5%85%A5/image-20211030201401702.png" alt="image-20211030201401702"></p>
+<p><img src="/2021/11/26/SQL%E6%B3%A8%E5%85%A5/image-20211030201503525.png" alt="image-20211030201503525"></p>
+<p>c.查看表的列</p>
+<p><img src="/2021/11/26/SQL%E6%B3%A8%E5%85%A5/image-20211030201539039.png" alt="image-20211030201539039"></p>
+<p><img src="/2021/11/26/SQL%E6%B3%A8%E5%85%A5/image-20211030201631528.png" alt="image-20211030201631528"></p>
+<p>d.查看内容（用户名，密码）</p>
+<p><img src="/2021/11/26/SQL%E6%B3%A8%E5%85%A5/image-20211030201704046.png" alt="image-20211030201704046"></p>
+<p><img src="/2021/11/26/SQL%E6%B3%A8%E5%85%A5/image-20211030201838624.png" alt="image-20211030201838624"></p>
+<p>e.登录</p>
+<p><img src="/2021/11/26/SQL%E6%B3%A8%E5%85%A5/image-20211030201919623.png" alt="image-20211030201919623"></p>
+<p>登录成功（一般都是后台服务器）</p>
+<p><img src="/2021/11/26/SQL%E6%B3%A8%E5%85%A5/image-20211030201951643.png" alt="image-20211030201951643"></p>
+<h5 id="步骤5：上传shell反弹权限"><a href="#步骤5：上传shell反弹权限" class="headerlink" title="步骤5：上传shell反弹权限"></a>步骤5：上传shell反弹权限</h5><p><img src="/2021/11/26/SQL%E6%B3%A8%E5%85%A5/image-20211030202106015.png" alt="image-20211030202106015"></p>
+<p><img src="/2021/11/26/SQL%E6%B3%A8%E5%85%A5/image-20211030202206919.png" alt="image-20211030202206919"></p>
+<h6 id="生产一句话木马"><a href="#生产一句话木马" class="headerlink" title="生产一句话木马"></a>生产一句话木马</h6><p><img src="/2021/11/26/SQL%E6%B3%A8%E5%85%A5/image-20211030202303905.png" alt="image-20211030202303905"></p>
+<p><img src="/2021/11/26/SQL%E6%B3%A8%E5%85%A5/image-20211030202405758.png" alt="image-20211030202405758"></p>
+<h6 id="启动监听"><a href="#启动监听" class="headerlink" title="启动监听"></a>启动监听</h6><p><img src="/2021/11/26/SQL%E6%B3%A8%E5%85%A5/image-20211030202457644.png" alt="image-20211030202457644"></p>
+<p>步骤略…（按照上面的提示即可）</p>
+<h3 id="SQL注入：post"><a href="#SQL注入：post" class="headerlink" title="SQL注入：post"></a>SQL注入：post</h3><p><img src="/2021/11/26/SQL%E6%B3%A8%E5%85%A5/image-20211030202715197.png" alt="image-20211030202715197"></p>
+<p><img src="/2021/11/26/SQL%E6%B3%A8%E5%85%A5/image-20211030202734637.png" alt="image-20211030202734637"></p>
+<h5 id="步骤1：信息探测-1"><a href="#步骤1：信息探测-1" class="headerlink" title="步骤1：信息探测"></a>步骤1：信息探测</h5><p><img src="/2021/11/26/SQL%E6%B3%A8%E5%85%A5/image-20211030202838854.png" alt="image-20211030202838854"></p>
+<p><img src="/2021/11/26/SQL%E6%B3%A8%E5%85%A5/image-20211030203029825.png" alt="image-20211030203029825"></p>
+<h5 id="步骤2：漏洞扫描"><a href="#步骤2：漏洞扫描" class="headerlink" title="步骤2：漏洞扫描"></a>步骤2：漏洞扫描</h5><p><img src="/2021/11/26/SQL%E6%B3%A8%E5%85%A5/image-20211030203138724.png" alt="image-20211030203138724"></p>
+<p><img src="/2021/11/26/SQL%E6%B3%A8%E5%85%A5/image-20211030203259464.png" alt="image-20211030203259464"></p>
+<p>有时该软件是检测不出来漏洞，但通过扫描有时可以找到。</p>
+<p>（登录界面是sql注入敏感界面）</p>
+<p><img src="/2021/11/26/SQL%E6%B3%A8%E5%85%A5/image-20211030203441182.png" alt="image-20211030203441182"></p>
+<p><img src="/2021/11/26/SQL%E6%B3%A8%E5%85%A5/image-20211030203810208.png" alt="image-20211030203810208"></p>
+<h5 id="步骤3：漏洞利用"><a href="#步骤3：漏洞利用" class="headerlink" title="步骤3：漏洞利用"></a>步骤3：漏洞利用</h5><p><img src="/2021/11/26/SQL%E6%B3%A8%E5%85%A5/image-20211030203913929.png" alt="image-20211030203913929"></p>
+<p>a.用burp-StartBurp抓包（方法不唯一）</p>
+<p>避免端口冲突，这里用8081而不是8080端口</p>
+<p><img src="/2021/11/26/SQL%E6%B3%A8%E5%85%A5/image-20211030204207430.png" alt="image-20211030204207430"></p>
+<p><img src="/2021/11/26/SQL%E6%B3%A8%E5%85%A5/image-20211030204227407.png" alt="image-20211030204227407"></p>
+<p><img src="/2021/11/26/SQL%E6%B3%A8%E5%85%A5/image-20211030204330334.png" alt="image-20211030204330334"></p>
+<p><img src="/2021/11/26/SQL%E6%B3%A8%E5%85%A5/image-20211030204416814.png" alt="image-20211030204416814"></p>
+<p><img src="/2021/11/26/SQL%E6%B3%A8%E5%85%A5/image-20211030204518260.png" alt="image-20211030204518260"></p>
+<p><img src="/2021/11/26/SQL%E6%B3%A8%E5%85%A5/image-20211030204527245.png" alt="image-20211030204527245"></p>
+<p>b.探测数据库</p>
+<p><img src="/2021/11/26/SQL%E6%B3%A8%E5%85%A5/image-20211030204718382.png" alt="image-20211030204718382"></p>
+<p><img src="/2021/11/26/SQL%E6%B3%A8%E5%85%A5/image-20211030204803197.png" alt="image-20211030204803197"></p>
+<p>c.探测可疑数据库的表</p>
+<p><img src="/2021/11/26/SQL%E6%B3%A8%E5%85%A5/image-20211030204901021.png" alt="image-20211030204901021"></p>
+<p><img src="/2021/11/26/SQL%E6%B3%A8%E5%85%A5/image-20211030204914716.png" alt="image-20211030204914716"></p>
+<p>d.探测字段</p>
+<p><img src="/2021/11/26/SQL%E6%B3%A8%E5%85%A5/image-20211030205004109.png" alt="image-20211030205004109"></p>
+<p><img src="/2021/11/26/SQL%E6%B3%A8%E5%85%A5/image-20211030205014868.png" alt="image-20211030205014868"></p>
+<p>e.探测字段内容</p>
+<p><img src="/2021/11/26/SQL%E6%B3%A8%E5%85%A5/image-20211030205056260.png" alt="image-20211030205056260"></p>
+<p><img src="/2021/11/26/SQL%E6%B3%A8%E5%85%A5/image-20211030205111198.png" alt="image-20211030205111198"></p>
+<p>f.利用数据库获取到的用户名和密码</p>
+<p><img src="/2021/11/26/SQL%E6%B3%A8%E5%85%A5/image-20211030205309461.png" alt="image-20211030205309461"></p>
+<p>登录到后台</p>
+<p><img src="/2021/11/26/SQL%E6%B3%A8%E5%85%A5/image-20211030205406227.png" alt="image-20211030205406227"></p>
+<h5 id="步骤4：上传webshell获取控制权（另外一种方法：kali自带）"><a href="#步骤4：上传webshell获取控制权（另外一种方法：kali自带）" class="headerlink" title="步骤4：上传webshell获取控制权（另外一种方法：kali自带）"></a>步骤4：上传webshell获取控制权（另外一种方法：kali自带）</h5><h6 id="制作wenshell"><a href="#制作wenshell" class="headerlink" title="制作wenshell"></a>制作wenshell</h6><p><img src="/2021/11/26/SQL%E6%B3%A8%E5%85%A5/image-20211030210638514.png" alt="image-20211030210638514"></p>
+<p><img src="/2021/11/26/SQL%E6%B3%A8%E5%85%A5/image-20211030205649760.png" alt="image-20211030205649760"></p>
+<p>复制到桌面</p>
+<p><img src="/2021/11/26/SQL%E6%B3%A8%E5%85%A5/image-20211030205758479.png" alt="image-20211030205758479"></p>
+<p>注意：需要修改该webshell的shell返回地址</p>
+<p><img src="/2021/11/26/SQL%E6%B3%A8%E5%85%A5/image-20211030205845387.png" alt="image-20211030205845387"></p>
+<p><img src="/2021/11/26/SQL%E6%B3%A8%E5%85%A5/image-20211030205956630.png" alt="image-20211030205956630"></p>
+<h6 id="上传webshell"><a href="#上传webshell" class="headerlink" title="上传webshell"></a>上传webshell</h6><p><img src="/2021/11/26/SQL%E6%B3%A8%E5%85%A5/image-20211030210603631.png" alt="image-20211030210603631"></p>
+<p>主题名twentyhtirteen</p>
+<p>监听</p>
+<p><img src="/2021/11/26/SQL%E6%B3%A8%E5%85%A5/image-20211030210238468.png" alt="image-20211030210238468"></p>
+<p>监听后要访问对应的页面才可以生效</p>
+<p><img src="/2021/11/26/SQL%E6%B3%A8%E5%85%A5/image-20211030210421797.png" alt="image-20211030210421797"></p>
+<p><img src="/2021/11/26/SQL%E6%B3%A8%E5%85%A5/image-20211030210850545.png" alt="image-20211030210850545"></p>
+<h6 id="查看敏感文件（寻找flag）"><a href="#查看敏感文件（寻找flag）" class="headerlink" title="查看敏感文件（寻找flag）"></a>查看敏感文件（寻找flag）</h6><p><img src="/2021/11/26/SQL%E6%B3%A8%E5%85%A5/image-20211030210730741.png" alt="image-20211030210730741"></p>
+<p>查看敏感信息是个习惯，尽管这里没有找到flag</p>
+<p><img src="/2021/11/26/SQL%E6%B3%A8%E5%85%A5/image-20211030210918431.png" alt="image-20211030210918431"></p>
+<p><img src="/2021/11/26/SQL%E6%B3%A8%E5%85%A5/image-20211030210945951.png" alt="image-20211030210945951"></p>
+<h6 id="提权"><a href="#提权" class="headerlink" title="提权"></a>提权</h6><p><img src="/2021/11/26/SQL%E6%B3%A8%E5%85%A5/image-20211030211136197.png" alt="image-20211030211136197"></p>
+<p><img src="/2021/11/26/SQL%E6%B3%A8%E5%85%A5/image-20211030211039365.png" alt="image-20211030211039365"></p>
+<p>获取了root权限后，就去根目录（root目录）寻找flag</p>
+<h3 id="SQL注入-X-Forwarded-For报文头"><a href="#SQL注入-X-Forwarded-For报文头" class="headerlink" title="SQL注入-X-Forwarded-For报文头"></a>SQL注入-X-Forwarded-For报文头</h3><p><img src="/2021/11/26/SQL%E6%B3%A8%E5%85%A5/image-20211030211429182.png" alt="image-20211030211429182"></p>
+<h5 id="步骤1：信息探测-2"><a href="#步骤1：信息探测-2" class="headerlink" title="步骤1：信息探测"></a>步骤1：信息探测</h5><p><img src="/2021/11/26/SQL%E6%B3%A8%E5%85%A5/image-20211030211518814.png" alt="image-20211030211518814"></p>
+<p><img src="/2021/11/26/SQL%E6%B3%A8%E5%85%A5/image-20211030211602431.png" alt="image-20211030211602431"></p>
+<p><img src="/2021/11/26/SQL%E6%B3%A8%E5%85%A5/image-20211030211630636.png" alt="image-20211030211630636"></p>
+<p><img src="/2021/11/26/SQL%E6%B3%A8%E5%85%A5/image-20211030211721024.png" alt="image-20211030211721024"></p>
+<p><img src="/2021/11/26/SQL%E6%B3%A8%E5%85%A5/image-20211030211811665.png" alt="image-20211030211811665"></p>
+<h5 id="步骤2：漏洞扫描-1"><a href="#步骤2：漏洞扫描-1" class="headerlink" title="步骤2：漏洞扫描"></a>步骤2：漏洞扫描</h5><p>这里用avws（acunetix），方法不唯一</p>
+<p><img src="/2021/11/26/SQL%E6%B3%A8%E5%85%A5/image-20211030211842798.png" alt="image-20211030211842798"></p>
+<p>填加目标</p>
+<p><img src="/2021/11/26/SQL%E6%B3%A8%E5%85%A5/image-20211030212002249.png" alt="image-20211030212002249"></p>
+<p><img src="/2021/11/26/SQL%E6%B3%A8%E5%85%A5/image-20211030212015856.png" alt="image-20211030212015856"></p>
+<p><img src="/2021/11/26/SQL%E6%B3%A8%E5%85%A5/image-20211030212108734.png" alt="image-20211030212108734"></p>
+<p><img src="/2021/11/26/SQL%E6%B3%A8%E5%85%A5/image-20211030212157113.png" alt="image-20211030212157113"></p>
+<p>（点击可以查看详情）</p>
+<h5 id="步骤3：漏洞利用-1"><a href="#步骤3：漏洞利用-1" class="headerlink" title="步骤3：漏洞利用"></a>步骤3：漏洞利用</h5><p><img src="/2021/11/26/SQL%E6%B3%A8%E5%85%A5/image-20211030213230888.png" alt="image-20211030213230888"></p>
+<p>a.探测数据库</p>
+<p><img src="/2021/11/26/SQL%E6%B3%A8%E5%85%A5/image-20211030212348421.png" alt="image-20211030212348421"></p>
+<p><img src="/2021/11/26/SQL%E6%B3%A8%E5%85%A5/image-20211030212559034.png" alt="image-20211030212559034"></p>
+<p>b.探测表</p>
+<p><img src="/2021/11/26/SQL%E6%B3%A8%E5%85%A5/image-20211030212622155.png" alt="image-20211030212622155"></p>
+<p><img src="/2021/11/26/SQL%E6%B3%A8%E5%85%A5/image-20211030212655679.png" alt="image-20211030212655679"></p>
+<p><img src="/2021/11/26/SQL%E6%B3%A8%E5%85%A5/image-20211030212706557.png" alt="image-20211030212706557">.c.探测users表的字段名</p>
+<p><img src="/2021/11/26/SQL%E6%B3%A8%E5%85%A5/image-20211030212749052.png" alt="image-20211030212749052"></p>
+<p><img src="/2021/11/26/SQL%E6%B3%A8%E5%85%A5/image-20211030212832324.png" alt="image-20211030212832324"></p>
+<p>d.探测账号（login）和密码（password）</p>
+<p><img src="/2021/11/26/SQL%E6%B3%A8%E5%85%A5/image-20211030212908773.png" alt="image-20211030212908773"></p>
+<p><img src="/2021/11/26/SQL%E6%B3%A8%E5%85%A5/image-20211030213119901.png" alt="image-20211030213119901"></p>
+<p>e.登录</p>
+<p><img src="/2021/11/26/SQL%E6%B3%A8%E5%85%A5/image-20211030213152488.png" alt="image-20211030213152488"></p>
+<p>登录到后台服务器</p>
+<p><img src="/2021/11/26/SQL%E6%B3%A8%E5%85%A5/image-20211030213211646.png" alt="image-20211030213211646"></p>
+<p>下面3个步骤具体过程省略。（与前面的实验一样）</p>
+<p>步骤4：上传webshell反弹shell</p>
+<p>步骤5：获取shell后提权，</p>
+<p>步骤6：获取root权限后，在根目录下找flag.txt文件</p>
+<h5 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h5><p><img src="/2021/11/26/SQL%E6%B3%A8%E5%85%A5/image-20211030213512529.png" alt="image-20211030213512529"></p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
       
   
   
@@ -884,303 +1081,6 @@
 <p>c、root根目录下的flag，渗透模块，root目录下必然会存在falg，它常常存在root的根目录下</p>
 <p><img src="/2021/11/26/CTF-WEB%E6%B8%97%E9%80%8F%E6%80%9D%E8%B7%AF%E4%B8%8E%E6%8A%80%E5%B7%A7/image-20211105105225124.png" alt="image-20211105105225124"></p>
 <p><img src="/2021/11/26/CTF-WEB%E6%B8%97%E9%80%8F%E6%80%9D%E8%B7%AF%E4%B8%8E%E6%8A%80%E5%B7%A7/image-20211126110613621.png" alt="image-20211126110613621"></p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://wgc5.gitee.io/2021/10/26/%E6%AC%A7%E5%87%A0%E9%87%8C%E5%BE%97%E6%89%A9%E5%B1%95%E7%AE%97%E6%B3%95/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="北极星上的稻草人">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="北极星上的稻草人">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2021/10/26/%E6%AC%A7%E5%87%A0%E9%87%8C%E5%BE%97%E6%89%A9%E5%B1%95%E7%AE%97%E6%B3%95/" class="post-title-link" itemprop="url">欧几里得扩展算法</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2021-10-26 21:55:29" itemprop="dateCreated datePublished" datetime="2021-10-26T21:55:29+08:00">2021-10-26</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-11-27 21:17:10" itemprop="dateModified" datetime="2021-11-27T21:17:10+08:00">2021-11-27</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E5%AF%86%E7%A0%81%E5%AD%A6/" itemprop="url" rel="index"><span itemprop="name">密码学</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="欧几里得算法与欧几里得扩展算法"><a href="#欧几里得算法与欧几里得扩展算法" class="headerlink" title="欧几里得算法与欧几里得扩展算法"></a>欧几里得算法与欧几里得扩展算法</h1><h2 id="欧几里得算法"><a href="#欧几里得算法" class="headerlink" title="欧几里得算法"></a>欧几里得算法</h2><p>gcd(a,b) :a和b的最大公因子（公约数），下面同记为(a,b)，a，b∈Z</p>
-<p><strong>1.定理：(a,b) = (b,a mod b)**</strong> </p>
-<p>推导过程：</p>
-<p>∵ a，b∈Z， </p>
-<p>∴ 有a = kb + r  ,    k,r∈Z        ①</p>
-<p>则 a mod b = r                        ②</p>
-<p>联合①②： a mod b = a-kb   ③</p>
-<p>设g = gcd（a，b）</p>
-<p>则：a%g = 0（a mod g=0），b%g = 0；即a%g = b%g</p>
-<p>可以推出：(a - b)%g = 0        ④</p>
-<p>（a、b都是g的倍数关系，所以a和b的差值也是最大公因子g的倍数关系）</p>
-<p>结合③和④</p>
-<p>推出： （a mod b）%g = 0</p>
-<p>所以g是a，b，（a mod b）的公因子</p>
-<p>∴ (a,b) = (b,a mod b) </p>
-<p><strong>2.欧几里得算法（辗转相除法）</strong></p>
-<p>第一步：（a0，b0）</p>
-<p>第二步：（a1，b1），a1= b0, b1 = a0%b0</p>
-<p>……</p>
-<p>第n步：（an，bn），当bn = 0时，an就是（a，b）最大公约数</p>
-<h2 id="扩展欧几里得算法"><a href="#扩展欧几里得算法" class="headerlink" title="扩展欧几里得算法"></a>扩展欧几里得算法</h2><p><strong>1.求逆元原理</strong></p>
-<p>推导过程：</p>
-<p>设（a，b）是a，b的最大公约数，则有a.x1 = k1(a,b), b.y1 = k2(a,b) ,k1,k2∈Z       “.”是乘法</p>
-<p>可以推导出：a.x1 + b.y1 = k3(a,b)  ，k3 = k1+k2，k3∈Z</p>
-<p>所以必然存在</p>
-<p>​                    ax + by = （a，b ）</p>
-<p>当（a，b）=1时，a，b互质（又称为互为素数），得：</p>
-<p>​                    ax + by =1      （x是a的逆元，y是b的逆元）</p>
-<p>所以有：a*X = bY+1         （正负号写不写无所谓，因为它对公式没什么意义，Y可正可负）</p>
-<p>​                    X = （bY+1）/a        </p>
-<p>​                    Y = （aX+1）/a</p>
-<p><strong>2.扩展的欧几里得算法</strong></p>
-<p>由欧几里得算法得：</p>
-<p>​      （a，b） =  （b，a mod b）        ①</p>
-<p>​       ∵ ax + by =  (a,b)                            ②</p>
-<p> 联合①②得：</p>
-<p>​        b.x1 +（a mod b）.y1 =  (a,b)     ③    </p>
-<p>​       a mob b = a%b = a - (a/b).b         ④    “/“是除法</p>
-<p>联合③④</p>
-<p>​        gcd = （a，b） = b.x1+[a - (a/b).b].y1</p>
-<p>​                                    =b.x1 + a.y1 - (a/b).b.y1</p>
-<p>​                                    =a.y1 + b.[x1 - (a/b).y1]</p>
-<p>对比：(a,b) = ax + by</p>
-<p>可以推导出：</p>
-<p>​                x = y1</p>
-<p>​                y = x1 - (a/b).y1</p>
-<p>附：求逆元C++算法（菜鸟版）</p>
-<pre><code>#include &lt;iostream&gt;  
-using namespace std;  
-typedef long long LL;  
-typedef double DB;  
-
-//aX+bY=gcd；x是a的逆元，Y是b的逆元；ans（gcd）是最大公约数  
-LL e_gcd(LL a,LL b,LL &amp;x,LL &amp;y)  
-&#123;  
-    if(b==0)  
-    &#123;  
-        x=1;  
-        y=0;  
-        return a;  
-    &#125;  
-    LL ans=e_gcd(b,a%b,x,y);  
-    LL temp=x;  
-    x=y;  
-    y=temp-a/b*y;  
-    return ans;  
-&#125;  
-
-LL cal(LL a,LL b,LL c)  
-&#123;  
-    LL x,y;  
-    LL gcd=e_gcd(a,b,x,y);  
-    if(c%gcd!=0)&#123; 
-        printf(&quot;没有逆元&quot;);
-        return -1;  //判断是否有逆元or两个数（a、b）是否质，即gcd最大公约数是否是1     
-        &#125;
-    x*=c/gcd;  
-    b/=gcd;  
-    if(b&lt;0) b=-b;  
-    printf(&quot;x的逆元=%ld,y的逆元=%ld\n&quot;,x,y); 
-    //这里求得的逆元可能为负数，再求mod转回正数即可 
-    LL X=x%b;  
-    if(X&lt;=0) X+=b;      // X是a的逆元，当其小于0时，由aX+bY=gcd，即（a，b）=gcd得，a的逆元&lt;b,为了取正数，所以需要+b； 
-    return X;  
-&#125;  
-
-int main()  
-&#123;  
-    LL a,b,t;  
-    //a=1769;
-    //b=550;
-    cout &lt;&lt; &quot;请输入a:&quot;;
-    cin &gt;&gt; a;
-    cout &lt;&lt; &quot;请输入b:&quot;;
-    cin &gt;&gt; b;
-    LL ans=cal(a,b,1);   
-    printf(&quot;x的逆元=%lld\n&quot;,ans);  
-
-    return 0;  
-&#125; </code></pre>
-<p><strong>进阶版伪代码</strong></p>
-<pre><code>EXTENDED EUCLID(a,b)     //b&lt;a
-1.(X1,X2,X3) ← (1,0,a);(Y1,Y2,Y3) ← (0,1,b)
-2.if Y3 = 0 then return X3 = (a,b);no inverse        //没有逆元
-3.if Y3 = 1 then Y3 = (a,b);Y2 = b^(-1) mod f        //b^(-1)为b的逆元
-4.Q = ┕ X3/Y3 ┘        //X3/Y3向下取整
-5.(T1,T2,T3) ← (X1-Q.Y1,X2-Q.Y2,X3-Q.Y3)
-6.(X1,X2,X3) ← (Y1,Y2,Y3)
-7.(Y1,Y2,Y3) ← (T1,T2,T3)
-8.go to 2.</code></pre>
-<p>上述的算法中存在关系：a.T1 + b.T2 = T3</p>
-<p><strong>笔算例子：</strong></p>
-<p>求gcd（1769,550）；因为（1769,550）=1，所以题意550*<img src="/2021/10/26/%E6%AC%A7%E5%87%A0%E9%87%8C%E5%BE%97%E6%89%A9%E5%B1%95%E7%AE%97%E6%B3%95/clip_image002-16380170166661.png" alt="img">=1 mod 1769，求<img src="/2021/10/26/%E6%AC%A7%E5%87%A0%E9%87%8C%E5%BE%97%E6%89%A9%E5%B1%95%E7%AE%97%E6%B3%95/clip_image002.png" alt="img">，</p>
-<table>
-<thead>
-<tr>
-<th>循环次数</th>
-<th>Q</th>
-<th>X1</th>
-<th>X2</th>
-<th>X3（a）</th>
-<th>Y1</th>
-<th>Y2</th>
-<th>Y3（b）</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>0</td>
-<td>-</td>
-<td>1</td>
-<td>0</td>
-<td>1769</td>
-<td>0</td>
-<td>1</td>
-<td>550</td>
-</tr>
-<tr>
-<td>1</td>
-<td>3</td>
-<td>0</td>
-<td>1</td>
-<td>550</td>
-<td>1</td>
-<td>-3</td>
-<td>119</td>
-</tr>
-<tr>
-<td>2</td>
-<td>4</td>
-<td>1</td>
-<td>-3</td>
-<td>119</td>
-<td>-4</td>
-<td>13</td>
-<td>74</td>
-</tr>
-<tr>
-<td>3</td>
-<td>1</td>
-<td>-4</td>
-<td>13</td>
-<td>74</td>
-<td>5</td>
-<td>-16</td>
-<td>45</td>
-</tr>
-<tr>
-<td>4</td>
-<td>1</td>
-<td>5</td>
-<td>-16</td>
-<td>45</td>
-<td>-9</td>
-<td>29</td>
-<td>29</td>
-</tr>
-<tr>
-<td>5</td>
-<td>1</td>
-<td>-9</td>
-<td>29</td>
-<td>29</td>
-<td>14</td>
-<td>-45</td>
-<td>16</td>
-</tr>
-<tr>
-<td>6</td>
-<td>1</td>
-<td>14</td>
-<td>-45</td>
-<td>16</td>
-<td>-23</td>
-<td>74</td>
-<td>13</td>
-</tr>
-<tr>
-<td>7</td>
-<td>1</td>
-<td>-23</td>
-<td>74</td>
-<td>13</td>
-<td>37</td>
-<td>-119</td>
-<td>3</td>
-</tr>
-<tr>
-<td>8</td>
-<td>4</td>
-<td>37</td>
-<td>-119</td>
-<td>3</td>
-<td>-171</td>
-<td>550</td>
-<td>1</td>
-</tr>
-</tbody></table>
-<p>​    Y3=1，即（1769,550）=1，<img src="/2021/10/26/%E6%AC%A7%E5%87%A0%E9%87%8C%E5%BE%97%E6%89%A9%E5%B1%95%E7%AE%97%E6%B3%95/clip_image002-16380179197372.png" alt="img">，即550*550 mod 1769 = 1</p>
-<p>​    <img src="/2021/10/26/%E6%AC%A7%E5%87%A0%E9%87%8C%E5%BE%97%E6%89%A9%E5%B1%95%E7%AE%97%E6%B3%95/clip_image004.png" alt="img">，379 *1769 mod 550 =379 * 119 mod 550 =1</p>
-<p>​    注意：a<em>b mod c = （a mod c）</em>（b mod c）mod c</p>
-<p><strong>笔算过程介绍：</strong></p>
-<p>​            <img src="/2021/10/26/%E6%AC%A7%E5%87%A0%E9%87%8C%E5%BE%97%E6%89%A9%E5%B1%95%E7%AE%97%E6%B3%95/clip_image002-16380182844974.png" alt="img">；<img src="/2021/10/26/%E6%AC%A7%E5%87%A0%E9%87%8C%E5%BE%97%E6%89%A9%E5%B1%95%E7%AE%97%E6%B3%95/clip_image002-16380184891145.png" alt="img">；<img src="/2021/10/26/%E6%AC%A7%E5%87%A0%E9%87%8C%E5%BE%97%E6%89%A9%E5%B1%95%E7%AE%97%E6%B3%95/clip_image002-16380185263996.png" alt="img">；<img src="/2021/10/26/%E6%AC%A7%E5%87%A0%E9%87%8C%E5%BE%97%E6%89%A9%E5%B1%95%E7%AE%97%E6%B3%95/clip_image002-16380181103953.png" alt="img"></p>
-<p>​            <img src="/2021/10/26/%E6%AC%A7%E5%87%A0%E9%87%8C%E5%BE%97%E6%89%A9%E5%B1%95%E7%AE%97%E6%B3%95/clip_image002-16380186865857.png" alt="img">；<img src="/2021/10/26/%E6%AC%A7%E5%87%A0%E9%87%8C%E5%BE%97%E6%89%A9%E5%B1%95%E7%AE%97%E6%B3%95/clip_image002-16380187037178.png" alt="img">；<img src="/2021/10/26/%E6%AC%A7%E5%87%A0%E9%87%8C%E5%BE%97%E6%89%A9%E5%B1%95%E7%AE%97%E6%B3%95/clip_image002-16380188124009.png" alt="img"></p>
-<p>i指循环次数，Q是向下取整的商，下一轮的X是对应上一轮的Y；下一轮Y3是上一轮X3和Y3的模运算结果。</p>
 
       
     </div>
@@ -2064,7 +1964,7 @@ int main()
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">24</span>
+        <span class="site-state-item-count">23</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
