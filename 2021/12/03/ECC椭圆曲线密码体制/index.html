@@ -20,64 +20,24 @@
     var CONFIG = {"hostname":"wgc5.gitee.io","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
   </script>
 
-  <meta name="description" content="ECC椭圆曲线密码体制1、概述 ​        密码中普遍采用的是有限域上的椭圆曲线，其中最常用的方程是：  ​    说明：椭圆曲线的判别式，当&#x3D;0时，方程有重根，设该横坐标为x0，则Q&#x3D;(x0,0)是方程的重根。将方程已到左边得：，可得，可得导数在Q点没定义，椭圆曲线在Q的切线无定义，因此Q的倍点运算无定义(为O，O是加法单元类似于0，但又不完全等于0的意义)。 2、椭圆曲线的加法运算  ​">
+  <meta name="description" content="ECC椭圆曲线密码体制1、概述  2、椭圆曲线的加法运算  ​     椭圆曲线加法定义 说明：如果线上3个点位于同一直线上，那么它们的和为O  O为加法单元，椭圆上任意一个点P，都有P+O&#x3D;P；它运算上类似于0，但它意义不是一个简单的点的定义，无穷远点也是O。  加法逆元定义：P&#x3D;（x，y），逆元p’&#x3D;（x，-y）；关于X轴对称。这是因为P1、P2的连线延长到无穷远时，得到的是椭圆曲线上的另外一">
 <meta property="og:type" content="article">
 <meta property="og:title" content="ECC椭圆曲线密码体制">
 <meta property="og:url" content="https://wgc5.gitee.io/2021/12/03/ECC%E6%A4%AD%E5%9C%86%E6%9B%B2%E7%BA%BF%E5%AF%86%E7%A0%81%E4%BD%93%E5%88%B6/index.html">
 <meta property="og:site_name" content="北极星上的稻草人">
-<meta property="og:description" content="ECC椭圆曲线密码体制1、概述 ​        密码中普遍采用的是有限域上的椭圆曲线，其中最常用的方程是：  ​    说明：椭圆曲线的判别式，当&#x3D;0时，方程有重根，设该横坐标为x0，则Q&#x3D;(x0,0)是方程的重根。将方程已到左边得：，可得，可得导数在Q点没定义，椭圆曲线在Q的切线无定义，因此Q的倍点运算无定义(为O，O是加法单元类似于0，但又不完全等于0的意义)。 2、椭圆曲线的加法运算  ​">
+<meta property="og:description" content="ECC椭圆曲线密码体制1、概述  2、椭圆曲线的加法运算  ​     椭圆曲线加法定义 说明：如果线上3个点位于同一直线上，那么它们的和为O  O为加法单元，椭圆上任意一个点P，都有P+O&#x3D;P；它运算上类似于0，但它意义不是一个简单的点的定义，无穷远点也是O。  加法逆元定义：P&#x3D;（x，y），逆元p’&#x3D;（x，-y）；关于X轴对称。这是因为P1、P2的连线延长到无穷远时，得到的是椭圆曲线上的另外一">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://wgc5.gitee.io/2021/12/03/ECC%E6%A4%AD%E5%9C%86%E6%9B%B2%E7%BA%BF%E5%AF%86%E7%A0%81%E4%BD%93%E5%88%B6/clip_image002.png">
-<meta property="og:image" content="https://wgc5.gitee.io/2021/12/03/ECC%E6%A4%AD%E5%9C%86%E6%9B%B2%E7%BA%BF%E5%AF%86%E7%A0%81%E4%BD%93%E5%88%B6/clip_image002-16380658684511.png">
-<meta property="og:image" content="https://wgc5.gitee.io/2021/12/03/ECC%E6%A4%AD%E5%9C%86%E6%9B%B2%E7%BA%BF%E5%AF%86%E7%A0%81%E4%BD%93%E5%88%B6/clip_image002-16380658947232.png">
-<meta property="og:image" content="https://wgc5.gitee.io/2021/12/03/ECC%E6%A4%AD%E5%9C%86%E6%9B%B2%E7%BA%BF%E5%AF%86%E7%A0%81%E4%BD%93%E5%88%B6/clip_image002-16380661969503.png">
-<meta property="og:image" content="https://wgc5.gitee.io/2021/12/03/ECC%E6%A4%AD%E5%9C%86%E6%9B%B2%E7%BA%BF%E5%AF%86%E7%A0%81%E4%BD%93%E5%88%B6/clip_image002-16380666832615.png">
-<meta property="og:image" content="https://wgc5.gitee.io/2021/12/03/ECC%E6%A4%AD%E5%9C%86%E6%9B%B2%E7%BA%BF%E5%AF%86%E7%A0%81%E4%BD%93%E5%88%B6/clip_image002-16380667658507.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/12/03/ECC%E6%A4%AD%E5%9C%86%E6%9B%B2%E7%BA%BF%E5%AF%86%E7%A0%81%E4%BD%93%E5%88%B6/image-20220122195154393.png">
 <meta property="og:image" content="https://wgc5.gitee.io/2021/12/03/ECC%E6%A4%AD%E5%9C%86%E6%9B%B2%E7%BA%BF%E5%AF%86%E7%A0%81%E4%BD%93%E5%88%B6/image-20211128104201444.png">
-<meta property="og:image" content="https://wgc5.gitee.io/2021/12/03/ECC%E6%A4%AD%E5%9C%86%E6%9B%B2%E7%BA%BF%E5%AF%86%E7%A0%81%E4%BD%93%E5%88%B6/clip_image002-16380670721968.png">
-<meta property="og:image" content="https://wgc5.gitee.io/2021/12/03/ECC%E6%A4%AD%E5%9C%86%E6%9B%B2%E7%BA%BF%E5%AF%86%E7%A0%81%E4%BD%93%E5%88%B6/clip_image002-16380670721968.png">
-<meta property="og:image" content="https://wgc5.gitee.io/2021/12/03/ECC%E6%A4%AD%E5%9C%86%E6%9B%B2%E7%BA%BF%E5%AF%86%E7%A0%81%E4%BD%93%E5%88%B6/clip_image002.png">
-<meta property="og:image" content="https://wgc5.gitee.io/2021/12/03/ECC%E6%A4%AD%E5%9C%86%E6%9B%B2%E7%BA%BF%E5%AF%86%E7%A0%81%E4%BD%93%E5%88%B6/clip_image002-16380692110589.png">
-<meta property="og:image" content="https://wgc5.gitee.io/2021/12/03/ECC%E6%A4%AD%E5%9C%86%E6%9B%B2%E7%BA%BF%E5%AF%86%E7%A0%81%E4%BD%93%E5%88%B6/clip_image002-163808214605714.png">
-<meta property="og:image" content="https://wgc5.gitee.io/2021/12/03/ECC%E6%A4%AD%E5%9C%86%E6%9B%B2%E7%BA%BF%E5%AF%86%E7%A0%81%E4%BD%93%E5%88%B6/clip_image002-163808148846310.png">
-<meta property="og:image" content="https://wgc5.gitee.io/2021/12/03/ECC%E6%A4%AD%E5%9C%86%E6%9B%B2%E7%BA%BF%E5%AF%86%E7%A0%81%E4%BD%93%E5%88%B6/clip_image002-163808156321311.png">
-<meta property="og:image" content="https://wgc5.gitee.io/2021/12/03/ECC%E6%A4%AD%E5%9C%86%E6%9B%B2%E7%BA%BF%E5%AF%86%E7%A0%81%E4%BD%93%E5%88%B6/clip_image002-163808183857913.png">
-<meta property="og:image" content="https://wgc5.gitee.io/2021/12/03/ECC%E6%A4%AD%E5%9C%86%E6%9B%B2%E7%BA%BF%E5%AF%86%E7%A0%81%E4%BD%93%E5%88%B6/clip_image002-163808219593015.png">
-<meta property="og:image" content="https://wgc5.gitee.io/2021/12/03/ECC%E6%A4%AD%E5%9C%86%E6%9B%B2%E7%BA%BF%E5%AF%86%E7%A0%81%E4%BD%93%E5%88%B6/clip_image002-163808227212916.png">
-<meta property="og:image" content="https://wgc5.gitee.io/2021/12/03/ECC%E6%A4%AD%E5%9C%86%E6%9B%B2%E7%BA%BF%E5%AF%86%E7%A0%81%E4%BD%93%E5%88%B6/clip_image002-163808233579617.png">
-<meta property="og:image" content="https://wgc5.gitee.io/2021/12/03/ECC%E6%A4%AD%E5%9C%86%E6%9B%B2%E7%BA%BF%E5%AF%86%E7%A0%81%E4%BD%93%E5%88%B6/clip_image002-163808264589418.png">
-<meta property="og:image" content="https://wgc5.gitee.io/2021/12/03/ECC%E6%A4%AD%E5%9C%86%E6%9B%B2%E7%BA%BF%E5%AF%86%E7%A0%81%E4%BD%93%E5%88%B6/clip_image002-163808267604819.png">
-<meta property="og:image" content="https://wgc5.gitee.io/2021/12/03/ECC%E6%A4%AD%E5%9C%86%E6%9B%B2%E7%BA%BF%E5%AF%86%E7%A0%81%E4%BD%93%E5%88%B6/clip_image002-163808270542920.png">
-<meta property="og:image" content="https://wgc5.gitee.io/2021/12/03/ECC%E6%A4%AD%E5%9C%86%E6%9B%B2%E7%BA%BF%E5%AF%86%E7%A0%81%E4%BD%93%E5%88%B6/clip_image002.png">
-<meta property="og:image" content="https://wgc5.gitee.io/2021/12/03/ECC%E6%A4%AD%E5%9C%86%E6%9B%B2%E7%BA%BF%E5%AF%86%E7%A0%81%E4%BD%93%E5%88%B6/clip_image002-16380889707091.png">
-<meta property="og:image" content="https://wgc5.gitee.io/2021/12/03/ECC%E6%A4%AD%E5%9C%86%E6%9B%B2%E7%BA%BF%E5%AF%86%E7%A0%81%E4%BD%93%E5%88%B6/Users/Cwin/Desktop/CTF/笔记/ECC椭圆曲线密码体制/clip_image002-16380889707091.png">
-<meta property="og:image" content="https://wgc5.gitee.io/2021/12/03/ECC%E6%A4%AD%E5%9C%86%E6%9B%B2%E7%BA%BF%E5%AF%86%E7%A0%81%E4%BD%93%E5%88%B6/clip_image002-16380893074133.png">
-<meta property="og:image" content="https://wgc5.gitee.io/2021/12/03/ECC%E6%A4%AD%E5%9C%86%E6%9B%B2%E7%BA%BF%E5%AF%86%E7%A0%81%E4%BD%93%E5%88%B6/clip_image002-16380893916965.png">
-<meta property="og:image" content="https://wgc5.gitee.io/2021/12/03/ECC%E6%A4%AD%E5%9C%86%E6%9B%B2%E7%BA%BF%E5%AF%86%E7%A0%81%E4%BD%93%E5%88%B6/clip_image002-16380895393888.png">
-<meta property="og:image" content="https://wgc5.gitee.io/2021/12/03/ECC%E6%A4%AD%E5%9C%86%E6%9B%B2%E7%BA%BF%E5%AF%86%E7%A0%81%E4%BD%93%E5%88%B6/clip_image002-16380895971459.png">
-<meta property="og:image" content="https://wgc5.gitee.io/2021/12/03/ECC%E6%A4%AD%E5%9C%86%E6%9B%B2%E7%BA%BF%E5%AF%86%E7%A0%81%E4%BD%93%E5%88%B6/clip_image002-16380894434296.png">
-<meta property="og:image" content="https://wgc5.gitee.io/2021/12/03/ECC%E6%A4%AD%E5%9C%86%E6%9B%B2%E7%BA%BF%E5%AF%86%E7%A0%81%E4%BD%93%E5%88%B6/clip_image002-16380895251197.png">
-<meta property="og:image" content="https://wgc5.gitee.io/2021/12/03/ECC%E6%A4%AD%E5%9C%86%E6%9B%B2%E7%BA%BF%E5%AF%86%E7%A0%81%E4%BD%93%E5%88%B6/Users/Cwin/Desktop/CTF/笔记/ECC椭圆曲线密码体制/clip_image002-16380889707091.png">
-<meta property="og:image" content="https://wgc5.gitee.io/2021/12/03/ECC%E6%A4%AD%E5%9C%86%E6%9B%B2%E7%BA%BF%E5%AF%86%E7%A0%81%E4%BD%93%E5%88%B6/clip_image002-16380890239752.png">
-<meta property="og:image" content="https://wgc5.gitee.io/2021/12/03/ECC%E6%A4%AD%E5%9C%86%E6%9B%B2%E7%BA%BF%E5%AF%86%E7%A0%81%E4%BD%93%E5%88%B6/clip_image002-163808996502912.png">
-<meta property="og:image" content="https://wgc5.gitee.io/2021/12/03/ECC%E6%A4%AD%E5%9C%86%E6%9B%B2%E7%BA%BF%E5%AF%86%E7%A0%81%E4%BD%93%E5%88%B6/clip_image002-163808982390310.png">
-<meta property="og:image" content="https://wgc5.gitee.io/2021/12/03/ECC%E6%A4%AD%E5%9C%86%E6%9B%B2%E7%BA%BF%E5%AF%86%E7%A0%81%E4%BD%93%E5%88%B6/clip_image002-163808985358411.png">
-<meta property="og:image" content="https://wgc5.gitee.io/2021/12/03/ECC%E6%A4%AD%E5%9C%86%E6%9B%B2%E7%BA%BF%E5%AF%86%E7%A0%81%E4%BD%93%E5%88%B6/clip_image002-163808985358411.png">
-<meta property="og:image" content="https://wgc5.gitee.io/2021/12/03/ECC%E6%A4%AD%E5%9C%86%E6%9B%B2%E7%BA%BF%E5%AF%86%E7%A0%81%E4%BD%93%E5%88%B6/clip_image002-16380893916965.png">
-<meta property="og:image" content="https://wgc5.gitee.io/2021/12/03/ECC%E6%A4%AD%E5%9C%86%E6%9B%B2%E7%BA%BF%E5%AF%86%E7%A0%81%E4%BD%93%E5%88%B6/clip_image002-163809024791313.png">
-<meta property="og:image" content="https://wgc5.gitee.io/2021/12/03/ECC%E6%A4%AD%E5%9C%86%E6%9B%B2%E7%BA%BF%E5%AF%86%E7%A0%81%E4%BD%93%E5%88%B6/clip_image002-163809076534214.png">
-<meta property="og:image" content="https://wgc5.gitee.io/2021/12/03/ECC%E6%A4%AD%E5%9C%86%E6%9B%B2%E7%BA%BF%E5%AF%86%E7%A0%81%E4%BD%93%E5%88%B6/clip_image002-163809092605715.png">
-<meta property="og:image" content="https://wgc5.gitee.io/2021/12/03/ECC%E6%A4%AD%E5%9C%86%E6%9B%B2%E7%BA%BF%E5%AF%86%E7%A0%81%E4%BD%93%E5%88%B6/clip_image002-163809109856316.png">
-<meta property="og:image" content="https://wgc5.gitee.io/2021/12/03/ECC%E6%A4%AD%E5%9C%86%E6%9B%B2%E7%BA%BF%E5%AF%86%E7%A0%81%E4%BD%93%E5%88%B6/Users/Cwin/Desktop/CTF/笔记/ECC椭圆曲线密码体制/clip_image002-163809076534214.png">
-<meta property="og:image" content="https://wgc5.gitee.io/2021/12/03/ECC%E6%A4%AD%E5%9C%86%E6%9B%B2%E7%BA%BF%E5%AF%86%E7%A0%81%E4%BD%93%E5%88%B6/clip_image002-163809125423217.png">
-<meta property="og:image" content="https://wgc5.gitee.io/2021/12/03/ECC%E6%A4%AD%E5%9C%86%E6%9B%B2%E7%BA%BF%E5%AF%86%E7%A0%81%E4%BD%93%E5%88%B6/clip_image002-163809138725918.png">
-<meta property="og:image" content="https://wgc5.gitee.io/2021/12/03/ECC%E6%A4%AD%E5%9C%86%E6%9B%B2%E7%BA%BF%E5%AF%86%E7%A0%81%E4%BD%93%E5%88%B6/clip_image002-163809146166219.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/12/03/ECC%E6%A4%AD%E5%9C%86%E6%9B%B2%E7%BA%BF%E5%AF%86%E7%A0%81%E4%BD%93%E5%88%B6/image-20220122195244897.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/12/03/ECC%E6%A4%AD%E5%9C%86%E6%9B%B2%E7%BA%BF%E5%AF%86%E7%A0%81%E4%BD%93%E5%88%B6/image-20220122195454559.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/12/03/ECC%E6%A4%AD%E5%9C%86%E6%9B%B2%E7%BA%BF%E5%AF%86%E7%A0%81%E4%BD%93%E5%88%B6/image-20220122195522353.png">
 <meta property="article:published_time" content="2021-12-03T07:01:24.000Z">
-<meta property="article:modified_time" content="2021-12-03T07:02:45.312Z">
+<meta property="article:modified_time" content="2022-01-22T11:55:26.029Z">
 <meta property="article:author" content="北极星上的稻草人">
 <meta property="article:tag" content="公钥密码体制">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://wgc5.gitee.io/2021/12/03/ECC%E6%A4%AD%E5%9C%86%E6%9B%B2%E7%BA%BF%E5%AF%86%E7%A0%81%E4%BD%93%E5%88%B6/clip_image002.png">
+<meta name="twitter:image" content="https://wgc5.gitee.io/2021/12/03/ECC%E6%A4%AD%E5%9C%86%E6%9B%B2%E7%BA%BF%E5%AF%86%E7%A0%81%E4%BD%93%E5%88%B6/image-20220122195154393.png">
 
 <link rel="canonical" href="https://wgc5.gitee.io/2021/12/03/ECC%E6%A4%AD%E5%9C%86%E6%9B%B2%E7%BA%BF%E5%AF%86%E7%A0%81%E4%BD%93%E5%88%B6/">
 
@@ -230,10 +190,16 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
-              
 
-              <time title="创建时间：2021-12-03 15:01:24 / 修改时间：15:02:45" itemprop="dateCreated datePublished" datetime="2021-12-03T15:01:24+08:00">2021-12-03</time>
+              <time title="创建时间：2021-12-03 15:01:24" itemprop="dateCreated datePublished" datetime="2021-12-03T15:01:24+08:00">2021-12-03</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-01-22 19:55:26" itemprop="dateModified" datetime="2022-01-22T19:55:26+08:00">2022-01-22</time>
+              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="far fa-folder"></i>
@@ -263,18 +229,16 @@
 
       
         <h3 id="ECC椭圆曲线密码体制"><a href="#ECC椭圆曲线密码体制" class="headerlink" title="ECC椭圆曲线密码体制"></a>ECC椭圆曲线密码体制</h3><p><strong>1、概述</strong></p>
-<p>​        密码中普遍采用的是有限域上的椭圆曲线，其中最常用的方程是：</p>
-<p><img src="/2021/12/03/ECC%E6%A4%AD%E5%9C%86%E6%9B%B2%E7%BA%BF%E5%AF%86%E7%A0%81%E4%BD%93%E5%88%B6/clip_image002.png" alt="img"></p>
-<p>​    说明：椭圆曲线的判别式<img src="/2021/12/03/ECC%E6%A4%AD%E5%9C%86%E6%9B%B2%E7%BA%BF%E5%AF%86%E7%A0%81%E4%BD%93%E5%88%B6/clip_image002-16380658684511.png" alt="img">，当<img src="/2021/12/03/ECC%E6%A4%AD%E5%9C%86%E6%9B%B2%E7%BA%BF%E5%AF%86%E7%A0%81%E4%BD%93%E5%88%B6/clip_image002-16380658947232.png" alt="img">=0时，方程有重根，设该横坐标为x0，则Q=(x0,0)是方程的重根。将方程已到左边得：<img src="/2021/12/03/ECC%E6%A4%AD%E5%9C%86%E6%9B%B2%E7%BA%BF%E5%AF%86%E7%A0%81%E4%BD%93%E5%88%B6/clip_image002-16380661969503.png" alt="img">，可得<img src="/2021/12/03/ECC%E6%A4%AD%E5%9C%86%E6%9B%B2%E7%BA%BF%E5%AF%86%E7%A0%81%E4%BD%93%E5%88%B6/clip_image002-16380666832615.png" alt="img">，可得导数<img src="/2021/12/03/ECC%E6%A4%AD%E5%9C%86%E6%9B%B2%E7%BA%BF%E5%AF%86%E7%A0%81%E4%BD%93%E5%88%B6/clip_image002-16380667658507.png" alt="img">在Q点没定义，椭圆曲线在Q的切线无定义，因此Q的倍点运算无定义(为O，O是加法单元类似于0，但又不完全等于0的意义)。</p>
+<p><img src="/2021/12/03/ECC%E6%A4%AD%E5%9C%86%E6%9B%B2%E7%BA%BF%E5%AF%86%E7%A0%81%E4%BD%93%E5%88%B6/image-20220122195154393.png" alt="image-20220122195154393"></p>
 <p><strong>2、椭圆曲线的加法运算</strong></p>
 <p><img src="/2021/12/03/ECC%E6%A4%AD%E5%9C%86%E6%9B%B2%E7%BA%BF%E5%AF%86%E7%A0%81%E4%BD%93%E5%88%B6/image-20211128104201444.png" alt="image-20211128104201444"></p>
 <p>​    </p>
 <p><strong>椭圆曲线加法定义</strong></p>
-<p>说明：如果线上3个点位于同一直线上，那么它们的和为O；</p>
+<p>说明：如果线上3个点位于同一直线上，那么它们的和为O</p>
 <ol>
 <li><p>O为加法单元，椭圆上任意一个点P，都有P+O=P；它运算上类似于0，但它意义不是一个简单的点的定义，无穷远点也是O。</p>
 </li>
-<li><p>加法逆元定义：P=（x，y），逆元p`=（x，-y）；关于X轴对称。这是因为P1、P2的连线延长到无穷远时，得到的是椭圆曲线上的另外一点O，即P1、P2、O三点共线，所以P1+P2+O=O，P1+P2=O，即P2=-P1。（如图b曲线，当P趋向无穷远时，P1、P2、无穷远点这3个点就共线了）</p>
+<li><p>加法逆元定义：P=（x，y），逆元p’=（x，-y）；关于X轴对称。这是因为P1、P2的连线延长到无穷远时，得到的是椭圆曲线上的另外一点O，即P1、P2、O三点共线，所以P1+P2+O=O，P1+P2=O，即P2=-P1。（如图b曲线，当P趋向无穷远时，P1、P2、无穷远点这3个点就共线了）</p>
 </li>
 <li><p>如图a，设Q和R是椭圆上的x坐标不同的两点。Q+R的定义：画一条Q和R的直线，与曲线交于P1（这交点是唯一的，除非所做的直线是Q和R的切线，此时P1=Q=R），由于Q、R、P1这3点共线，则Q+R+P1=O，得Q+R=-P1。</p>
 </li>
@@ -283,47 +247,14 @@
 <li><p>椭圆曲线加法符合的运算法则：交换律、结合律</p>
 </li>
 </ol>
-<p><strong>3、<img src="/2021/12/03/ECC%E6%A4%AD%E5%9C%86%E6%9B%B2%E7%BA%BF%E5%AF%86%E7%A0%81%E4%BD%93%E5%88%B6/clip_image002-16380670721968.png" alt="img">加法定义及运算</strong></p>
-<p><img src="/2021/12/03/ECC%E6%A4%AD%E5%9C%86%E6%9B%B2%E7%BA%BF%E5%AF%86%E7%A0%81%E4%BD%93%E5%88%B6/clip_image002-16380670721968.png" alt="img">：椭圆曲线上的点集合，p是模数，a，b是曲线方程<img src="/2021/12/03/ECC%E6%A4%AD%E5%9C%86%E6%9B%B2%E7%BA%BF%E5%AF%86%E7%A0%81%E4%BD%93%E5%88%B6/clip_image002.png" alt="img">的参数。</p>
-<p>设P、Q点是该椭圆曲线上的2个点，由上述可知-P是P的逆元，-P也是曲线上的点。设P=<br>（x1,y1），Q=（x2,y2），则：</p>
 <ul>
-<li><p>如果Q=-P，则P+Q=O</p>
-</li>
-<li><p>如果P<img src="/2021/12/03/ECC%E6%A4%AD%E5%9C%86%E6%9B%B2%E7%BA%BF%E5%AF%86%E7%A0%81%E4%BD%93%E5%88%B6/clip_image002-16380692110589.png" alt="img">-Q，则P+Q=(x3,y3),其中：</p>
-<p>​        <img src="/2021/12/03/ECC%E6%A4%AD%E5%9C%86%E6%9B%B2%E7%BA%BF%E5%AF%86%E7%A0%81%E4%BD%93%E5%88%B6/clip_image002-163808214605714.png" alt="img"></p>
-<p>​        <img src="/2021/12/03/ECC%E6%A4%AD%E5%9C%86%E6%9B%B2%E7%BA%BF%E5%AF%86%E7%A0%81%E4%BD%93%E5%88%B6/clip_image002-163808148846310.png" alt="img"></p>
-<p>​        <img src="/2021/12/03/ECC%E6%A4%AD%E5%9C%86%E6%9B%B2%E7%BA%BF%E5%AF%86%E7%A0%81%E4%BD%93%E5%88%B6/clip_image002-163808156321311.png" alt="img"></p>
-</li>
+<li><img src="/2021/12/03/ECC%E6%A4%AD%E5%9C%86%E6%9B%B2%E7%BA%BF%E5%AF%86%E7%A0%81%E4%BD%93%E5%88%B6/image-20220122195244897.png" alt="image-20220122195244897"></li>
 </ul>
 <p><strong>4、ECC加法例子</strong></p>
-<p>​    <img src="/2021/12/03/ECC%E6%A4%AD%E5%9C%86%E6%9B%B2%E7%BA%BF%E5%AF%86%E7%A0%81%E4%BD%93%E5%88%B6/clip_image002-163808183857913.png" alt="img">，P=(3,10)，Q=(9,7)，求P+Q和2P？</p>
-<p>​    P+Q：</p>
-<p>​        <img src="/2021/12/03/ECC%E6%A4%AD%E5%9C%86%E6%9B%B2%E7%BA%BF%E5%AF%86%E7%A0%81%E4%BD%93%E5%88%B6/clip_image002-163808219593015.png" alt="img"></p>
-<p>​        <img src="/2021/12/03/ECC%E6%A4%AD%E5%9C%86%E6%9B%B2%E7%BA%BF%E5%AF%86%E7%A0%81%E4%BD%93%E5%88%B6/clip_image002-163808227212916.png" alt="img"></p>
-<p>​        <img src="/2021/12/03/ECC%E6%A4%AD%E5%9C%86%E6%9B%B2%E7%BA%BF%E5%AF%86%E7%A0%81%E4%BD%93%E5%88%B6/clip_image002-163808233579617.png" alt="img"></p>
-<p>​        则：P+Q =(17,20)</p>
-<p>2P:</p>
-<p>​        <img src="/2021/12/03/ECC%E6%A4%AD%E5%9C%86%E6%9B%B2%E7%BA%BF%E5%AF%86%E7%A0%81%E4%BD%93%E5%88%B6/clip_image002-163808264589418.png" alt="img"></p>
-<p>​        <img src="/2021/12/03/ECC%E6%A4%AD%E5%9C%86%E6%9B%B2%E7%BA%BF%E5%AF%86%E7%A0%81%E4%BD%93%E5%88%B6/clip_image002-163808267604819.png" alt="img"></p>
-<p>​        <img src="/2021/12/03/ECC%E6%A4%AD%E5%9C%86%E6%9B%B2%E7%BA%BF%E5%AF%86%E7%A0%81%E4%BD%93%E5%88%B6/clip_image002-163808270542920.png" alt="img"></p>
-<p>​        则：2P=(7,12)</p>
+<p><img src="/2021/12/03/ECC%E6%A4%AD%E5%9C%86%E6%9B%B2%E7%BA%BF%E5%AF%86%E7%A0%81%E4%BD%93%E5%88%B6/image-20220122195454559.png" alt="image-20220122195454559"></p>
 <p>**Tip:**模运算技巧可参考本博客《模运算技巧》</p>
 <p><strong>5、利用椭圆曲线实现ELGamal密码体制</strong></p>
-<p><strong>密钥生成</strong></p>
-<p>​    a.首先，选取一条椭圆曲线<img src="/2021/12/03/ECC%E6%A4%AD%E5%9C%86%E6%9B%B2%E7%BA%BF%E5%AF%86%E7%A0%81%E4%BD%93%E5%88%B6/clip_image002.png" alt="img">，得到<img src="/2021/12/03/ECC%E6%A4%AD%E5%9C%86%E6%9B%B2%E7%BA%BF%E5%AF%86%E7%A0%81%E4%BD%93%E5%88%B6/clip_image002-16380889707091.png" alt="img">，取<img src="/2021/12/03/ECC%E6%A4%AD%E5%9C%86%E6%9B%B2%E7%BA%BF%E5%AF%86%E7%A0%81%E4%BD%93%E5%88%B6/Users/Cwin/Desktop/CTF/笔记/ECC椭圆曲线密码体制/clip_image002-16380889707091.png" alt="img">线上的一点作为生成元G且G的阶n是一个大素数（G的阶是指满足nG = O的最小n值)。</p>
-<p>​    b. A选择整数<img src="/2021/12/03/ECC%E6%A4%AD%E5%9C%86%E6%9B%B2%E7%BA%BF%E5%AF%86%E7%A0%81%E4%BD%93%E5%88%B6/clip_image002-16380893074133.png" alt="img">作为私钥，计算<img src="/2021/12/03/ECC%E6%A4%AD%E5%9C%86%E6%9B%B2%E7%BA%BF%E5%AF%86%E7%A0%81%E4%BD%93%E5%88%B6/clip_image002-16380893916965.png" alt="img"> ，得到<strong>公钥</strong>={<img src="/2021/12/03/ECC%E6%A4%AD%E5%9C%86%E6%9B%B2%E7%BA%BF%E5%AF%86%E7%A0%81%E4%BD%93%E5%88%B6/clip_image002-16380895393888.png" alt="img">,G,<img src="/2021/12/03/ECC%E6%A4%AD%E5%9C%86%E6%9B%B2%E7%BA%BF%E5%AF%86%E7%A0%81%E4%BD%93%E5%88%B6/clip_image002-16380895971459.png" alt="img">}={p,a,b,G,<img src="/2021/12/03/ECC%E6%A4%AD%E5%9C%86%E6%9B%B2%E7%BA%BF%E5%AF%86%E7%A0%81%E4%BD%93%E5%88%B6/clip_image002-16380894434296.png" alt="img">}，<strong>私钥</strong>={<img src="/2021/12/03/ECC%E6%A4%AD%E5%9C%86%E6%9B%B2%E7%BA%BF%E5%AF%86%E7%A0%81%E4%BD%93%E5%88%B6/clip_image002-16380895251197.png" alt="img">}</p>
-<p><strong>加密过程</strong></p>
-<p>​    B先将明文消息m嵌入到<img src="/2021/12/03/ECC%E6%A4%AD%E5%9C%86%E6%9B%B2%E7%BA%BF%E5%AF%86%E7%A0%81%E4%BD%93%E5%88%B6/Users/Cwin/Desktop/CTF/笔记/ECC椭圆曲线密码体制/clip_image002-16380889707091.png" alt="img">曲线上的点<img src="/2021/12/03/ECC%E6%A4%AD%E5%9C%86%E6%9B%B2%E7%BA%BF%E5%AF%86%E7%A0%81%E4%BD%93%E5%88%B6/clip_image002-16380890239752.png" alt="img"> ，然后选择随机数k（k的选择要符合：<img src="/2021/12/03/ECC%E6%A4%AD%E5%9C%86%E6%9B%B2%E7%BA%BF%E5%AF%86%E7%A0%81%E4%BD%93%E5%88%B6/clip_image002-163808996502912.png" alt="img">），计算密文<img src="/2021/12/03/ECC%E6%A4%AD%E5%9C%86%E6%9B%B2%E7%BA%BF%E5%AF%86%E7%A0%81%E4%BD%93%E5%88%B6/clip_image002-163808982390310.png" alt="img"> ，并把<img src="/2021/12/03/ECC%E6%A4%AD%E5%9C%86%E6%9B%B2%E7%BA%BF%E5%AF%86%E7%A0%81%E4%BD%93%E5%88%B6/clip_image002-163808985358411.png" alt="img">发给A。</p>
-<p><strong>解密过程</strong></p>
-<p>​    A收到B的密文<img src="/2021/12/03/ECC%E6%A4%AD%E5%9C%86%E6%9B%B2%E7%BA%BF%E5%AF%86%E7%A0%81%E4%BD%93%E5%88%B6/clip_image002-163808985358411.png" alt="img">后，A利用密文中的第一个点乘以A的私钥，再用第二个点减去这个值；（注意<img src="/2021/12/03/ECC%E6%A4%AD%E5%9C%86%E6%9B%B2%E7%BA%BF%E5%AF%86%E7%A0%81%E4%BD%93%E5%88%B6/clip_image002-16380893916965.png" alt="img">)</p>
-<p><img src="/2021/12/03/ECC%E6%A4%AD%E5%9C%86%E6%9B%B2%E7%BA%BF%E5%AF%86%E7%A0%81%E4%BD%93%E5%88%B6/clip_image002-163809024791313.png" alt="img"></p>
-<p><strong>例子：</strong></p>
-<p>​    A取<img src="/2021/12/03/ECC%E6%A4%AD%E5%9C%86%E6%9B%B2%E7%BA%BF%E5%AF%86%E7%A0%81%E4%BD%93%E5%88%B6/clip_image002-163809076534214.png" alt="img"> ，即椭圆曲线<img src="/2021/12/03/ECC%E6%A4%AD%E5%9C%86%E6%9B%B2%E7%BA%BF%E5%AF%86%E7%A0%81%E4%BD%93%E5%88%B6/clip_image002-163809092605715.png" alt="img">，取G=(0,376)，<img src="/2021/12/03/ECC%E6%A4%AD%E5%9C%86%E6%9B%B2%E7%BA%BF%E5%AF%86%E7%A0%81%E4%BD%93%E5%88%B6/clip_image002-163809109856316.png" alt="img">=(201,5)；公钥为{<img src="/2021/12/03/ECC%E6%A4%AD%E5%9C%86%E6%9B%B2%E7%BA%BF%E5%AF%86%E7%A0%81%E4%BD%93%E5%88%B6/Users/Cwin/Desktop/CTF/笔记/ECC椭圆曲线密码体制/clip_image002-163809076534214.png" alt="img">，(0,376)，(201,5)}</p>
-<p>​    B把消息嵌入到椭圆曲线上的点<img src="/2021/12/03/ECC%E6%A4%AD%E5%9C%86%E6%9B%B2%E7%BA%BF%E5%AF%86%E7%A0%81%E4%BD%93%E5%88%B6/clip_image002-163809125423217.png" alt="img"> = (561,201)，B选取随机数k=386，则：</p>
-<p>​            KG = 386(0,376) = (676,558)</p>
-<p>​            <img src="/2021/12/03/ECC%E6%A4%AD%E5%9C%86%E6%9B%B2%E7%BA%BF%E5%AF%86%E7%A0%81%E4%BD%93%E5%88%B6/clip_image002-163809138725918.png" alt="img"> = (562,201) + 386(201,5) = (385,328)</p>
-<p>​    则B发送的密文<img src="/2021/12/03/ECC%E6%A4%AD%E5%9C%86%E6%9B%B2%E7%BA%BF%E5%AF%86%E7%A0%81%E4%BD%93%E5%88%B6/clip_image002-163809146166219.png" alt="img">={(676,558)，(385,328)}。</p>
-<p>解密过程：略（这里没有给出私钥，所以…）</p>
+<p><img src="/2021/12/03/ECC%E6%A4%AD%E5%9C%86%E6%9B%B2%E7%BA%BF%E5%AF%86%E7%A0%81%E4%BD%93%E5%88%B6/image-20220122195522353.png" alt="image-20220122195522353"></p>
 
     </div>
 

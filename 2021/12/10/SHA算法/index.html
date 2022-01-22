@@ -20,69 +20,38 @@
     var CONFIG = {"hostname":"wgc5.gitee.io","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
   </script>
 
-  <meta name="description" content="SHA算法一、算法概述​        安全哈希算法（Secure Hash Algorithm，简称SHA），这里介绍的是SHA是指SHA-1；由于SHA算法与MD5算法都是基于MD4算法的，所以两者非常相似，主要区别在于位数和压缩函数。  说明：SHA的算法框图和MD5的算法框图一样，只是位数有所不同。其算法步骤也基本相同。 ​    输入：小于比特长的任意消息 ​    输出：160比特长的">
+  <meta name="description" content="SHA算法一、算法概述​        安全哈希算法（Secure Hash Algorithm，简称SHA），这里介绍的是SHA是指SHA-1；由于SHA算法与MD5算法都是基于MD4算法的，所以两者非常相似，主要区别在于位数和压缩函数。  说明：SHA的算法框图和MD5的算法框图一样，只是位数有所不同。其算法步骤也基本相同。    二、的分组处理​        第一部分的步骤3~步骤6都可以">
 <meta property="og:type" content="article">
 <meta property="og:title" content="SHA算法">
 <meta property="og:url" content="https://wgc5.gitee.io/2021/12/10/SHA%E7%AE%97%E6%B3%95/index.html">
 <meta property="og:site_name" content="北极星上的稻草人">
-<meta property="og:description" content="SHA算法一、算法概述​        安全哈希算法（Secure Hash Algorithm，简称SHA），这里介绍的是SHA是指SHA-1；由于SHA算法与MD5算法都是基于MD4算法的，所以两者非常相似，主要区别在于位数和压缩函数。  说明：SHA的算法框图和MD5的算法框图一样，只是位数有所不同。其算法步骤也基本相同。 ​    输入：小于比特长的任意消息 ​    输出：160比特长的">
+<meta property="og:description" content="SHA算法一、算法概述​        安全哈希算法（Secure Hash Algorithm，简称SHA），这里介绍的是SHA是指SHA-1；由于SHA算法与MD5算法都是基于MD4算法的，所以两者非常相似，主要区别在于位数和压缩函数。  说明：SHA的算法框图和MD5的算法框图一样，只是位数有所不同。其算法步骤也基本相同。    二、的分组处理​        第一部分的步骤3~步骤6都可以">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://wgc5.gitee.io/2021/12/10/SHA%E7%AE%97%E6%B3%95/image-20211210103332022.png">
-<meta property="og:image" content="https://wgc5.gitee.io/2021/12/10/SHA%E7%AE%97%E6%B3%95/clip_image002-16389291063891.png">
-<meta property="og:image" content="https://wgc5.gitee.io/2021/12/10/SHA%E7%AE%97%E6%B3%95/image-20211206212544669.png">
-<meta property="og:image" content="https://wgc5.gitee.io/2021/12/10/SHA%E7%AE%97%E6%B3%95/Users/Cwin/Desktop/CTF/笔记/SHA算法/image-20211206212544669.png">
-<meta property="og:image" content="https://wgc5.gitee.io/2021/12/10/SHA%E7%AE%97%E6%B3%95/clip_image002-16386966712272.png">
-<meta property="og:image" content="https://wgc5.gitee.io/2021/12/10/SHA%E7%AE%97%E6%B3%95/clip_image002-16386967730493.png">
-<meta property="og:image" content="https://wgc5.gitee.io/2021/12/10/SHA%E7%AE%97%E6%B3%95/clip_image002-16386971393284.png">
-<meta property="og:image" content="https://wgc5.gitee.io/2021/12/10/SHA%E7%AE%97%E6%B3%95/clip_image002-16387043637515.png">
-<meta property="og:image" content="https://wgc5.gitee.io/2021/12/10/SHA%E7%AE%97%E6%B3%95/clip_image002-16387978318521.png">
-<meta property="og:image" content="https://wgc5.gitee.io/2021/12/10/SHA%E7%AE%97%E6%B3%95/clip_image002-16387978465052.png">
-<meta property="og:image" content="https://wgc5.gitee.io/2021/12/10/SHA%E7%AE%97%E6%B3%95/clip_image002-16387980654394.png">
-<meta property="og:image" content="https://wgc5.gitee.io/2021/12/10/SHA%E7%AE%97%E6%B3%95/clip_image002-16387043637515-16387981917645.png">
-<meta property="og:image" content="https://wgc5.gitee.io/2021/12/10/SHA%E7%AE%97%E6%B3%95/clip_image002-163870467501710.png">
-<meta property="og:image" content="https://wgc5.gitee.io/2021/12/10/SHA%E7%AE%97%E6%B3%95/clip_image002-163870469537911.png">
-<meta property="og:image" content="https://wgc5.gitee.io/2021/12/10/SHA%E7%AE%97%E6%B3%95/clip_image002-163870471717112-16391020373331.png">
-<meta property="og:image" content="https://wgc5.gitee.io/2021/12/10/SHA%E7%AE%97%E6%B3%95/clip_image002-163870471717112.png">
-<meta property="og:image" content="https://wgc5.gitee.io/2021/12/10/SHA%E7%AE%97%E6%B3%95/clip_image002-163870479135413.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/12/10/SHA%E7%AE%97%E6%B3%95/image-20220122201648792.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/12/10/SHA%E7%AE%97%E6%B3%95/image-20220122201701651.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/12/10/SHA%E7%AE%97%E6%B3%95/image-20220122201721173.png">
 <meta property="og:image" content="https://wgc5.gitee.io/2021/12/10/SHA%E7%AE%97%E6%B3%95/clip_image002-16387988914396.png">
-<meta property="og:image" content="https://wgc5.gitee.io/2021/12/10/SHA%E7%AE%97%E6%B3%95/clip_image002-16387978465052.png">
-<meta property="og:image" content="https://wgc5.gitee.io/2021/12/10/SHA%E7%AE%97%E6%B3%95/clip_image002-16387980654394.png">
-<meta property="og:image" content="https://wgc5.gitee.io/2021/12/10/SHA%E7%AE%97%E6%B3%95/clip_image002-16387043637515-16387981917645.png">
-<meta property="og:image" content="https://wgc5.gitee.io/2021/12/10/SHA%E7%AE%97%E6%B3%95/clip_image002-16389299873542.png">
-<meta property="og:image" content="https://wgc5.gitee.io/2021/12/10/SHA%E7%AE%97%E6%B3%95/clip_image002-16389300305813.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/12/10/SHA%E7%AE%97%E6%B3%95/image-20220122201747533.png">
 <meta property="og:image" content="https://wgc5.gitee.io/2021/12/10/SHA%E7%AE%97%E6%B3%95/image-20211208102820988.png">
 <meta property="og:image" content="https://wgc5.gitee.io/2021/12/10/SHA%E7%AE%97%E6%B3%95/clip_image002-16389311212494.png">
 <meta property="og:image" content="https://wgc5.gitee.io/2021/12/10/SHA%E7%AE%97%E6%B3%95/clip_image002-16389314414286.png">
 <meta property="og:image" content="https://wgc5.gitee.io/2021/12/10/SHA%E7%AE%97%E6%B3%95/clip_image006.png">
-<meta property="og:image" content="https://wgc5.gitee.io/2021/12/10/SHA%E7%AE%97%E6%B3%95/clip_image002-16389314643307.png">
-<meta property="og:image" content="https://wgc5.gitee.io/2021/12/10/SHA%E7%AE%97%E6%B3%95/clip_image002-16389312706475.png">
-<meta property="og:image" content="https://wgc5.gitee.io/2021/12/10/SHA%E7%AE%97%E6%B3%95/clip_image002-16389315068438.png">
-<meta property="og:image" content="https://wgc5.gitee.io/2021/12/10/SHA%E7%AE%97%E6%B3%95/clip_image002-16389315534629.png">
-<meta property="og:image" content="https://wgc5.gitee.io/2021/12/10/SHA%E7%AE%97%E6%B3%95/clip_image002-163893157593910.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/12/10/SHA%E7%AE%97%E6%B3%95/image-20220122201807570.png">
 <meta property="og:image" content="https://wgc5.gitee.io/2021/12/10/SHA%E7%AE%97%E6%B3%95/image-20211208103438208.png">
 <meta property="og:image" content="https://wgc5.gitee.io/2021/12/10/SHA%E7%AE%97%E6%B3%95/clip_image002-163893388198711.png">
-<meta property="og:image" content="https://wgc5.gitee.io/2021/12/10/SHA%E7%AE%97%E6%B3%95/clip_image002-16389300305813.png">
-<meta property="og:image" content="https://wgc5.gitee.io/2021/12/10/SHA%E7%AE%97%E6%B3%95/clip_image002-163893393523412.png">
-<meta property="og:image" content="https://wgc5.gitee.io/2021/12/10/SHA%E7%AE%97%E6%B3%95/clip_image002-163893401984313.png">
-<meta property="og:image" content="https://wgc5.gitee.io/2021/12/10/SHA%E7%AE%97%E6%B3%95/clip_image002-163893404657314.png">
-<meta property="og:image" content="https://wgc5.gitee.io/2021/12/10/SHA%E7%AE%97%E6%B3%95/clip_image002-16389299873542.png">
-<meta property="og:image" content="https://wgc5.gitee.io/2021/12/10/SHA%E7%AE%97%E6%B3%95/clip_image002-163893157593910.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/12/10/SHA%E7%AE%97%E6%B3%95/image-20220122201826025.png">
 <meta property="og:image" content="https://wgc5.gitee.io/2021/12/10/SHA%E7%AE%97%E6%B3%95/image-20211208110945765.png">
 <meta property="og:image" content="https://wgc5.gitee.io/2021/12/10/SHA%E7%AE%97%E6%B3%95/image-20211208113229122.png">
 <meta property="og:image" content="https://wgc5.gitee.io/2021/12/10/SHA%E7%AE%97%E6%B3%95/image-20211208115928891.png">
 <meta property="og:image" content="https://wgc5.gitee.io/2021/12/10/SHA%E7%AE%97%E6%B3%95/clip_image002-163893404657314.png">
-<meta property="og:image" content="https://wgc5.gitee.io/2021/12/10/SHA%E7%AE%97%E6%B3%95/clip_image002-163893404657314.png">
-<meta property="og:image" content="https://wgc5.gitee.io/2021/12/10/SHA%E7%AE%97%E6%B3%95/clip_image002-163895638990915.png">
-<meta property="og:image" content="https://wgc5.gitee.io/2021/12/10/SHA%E7%AE%97%E6%B3%95/clip_image002-163895645985716.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/12/10/SHA%E7%AE%97%E6%B3%95/image-20220122201844342.png">
 <meta property="og:image" content="https://wgc5.gitee.io/2021/12/10/SHA%E7%AE%97%E6%B3%95/clip_image002-163895657247317.png">
 <meta property="og:image" content="https://wgc5.gitee.io/2021/12/10/SHA%E7%AE%97%E6%B3%95/clip_image002-163893404657314.png">
 <meta property="og:image" content="https://wgc5.gitee.io/2021/12/10/SHA%E7%AE%97%E6%B3%95/image-20211208174429511.png">
-<meta property="og:image" content="https://wgc5.gitee.io/2021/12/10/SHA%E7%AE%97%E6%B3%95/clip_image002-163895715425918.png">
-<meta property="og:image" content="https://wgc5.gitee.io/2021/12/10/SHA%E7%AE%97%E6%B3%95/clip_image002-163895719579319.png">
-<meta property="og:image" content="https://wgc5.gitee.io/2021/12/10/SHA%E7%AE%97%E6%B3%95/clip_image002-163895724376520.png">
-<meta property="og:image" content="https://wgc5.gitee.io/2021/12/10/SHA%E7%AE%97%E6%B3%95/clip_image002-163895727134521.png">
+<meta property="og:image" content="https://wgc5.gitee.io/2021/12/10/SHA%E7%AE%97%E6%B3%95/image-20220122201904000.png">
 <meta property="article:published_time" content="2021-12-10T02:39:32.000Z">
-<meta property="article:modified_time" content="2021-12-10T02:40:20.904Z">
+<meta property="article:modified_time" content="2022-01-22T12:19:06.375Z">
 <meta property="article:author" content="北极星上的稻草人">
 <meta property="article:tag" content="哈希函数算法">
 <meta name="twitter:card" content="summary">
@@ -239,10 +208,16 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
-              
 
-              <time title="创建时间：2021-12-10 10:39:32 / 修改时间：10:40:20" itemprop="dateCreated datePublished" datetime="2021-12-10T10:39:32+08:00">2021-12-10</time>
+              <time title="创建时间：2021-12-10 10:39:32" itemprop="dateCreated datePublished" datetime="2021-12-10T10:39:32+08:00">2021-12-10</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-01-22 20:19:06" itemprop="dateModified" datetime="2022-01-22T20:19:06+08:00">2022-01-22</time>
+              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="far fa-folder"></i>
@@ -274,49 +249,24 @@
         <h2 id="SHA算法"><a href="#SHA算法" class="headerlink" title="SHA算法"></a>SHA算法</h2><h4 id="一、算法概述"><a href="#一、算法概述" class="headerlink" title="一、算法概述"></a>一、算法概述</h4><p>​        安全哈希算法（Secure Hash Algorithm，简称SHA），这里介绍的是SHA是指SHA-1；由于SHA算法与MD5算法都是基于MD4算法的，所以两者非常相似，主要区别在于位数和压缩函数。</p>
 <p><img src="/2021/12/10/SHA%E7%AE%97%E6%B3%95/image-20211210103332022.png" alt="image-20211210103332022"></p>
 <p>说明：SHA的算法框图和MD5的算法框图一样，只是位数有所不同。其算法步骤也基本相同。</p>
-<p>​    输入：小于<img src="/2021/12/10/SHA%E7%AE%97%E6%B3%95/clip_image002-16389291063891.png" alt="img">比特长的任意消息</p>
-<p>​    输出：160比特长的消息摘要</p>
-<ul>
-<li><p><strong>步骤1：</strong>消息填充（与MD5算法相同）</p>
-<p>​        消息填充是必要的，消息填充后的比特长度len满足448 = n mod 512，即len模512的余数为448；留下64比特记录步骤2的消息长度（512-448=64）。填充规则：首位填充位为1，其余补0；要注意，即使消息长度恰好为448比特，也要进行填充（填充512位），所以填充位的长度为1~512位。 </p>
-</li>
-<li><p><strong>步骤2：</strong>附加消息长度</p>
-<p>​        消息长度为64比特（步骤1留下的），其表示还没被填充前的真实消息长度。采用的是大端方式填写，如果消息长度大于<img src="/2021/12/10/SHA%E7%AE%97%E6%B3%95/image-20211206212544669.png" alt="image-20211206212544669">，则对其进行取模，模数为<img src="/2021/12/10/SHA%E7%AE%97%E6%B3%95/Users/Cwin/Desktop/CTF/笔记/SHA算法/image-20211206212544669.png" alt="image-20211206212544669">。（与MD5算法相似，不同之处在于SHA采取的是大端方式填充消息长度。)</p>
-<p>大端方式：按数据的最高有效位优先的顺序进行存储数据，从高地址位开始存，如最高有效位存在最高地址位；注意的是：填充长度是一个无符号整数。相反的存储方式为小段方式。</p>
-</li>
-<li><p><strong>步骤3：</strong>消息分组（与MD5算法相同）</p>
-<p>​        执行完步骤1,2，消息总长度为512的倍数（这里记为L倍），把消息分为<strong>L</strong>组，每组512比特，分组记为<img src="/2021/12/10/SHA%E7%AE%97%E6%B3%95/clip_image002-16386966712272.png" alt="img">，每一个分组<img src="/2021/12/10/SHA%E7%AE%97%E6%B3%95/clip_image002-16386967730493.png" alt="img">可以表示16个32比特的字（16 x 32 =512)，那么消息的总字数<strong>N</strong>=16L，若按字节来分组，则为<img src="/2021/12/10/SHA%E7%AE%97%E6%B3%95/clip_image002-16386971393284.png" alt="img"> </p>
-</li>
-<li><p><strong>步骤4：</strong>MD缓冲区初始化</p>
-<p>​        算法使用160比特长的缓冲区存储中间结果和最终哈希值，缓冲区可以表示为5个32比特长的寄存器（A，B，C，D，E），每个寄存器都以大端方式存储数据，其初始值<strong>IV</strong>如下：</p>
-<p>​                A = 67452301</p>
-<p>​                B = EFCDAB89</p>
-<p>​                C = 98BADCFE</p>
-<p>​                D = 10325476</p>
-<p>​                E = C3D2E1F0</p>
-</li>
-<li><p><strong>步骤5：</strong>以分组为单位对消息进行处理</p>
-<p>​        每一个分组<img src="/2021/12/10/SHA%E7%AE%97%E6%B3%95/clip_image002-16387043637515.png" alt="img">（q=0,1,2，…，L-1)经过压缩函数<img src="/2021/12/10/SHA%E7%AE%97%E6%B3%95/clip_image002-16387978318521.png" alt="img">处理；<img src="/2021/12/10/SHA%E7%AE%97%E6%B3%95/clip_image002-16387978465052.png" alt="img">由4轮处理过程构成，每一轮由20步迭代运算组成，每轮的结构相同，只是逻辑函数不同（<img src="/2021/12/10/SHA%E7%AE%97%E6%B3%95/clip_image002-16387980654394.png" alt="img">)。每组处理的输入是（<img src="/2021/12/10/SHA%E7%AE%97%E6%B3%95/clip_image002-16387043637515-16387981917645.png" alt="img">，<img src="/2021/12/10/SHA%E7%AE%97%E6%B3%95/clip_image002-163870467501710.png" alt="img">），<img src="/2021/12/10/SHA%E7%AE%97%E6%B3%95/clip_image002-163870469537911.png" alt="img">是A，B，C，D、E 5个缓冲区当前值，其初始值是IV。其中，每一轮输出为<img src="/2021/12/10/SHA%E7%AE%97%E6%B3%95/clip_image002-163870471717112-16391020373331.png" alt="img">，<img src="/2021/12/10/SHA%E7%AE%97%E6%B3%95/clip_image002-163870471717112.png" alt="img">也是下一轮处理的输入。分组处理的具体结构在第二部分介绍。</p>
-</li>
-<li><p><strong>步骤6：</strong>输出</p>
-<p>​        步骤5的最后一个输出（<img src="/2021/12/10/SHA%E7%AE%97%E6%B3%95/clip_image002-163870479135413.png" alt="img">)就是最终结果：160位的消息摘要。</p>
-</li>
-</ul>
+<p><img src="/2021/12/10/SHA%E7%AE%97%E6%B3%95/image-20220122201648792.png" alt="image-20220122201648792"></p>
+<p><img src="/2021/12/10/SHA%E7%AE%97%E6%B3%95/image-20220122201701651.png" alt="image-20220122201701651"></p>
+<p><img src="/2021/12/10/SHA%E7%AE%97%E6%B3%95/image-20220122201721173.png" alt="image-20220122201721173"></p>
 <h4 id="二、的分组处理"><a href="#二、的分组处理" class="headerlink" title="二、的分组处理"></a>二、<img src="/2021/12/10/SHA%E7%AE%97%E6%B3%95/clip_image002-16387988914396.png" alt="img">的分组处理</h4><p>​        第一部分的步骤3~步骤6都可以归结为分组处理。</p>
-<p>​        <img src="/2021/12/10/SHA%E7%AE%97%E6%B3%95/clip_image002-16387978465052.png" alt="img">由4轮处理过程构成，每一轮由20步迭代运算组成，每轮的结构相同，只是逻辑函数不同（<img src="/2021/12/10/SHA%E7%AE%97%E6%B3%95/clip_image002-16387980654394.png" alt="img">)。每轮的输入为当前处理的分组<img src="/2021/12/10/SHA%E7%AE%97%E6%B3%95/clip_image002-16387043637515-16387981917645.png" alt="img">和缓冲区的当前值A，B，C，D，E；输出仍放在缓冲区以替代下一轮的A，B，C，D，E作为输入值，每轮处理过程还需加上一个加法常量<img src="/2021/12/10/SHA%E7%AE%97%E6%B3%95/clip_image002-16389299873542.png" alt="img">，t指的是迭代步数且<img src="/2021/12/10/SHA%E7%AE%97%E6%B3%95/clip_image002-16389300305813.png" alt="img">，每轮20步，4轮共80步。80个常量实际只有4个不同的值，SHA加法常量表如下，其中┕x┘为x的整数部分。</p>
+<p><img src="/2021/12/10/SHA%E7%AE%97%E6%B3%95/image-20220122201747533.png" alt="image-20220122201747533"></p>
 <p>SHA加法常量表：</p>
 <p><img src="/2021/12/10/SHA%E7%AE%97%E6%B3%95/image-20211208102820988.png" alt="image-20211208102820988"></p>
 <p>​        步骤（4）到步骤（6）的处理过程可以总结为：</p>
 <p>​                    <img src="/2021/12/10/SHA%E7%AE%97%E6%B3%95/clip_image002-16389311212494.png" alt="img"></p>
 <p>​                    <img src="/2021/12/10/SHA%E7%AE%97%E6%B3%95/clip_image002-16389314414286.png" alt="img"></p>
 <p>​                    MD=<img src="/2021/12/10/SHA%E7%AE%97%E6%B3%95/clip_image006.png" alt="img"></p>
-<p>​        其中，IV是缓冲区ABCDE的初始值，<img src="/2021/12/10/SHA%E7%AE%97%E6%B3%95/clip_image002-16389314643307.png" alt="img">是第q个缓冲区<img src="/2021/12/10/SHA%E7%AE%97%E6%B3%95/clip_image002-16389312706475.png" alt="img">输出的值；<img src="/2021/12/10/SHA%E7%AE%97%E6%B3%95/clip_image002-16389315068438.png" alt="img">是第q个消息分组；L是消息分组数，<img src="/2021/12/10/SHA%E7%AE%97%E6%B3%95/clip_image002-16389315534629.png" alt="img">是执行模<img src="/2021/12/10/SHA%E7%AE%97%E6%B3%95/clip_image002-163893157593910.png" alt="img">的加法运算，MD是最终消息摘要。</p>
+<p><img src="/2021/12/10/SHA%E7%AE%97%E6%B3%95/image-20220122201807570.png" alt="image-20220122201807570"></p>
 <p>​        流程图如下：</p>
 <img src="/2021/12/10/SHA%E7%AE%97%E6%B3%95/image-20211208103438208.png" alt="image-20211208103438208" style="zoom: 33%;">
 
 <h4 id="三、SHA的压缩函数"><a href="#三、SHA的压缩函数" class="headerlink" title="三、SHA的压缩函数"></a>三、SHA的压缩函数</h4><p>​        分组操作流程图里的4个椭圆框执行的就是压缩函数运算，SHA的压缩函数由4轮处理过程组成，每轮处理过程会执行20步迭代运算，4轮共80步；每一步<strong>迭代运算</strong>形式如下：</p>
 <p>​                    <img src="/2021/12/10/SHA%E7%AE%97%E6%B3%95/clip_image002-163893388198711.png" alt="img"></p>
-<p>​        其中，ABCDE是缓冲区的5个字，t是迭代的步数（<img src="/2021/12/10/SHA%E7%AE%97%E6%B3%95/clip_image002-16389300305813.png" alt="img">)，<img src="/2021/12/10/SHA%E7%AE%97%E6%B3%95/clip_image002-163893393523412.png" alt="img">是第t步迭代使用的基本逻辑函数（函数形式后面会介绍）；<img src="/2021/12/10/SHA%E7%AE%97%E6%B3%95/clip_image002-163893401984313.png" alt="img">是循环左移s位，<img src="/2021/12/10/SHA%E7%AE%97%E6%B3%95/clip_image002-163893404657314.png" alt="img">是当前512比特长的分组导出的一个32位比特长的字（导出方法后面介绍)，<img src="/2021/12/10/SHA%E7%AE%97%E6%B3%95/clip_image002-16389299873542.png" alt="img">是加法常量，+是模<img src="/2021/12/10/SHA%E7%AE%97%E6%B3%95/clip_image002-163893157593910.png" alt="img">的加法运算。</p>
+<p><img src="/2021/12/10/SHA%E7%AE%97%E6%B3%95/image-20220122201826025.png" alt="image-20220122201826025"></p>
 <p>​    每一步<strong>迭代运算流程</strong>如如下：（非对称的feistel结构）</p>
 <img src="/2021/12/10/SHA%E7%AE%97%E6%B3%95/image-20211208110945765.png" alt="image-20211208110945765" style="zoom: 67%;">
 
@@ -330,12 +280,12 @@
 <p>附：真值表</p>
 <p><img src="/2021/12/10/SHA%E7%AE%97%E6%B3%95/image-20211208115928891.png" alt="image-20211208115928891"></p>
 <p>​    <strong>导出<img src="/2021/12/10/SHA%E7%AE%97%E6%B3%95/clip_image002-163893404657314.png" alt="img">字</strong></p>
-<p>​        现在解说如何有当前的输入（512比特长）导出<img src="/2021/12/10/SHA%E7%AE%97%E6%B3%95/clip_image002-163893404657314.png" alt="img">（32比特)。前16个值<img src="/2021/12/10/SHA%E7%AE%97%E6%B3%95/clip_image002-163895638990915.png" alt="img">直接取输入分组Y的16个字，剩下<img src="/2021/12/10/SHA%E7%AE%97%E6%B3%95/clip_image002-163895645985716.png" alt="img">的定义为：</p>
+<p><img src="/2021/12/10/SHA%E7%AE%97%E6%B3%95/image-20220122201844342.png" alt="image-20220122201844342"></p>
 <p>​            <img src="/2021/12/10/SHA%E7%AE%97%E6%B3%95/clip_image002-163895657247317.png" alt="img"></p>
 <p><img src="/2021/12/10/SHA%E7%AE%97%E6%B3%95/clip_image002-163893404657314.png" alt="img">的产生流程为：</p>
 <p>​        <img src="/2021/12/10/SHA%E7%AE%97%E6%B3%95/image-20211208174429511.png" alt="image-20211208174429511" style="zoom:67%;"></p>
 <p>​    与MD5比较，MD5直接用第一个消息分组Y的16个字作为每步迭代的输入，而SHA则将输入分组的16个字扩展为80个字以供压缩函数使用，从而是的寻找具有相同压缩值的不同消息难度增大。</p>
-<h4 id="四、SHA的攻击状况"><a href="#四、SHA的攻击状况" class="headerlink" title="四、SHA的攻击状况"></a>四、SHA的攻击状况</h4><p>​        2005年，王小云院士利用差分攻击，找到了SHA强碰撞的方法（只有破解弱碰撞，才是完全破解SHA算法），该方法用于攻击完全版的SHA-0时，复杂度为<img src="/2021/12/10/SHA%E7%AE%97%E6%B3%95/clip_image002-163895715425918.png" alt="img">；攻击58步的SHA-1是，运算次数少于<img src="/2021/12/10/SHA%E7%AE%97%E6%B3%95/clip_image002-163895719579319.png" alt="img">。他们分析出，利用他们的方法，攻击70步的SHA-1，复杂度为<img src="/2021/12/10/SHA%E7%AE%97%E6%B3%95/clip_image002-163895724376520.png" alt="img">，攻击80步的SHA-1，复杂度为<img src="/2021/12/10/SHA%E7%AE%97%E6%B3%95/clip_image002-163895727134521.png" alt="img">。具体的细节可以查看王小云院长的论文。（论文只是对碰撞算法作了介绍，没有给出完整的算法和代码)</p>
+<h4 id="四、SHA的攻击状况"><a href="#四、SHA的攻击状况" class="headerlink" title="四、SHA的攻击状况"></a>四、SHA的攻击状况</h4><p><img src="/2021/12/10/SHA%E7%AE%97%E6%B3%95/image-20220122201904000.png" alt="image-20220122201904000"></p>
 <ul>
 <li>Wang2005_Chapter_FindingCollisionsInTheFullSHA-1</li>
 <li>Wang2005_Chapter_EfficientCollisionSearchAttack</li>
