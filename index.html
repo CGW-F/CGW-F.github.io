@@ -1354,7 +1354,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2023-03-15 21:16:35" itemprop="dateModified" datetime="2023-03-15T21:16:35+08:00">2023-03-15</time>
+                <time title="修改时间：2023-03-16 09:37:49" itemprop="dateModified" datetime="2023-03-16T09:37:49+08:00">2023-03-16</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -1401,7 +1401,7 @@
 <p><img src="/2023/02/28/DVWA%E9%9D%B6%E5%9C%BA%E9%80%9A%E5%85%B3%E7%AC%94%E8%AE%B0%EF%BC%88%E4%B8%8A%EF%BC%89/1.png" alt="img"></p>
 <p>启动</p>
 <p><img src="/2023/02/28/DVWA%E9%9D%B6%E5%9C%BA%E9%80%9A%E5%85%B3%E7%AC%94%E8%AE%B0%EF%BC%88%E4%B8%8A%EF%BC%89/1-16775475340591.png" alt="img"></p>
-<p><strong>Burp Suite劫持会话**</strong></p>
+<p><strong>Burp Suite劫持会话</strong></p>
 <p>使用BurpSuite进行监听</p>
 <p><img src="/2023/02/28/DVWA%E9%9D%B6%E5%9C%BA%E9%80%9A%E5%85%B3%E7%AC%94%E8%AE%B0%EF%BC%88%E4%B8%8A%EF%BC%89/1-16775475340602.png" alt="img"></p>
 <p>在DVWA登录界面乱输入进行提交（用于被劫持）</p>
@@ -1547,7 +1547,7 @@
 <p>正常上传3.png木马文件，由于图片马中的php代码并没有被解析，所以不能直接使用蚁剑进行连接，这里可以通过命令执行漏洞将文件名改为php</p>
 <p><img src="/2023/02/28/DVWA%E9%9D%B6%E5%9C%BA%E9%80%9A%E5%85%B3%E7%AC%94%E8%AE%B0%EF%BC%88%E4%B8%8A%EF%BC%89/AgAABvkKz0kGb-ijONhCSYLswLAXKwFX-167747290247859.png" alt="img"></p>
 <p>设置low难度，在 command injection的命令输入框中输入以下命令</p>
-<p>127.0.0.1|move …/…/hackable/uploads/3.jpg …/…/hackable/uploads/shell.php</p>
+<p><code>127.0.0.1|move …/…/hackable/uploads/3.jpg …/…/hackable/uploads/shell.php</code></p>
 <p><img src="/2023/02/28/DVWA%E9%9D%B6%E5%9C%BA%E9%80%9A%E5%85%B3%E7%AC%94%E8%AE%B0%EF%BC%88%E4%B8%8A%EF%BC%89/AgAABvkKz0mwe7iq1QtFRKgeolA-151A-167747290247861.png" alt="img"></p>
 <p>上传成功后就操作同上</p>
 <h4 id="Impossible难度-2"><a href="#Impossible难度-2" class="headerlink" title="Impossible难度"></a><strong>Impossible难度</strong></h4><p>分析源码，可以发现对文件内容进行了严格地检查，对文件进行重命名，文件大小后缀都进行了限制，同时加入token。</p>
