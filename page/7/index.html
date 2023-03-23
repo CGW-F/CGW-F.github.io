@@ -126,7 +126,7 @@
   </li>
         <li class="menu-item menu-item-archives">
 
-    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">62</span></a>
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">65</span></a>
 
   </li>
   </ul>
@@ -152,6 +152,325 @@
 
           <div class="content index posts-expand">
             
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://wgc5.gitee.io/2021/01/09/%E5%B8%83%E5%B1%80%E4%B8%8E%E6%8F%92%E4%BB%B6%E8%AE%BE%E8%AE%A1/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="北极星上的稻草人">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="北极星上的稻草人">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2021/01/09/%E5%B8%83%E5%B1%80%E4%B8%8E%E6%8F%92%E4%BB%B6%E8%AE%BE%E8%AE%A1/" class="post-title-link" itemprop="url">布局与插件设计</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-01-09 16:48:49" itemprop="dateCreated datePublished" datetime="2021-01-09T16:48:49+08:00">2021-01-09</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-02-21 09:49:43" itemprop="dateModified" datetime="2021-02-21T09:49:43+08:00">2021-02-21</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Android-Studio/" itemprop="url" rel="index"><span itemprop="name">Android Studio</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h3 id="布局基础配置"><a href="#布局基础配置" class="headerlink" title="布局基础配置"></a>布局基础配置</h3><p>布局设计</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">android:layout_width&#x3D;&quot;match_parent&quot; &#x2F;&#x2F;相对外边框</span><br><span class="line">android:layout_height&#x3D;&quot;300dp&quot;		&#x2F;&#x2F;权值</span><br><span class="line">android:orientation&#x3D;&quot;vertical&quot;		&#x2F;&#x2F;布局排版</span><br><span class="line">android:layout_gravity&#x3D;&quot;center&quot;     &#x2F;&#x2F;布局重心</span><br><span class="line">android:gravity&#x3D;&quot;center|top&quot;		&#x2F;&#x2F;内容重心</span><br><span class="line">android:layout_weight&#x3D;&quot;1&quot;			&#x2F;&#x2F;该布局所占全部布局的比重</span><br><span class="line">android:background&#x3D;&quot;#8DCCC2&quot;		&#x2F;&#x2F;布局背景颜色</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>文本设计</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">android:text&#x3D;&quot;***&quot;					&#x2F;&#x2F;文本内容</span><br><span class="line">android:textColor&#x3D;&quot;#A3C0D8&quot;			&#x2F;&#x2F;文本颜色</span><br><span class="line">android:textSize&#x3D;&quot;30sp&quot;				&#x2F;&#x2F;文本大小</span><br><span class="line">android:textStyle&#x3D;&quot;italic&quot;			&#x2F;&#x2F;文本样式</span><br></pre></td></tr></table></figure>
+<p>图片设计</p>
+<p><img src="/2021/01/09/%E5%B8%83%E5%B1%80%E4%B8%8E%E6%8F%92%E4%BB%B6%E8%AE%BE%E8%AE%A1/image-20210109164048406.png" alt="image-20210109164048406"></p>
+<p><img src="/2021/01/09/%E5%B8%83%E5%B1%80%E4%B8%8E%E6%8F%92%E4%BB%B6%E8%AE%BE%E8%AE%A1/image-20210109154224357.png" alt="image-20210109154224357"></p>
+<h4 id="linear线性布局"><a href="#linear线性布局" class="headerlink" title="linear线性布局"></a>linear线性布局</h4><p>说明：线性分布</p>
+<p>具体：略</p>
+<h4 id="Frame框架布局"><a href="#Frame框架布局" class="headerlink" title="Frame框架布局"></a>Frame框架布局</h4><p>说明：类似叠罗汉，一层层叠加</p>
+<p>具体：略</p>
+<h4 id="Relative相对布局"><a href="#Relative相对布局" class="headerlink" title="Relative相对布局"></a>Relative相对布局</h4><p>相对总布局</p>
+<p><img src="/2021/01/09/%E5%B8%83%E5%B1%80%E4%B8%8E%E6%8F%92%E4%BB%B6%E8%AE%BE%E8%AE%A1/image-20210109180619221.png" alt="image-20210109180619221"></p>
+<p>相对父控件</p>
+<p><img src="/2021/01/09/%E5%B8%83%E5%B1%80%E4%B8%8E%E6%8F%92%E4%BB%B6%E8%AE%BE%E8%AE%A1/image-20210109180625508.png" alt="image-20210109180625508"></p>
+<p>相对同级控件</p>
+<p><img src="/2021/01/09/%E5%B8%83%E5%B1%80%E4%B8%8E%E6%8F%92%E4%BB%B6%E8%AE%BE%E8%AE%A1/image-20210109180633786.png" alt="image-20210109180633786"></p>
+<p>例子</p>
+<p><img src="/2021/01/09/%E5%B8%83%E5%B1%80%E4%B8%8E%E6%8F%92%E4%BB%B6%E8%AE%BE%E8%AE%A1/image-20210109183745043.png" alt="image-20210109183745043"></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line">&lt;RelativeLayout android:layout_width&#x3D;&quot;wrap_content&quot;</span><br><span class="line">    android:layout_height&#x3D;&quot;wrap_content&quot;</span><br><span class="line">    xmlns:android&#x3D;&quot;http:&#x2F;&#x2F;schemas.android.com&#x2F;apk&#x2F;res&#x2F;android&quot;&gt;</span><br><span class="line">    &lt;TextView</span><br><span class="line">        android:id&#x3D;&quot;@+id&#x2F;lable&quot;</span><br><span class="line">        android:layout_width&#x3D;&quot;match_parent&quot;</span><br><span class="line">        android:layout_height&#x3D;&quot;wrap_content&quot;</span><br><span class="line">        android:text&#x3D;&quot;相对布局&quot;</span><br><span class="line">        android:textSize&#x3D;&quot;50sp&quot;</span><br><span class="line">        &gt;&lt;&#x2F;TextView&gt;</span><br><span class="line">        </span><br><span class="line">    &lt;!--    编辑框--&gt;</span><br><span class="line">    &lt;EditText</span><br><span class="line">        android:id&#x3D;&quot;@+id&#x2F;test&quot;</span><br><span class="line">        android:layout_width&#x3D;&quot;match_parent&quot;</span><br><span class="line">        android:layout_height&#x3D;&quot;wrap_content&quot;</span><br><span class="line">        android:layout_below&#x3D;&quot;@+id&#x2F;lable&quot;</span><br><span class="line">        &gt;&lt;&#x2F;EditText&gt;</span><br><span class="line">        </span><br><span class="line">    &lt;!--    OK按钮--&gt;   </span><br><span class="line">    &lt;Button</span><br><span class="line">    android:id&#x3D;&quot;@+id&#x2F;ok&quot;</span><br><span class="line">    android:layout_width&#x3D;&quot;wrap_content&quot;</span><br><span class="line">    android:layout_height&#x3D;&quot;wrap_content&quot;</span><br><span class="line">    android:text&#x3D;&quot;ok&quot;</span><br><span class="line">    android:layout_below&#x3D;&quot;@+id&#x2F;test&quot;</span><br><span class="line">    android:layout_alignParentRight&#x3D;&quot;true&quot;</span><br><span class="line">    &gt;&lt;&#x2F;Button&gt;</span><br><span class="line">    </span><br><span class="line">     &lt;!--    cannle按钮--&gt;</span><br><span class="line">    &lt;Button</span><br><span class="line">        android:id&#x3D;&quot;@+id&#x2F;cancle&quot;</span><br><span class="line">        android:layout_width&#x3D;&quot;wrap_content&quot;</span><br><span class="line">        android:layout_height&#x3D;&quot;wrap_content&quot;</span><br><span class="line">        android:text&#x3D;&quot;cancle&quot;</span><br><span class="line">        android:layout_below&#x3D;&quot;@+id&#x2F;test&quot;</span><br><span class="line">        android:layout_toLeftOf&#x3D;&quot;@+id&#x2F;ok&quot;</span><br><span class="line">        android:layout_marginRight&#x3D;&quot;10dp&quot;</span><br><span class="line">        &gt;&lt;&#x2F;Button&gt;</span><br><span class="line">&lt;&#x2F;RelativeLayout&gt;</span><br></pre></td></tr></table></figure>
+
+
+<h4 id="Table表格布局"><a href="#Table表格布局" class="headerlink" title="Table表格布局"></a>Table表格布局</h4><p><img src="/2021/01/09/%E5%B8%83%E5%B1%80%E4%B8%8E%E6%8F%92%E4%BB%B6%E8%AE%BE%E8%AE%A1/image-20210109224926787.png" alt="image-20210109224926787"></p>
+<p><img src="/2021/01/09/%E5%B8%83%E5%B1%80%E4%B8%8E%E6%8F%92%E4%BB%B6%E8%AE%BE%E8%AE%A1/image-20210109225349771.png" alt="image-20210109225349771"></p>
+<p><img src="/2021/01/09/%E5%B8%83%E5%B1%80%E4%B8%8E%E6%8F%92%E4%BB%B6%E8%AE%BE%E8%AE%A1/image-20210109225532969.png" alt="image-20210109225532969"></p>
+<p>Grid网格布局</p>
+<p><img src="/2021/01/09/%E5%B8%83%E5%B1%80%E4%B8%8E%E6%8F%92%E4%BB%B6%E8%AE%BE%E8%AE%A1/image-20210110160053350.png" alt="image-20210110160053350"></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">android:layout_columnSpan&#x3D;&quot;4&quot;		&#x2F;&#x2F;所占列数</span><br><span class="line">android:layout_rowSpan&#x3D;&quot;1&quot;			&#x2F;&#x2F;所占行数</span><br><span class="line">android:layout_column&#x3D;&quot;3&quot;			&#x2F;&#x2F;所在列</span><br><span class="line">android:layout_row&#x3D;&quot;1&quot;				&#x2F;&#x2F;所在行</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>没有标明位置的，会默认按顺序排列。</p>
+<h4 id="引用布局"><a href="#引用布局" class="headerlink" title="引用布局"></a>引用布局</h4><p>第一步：新建布局文件</p>
+<p><img src="/2021/01/09/%E5%B8%83%E5%B1%80%E4%B8%8E%E6%8F%92%E4%BB%B6%E8%AE%BE%E8%AE%A1/image-20210110162311588.png" alt="image-20210110162311588"></p>
+<p>第二步：写入常用/复用布局（不同布局也可以的）</p>
+<p><img src="/2021/01/09/%E5%B8%83%E5%B1%80%E4%B8%8E%E6%8F%92%E4%BB%B6%E8%AE%BE%E8%AE%A1/image-20210110162522822.png" alt="image-20210110162522822"></p>
+<p><img src="/2021/01/09/%E5%B8%83%E5%B1%80%E4%B8%8E%E6%8F%92%E4%BB%B6%E8%AE%BE%E8%AE%A1/image-20210110163415364.png" alt="image-20210110163415364"></p>
+<p>第三步：引用</p>
+<p><img src="/2021/01/09/%E5%B8%83%E5%B1%80%E4%B8%8E%E6%8F%92%E4%BB%B6%E8%AE%BE%E8%AE%A1/image-20210110163002720.png" alt="image-20210110163002720"></p>
+<p>注意：你会发现引用的那个布局没有像在里面写的button位于最右端（直接引用布局的一个问题）</p>
+<h4 id="样式与主题"><a href="#样式与主题" class="headerlink" title="样式与主题"></a>样式与主题</h4><p><strong>主题</strong></p>
+<p>创建/设置</p>
+<p><img src="/2021/01/09/%E5%B8%83%E5%B1%80%E4%B8%8E%E6%8F%92%E4%BB%B6%E8%AE%BE%E8%AE%A1/image-20210110171215482.png" alt="image-20210110171215482"></p>
+<p><img src="/2021/01/09/%E5%B8%83%E5%B1%80%E4%B8%8E%E6%8F%92%E4%BB%B6%E8%AE%BE%E8%AE%A1/image-20210110170411501.png" alt="image-20210110170411501"></p>
+<p>引用</p>
+<p><img src="/2021/01/09/%E5%B8%83%E5%B1%80%E4%B8%8E%E6%8F%92%E4%BB%B6%E8%AE%BE%E8%AE%A1/image-20210110171556108.png" alt="image-20210110171556108"></p>
+<p><strong>样式</strong></p>
+<p>创建</p>
+<p><img src="/2021/01/09/%E5%B8%83%E5%B1%80%E4%B8%8E%E6%8F%92%E4%BB%B6%E8%AE%BE%E8%AE%A1/image-20210110172259159.png" alt="image-20210110172259159"></p>
+<p>引用</p>
+<p><img src="/2021/01/09/%E5%B8%83%E5%B1%80%E4%B8%8E%E6%8F%92%E4%BB%B6%E8%AE%BE%E8%AE%A1/image-20210110173018896.png" alt="image-20210110173018896"></p>
+<p><img src="/2021/01/09/%E5%B8%83%E5%B1%80%E4%B8%8E%E6%8F%92%E4%BB%B6%E8%AE%BE%E8%AE%A1/image-20210110173450633.png" alt="image-20210110173450633"></p>
+<p><img src="/2021/01/09/%E5%B8%83%E5%B1%80%E4%B8%8E%E6%8F%92%E4%BB%B6%E8%AE%BE%E8%AE%A1/image-20210110173521977.png" alt="image-20210110173521977"></p>
+<p><img src="/2021/01/09/%E5%B8%83%E5%B1%80%E4%B8%8E%E6%8F%92%E4%BB%B6%E8%AE%BE%E8%AE%A1/image-20210110173532498.png" alt="image-20210110173532498"></p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://wgc5.gitee.io/2021/01/08/Android%E4%BA%8B%E4%BB%B6%E5%90%AF%E5%8A%A8/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="北极星上的稻草人">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="北极星上的稻草人">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2021/01/08/Android%E4%BA%8B%E4%BB%B6%E5%90%AF%E5%8A%A8/" class="post-title-link" itemprop="url">Android事件启动</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-01-08 15:11:52" itemprop="dateCreated datePublished" datetime="2021-01-08T15:11:52+08:00">2021-01-08</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-02-21 09:51:01" itemprop="dateModified" datetime="2021-02-21T09:51:01+08:00">2021-02-21</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Android-Studio/" itemprop="url" rel="index"><span itemprop="name">Android Studio</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h3 id="Android事件启动"><a href="#Android事件启动" class="headerlink" title="Android事件启动"></a>Android事件启动</h3><h4 id="显式启动"><a href="#显式启动" class="headerlink" title="显式启动"></a>显式启动</h4><p>方法一：class跳转（SecondActivity为要调用的活动类名）</p>
+<pre><code>ntent intent = new Intent(this,SecondActivity.class);
+this.startActivity(intent);</code></pre>
+<p>方法二：包名（com.example.mainactivity），类名（SecondActivity）</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Intent intent &#x3D; new Intent();     intent.setClassName(this,&quot;com.example.mainactivity.SecondActivity&quot;);</span><br><span class="line">startActivity(intent);</span><br></pre></td></tr></table></figure>
+<p>写法三：调用ComponentName</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Intent intent &#x3D; new Intent();</span><br><span class="line">ComponentName cname &#x3D; new ComponentName(this,SecondActivity.class);</span><br><span class="line">intent.setComponent(cname);</span><br><span class="line">startActivity(intent);</span><br></pre></td></tr></table></figure>
+
+
+<h4 id="隐式启动"><a href="#隐式启动" class="headerlink" title="隐式启动"></a>隐式启动</h4><p><img src="/2021/01/08/Android%E4%BA%8B%E4%BB%B6%E5%90%AF%E5%8A%A8/image-20210108152014917.png" alt="image-20210108152014917"></p>
+<p>隐式启动一（事件别名action.next）</p>
+<pre><code>Intent intent = new Intent();
+intent.setAction(&quot;action.next&quot;);
+startActivity(intent);</code></pre>
+<p>隐式启动二</p>
+<pre><code>Intent intent = new Intent(&quot;action.next&quot;);
+startActivity(intent);</code></pre>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://wgc5.gitee.io/2021/01/07/AndroidStudio%E7%AE%80%E5%8D%95%E4%BD%BF%E7%94%A8/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="北极星上的稻草人">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="北极星上的稻草人">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2021/01/07/AndroidStudio%E7%AE%80%E5%8D%95%E4%BD%BF%E7%94%A8/" class="post-title-link" itemprop="url">AndroidStudio简单使用</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-01-07 20:29:57" itemprop="dateCreated datePublished" datetime="2021-01-07T20:29:57+08:00">2021-01-07</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-02-21 09:51:17" itemprop="dateModified" datetime="2021-02-21T09:51:17+08:00">2021-02-21</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Android-Studio/" itemprop="url" rel="index"><span itemprop="name">Android Studio</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="Android-Studio-简单使用介绍"><a href="#Android-Studio-简单使用介绍" class="headerlink" title="Android Studio 简单使用介绍"></a>Android Studio 简单使用介绍</h1><h3 id="项目创建"><a href="#项目创建" class="headerlink" title="项目创建"></a>项目创建</h3><p>步骤1：创立新项目</p>
+<p><img src="/2021/01/07/AndroidStudio%E7%AE%80%E5%8D%95%E4%BD%BF%E7%94%A8/image-20210107203443822.png" alt="image-20210107203443822"></p>
+<p>步骤2：选择要创建的项目框架（一般创建空项目）</p>
+<p><img src="/2021/01/07/AndroidStudio%E7%AE%80%E5%8D%95%E4%BD%BF%E7%94%A8/image-20210107203657410.png" alt="image-20210107203657410"></p>
+<p><img src="/2021/01/07/AndroidStudio%E7%AE%80%E5%8D%95%E4%BD%BF%E7%94%A8/image-20210107204010238.png" alt="image-20210107204010238"></p>
+<h3 id="页面布局"><a href="#页面布局" class="headerlink" title="页面布局"></a>页面布局</h3><h4 id="代码设计"><a href="#代码设计" class="headerlink" title="代码设计"></a>代码设计</h4><p><img src="/2021/01/07/AndroidStudio%E7%AE%80%E5%8D%95%E4%BD%BF%E7%94%A8/image-20210107210001901.png" alt="image-20210107210001901"></p>
+<p><img src="/2021/01/07/AndroidStudio%E7%AE%80%E5%8D%95%E4%BD%BF%E7%94%A8/image-20210107210559520.png" alt="image-20210107210559520"></p>
+<h4 id="傻瓜式设计"><a href="#傻瓜式设计" class="headerlink" title="傻瓜式设计"></a>傻瓜式设计</h4><p><img src="/2021/01/07/AndroidStudio%E7%AE%80%E5%8D%95%E4%BD%BF%E7%94%A8/image-20210107211532925.png" alt="image-20210107211532925"></p>
+<p>混合式</p>
+<p><img src="/2021/01/07/AndroidStudio%E7%AE%80%E5%8D%95%E4%BD%BF%E7%94%A8/image-20210107211705826.png" alt="image-20210107211705826"></p>
+<h3 id="信息查看"><a href="#信息查看" class="headerlink" title="信息查看"></a>信息查看</h3><p>Run</p>
+<p><img src="/2021/01/07/AndroidStudio%E7%AE%80%E5%8D%95%E4%BD%BF%E7%94%A8/image-20210107212845786.png" alt="image-20210107212845786"></p>
+<p>logcat</p>
+<p><img src="/2021/01/07/AndroidStudio%E7%AE%80%E5%8D%95%E4%BD%BF%E7%94%A8/image-20210107210950775.png" alt="image-20210107210950775"></p>
+<h3 id="调试"><a href="#调试" class="headerlink" title="调试"></a>调试</h3><p><img src="/2021/01/07/AndroidStudio%E7%AE%80%E5%8D%95%E4%BD%BF%E7%94%A8/image-20210107212231030.png" alt="image-20210107212231030"></p>
+<p><img src="/2021/01/07/AndroidStudio%E7%AE%80%E5%8D%95%E4%BD%BF%E7%94%A8/image-20210107212714974.png" alt="image-20210107212714974"></p>
+<h3 id="字体设置"><a href="#字体设置" class="headerlink" title="字体设置"></a>字体设置</h3><p><img src="/2021/01/07/AndroidStudio%E7%AE%80%E5%8D%95%E4%BD%BF%E7%94%A8/image-20210107212943688.png" alt="image-20210107212943688"></p>
+<p><img src="/2021/01/07/AndroidStudio%E7%AE%80%E5%8D%95%E4%BD%BF%E7%94%A8/image-20210107213103685.png" alt="image-20210107213103685"></p>
+<p><img src="/2021/01/07/AndroidStudio%E7%AE%80%E5%8D%95%E4%BD%BF%E7%94%A8/image-20210107213556098.png" alt="image-20210107213556098"></p>
+<h3 id="功能区分布"><a href="#功能区分布" class="headerlink" title="功能区分布"></a>功能区分布</h3><p><img src="/2021/01/07/AndroidStudio%E7%AE%80%E5%8D%95%E4%BD%BF%E7%94%A8/image-20210107213934665.png" alt="image-20210107213934665"></p>
+<p><img src="/2021/01/07/AndroidStudio%E7%AE%80%E5%8D%95%E4%BD%BF%E7%94%A8/image-20210107215141476.png" alt="image-20210107215141476"></p>
+<h3 id="创建模拟器"><a href="#创建模拟器" class="headerlink" title="创建模拟器"></a>创建模拟器</h3><p><img src="/2021/01/07/AndroidStudio%E7%AE%80%E5%8D%95%E4%BD%BF%E7%94%A8/image-20210107215450366.png" alt="image-20210107215450366"></p>
+<p><img src="/2021/01/07/AndroidStudio%E7%AE%80%E5%8D%95%E4%BD%BF%E7%94%A8/image-20210107215734170.png" alt="image-20210107215734170"></p>
+<p><img src="/2021/01/07/AndroidStudio%E7%AE%80%E5%8D%95%E4%BD%BF%E7%94%A8/image-20210107215901780.png" alt="image-20210107215901780"></p>
+<p><img src="/2021/01/07/AndroidStudio%E7%AE%80%E5%8D%95%E4%BD%BF%E7%94%A8/image-20210107215935477.png" alt="image-20210107215935477"></p>
+<h4 id="manifests说明"><a href="#manifests说明" class="headerlink" title="manifests说明"></a>manifests说明</h4><p><img src="/2021/01/07/AndroidStudio%E7%AE%80%E5%8D%95%E4%BD%BF%E7%94%A8/image-20210108152634902.png" alt="image-20210108152634902"></p>
+<p>例子一：2个相同的启动图标原因</p>
+<p><img src="/2021/01/07/AndroidStudio%E7%AE%80%E5%8D%95%E4%BD%BF%E7%94%A8/image-20210108152746856.png" alt="image-20210108152746856"></p>
+<p><img src="/2021/01/07/AndroidStudio%E7%AE%80%E5%8D%95%E4%BD%BF%E7%94%A8/image-20210108152736788.png" alt="image-20210108152736788"></p>
+<p>解决方法</p>
+<p><img src="/2021/01/07/AndroidStudio%E7%AE%80%E5%8D%95%E4%BD%BF%E7%94%A8/image-20210108152809412.png" alt="image-20210108152809412"></p>
+<p><img src="/2021/01/07/AndroidStudio%E7%AE%80%E5%8D%95%E4%BD%BF%E7%94%A8/image-20210108152814597.png" alt="image-20210108152814597"></p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
       
   
   
@@ -390,7 +709,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">62</span>
+          <span class="site-state-item-count">65</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
