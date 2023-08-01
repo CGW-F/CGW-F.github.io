@@ -17,37 +17,37 @@
 
 <script id="hexo-configurations">
     var NexT = window.NexT || {};
-    var CONFIG = {"hostname":"wgc5.gitee.io","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+    var CONFIG = {"hostname":"cgw-f.github.io","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
   </script>
 
   <meta name="description" content="通知（Notification）插件      事例：效果    实现 布局  （添加新Activity）  添加自带素材   MainActivity.java 1234567891011121314151617181920212223242526272829303132333435363738394041424344454647484950515253545556575859606162636">
 <meta property="og:type" content="article">
 <meta property="og:title" content="通知插件">
-<meta property="og:url" content="https://wgc5.gitee.io/2021/01/18/%E9%80%9A%E7%9F%A5%E6%8F%92%E4%BB%B6/index.html">
+<meta property="og:url" content="https://cgw-f.github.io/2021/01/18/%E9%80%9A%E7%9F%A5%E6%8F%92%E4%BB%B6/index.html">
 <meta property="og:site_name" content="北极星上的稻草人">
 <meta property="og:description" content="通知（Notification）插件      事例：效果    实现 布局  （添加新Activity）  添加自带素材   MainActivity.java 1234567891011121314151617181920212223242526272829303132333435363738394041424344454647484950515253545556575859606162636">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://wgc5.gitee.io/2021/01/18/%E9%80%9A%E7%9F%A5%E6%8F%92%E4%BB%B6/image-20210118184549201.png">
-<meta property="og:image" content="https://wgc5.gitee.io/2021/01/18/%E9%80%9A%E7%9F%A5%E6%8F%92%E4%BB%B6/image-20210118203313385.png">
-<meta property="og:image" content="https://wgc5.gitee.io/2021/01/18/%E9%80%9A%E7%9F%A5%E6%8F%92%E4%BB%B6/image-20210118203329272.png">
-<meta property="og:image" content="https://wgc5.gitee.io/2021/01/18/%E9%80%9A%E7%9F%A5%E6%8F%92%E4%BB%B6/image-20210118203344113.png">
-<meta property="og:image" content="https://wgc5.gitee.io/2021/01/18/%E9%80%9A%E7%9F%A5%E6%8F%92%E4%BB%B6/image-20210118203358489.png">
-<meta property="og:image" content="https://wgc5.gitee.io/2021/01/18/%E9%80%9A%E7%9F%A5%E6%8F%92%E4%BB%B6/image-20210118203446217.png">
-<meta property="og:image" content="https://wgc5.gitee.io/2021/01/18/%E9%80%9A%E7%9F%A5%E6%8F%92%E4%BB%B6/image-20210118203500753.png">
-<meta property="og:image" content="https://wgc5.gitee.io/2021/01/18/%E9%80%9A%E7%9F%A5%E6%8F%92%E4%BB%B6/image-20210118203512168.png">
-<meta property="og:image" content="https://wgc5.gitee.io/2021/01/18/%E9%80%9A%E7%9F%A5%E6%8F%92%E4%BB%B6/image-20210118203557376.png">
-<meta property="og:image" content="https://wgc5.gitee.io/2021/01/18/%E9%80%9A%E7%9F%A5%E6%8F%92%E4%BB%B6/image-20210118203643176.png">
-<meta property="og:image" content="https://wgc5.gitee.io/2021/01/18/%E9%80%9A%E7%9F%A5%E6%8F%92%E4%BB%B6/image-20210118203833518.png">
-<meta property="og:image" content="https://wgc5.gitee.io/2021/01/18/%E9%80%9A%E7%9F%A5%E6%8F%92%E4%BB%B6/image-20210118203751075.png">
-<meta property="og:image" content="https://wgc5.gitee.io/2021/01/18/%E9%80%9A%E7%9F%A5%E6%8F%92%E4%BB%B6/image-20210118203947348.png">
+<meta property="og:image" content="https://cgw-f.github.io/2021/01/18/%E9%80%9A%E7%9F%A5%E6%8F%92%E4%BB%B6/image-20210118184549201.png">
+<meta property="og:image" content="https://cgw-f.github.io/2021/01/18/%E9%80%9A%E7%9F%A5%E6%8F%92%E4%BB%B6/image-20210118203313385.png">
+<meta property="og:image" content="https://cgw-f.github.io/2021/01/18/%E9%80%9A%E7%9F%A5%E6%8F%92%E4%BB%B6/image-20210118203329272.png">
+<meta property="og:image" content="https://cgw-f.github.io/2021/01/18/%E9%80%9A%E7%9F%A5%E6%8F%92%E4%BB%B6/image-20210118203344113.png">
+<meta property="og:image" content="https://cgw-f.github.io/2021/01/18/%E9%80%9A%E7%9F%A5%E6%8F%92%E4%BB%B6/image-20210118203358489.png">
+<meta property="og:image" content="https://cgw-f.github.io/2021/01/18/%E9%80%9A%E7%9F%A5%E6%8F%92%E4%BB%B6/image-20210118203446217.png">
+<meta property="og:image" content="https://cgw-f.github.io/2021/01/18/%E9%80%9A%E7%9F%A5%E6%8F%92%E4%BB%B6/image-20210118203500753.png">
+<meta property="og:image" content="https://cgw-f.github.io/2021/01/18/%E9%80%9A%E7%9F%A5%E6%8F%92%E4%BB%B6/image-20210118203512168.png">
+<meta property="og:image" content="https://cgw-f.github.io/2021/01/18/%E9%80%9A%E7%9F%A5%E6%8F%92%E4%BB%B6/image-20210118203557376.png">
+<meta property="og:image" content="https://cgw-f.github.io/2021/01/18/%E9%80%9A%E7%9F%A5%E6%8F%92%E4%BB%B6/image-20210118203643176.png">
+<meta property="og:image" content="https://cgw-f.github.io/2021/01/18/%E9%80%9A%E7%9F%A5%E6%8F%92%E4%BB%B6/image-20210118203833518.png">
+<meta property="og:image" content="https://cgw-f.github.io/2021/01/18/%E9%80%9A%E7%9F%A5%E6%8F%92%E4%BB%B6/image-20210118203751075.png">
+<meta property="og:image" content="https://cgw-f.github.io/2021/01/18/%E9%80%9A%E7%9F%A5%E6%8F%92%E4%BB%B6/image-20210118203947348.png">
 <meta property="article:published_time" content="2021-01-18T13:10:05.000Z">
 <meta property="article:modified_time" content="2021-02-21T01:49:56.120Z">
 <meta property="article:author" content="北极星上的稻草人">
 <meta property="article:tag" content="通知（Notification）插件">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://wgc5.gitee.io/2021/01/18/%E9%80%9A%E7%9F%A5%E6%8F%92%E4%BB%B6/image-20210118184549201.png">
+<meta name="twitter:image" content="https://cgw-f.github.io/2021/01/18/%E9%80%9A%E7%9F%A5%E6%8F%92%E4%BB%B6/image-20210118184549201.png">
 
-<link rel="canonical" href="https://wgc5.gitee.io/2021/01/18/%E9%80%9A%E7%9F%A5%E6%8F%92%E4%BB%B6/">
+<link rel="canonical" href="https://cgw-f.github.io/2021/01/18/%E9%80%9A%E7%9F%A5%E6%8F%92%E4%BB%B6/">
 
 
 <script id="page-configurations">
@@ -176,7 +176,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://wgc5.gitee.io/2021/01/18/%E9%80%9A%E7%9F%A5%E6%8F%92%E4%BB%B6/">
+    <link itemprop="mainEntityOfPage" href="https://cgw-f.github.io/2021/01/18/%E9%80%9A%E7%9F%A5%E6%8F%92%E4%BB%B6/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">

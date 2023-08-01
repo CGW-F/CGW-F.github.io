@@ -17,23 +17,53 @@
 
 <script id="hexo-configurations">
     var NexT = window.NexT || {};
-    var CONFIG = {"hostname":"wgc5.gitee.io","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+    var CONFIG = {"hostname":"cgw-f.github.io","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
   </script>
 
-  <meta property="og:type" content="article">
+  <meta name="description" content="Pikachu靶场通关笔记-下Over permission（越权漏洞）    水平越权        垂直越权..&#x2F;..&#x2F;    ..&#x2F;..&#x2F;(目录遍历)XXE    XXE漏洞URL重定向    不安全的URL跳转SSRF    SSRF（curl）        SSRF（fgc）Over permission（越权漏洞）​        如果使用A用户的权限去操作B用户的数据，A的权限小于">
+<meta property="og:type" content="article">
 <meta property="og:title" content="Pikachu靶场通关笔记-下">
-<meta property="og:url" content="https://wgc5.gitee.io/2023/03/14/Pikachu%E9%9D%B6%E5%9C%BA%E9%80%9A%E5%85%B3%E7%AC%94%E8%AE%B0-%E4%B8%8B/index.html">
+<meta property="og:url" content="https://cgw-f.github.io/2023/03/14/Pikachu%E9%9D%B6%E5%9C%BA%E9%80%9A%E5%85%B3%E7%AC%94%E8%AE%B0-%E4%B8%8B/index.html">
 <meta property="og:site_name" content="北极星上的稻草人">
+<meta property="og:description" content="Pikachu靶场通关笔记-下Over permission（越权漏洞）    水平越权        垂直越权..&#x2F;..&#x2F;    ..&#x2F;..&#x2F;(目录遍历)XXE    XXE漏洞URL重定向    不安全的URL跳转SSRF    SSRF（curl）        SSRF（fgc）Over permission（越权漏洞）​        如果使用A用户的权限去操作B用户的数据，A的权限小于">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://wgc5.gitee.io/2023/03/14/Pikachu%E9%9D%B6%E5%9C%BA%E9%80%9A%E5%85%B3%E7%AC%94%E8%AE%B0-%E4%B8%8B/Pikachu%E9%9D%B6%E5%9C%BA%E9%80%9A%E5%85%B3%E7%AC%94%E8%AE%B0-%E4%B8%8B.png">
+<meta property="og:image" content="https://cgw-f.github.io/2023/03/14/Pikachu%E9%9D%B6%E5%9C%BA%E9%80%9A%E5%85%B3%E7%AC%94%E8%AE%B0-%E4%B8%8B/Users/Administrator/Desktop/新建文件夹/pichaku靶场笔记下/image-20230313165058409.png">
+<meta property="og:image" content="https://cgw-f.github.io/2023/03/14/Pikachu%E9%9D%B6%E5%9C%BA%E9%80%9A%E5%85%B3%E7%AC%94%E8%AE%B0-%E4%B8%8B/Users/Administrator/Desktop/新建文件夹/pichaku靶场笔记下/image-20230313165227001.png">
+<meta property="og:image" content="https://cgw-f.github.io/2023/03/14/Pikachu%E9%9D%B6%E5%9C%BA%E9%80%9A%E5%85%B3%E7%AC%94%E8%AE%B0-%E4%B8%8B/Users/Administrator/Desktop/新建文件夹/pichaku靶场笔记下/image-20230313165354353.png">
+<meta property="og:image" content="https://cgw-f.github.io/2023/03/14/Pikachu%E9%9D%B6%E5%9C%BA%E9%80%9A%E5%85%B3%E7%AC%94%E8%AE%B0-%E4%B8%8B/Users/Administrator/Desktop/新建文件夹/pichaku靶场笔记下/image-20230313172041540.png">
+<meta property="og:image" content="https://cgw-f.github.io/2023/03/14/Pikachu%E9%9D%B6%E5%9C%BA%E9%80%9A%E5%85%B3%E7%AC%94%E8%AE%B0-%E4%B8%8B/Users/Administrator/Desktop/新建文件夹/pichaku靶场笔记下/image-20230313172119798.png">
+<meta property="og:image" content="https://cgw-f.github.io/2023/03/14/Pikachu%E9%9D%B6%E5%9C%BA%E9%80%9A%E5%85%B3%E7%AC%94%E8%AE%B0-%E4%B8%8B/Users/Administrator/Desktop/新建文件夹/pichaku靶场笔记下/image-20230313172304204.png">
+<meta property="og:image" content="https://cgw-f.github.io/2023/03/14/Pikachu%E9%9D%B6%E5%9C%BA%E9%80%9A%E5%85%B3%E7%AC%94%E8%AE%B0-%E4%B8%8B/Users/Administrator/Desktop/新建文件夹/pichaku靶场笔记下/image-20230313172550983.png">
+<meta property="og:image" content="https://cgw-f.github.io/2023/03/14/Pikachu%E9%9D%B6%E5%9C%BA%E9%80%9A%E5%85%B3%E7%AC%94%E8%AE%B0-%E4%B8%8B/Users/Administrator/Desktop/新建文件夹/pichaku靶场笔记下/image-20230313172701887.png">
+<meta property="og:image" content="https://cgw-f.github.io/2023/03/14/Pikachu%E9%9D%B6%E5%9C%BA%E9%80%9A%E5%85%B3%E7%AC%94%E8%AE%B0-%E4%B8%8B/Users/Administrator/Desktop/新建文件夹/pichaku靶场笔记下/image-20230313191914128.png">
+<meta property="og:image" content="https://cgw-f.github.io/2023/03/14/Pikachu%E9%9D%B6%E5%9C%BA%E9%80%9A%E5%85%B3%E7%AC%94%E8%AE%B0-%E4%B8%8B/Users/Administrator/Desktop/新建文件夹/pichaku靶场笔记下/image-20230313211021024.png">
+<meta property="og:image" content="https://cgw-f.github.io/2023/03/14/Pikachu%E9%9D%B6%E5%9C%BA%E9%80%9A%E5%85%B3%E7%AC%94%E8%AE%B0-%E4%B8%8B/Users/Administrator/Desktop/新建文件夹/pichaku靶场笔记下/image-20230313210914295.png">
+<meta property="og:image" content="https://cgw-f.github.io/2023/03/14/Pikachu%E9%9D%B6%E5%9C%BA%E9%80%9A%E5%85%B3%E7%AC%94%E8%AE%B0-%E4%B8%8B/Users/Administrator/Desktop/新建文件夹/pichaku靶场笔记下/image-20230313212059625.png">
+<meta property="og:image" content="https://cgw-f.github.io/2023/03/14/Pikachu%E9%9D%B6%E5%9C%BA%E9%80%9A%E5%85%B3%E7%AC%94%E8%AE%B0-%E4%B8%8B/Users/Administrator/Desktop/新建文件夹/pichaku靶场笔记下/image-20230313212338893.png">
+<meta property="og:image" content="https://cgw-f.github.io/2023/03/14/Pikachu%E9%9D%B6%E5%9C%BA%E9%80%9A%E5%85%B3%E7%AC%94%E8%AE%B0-%E4%B8%8B/Users/Administrator/Desktop/新建文件夹/pichaku靶场笔记下/image-20230313212610881.png">
+<meta property="og:image" content="https://cgw-f.github.io/2023/03/14/Pikachu%E9%9D%B6%E5%9C%BA%E9%80%9A%E5%85%B3%E7%AC%94%E8%AE%B0-%E4%B8%8B/Users/Administrator/Desktop/新建文件夹/pichaku靶场笔记下/image-20230313214848710.png">
+<meta property="og:image" content="https://cgw-f.github.io/2023/03/14/Pikachu%E9%9D%B6%E5%9C%BA%E9%80%9A%E5%85%B3%E7%AC%94%E8%AE%B0-%E4%B8%8B/Users/Administrator/Desktop/新建文件夹/pichaku靶场笔记下/image-20230313215035088.png">
+<meta property="og:image" content="https://cgw-f.github.io/2023/03/14/Pikachu%E9%9D%B6%E5%9C%BA%E9%80%9A%E5%85%B3%E7%AC%94%E8%AE%B0-%E4%B8%8B/Users/Administrator/Desktop/新建文件夹/pichaku靶场笔记下/image-20230314103211914.png">
+<meta property="og:image" content="https://cgw-f.github.io/2023/03/14/Pikachu%E9%9D%B6%E5%9C%BA%E9%80%9A%E5%85%B3%E7%AC%94%E8%AE%B0-%E4%B8%8B/Users/Administrator/Desktop/新建文件夹/pichaku靶场笔记下/image-20230314093539543.png">
+<meta property="og:image" content="c:/Users/Administrator/Desktop/新建文件夹/pichaku靶场笔记下/image-20230314093756709.png">
+<meta property="og:image" content="https://cgw-f.github.io/2023/03/14/Pikachu%E9%9D%B6%E5%9C%BA%E9%80%9A%E5%85%B3%E7%AC%94%E8%AE%B0-%E4%B8%8B/Users/Administrator/Desktop/新建文件夹/pichaku靶场笔记下/image-20230314094254087.png">
+<meta property="og:image" content="https://cgw-f.github.io/2023/03/14/Pikachu%E9%9D%B6%E5%9C%BA%E9%80%9A%E5%85%B3%E7%AC%94%E8%AE%B0-%E4%B8%8B/Users/Administrator/Desktop/新建文件夹/pichaku靶场笔记下/image-20230314095512285.png">
+<meta property="og:image" content="https://cgw-f.github.io/2023/03/14/Pikachu%E9%9D%B6%E5%9C%BA%E9%80%9A%E5%85%B3%E7%AC%94%E8%AE%B0-%E4%B8%8B/Users/Administrator/Desktop/新建文件夹/pichaku靶场笔记下/image-20230314103354301.png">
+<meta property="og:image" content="https://cgw-f.github.io/2023/03/14/Pikachu%E9%9D%B6%E5%9C%BA%E9%80%9A%E5%85%B3%E7%AC%94%E8%AE%B0-%E4%B8%8B/Users/Administrator/Desktop/新建文件夹/pichaku靶场笔记下/image-20230314103512302.png">
+<meta property="og:image" content="https://cgw-f.github.io/2023/03/14/Pikachu%E9%9D%B6%E5%9C%BA%E9%80%9A%E5%85%B3%E7%AC%94%E8%AE%B0-%E4%B8%8B/Users/Administrator/Desktop/新建文件夹/pichaku靶场笔记下/image-20230314103557548.png">
+<meta property="og:image" content="https://cgw-f.github.io/2023/03/14/Pikachu%E9%9D%B6%E5%9C%BA%E9%80%9A%E5%85%B3%E7%AC%94%E8%AE%B0-%E4%B8%8B/Users/Administrator/Desktop/新建文件夹/pichaku靶场笔记下/image-20230314110002240.png">
+<meta property="og:image" content="https://cgw-f.github.io/2023/03/14/Pikachu%E9%9D%B6%E5%9C%BA%E9%80%9A%E5%85%B3%E7%AC%94%E8%AE%B0-%E4%B8%8B/Users/Administrator/Desktop/新建文件夹/pichaku靶场笔记下/image-20230314110056296.png">
+<meta property="og:image" content="https://cgw-f.github.io/2023/03/14/Pikachu%E9%9D%B6%E5%9C%BA%E9%80%9A%E5%85%B3%E7%AC%94%E8%AE%B0-%E4%B8%8B/Users/Administrator/Desktop/新建文件夹/pichaku靶场笔记下/image-20230314110324132.png">
+<meta property="og:image" content="https://cgw-f.github.io/2023/03/14/Pikachu%E9%9D%B6%E5%9C%BA%E9%80%9A%E5%85%B3%E7%AC%94%E8%AE%B0-%E4%B8%8B/Users/Administrator/Desktop/新建文件夹/pichaku靶场笔记下/image-20230314112554456.png">
+<meta property="og:image" content="https://cgw-f.github.io/2023/03/14/Pikachu%E9%9D%B6%E5%9C%BA%E9%80%9A%E5%85%B3%E7%AC%94%E8%AE%B0-%E4%B8%8B/image-20230801192503868.png">
 <meta property="article:published_time" content="2023-03-14T06:56:15.000Z">
-<meta property="article:modified_time" content="2023-03-23T04:35:00.275Z">
+<meta property="article:modified_time" content="2023-08-01T11:25:31.795Z">
 <meta property="article:author" content="北极星上的稻草人">
 <meta property="article:tag" content="靶场训练">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://wgc5.gitee.io/2023/03/14/Pikachu%E9%9D%B6%E5%9C%BA%E9%80%9A%E5%85%B3%E7%AC%94%E8%AE%B0-%E4%B8%8B/Pikachu%E9%9D%B6%E5%9C%BA%E9%80%9A%E5%85%B3%E7%AC%94%E8%AE%B0-%E4%B8%8B.png">
+<meta name="twitter:image" content="https://cgw-f.github.io/2023/03/14/Pikachu%E9%9D%B6%E5%9C%BA%E9%80%9A%E5%85%B3%E7%AC%94%E8%AE%B0-%E4%B8%8B/Users/Administrator/Desktop/新建文件夹/pichaku靶场笔记下/image-20230313165058409.png">
 
-<link rel="canonical" href="https://wgc5.gitee.io/2023/03/14/Pikachu%E9%9D%B6%E5%9C%BA%E9%80%9A%E5%85%B3%E7%AC%94%E8%AE%B0-%E4%B8%8B/">
+<link rel="canonical" href="https://cgw-f.github.io/2023/03/14/Pikachu%E9%9D%B6%E5%9C%BA%E9%80%9A%E5%85%B3%E7%AC%94%E8%AE%B0-%E4%B8%8B/">
 
 
 <script id="page-configurations">
@@ -162,7 +192,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://wgc5.gitee.io/2023/03/14/Pikachu%E9%9D%B6%E5%9C%BA%E9%80%9A%E5%85%B3%E7%AC%94%E8%AE%B0-%E4%B8%8B/">
+    <link itemprop="mainEntityOfPage" href="https://cgw-f.github.io/2023/03/14/Pikachu%E9%9D%B6%E5%9C%BA%E9%80%9A%E5%85%B3%E7%AC%94%E8%AE%B0-%E4%B8%8B/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -192,7 +222,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2023-03-23 12:35:00" itemprop="dateModified" datetime="2023-03-23T12:35:00+08:00">2023-03-23</time>
+                <time title="修改时间：2023-08-01 19:25:31" itemprop="dateModified" datetime="2023-08-01T19:25:31+08:00">2023-08-01</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -222,7 +252,275 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <p><img src="/2023/03/14/Pikachu%E9%9D%B6%E5%9C%BA%E9%80%9A%E5%85%B3%E7%AC%94%E8%AE%B0-%E4%B8%8B/Pikachu%E9%9D%B6%E5%9C%BA%E9%80%9A%E5%85%B3%E7%AC%94%E8%AE%B0-%E4%B8%8B.png" alt="Pikachu靶场通关笔记-下"></p>
+        <h1 id="Pikachu靶场通关笔记-下"><a href="#Pikachu靶场通关笔记-下" class="headerlink" title="Pikachu靶场通关笔记-下"></a>Pikachu靶场通关笔记-下</h1><h4 id="Over-permission（越权漏洞）-水平越权-垂直越权"><a href="#Over-permission（越权漏洞）-水平越权-垂直越权" class="headerlink" title="Over permission（越权漏洞）    水平越权        垂直越权"></a>Over permission（越权漏洞）    <a href="#%E6%B0%B4%E5%B9%B3%E8%B6%8A%E6%9D%83">水平越权</a>        <a href="#%E5%9E%82%E7%9B%B4%E8%B6%8A%E6%9D%83">垂直越权</a></h4><h4 id="目录遍历"><a href="#目录遍历" class="headerlink" title="../../    ../../(目录遍历)"></a>../../    <a href="#../../(%E7%9B%AE%E5%BD%95%E9%81%8D%E5%8E%86)">../../(目录遍历)</a></h4><h4 id="XXE-XXE漏洞"><a href="#XXE-XXE漏洞" class="headerlink" title="XXE    XXE漏洞"></a>XXE    <a href="#XXE%E6%BC%8F%E6%B4%9E">XXE漏洞</a></h4><h4 id="URL重定向-不安全的URL跳转"><a href="#URL重定向-不安全的URL跳转" class="headerlink" title="URL重定向    不安全的URL跳转"></a>URL重定向    <a href="#%E4%B8%8D%E5%AE%89%E5%85%A8%E7%9A%84URL%E8%B7%B3%E8%BD%AC">不安全的URL跳转</a></h4><h4 id="SSRF-SSRF（curl）-SSRF（fgc）"><a href="#SSRF-SSRF（curl）-SSRF（fgc）" class="headerlink" title="SSRF    SSRF（curl）        SSRF（fgc）"></a>SSRF    <a href="#SSRF%EF%BC%88curl%EF%BC%89">SSRF（curl）</a>        <a href="#SSRF%EF%BC%88fgc%EF%BC%89">SSRF（fgc）</a></h4><h2 id="Over-permission（越权漏洞）"><a href="#Over-permission（越权漏洞）" class="headerlink" title="Over permission（越权漏洞）"></a>Over permission（越权漏洞）</h2><p>​        如果使用A用户的权限去操作B用户的数据，A的权限小于B的权限，如果能够成功操作，则称之为越权操作。越权漏洞形成的原因是后台使用了 不合理的权限校验规则导致的。 一般越权漏洞容易出现在权限页面（需要登录的页面）增、删、改、查的的地方，当用户对权限页面内的信息进行这些操作时，后台需要对当前用户的权限进行校验，看其是否具备操作的权限，从而给出响应，而如果校验的规则过于简单则容易出现越权漏洞。以下是越权漏洞的步骤、攻击方法和防御方法。</p>
+<p>步骤：</p>
+<ol>
+<li>攻击者通过渗透测试或其他方式，获取到目标网站的漏洞或不当配置。</li>
+<li>攻击者利用漏洞或不当配置，获取到未授权的权限或访问未授权的资源。</li>
+<li>攻击者利用所获得的权限进行攻击，如获取敏感信息、修改数据等。</li>
+</ol>
+<p>攻击方法：</p>
+<ol>
+<li>直接访问URL：攻击者可以直接访问受限制的URL，如管理后台、用户个人信息等。</li>
+<li>修改参数：攻击者可以修改请求参数，如将用户ID改为其他用户的ID，以获取其他用户的信息。</li>
+<li>暴力猜解：攻击者可以通过暴力猜解密码等方式，获取到受限制的权限。</li>
+<li>会话劫持：攻击者可以通过劫持会话，获取到受限制的权限。</li>
+</ol>
+<p>防御方法：</p>
+<ol>
+<li>权限控制：在程序中对用户权限进行控制，限制用户对资源的访问。（1）使用最小权限原则对用户进行赋权;（2）使用合理（严格）的权限校验规则;（3）使用后台登录态作为条件进行权限判断,别动不动就瞎用前端传进来的条件。</li>
+<li>输入验证：对用户输入的数据进行验证和过滤，防止攻击者通过修改参数获取未授权的访问。</li>
+<li>会话管理：采用合适的会话管理机制，如使用HTTPS协议、设置有效期、强制重新登录等。</li>
+<li>安全配置：对服务器和应用程序进行安全配置，如关闭不必要的服务和端口、限制访问权限等。</li>
+<li>安全审计：对程序进行安全审计，及时发现和修复漏洞，提高程序的安全性。</li>
+</ol>
+<h4 id="水平越权"><a href="#水平越权" class="headerlink" title="水平越权"></a>水平越权</h4><p>了解到有3个用户</p>
+<img src="/2023/03/14/Pikachu%E9%9D%B6%E5%9C%BA%E9%80%9A%E5%85%B3%E7%AC%94%E8%AE%B0-%E4%B8%8B/Users/Administrator/Desktop/新建文件夹/pichaku靶场笔记下/image-20230313165058409.png" alt="image-20230313165058409" style="zoom:50%;">
+
+<p>正常登录，点击查看个人信息；在url出发现查询关键字</p>
+<img src="/2023/03/14/Pikachu%E9%9D%B6%E5%9C%BA%E9%80%9A%E5%85%B3%E7%AC%94%E8%AE%B0-%E4%B8%8B/Users/Administrator/Desktop/新建文件夹/pichaku靶场笔记下/image-20230313165227001.png" alt="image-20230313165227001" style="zoom:50%;">
+
+
+
+<p>直接修改url的查询用户，可以发现即使没有登录lucy账号也能查看其信息</p>
+<img src="/2023/03/14/Pikachu%E9%9D%B6%E5%9C%BA%E9%80%9A%E5%85%B3%E7%AC%94%E8%AE%B0-%E4%B8%8B/Users/Administrator/Desktop/新建文件夹/pichaku靶场笔记下/image-20230313165354353.png" alt="image-20230313165354353" style="zoom:50%;">
+
+
+
+<h4 id="垂直越权"><a href="#垂直越权" class="headerlink" title="垂直越权"></a>垂直越权</h4><p>先用超级用户登录，了解其特权有那些</p>
+<img src="/2023/03/14/Pikachu%E9%9D%B6%E5%9C%BA%E9%80%9A%E5%85%B3%E7%AC%94%E8%AE%B0-%E4%B8%8B/Users/Administrator/Desktop/新建文件夹/pichaku靶场笔记下/image-20230313172041540.png" alt="image-20230313172041540" style="zoom:50%;">
+
+<p>发现可以添加和删除用户，进入添加用户界面，查看界面；发现url使用用户名来命名连接</p>
+<img src="/2023/03/14/Pikachu%E9%9D%B6%E5%9C%BA%E9%80%9A%E5%85%B3%E7%AC%94%E8%AE%B0-%E4%B8%8B/Users/Administrator/Desktop/新建文件夹/pichaku靶场笔记下/image-20230313172119798.png" alt="image-20230313172119798" style="zoom:50%;">
+
+<p>登录普通用户，发现只可以查看；尝试修改连接的用户名为超级用户</p>
+<img src="/2023/03/14/Pikachu%E9%9D%B6%E5%9C%BA%E9%80%9A%E5%85%B3%E7%AC%94%E8%AE%B0-%E4%B8%8B/Users/Administrator/Desktop/新建文件夹/pichaku靶场笔记下/image-20230313172304204.png" alt="image-20230313172304204" style="zoom: 33%;">
+
+<p>在主页面（查看）会跳出并需要重新登录；再尝试把添加用户的连接直接搬运过来</p>
+<img src="/2023/03/14/Pikachu%E9%9D%B6%E5%9C%BA%E9%80%9A%E5%85%B3%E7%AC%94%E8%AE%B0-%E4%B8%8B/Users/Administrator/Desktop/新建文件夹/pichaku靶场笔记下/image-20230313172550983.png" alt="image-20230313172550983" style="zoom: 33%;">
+
+<p>回车后直接跳转到添加用户界面，添加用户</p>
+<img src="/2023/03/14/Pikachu%E9%9D%B6%E5%9C%BA%E9%80%9A%E5%85%B3%E7%AC%94%E8%AE%B0-%E4%B8%8B/Users/Administrator/Desktop/新建文件夹/pichaku靶场笔记下/image-20230313172701887.png" alt="image-20230313172701887" style="zoom: 33%;">
+
+<p>再次登录，可以查看到刚添加的用户</p>
+<img src="/2023/03/14/Pikachu%E9%9D%B6%E5%9C%BA%E9%80%9A%E5%85%B3%E7%AC%94%E8%AE%B0-%E4%B8%8B/Users/Administrator/Desktop/新建文件夹/pichaku靶场笔记下/image-20230313191914128.png" alt="image-20230313191914128" style="zoom: 33%;">
+
+
+
+<h2 id="目录遍历-1"><a href="#目录遍历-1" class="headerlink" title="目录遍历"></a>目录遍历</h2><p>​        在web功能设计中,很多时候会要将需要访问的文件定义成变量，从而让前端的功能便的更加灵活。当用户发起一个前端的请求时，便会将请求的这个文件的值(比如文件名称)传递到后台，后台再执行其对应的文件。在这个过程中，如果后台没有对前端传进来的值进行严格的安全考虑，则攻击者可能会通过“../”这样的手段让后台打开或者执行一些其他的文件。从而导致后台服务器上其他目录的文件结果被遍历出来，形成目录遍历漏洞。<br>​        看到这里,你可能会觉得目录遍历漏洞和不安全的文件下载，甚至文件包含漏洞有差不多的意思，是的，目录遍历漏洞形成的最主要的原因跟这两者一样，都是在功能设计中将要操作的文件使用变量的方式传递给了后台，而又没有进行严格的安全考虑而造成的，只是出现的位置所展现的现象不一样。需要区分一下的是,如果通过不带参数的url（比如：<a target="_blank" rel="noopener" href="http://xxxx/doc%EF%BC%89%E5%88%97%E5%87%BA%E4%BA%86doc%E6%96%87%E4%BB%B6%E5%A4%B9%E9%87%8C%E9%9D%A2%E6%89%80%E6%9C%89%E7%9A%84%E6%96%87%E4%BB%B6%EF%BC%8C%E8%BF%99%E7%A7%8D%E6%83%85%E5%86%B5%EF%BC%8C%E8%BF%99%E9%87%8C%E7%A7%B0%E4%B8%BA%E6%95%8F%E6%84%9F%E4%BF%A1%E6%81%AF%E6%B3%84%E9%9C%B2">http://xxxx/doc）列出了doc文件夹里面所有的文件，这种情况，这里称为敏感信息泄露</a> 而并不归为目录遍历漏洞。</p>
+<p>目录遍历漏洞（Directory Traversal Vulnerability），也称为路径遍历漏洞，是指攻击者通过输入特殊的字符序列，绕过文件访问控制，获取未授权的访问权限，可以访问受保护的系统文件、敏感数据和应用程序源代码等，进而对系统造成危害。</p>
+<p>目录遍历漏洞攻击通常涉及以下步骤：</p>
+<ol>
+<li>攻击者通过URL或Web应用程序界面输入一个带有特殊字符的参数（如 ../ 等）来绕过应用程序的文件访问控制。</li>
+<li>应用程序没有正确地过滤或验证该参数，因此攻击者可以访问未授权的文件或目录。</li>
+<li>攻击者可以执行恶意代码，访问敏感数据或者修改系统文件，从而控制整个应用程序或者系统。</li>
+</ol>
+<p>目录遍历漏洞常见的攻击方法包括：</p>
+<ol>
+<li>输入 ../ 或 ..\ 等字符序列来向上遍历目录，从而访问父目录及其它目录中的文件。</li>
+<li>利用 %00 空字节截断技术绕过文件名的限制，访问被截断后的文件。</li>
+<li>利用 URL 编码、Unicode 编码、HTML 实体编码等技术绕过应用程序的过滤和检查，访问目标文件。</li>
+</ol>
+<p>防御目录遍历漏洞的方法包括：</p>
+<ol>
+<li>对输入的参数进行过滤和验证，确保只能访问受控的文件和目录。</li>
+<li>应用程序和Web服务器应该在访问文件和目录时使用绝对路径，而不是相对路径。</li>
+<li>禁止使用特殊字符和文件名，如 ../ 、 ..\ 、 %00 等。</li>
+<li>确保Web服务器配置安全，限制应用程序的访问权限，避免攻击者利用目录遍历漏洞访问系统文件和目录。</li>
+<li>更新应用程序和操作系统的补丁，确保已修复已知的目录遍历漏洞。</li>
+</ol>
+<h4 id="目录遍历-2"><a href="#目录遍历-2" class="headerlink" title="../../(目录遍历)"></a>../../(目录遍历)</h4><p>​        如果知道目录，就可以进行目录遍历，例如</p>
+<img src="/2023/03/14/Pikachu%E9%9D%B6%E5%9C%BA%E9%80%9A%E5%85%B3%E7%AC%94%E8%AE%B0-%E4%B8%8B/Users/Administrator/Desktop/新建文件夹/pichaku靶场笔记下/image-20230313211021024.png" alt="image-20230313211021024" style="zoom:50%;">
+
+<p>效果</p>
+<img src="/2023/03/14/Pikachu%E9%9D%B6%E5%9C%BA%E9%80%9A%E5%85%B3%E7%AC%94%E8%AE%B0-%E4%B8%8B/Users/Administrator/Desktop/新建文件夹/pichaku靶场笔记下/image-20230313210914295.png" alt="image-20230313210914295" style="zoom:50%;">
+
+
+
+<h2 id="敏感信息泄露"><a href="#敏感信息泄露" class="headerlink" title="敏感信息泄露"></a>敏感信息泄露</h2><p>​        敏感信息泄露漏洞是指未经授权访问，通过各种手段（例如：爬虫、目录遍历、注入攻击等）获取到敏感信息并且泄露出去，从而导致用户的隐私被泄露或者公司的机密信息被泄露的一种漏洞。由于后台人员的疏忽或者不当的设计，导致不应该被前端用户看到的数据被轻易的访问到。比如：<br>—通过访问url下的目录，可以直接列出目录下的文件列表;<br> —输入错误的url参数后报错信息里面包含操作系统、中间件、开发语言的版本或其他信息;<br> —前端的源码（html,css,js）里面包含了敏感信息，比如后台登录地址、内网接口信息、甚至账号密码等;</p>
+<p>攻击者通过敏感信息泄露漏洞可以获取到包括但不限于以下信息：</p>
+<ol>
+<li>用户名、密码等登录凭证</li>
+<li>个人身份证号码、手机号码等隐私信息</li>
+<li>公司机密文件、源代码等重要信息</li>
+</ol>
+<p>以下是敏感信息泄露漏洞的攻击方法和防御方法：</p>
+<p>【攻击方法】：</p>
+<ol>
+<li>爬虫：攻击者通过编写爬虫程序，对网站的数据进行抓取，并存储在自己的数据库中。</li>
+<li>目录遍历：攻击者通过利用目录遍历漏洞，获取到服务器上的敏感信息。</li>
+<li>注入攻击：攻击者通过SQL注入等攻击手段，获取到网站数据库中的敏感信息。</li>
+<li>钓鱼网站：攻击者制作钓鱼网站，通过欺骗用户输入个人敏感信息的方式，获取用户的敏感信息。</li>
+</ol>
+<p>【防御方法】：</p>
+<ol>
+<li>对于爬虫攻击，可以使用反爬虫技术，例如：设置验证码、IP频率限制、User-Agent限制等。</li>
+<li>对于目录遍历漏洞，应该对网站的目录权限进行正确的设置，并且禁止用户输入../等目录遍历符号。</li>
+<li>对于注入攻击，应该对用户输入的数据进行正确的过滤和验证，并使用预编译语句等技术来避免SQL注入攻击。</li>
+<li>对于钓鱼网站，应该加强对用户的身份验证，例如使用双因素身份认证等技术，同时提高用户对钓鱼网站的识别能力。</li>
+</ol>
+<h4 id="IcanseeyourABC"><a href="#IcanseeyourABC" class="headerlink" title="IcanseeyourABC"></a>IcanseeyourABC</h4><p>正常输入，发现有url处有敏感信息泄露</p>
+<img src="/2023/03/14/Pikachu%E9%9D%B6%E5%9C%BA%E9%80%9A%E5%85%B3%E7%AC%94%E8%AE%B0-%E4%B8%8B/Users/Administrator/Desktop/新建文件夹/pichaku靶场笔记下/image-20230313212059625.png" alt="image-20230313212059625" style="zoom: 33%;">
+
+<p>打开“开发者工具”，发现测试账号和密码</p>
+<img src="/2023/03/14/Pikachu%E9%9D%B6%E5%9C%BA%E9%80%9A%E5%85%B3%E7%AC%94%E8%AE%B0-%E4%B8%8B/Users/Administrator/Desktop/新建文件夹/pichaku靶场笔记下/image-20230313212338893.png" alt="image-20230313212338893" style="zoom: 33%;">
+
+<p>登录，多处都可以发现敏感信息</p>
+<img src="/2023/03/14/Pikachu%E9%9D%B6%E5%9C%BA%E9%80%9A%E5%85%B3%E7%AC%94%E8%AE%B0-%E4%B8%8B/Users/Administrator/Desktop/新建文件夹/pichaku靶场笔记下/image-20230313212610881.png" alt="image-20230313212610881" style="zoom: 50%;">
+
+
+
+<h2 id="PHP反序列化"><a href="#PHP反序列化" class="headerlink" title="PHP反序列化"></a>PHP反序列化</h2><p>在理解这个漏洞前,你需要先搞清楚php中serialize()，unserialize()这两个函数。</p>
+<p><strong>序列化serialize()</strong><br>            序列化说通俗点就是把一个对象变成可以传输的字符串,比如下面是一个对象:            </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">class S&#123;</span><br><span class="line">    public $test&#x3D;&quot;pikachu&quot;;</span><br><span class="line">&#125;</span><br><span class="line">$s&#x3D;new S(); &#x2F;&#x2F;创建一个对象</span><br><span class="line">serialize($s); &#x2F;&#x2F;把这个对象进行序列化</span><br><span class="line">序列化后得到的结果是这个样子的:O:1:&quot;S&quot;:1:&#123;s:4:&quot;test&quot;;s:7:&quot;pikachu&quot;;&#125;</span><br><span class="line">    O:代表object</span><br><span class="line">    1:代表对象名字长度为一个字符</span><br><span class="line">    S:对象的名称</span><br><span class="line">    1:代表对象里面有一个变量</span><br><span class="line">    s:数据类型</span><br><span class="line">    4:变量名称的长度</span><br><span class="line">    test:变量名称</span><br><span class="line">    s:数据类型</span><br><span class="line">    7:变量值的长度</span><br><span class="line">    pikachu:变量值</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p><strong>反序列化unserialize()</strong></p>
+<p>就是把被序列化的字符串还原为对象,然后在接下来的代码中继续使用。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$u&#x3D;unserialize(&quot;O:1:&quot;S&quot;:1:&#123;s:4:&quot;test&quot;;s:7:&quot;pikachu&quot;;&#125;&quot;);</span><br><span class="line">echo $u-&gt;test; &#x2F;&#x2F;得到的结果为pikachu</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>序列化和反序列化本身没有问题,但是如果反序列化的内容是用户可以控制的,且后台不正当的使用了PHP中的魔法函数,就会导致安全问题</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">常见的几个魔法函数:</span><br><span class="line">__construct()当一个对象创建时被调用</span><br><span class="line"></span><br><span class="line">__destruct()当一个对象销毁时被调用</span><br><span class="line"></span><br><span class="line">__toString()当一个对象被当作一个字符串使用</span><br><span class="line"></span><br><span class="line">__sleep() 在对象在被序列化之前运行</span><br><span class="line"></span><br><span class="line">__wakeup将在序列化之后立即被调用</span><br><span class="line"></span><br><span class="line">漏洞举例:</span><br><span class="line"></span><br><span class="line">class S&#123;</span><br><span class="line">    var $test &#x3D; &quot;pikachu&quot;;</span><br><span class="line">    function __destruct()&#123;</span><br><span class="line">        echo $this-&gt;test;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">$s &#x3D; $_GET[&#39;test&#39;];</span><br><span class="line">@$unser &#x3D; unserialize($a);</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">payload：O:1:&quot;S&quot;:1:&#123;s:4:&quot;test&quot;;s:29:&quot;&lt;script&gt;alert(&#39;xss&#39;)&lt;&#x2F;script&gt;&quot;;&#125;</span><br></pre></td></tr></table></figure>
+<p>直接输入序列化数据，如上面的payload</p>
+<img src="/2023/03/14/Pikachu%E9%9D%B6%E5%9C%BA%E9%80%9A%E5%85%B3%E7%AC%94%E8%AE%B0-%E4%B8%8B/Users/Administrator/Desktop/新建文件夹/pichaku靶场笔记下/image-20230313214848710.png" alt="image-20230313214848710" style="zoom:50%;">
+
+<p>通过构造序列化数据，可以查看更多信息，如查看cookie</p>
+<p><code>payload：O:1:&quot;S&quot;:1:&#123;s:4:&quot;test&quot;;s:39:&quot;&lt;script&gt;alert(document.cookie)&lt;/script&gt;&quot;;&#125;</code></p>
+<img src="/2023/03/14/Pikachu%E9%9D%B6%E5%9C%BA%E9%80%9A%E5%85%B3%E7%AC%94%E8%AE%B0-%E4%B8%8B/Users/Administrator/Desktop/新建文件夹/pichaku靶场笔记下/image-20230313215035088.png" alt="image-20230313215035088" style="zoom:50%;">
+
+
+
+<h2 id="xxe"><a href="#xxe" class="headerlink" title="xxe"></a>xxe</h2><p>XML外部实体（XML External Entity，简称XXE）注入漏洞是一种常见的安全漏洞，攻击者可以利用该漏洞从外部读取系统文件、进行端口扫描等操作，甚至可能导致服务器被完全控制。以下是XXE注入漏洞的一般判断方法、攻击步骤和防御方法：</p>
+<p>【判断方法】</p>
+<ol>
+<li>对外部实体文件的引用：XML文件中包含对外部实体文件的引用，例如DTD（文档类型定义）文件、XSD（XML模式定义）文件等。</li>
+<li>外部实体文件的内容可控：如果外部实体文件的内容可以被攻击者所控制，那么攻击者就可以通过修改这些文件来实现攻击目的。</li>
+<li>对外部实体文件的解析方式存在问题：如果服务器在解析外部实体文件时存在漏洞</li>
+</ol>
+<p>【攻击步骤】：</p>
+<ol>
+<li>构造含有恶意外部实体的XML文件。</li>
+<li>向目标系统提交带有恶意XML文件的请求。</li>
+<li>服务器解析请求中的XML文件，并读取恶意外部实体中的内容。</li>
+<li>攻击者利用获取到的信息实施攻击。</li>
+</ol>
+<p>【防御方法】：</p>
+<ol>
+<li>禁止或限制外部实体：在解析XML文件时，禁止或限制外部实体的定义和使用，可使用一些安全的XML解析器或API，如SAXParser，DOM4J等。</li>
+<li>输入过滤：对于XML文件中的输入参数，应该对其进行严格的输入验证和过滤，包括格式检查、长度检查、正则表达式检查等。</li>
+<li>强制使用最新版的XML解析器：最新版的XML解析器可能会包含已知的漏洞修复，使用最新版的XML解析器可增强系统的安全性。</li>
+<li>系统硬化：禁用或限制不必要的服务、端口，如FTP、Telnet等，减少攻击面。</li>
+<li>授权控制：限制只有授权用户才能访问XML文件解析服务，同时对用户权限进行细化控制。</li>
+</ol>
+<img src="/2023/03/14/Pikachu%E9%9D%B6%E5%9C%BA%E9%80%9A%E5%85%B3%E7%AC%94%E8%AE%B0-%E4%B8%8B/Users/Administrator/Desktop/新建文件夹/pichaku靶场笔记下/image-20230314103211914.png" alt="image-20230314103211914" style="zoom: 67%;">
+
+<h4 id="XXE漏洞"><a href="#XXE漏洞" class="headerlink" title="XXE漏洞"></a>XXE漏洞</h4><img src="/2023/03/14/Pikachu%E9%9D%B6%E5%9C%BA%E9%80%9A%E5%85%B3%E7%AC%94%E8%AE%B0-%E4%B8%8B/Users/Administrator/Desktop/新建文件夹/pichaku靶场笔记下/image-20230314093539543.png" alt="image-20230314093539543" style="zoom:50%;">
+
+<p>【代码审计 】simplexml_load_string() 函数转换形式良好的 <a target="_blank" rel="noopener" href="https://so.csdn.net/so/search?q=XML&spm=1001.2101.3001.7020">XML</a> 字符串为 SimpleXMLElement 对象。也就是说<strong>输入的数据一定要是XML格式才有对象输出</strong></p>
+<p>直接输入：<code>&lt;script&gt;alert(document.cookie)&lt;/script&gt;</code>；发现<script>标签被转化了</p>
+<img src="C:/Users/Administrator/Desktop/新建文件夹/pichaku靶场笔记下/image-20230314093756709.png" alt="image-20230314093756709" style="zoom:50%;" />
+
+<p>于是使用转移字符：输入<code>&amp;lt;script&amp;gt;alert(document.cookie)&amp;lt;/script&amp;gt;</code>虽然该输入转化后是<script>alert(document.cookie)</script>，但不是实体名称的形式，最后处理的结果不符合。</p>
+<img src="/2023/03/14/Pikachu%E9%9D%B6%E5%9C%BA%E9%80%9A%E5%85%B3%E7%AC%94%E8%AE%B0-%E4%B8%8B/Users/Administrator/Desktop/新建文件夹/pichaku靶场笔记下/image-20230314094254087.png" alt="image-20230314094254087" style="zoom:50%;">
+
+<p>外部的<script>标签被处理后，剩下到的alert(document.cookie)部分不符合输入要求，于是再补充一个<script>标签，使得转化后是<script>alert(document.cookie)</script>；于是输入：</p>
+<p><code>&lt;script&gt;&amp;lt;script&amp;gt;alert(document.cookie)&amp;lt;/script&amp;gt;&lt;/script&gt;</code></p>
+<img src="/2023/03/14/Pikachu%E9%9D%B6%E5%9C%BA%E9%80%9A%E5%85%B3%E7%AC%94%E8%AE%B0-%E4%B8%8B/Users/Administrator/Desktop/新建文件夹/pichaku靶场笔记下/image-20230314095512285.png" alt="image-20230314095512285" style="zoom:50%;">
+
+
+
+<h2 id="URL重定向"><a href="#URL重定向" class="headerlink" title="URL重定向"></a>URL重定向</h2><p>​        URL重定向漏洞（URL Redirection Vulnerability）是指攻击者通过构造恶意URL，诱导用户点击链接，使其跳转到攻击者指定的URL上，从而进行钓鱼攻击、恶意软件下载等攻击行为。</p>
+<p>【攻击类型】：</p>
+<ol>
+<li>钓鱼攻击：攻击者构造一个伪造的URL，诱导用户点击，将用户重定向到一个看似正常的页面，但实际上是攻击者构造的恶意页面，以此来获取用户的敏感信息。</li>
+<li>诱导下载：攻击者通过构造恶意URL，将用户重定向到一个看似正常的页面，但实际上是一个恶意软件下载页面，从而让用户下载并安装恶意软件。</li>
+<li>收集信息：攻击者通过构造恶意URL，将用户重定向到一个看似正常的页面，但实际上是一个收集用户信息的页面，从而获取用户的敏感信息。</li>
+</ol>
+<p>【防御措施】：</p>
+<ol>
+<li>对URL进行输入合法性验证，过滤掉非法字符，限制URL跳转的范围。</li>
+<li>对跳转目标URL进行白名单验证，限制跳转目标的范围。</li>
+<li>通过设置Referrer检测，限制重定向来源，避免跨站点攻击。</li>
+<li>对URL跳转进行统一管理和跟踪，及时发现并防御攻击行为。</li>
+</ol>
+<h4 id="不安全的URL跳转"><a href="#不安全的URL跳转" class="headerlink" title="不安全的URL跳转"></a>不安全的URL跳转</h4><img src="/2023/03/14/Pikachu%E9%9D%B6%E5%9C%BA%E9%80%9A%E5%85%B3%E7%AC%94%E8%AE%B0-%E4%B8%8B/Users/Administrator/Desktop/新建文件夹/pichaku靶场笔记下/image-20230314103354301.png" alt="image-20230314103354301" style="zoom: 50%;">
+
+<p>发现用url作为变量，输出其他网站的url</p>
+<img src="/2023/03/14/Pikachu%E9%9D%B6%E5%9C%BA%E9%80%9A%E5%85%B3%E7%AC%94%E8%AE%B0-%E4%B8%8B/Users/Administrator/Desktop/新建文件夹/pichaku靶场笔记下/image-20230314103512302.png" alt="image-20230314103512302" style="zoom:50%;">
+
+<p>按回车后就会跳去指定网站</p>
+<img src="/2023/03/14/Pikachu%E9%9D%B6%E5%9C%BA%E9%80%9A%E5%85%B3%E7%AC%94%E8%AE%B0-%E4%B8%8B/Users/Administrator/Desktop/新建文件夹/pichaku靶场笔记下/image-20230314103557548.png" alt="image-20230314103557548" style="zoom:50%;">
+
+
+
+<h2 id="SSRF"><a href="#SSRF" class="headerlink" title="SSRF"></a>SSRF</h2><p>​        SSRF（Server-Side Request Forgery）漏洞是指攻击者通过构造恶意的请求，使得服务器发起对内部系统或外部系统的请求，并将响应结果返回给攻击者，从而可能导致内部系统的敏感信息泄露、服务端请求伪造、甚至对内部系统发起攻击等安全问题。攻击者通常会利用SSRF漏洞来获取内部系统的敏感信息，比如访问内部接口、读取配置文件、窃取密码等；也可以通过SSRF漏洞发起攻击，如利用内部系统发起DDoS攻击、横向渗透攻击等。</p>
+<p>【SSRF漏洞判断步骤】</p>
+<ol>
+<li>确认应用程序中是否包含从外部获取URL的功能，例如从用户输入、请求参数、外部文件等获取URL的功能。</li>
+<li>尝试构造URL，指向内部网络的资源，例如在URL中使用”file://“、”ldap://“、”dict://“等协议，或者使用IP地址和端口号指向内部网络的资源。</li>
+<li>观察应用程序的响应是否包含了来自内部网络的敏感信息，例如主机名、端口号、文件名、目录结构等信息。</li>
+<li>观察应用程序的响应是否存在请求了多个URL，但只有部分URL返回结果的情况，这可能表明应用程序正在尝试访问内部网络中的资源。</li>
+<li>使用工具进行测试，例如Burp Suite、OWASP ZAP等可以检测SSRF漏洞的漏洞扫描器，或者自行编写脚本进行测试。</li>
+</ol>
+<p>【SSRF漏洞利用】： </p>
+<ol>
+<li>利用URL地址栏参数漏洞：攻击者可以通过修改URL参数，将请求发送到其他内部或外部系统。</li>
+<li>利用Web应用程序的漏洞：攻击者可以通过Web应用程序内部的漏洞，发送特定的请求，进而发起SSRF攻击。</li>
+<li>利用协议处理漏洞：攻击者可以通过构造特定的协议请求，利用协议处理漏洞，进而发起SSRF攻击。</li>
+</ol>
+<p>【绕过方法】</p>
+<p>学习链接：<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/31287233">https://zhuanlan.zhihu.com/p/31287233</a></p>
+<p>1.<strong>@符号绕过</strong>：在某个地址1后添加“@”再添加地址2，浏览器会返回地址2的内容 ；如：</p>
+<p><a target="_blank" rel="noopener" href="http://www.abc.com@www.bcd.com,浏览器会访问http//www.bcd.com">http://www.abc.com@www.bcd.com,浏览器会访问http://www.bcd.com</a></p>
+<p>2.<strong>IP地址转换</strong>：对内网请求的IP进行各种进制的编码。<strong>（钓鱼邮件常用于绕过检测）</strong></p>
+<p>3.<strong>短网址绕过</strong>：为了方便，一些公司提供过把长的 URL 转成短的 URL的服务；以google家的 URL shortener 服务： <a target="_blank" rel="noopener" href="http://goo.gl/">http://goo.gl/</a> 为例；</p>
+<p>​    假设把<a target="_blank" rel="noopener" href="http://abcdefghijk输入,服务器会返回一个更短的url,假设返回http//goo.gl/abc%EF%BC%9B%E5%BD%93%E8%AE%BF%E9%97%AEhttp://goo.gl/abc%E6%97%B6%EF%BC%8CDNS%E9%A6%96%E5%85%88%E4%BC%9A%E8%A7%A3%E6%9E%90%E8%8E%B7%E5%BE%97http://goo.gl/%EF%BC%8C%E7%84%B6%E5%90%8E%E5%90%91%E8%BF%99%E4%B8%AA%E5%9C%B0%E5%9D%80%E5%8F%91%E9%80%81HTTP">http://abcdefghijk输入，服务器会返回一个更短的url，假设返回http://goo.gl/abc；当访问http://goo.gl/abc时，DNS首先会解析获得http://goo.gl/，然后向这个地址发送HTTP</a> GET请求，查询 abc， 这个时候，<a target="_blank" rel="noopener" href="http://goo.gl/%E6%9C%8D%E5%8A%A1%E5%99%A8%E4%BC%9A%E6%8A%8A%E8%AF%B7%E6%B1%82%E9%80%9A%E8%BF%87HTTP">http://goo.gl/服务器会把请求通过HTTP</a> 301转到对应的长URL<a target="_blank" rel="noopener" href="http://abcdefghijk.后面的解析过程就和平常网址解析是一样的了./">http://abcdefghijk。后面的解析过程就和平常网址解析是一样的了。</a></p>
+<p>4.<strong>点分割符号替换</strong>：可以利用“。”替换分隔符“.”，例如用<a target="_blank" rel="noopener" href="http://www.abc.com替换http//www.abc.com">http://www。abc。com替换http://www.abc.com</a></p>
+<p>5.<strong>本地回环地址的其他形式</strong>：127.0.0.1通常被称为本地回环地址(Loopback Address)，指本机的虚拟接口，一些表示方法如下(ipv6的地址使用http访问需要加[])：</p>
+<p>a.<a target="_blank" rel="noopener" href="http://127.0.0.1/">http://127.0.0.1</a></p>
+<p>b.<a target="_blank" rel="noopener" href="http://localhost/">http://localhost</a></p>
+<p>c.<a target="_blank" rel="noopener" href="http://127.255.255.254/">http://127.255.255.254</a></p>
+<p>d.http://[::1]</p>
+<p>e.http://[::ffff:7f00:1]</p>
+<p>f.http://[::ffff:127.0.0.1]</p>
+<p>g.<a target="_blank" rel="noopener" href="http://127.0.0.1/">http://127.1</a></p>
+<p>h.<a target="_blank" rel="noopener" href="http://127.0.0.1/">http://127.0.1</a></p>
+<p>i.<a target="_blank" rel="noopener" href="http://0.0.0.0/">http://0:80</a></p>
+<p>j.http://[::]:80/ </p>
+<p>6.<strong>xip.io绕过</strong>：xip.io的原理就是个dns解析服务，xip.io在公共Internet上运行自定义DNS服务器。当您的计算机查找xip.io域时，xip.io, DNS服务器从域中提取IP地址，然后将其发送回响应；例如：</p>
+<p>语法：前缀域名+ip地址+xip.io</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">10.0</span><span class="number">.0</span><span class="number">.1</span>.xip.io     	 解析为  <span class="number">10.0</span><span class="number">.0</span><span class="number">.1</span></span><br><span class="line">http:<span class="comment">//10.0.0.1.xip.io	 解析为  10.0.0.1</span></span><br><span class="line">www<span class="number">.10</span><span class="number">.0</span><span class="number">.0</span><span class="number">.1</span>.xip.io 	 解析为  <span class="number">10.0</span><span class="number">.0</span><span class="number">.1</span></span><br><span class="line">mysite<span class="number">.10</span><span class="number">.0</span><span class="number">.0</span><span class="number">.1</span>.xip.io   解析为  <span class="number">10.0</span><span class="number">.0</span><span class="number">.1</span></span><br><span class="line">foo.bar<span class="number">.10</span><span class="number">.0</span><span class="number">.0</span><span class="number">.1</span>.xip.io  解析为  <span class="number">10.0</span><span class="number">.0</span><span class="number">.1</span></span><br></pre></td></tr></table></figure>
+<p>7.利用Enclosed alphanumerics（封闭式字母数字）绕过：</p>
+<p>例如：可以用来www.① 23Ⓐbc.com替换<a target="_blank" rel="noopener" href="http://www.123abc.com/">www.123abc.com</a></p>
+<p>List:<br>① ② ③ ④ ⑤ ⑥ ⑦ ⑧ ⑨ ⑩ ⑪ ⑫ ⑬ ⑭ ⑮ ⑯ ⑰ ⑱ ⑲ ⑳ ⑴ ⑵ ⑶ ⑷ ⑸ ⑹ ⑺ ⑻ ⑼ ⑽ ⑾ ⑿ ⒀ ⒁ ⒂ ⒃ ⒄ ⒅ ⒆ ⒇ ⒈ ⒉ ⒊ ⒋ ⒌ ⒍ ⒎ ⒏ ⒐ ⒑ ⒒ ⒓ ⒔ ⒕ ⒖ ⒗ ⒘ ⒙ ⒚ ⒛ ⒜ ⒝ ⒞ ⒟ ⒠ ⒡ ⒢ ⒣ ⒤ ⒥ ⒦ ⒧ ⒨ ⒩ ⒪ ⒫ ⒬ ⒭ ⒮ ⒯ ⒰ ⒱ ⒲ ⒳ ⒴ ⒵ Ⓐ Ⓑ Ⓒ Ⓓ Ⓔ Ⓕ Ⓖ Ⓗ Ⓘ Ⓙ Ⓚ Ⓛ Ⓝ Ⓞ Ⓟ Ⓠ Ⓡ Ⓢ Ⓣ Ⓤ Ⓥ Ⓦ Ⓧ Ⓨ Ⓩ ⓐ ⓑ ⓒ ⓓ ⓔ ⓕ ⓖ ⓗ ⓘ ⓙ ⓚ ⓛ ⓜ ⓝ ⓞ ⓟ ⓠ ⓡ ⓢ ⓣ ⓤ ⓥ ⓦ ⓧ ⓨ ⓩ ⓪ ⓫ ⓬ ⓭ ⓮ ⓯ ⓰ ⓱ ⓲ ⓳ ⓴ ⓵ ⓶ ⓷ ⓸ ⓹ ⓺ ⓻ ⓼ ⓽ ⓾ ⓿</p>
+<p>【防御措施】</p>
+<ol>
+<li>验证用户输入：对用户输入进行严格的输入验证和过滤，避免用户输入可疑的URL地址或参数。</li>
+<li>设置白名单：对所有外部请求的目标URL地址和协议进行白名单过滤，只允许请求安全可信的URL地址和协议。</li>
+<li>避免使用不安全的协议：例如：dict、ftp、file等，只允许http/https。</li>
+<li>过滤返回信息：验证远程服务器对请求的返回结果，是否合法</li>
+<li>内网隔离：对内部系统进行严格的网络隔离，避免攻击者利用SSRF漏洞攻击内部系统。</li>
+<li>限制请求的端口：将内部系统的默认端口修改为非常规的端口，减少攻击者的识别和攻击难度。</li>
+<li>安全配置：合理配置服务器安全策略，如关闭服务器中的DNS解析功能，禁止使用不安全的协议等。</li>
+<li>使用安全框架：使用具有防范SSRF漏洞功能的安全框架，如Java的Spring Security框架等。</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">PHP中下面函数的使用不当会导致SSRF:</span><br><span class="line">file_get_contents()</span><br><span class="line">fsockopen()</span><br><span class="line">curl_exec()</span><br></pre></td></tr></table></figure>
+<h4 id="SSRF（curl）"><a href="#SSRF（curl）" class="headerlink" title="SSRF（curl）"></a>SSRF（curl）</h4><p>发现存在使用url作为变量</p>
+<img src="/2023/03/14/Pikachu%E9%9D%B6%E5%9C%BA%E9%80%9A%E5%85%B3%E7%AC%94%E8%AE%B0-%E4%B8%8B/Users/Administrator/Desktop/新建文件夹/pichaku靶场笔记下/image-20230314110002240.png" alt="image-20230314110002240" style="zoom:67%;">
+
+<p>直接注入其他链接</p>
+<img src="/2023/03/14/Pikachu%E9%9D%B6%E5%9C%BA%E9%80%9A%E5%85%B3%E7%AC%94%E8%AE%B0-%E4%B8%8B/Users/Administrator/Desktop/新建文件夹/pichaku靶场笔记下/image-20230314110056296.png" alt="image-20230314110056296" style="zoom: 50%;">
+
+<p>也可以使用file协议，获取本地资源</p>
+<img src="/2023/03/14/Pikachu%E9%9D%B6%E5%9C%BA%E9%80%9A%E5%85%B3%E7%AC%94%E8%AE%B0-%E4%B8%8B/Users/Administrator/Desktop/新建文件夹/pichaku靶场笔记下/image-20230314110324132.png" alt="image-20230314110324132" style="zoom:67%;">
+
+
+
+<h4 id="SSRF（fgc）"><a href="#SSRF（fgc）" class="headerlink" title="SSRF（fgc）"></a>SSRF（fgc）</h4><p>file_get_contents() 把整个文件读入一个字符串中。它可以对本地文件进行读取，也可以对远程文件进行读取<br>如果pikachu这台服务器所处的内网还有另一台不想被访问的服务器，那么可以使用该漏洞进行请求另一台服务器的资源。</p>
+<p>SSRF（curl）采取的攻击方式在这里也可以进行；若想知道它后台的PHP是怎么写的，可以通过构造一个payload去获取后台的PHP源码</p>
+<p>payload：<code>php://filter/read=convert.base64-encode/resource=ssrf.php</code></p>
+<img src="/2023/03/14/Pikachu%E9%9D%B6%E5%9C%BA%E9%80%9A%E5%85%B3%E7%AC%94%E8%AE%B0-%E4%B8%8B/Users/Administrator/Desktop/新建文件夹/pichaku靶场笔记下/image-20230314112554456.png" alt="image-20230314112554456" style="zoom:67%;">
+
+<p>将获取到的base64编码进行解码，获的源码</p>
+<p><img src="/2023/03/14/Pikachu%E9%9D%B6%E5%9C%BA%E9%80%9A%E5%85%B3%E7%AC%94%E8%AE%B0-%E4%B8%8B/image-20230801192503868.png" alt="image-20230801192503868"></p>
 
     </div>
 
@@ -306,6 +604,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Pikachu%E9%9D%B6%E5%9C%BA%E9%80%9A%E5%85%B3%E7%AC%94%E8%AE%B0-%E4%B8%8B"><span class="nav-number">1.</span> <span class="nav-text">Pikachu靶场通关笔记-下</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Over-permission%EF%BC%88%E8%B6%8A%E6%9D%83%E6%BC%8F%E6%B4%9E%EF%BC%89-%E6%B0%B4%E5%B9%B3%E8%B6%8A%E6%9D%83-%E5%9E%82%E7%9B%B4%E8%B6%8A%E6%9D%83"><span class="nav-number">1.0.0.1.</span> <span class="nav-text">Over permission（越权漏洞）    水平越权        垂直越权</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%9B%AE%E5%BD%95%E9%81%8D%E5%8E%86"><span class="nav-number">1.0.0.2.</span> <span class="nav-text">..&#x2F;..&#x2F;    ..&#x2F;..&#x2F;(目录遍历)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#XXE-XXE%E6%BC%8F%E6%B4%9E"><span class="nav-number">1.0.0.3.</span> <span class="nav-text">XXE    XXE漏洞</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#URL%E9%87%8D%E5%AE%9A%E5%90%91-%E4%B8%8D%E5%AE%89%E5%85%A8%E7%9A%84URL%E8%B7%B3%E8%BD%AC"><span class="nav-number">1.0.0.4.</span> <span class="nav-text">URL重定向    不安全的URL跳转</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#SSRF-SSRF%EF%BC%88curl%EF%BC%89-SSRF%EF%BC%88fgc%EF%BC%89"><span class="nav-number">1.0.0.5.</span> <span class="nav-text">SSRF    SSRF（curl）        SSRF（fgc）</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Over-permission%EF%BC%88%E8%B6%8A%E6%9D%83%E6%BC%8F%E6%B4%9E%EF%BC%89"><span class="nav-number">1.1.</span> <span class="nav-text">Over permission（越权漏洞）</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%B0%B4%E5%B9%B3%E8%B6%8A%E6%9D%83"><span class="nav-number">1.1.0.1.</span> <span class="nav-text">水平越权</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%9E%82%E7%9B%B4%E8%B6%8A%E6%9D%83"><span class="nav-number">1.1.0.2.</span> <span class="nav-text">垂直越权</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%9B%AE%E5%BD%95%E9%81%8D%E5%8E%86-1"><span class="nav-number">1.2.</span> <span class="nav-text">目录遍历</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%9B%AE%E5%BD%95%E9%81%8D%E5%8E%86-2"><span class="nav-number">1.2.0.1.</span> <span class="nav-text">..&#x2F;..&#x2F;(目录遍历)</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%95%8F%E6%84%9F%E4%BF%A1%E6%81%AF%E6%B3%84%E9%9C%B2"><span class="nav-number">1.3.</span> <span class="nav-text">敏感信息泄露</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#IcanseeyourABC"><span class="nav-number">1.3.0.1.</span> <span class="nav-text">IcanseeyourABC</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#PHP%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96"><span class="nav-number">1.4.</span> <span class="nav-text">PHP反序列化</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#xxe"><span class="nav-number">1.5.</span> <span class="nav-text">xxe</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#XXE%E6%BC%8F%E6%B4%9E"><span class="nav-number">1.5.0.1.</span> <span class="nav-text">XXE漏洞</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#URL%E9%87%8D%E5%AE%9A%E5%90%91"><span class="nav-number">1.6.</span> <span class="nav-text">URL重定向</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%B8%8D%E5%AE%89%E5%85%A8%E7%9A%84URL%E8%B7%B3%E8%BD%AC"><span class="nav-number">1.6.0.1.</span> <span class="nav-text">不安全的URL跳转</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#SSRF"><span class="nav-number">1.7.</span> <span class="nav-text">SSRF</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#SSRF%EF%BC%88curl%EF%BC%89"><span class="nav-number">1.7.0.1.</span> <span class="nav-text">SSRF（curl）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#SSRF%EF%BC%88fgc%EF%BC%89"><span class="nav-number">1.7.0.2.</span> <span class="nav-text">SSRF（fgc）</span></a></li></ol></li></ol></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 

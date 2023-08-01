@@ -17,81 +17,81 @@
 
 <script id="hexo-configurations">
     var NexT = window.NexT || {};
-    var CONFIG = {"hostname":"wgc5.gitee.io","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+    var CONFIG = {"hostname":"cgw-f.github.io","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
   </script>
 
   <meta name="description" content="Python核心数据类型一、字符串 ​    示例1  ​    输出1  ​    示例2（这几种手法的效果一样）  ​    输出2  1.1转义字符 1.2字符串操作1.2.1字符串截取1234567str &#x3D; &quot;zhongguo&quot;print(str)print(str[0])       #输出下标0的字符print(str[0:5])     #输出[起始位">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Python核心数据类型">
-<meta property="og:url" content="https://wgc5.gitee.io/2021/07/09/Python%E6%A0%B8%E5%BF%83%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/index.html">
+<meta property="og:url" content="https://cgw-f.github.io/2021/07/09/Python%E6%A0%B8%E5%BF%83%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/index.html">
 <meta property="og:site_name" content="北极星上的稻草人">
 <meta property="og:description" content="Python核心数据类型一、字符串 ​    示例1  ​    输出1  ​    示例2（这几种手法的效果一样）  ​    输出2  1.1转义字符 1.2字符串操作1.2.1字符串截取1234567str &#x3D; &quot;zhongguo&quot;print(str)print(str[0])       #输出下标0的字符print(str[0:5])     #输出[起始位">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://wgc5.gitee.io/2021/07/09/Python%E6%A0%B8%E5%BF%83%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/image-20210707172427770.png">
-<meta property="og:image" content="https://wgc5.gitee.io/2021/07/09/Python%E6%A0%B8%E5%BF%83%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/image-20210707172744307.png">
-<meta property="og:image" content="https://wgc5.gitee.io/2021/07/09/Python%E6%A0%B8%E5%BF%83%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/image-20210707172807672.png">
-<meta property="og:image" content="https://wgc5.gitee.io/2021/07/09/Python%E6%A0%B8%E5%BF%83%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/image-20210707173057825.png">
-<meta property="og:image" content="https://wgc5.gitee.io/2021/07/09/Python%E6%A0%B8%E5%BF%83%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/image-20210707173128537.png">
-<meta property="og:image" content="https://wgc5.gitee.io/2021/07/09/Python%E6%A0%B8%E5%BF%83%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/image-20210707173234754.png">
-<meta property="og:image" content="https://wgc5.gitee.io/2021/07/09/Python%E6%A0%B8%E5%BF%83%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/image-20210707173848256.png">
-<meta property="og:image" content="https://wgc5.gitee.io/2021/07/09/Python%E6%A0%B8%E5%BF%83%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/image-20210707174120643.png">
-<meta property="og:image" content="https://wgc5.gitee.io/2021/07/09/Python%E6%A0%B8%E5%BF%83%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/image-20210707174152325.png">
-<meta property="og:image" content="https://wgc5.gitee.io/2021/07/09/Python%E6%A0%B8%E5%BF%83%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/image-20210707174232894.png">
-<meta property="og:image" content="https://wgc5.gitee.io/2021/07/09/Python%E6%A0%B8%E5%BF%83%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/image-20210707174401948.png">
-<meta property="og:image" content="https://wgc5.gitee.io/2021/07/09/Python%E6%A0%B8%E5%BF%83%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/image-20210707174425507.png">
-<meta property="og:image" content="https://wgc5.gitee.io/2021/07/09/Python%E6%A0%B8%E5%BF%83%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/image-20210707174443645.png">
-<meta property="og:image" content="https://wgc5.gitee.io/2021/07/09/Python%E6%A0%B8%E5%BF%83%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/image-20210707174546058.png">
-<meta property="og:image" content="https://wgc5.gitee.io/2021/07/09/Python%E6%A0%B8%E5%BF%83%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/image-20210707212211492.png">
-<meta property="og:image" content="https://wgc5.gitee.io/2021/07/09/Python%E6%A0%B8%E5%BF%83%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/image-20210707213340127.png">
-<meta property="og:image" content="https://wgc5.gitee.io/2021/07/09/Python%E6%A0%B8%E5%BF%83%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/image-20210707213412226.png">
-<meta property="og:image" content="https://wgc5.gitee.io/2021/07/09/Python%E6%A0%B8%E5%BF%83%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/image-20210707213015898.png">
-<meta property="og:image" content="https://wgc5.gitee.io/2021/07/09/Python%E6%A0%B8%E5%BF%83%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/image-20210707214153108.png">
-<meta property="og:image" content="https://wgc5.gitee.io/2021/07/09/Python%E6%A0%B8%E5%BF%83%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/image-20210707214608484.png">
-<meta property="og:image" content="https://wgc5.gitee.io/2021/07/09/Python%E6%A0%B8%E5%BF%83%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/image-20210707214803986.png">
-<meta property="og:image" content="https://wgc5.gitee.io/2021/07/09/Python%E6%A0%B8%E5%BF%83%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/image-20210707215215219.png">
-<meta property="og:image" content="https://wgc5.gitee.io/2021/07/09/Python%E6%A0%B8%E5%BF%83%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/image-20210707215434019.png">
-<meta property="og:image" content="https://wgc5.gitee.io/2021/07/09/Python%E6%A0%B8%E5%BF%83%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/image-20210707215855971.png">
-<meta property="og:image" content="https://wgc5.gitee.io/2021/07/09/Python%E6%A0%B8%E5%BF%83%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/image-20210708094721188.png">
-<meta property="og:image" content="https://wgc5.gitee.io/2021/07/09/Python%E6%A0%B8%E5%BF%83%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/image-20210708095058614.png">
-<meta property="og:image" content="https://wgc5.gitee.io/2021/07/09/Python%E6%A0%B8%E5%BF%83%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/image-20210708095239953.png">
-<meta property="og:image" content="https://wgc5.gitee.io/2021/07/09/Python%E6%A0%B8%E5%BF%83%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/image-20210708095405614.png">
-<meta property="og:image" content="https://wgc5.gitee.io/2021/07/09/Python%E6%A0%B8%E5%BF%83%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/image-20210708100944234.png">
-<meta property="og:image" content="https://wgc5.gitee.io/2021/07/09/Python%E6%A0%B8%E5%BF%83%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/image-20210708101015298.png">
-<meta property="og:image" content="https://wgc5.gitee.io/2021/07/09/Python%E6%A0%B8%E5%BF%83%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/image-20210709100840979.png">
-<meta property="og:image" content="https://wgc5.gitee.io/2021/07/09/Python%E6%A0%B8%E5%BF%83%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/image-20210709101754522.png">
-<meta property="og:image" content="https://wgc5.gitee.io/2021/07/09/Python%E6%A0%B8%E5%BF%83%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/image-20210709101807259.png">
-<meta property="og:image" content="https://wgc5.gitee.io/2021/07/09/Python%E6%A0%B8%E5%BF%83%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/image-20210709102207878.png">
-<meta property="og:image" content="https://wgc5.gitee.io/2021/07/09/Python%E6%A0%B8%E5%BF%83%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/image-20210709102340996.png">
-<meta property="og:image" content="https://wgc5.gitee.io/2021/07/09/Python%E6%A0%B8%E5%BF%83%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/image-20210709102125005.png">
-<meta property="og:image" content="https://wgc5.gitee.io/2021/07/09/Python%E6%A0%B8%E5%BF%83%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/image-20210709102506224.png">
-<meta property="og:image" content="https://wgc5.gitee.io/2021/07/09/Python%E6%A0%B8%E5%BF%83%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/image-20210709102544672.png">
-<meta property="og:image" content="https://wgc5.gitee.io/2021/07/09/Python%E6%A0%B8%E5%BF%83%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/image-20210709102620908.png">
-<meta property="og:image" content="https://wgc5.gitee.io/2021/07/09/Python%E6%A0%B8%E5%BF%83%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/image-20210709103524959.png">
-<meta property="og:image" content="https://wgc5.gitee.io/2021/07/09/Python%E6%A0%B8%E5%BF%83%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/image-20210709122906826.png">
-<meta property="og:image" content="https://wgc5.gitee.io/2021/07/09/Python%E6%A0%B8%E5%BF%83%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/image-20210709122924131.png">
-<meta property="og:image" content="https://wgc5.gitee.io/2021/07/09/Python%E6%A0%B8%E5%BF%83%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/image-20210709123226217.png">
-<meta property="og:image" content="https://wgc5.gitee.io/2021/07/09/Python%E6%A0%B8%E5%BF%83%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/image-20210709123453335.png">
-<meta property="og:image" content="https://wgc5.gitee.io/2021/07/09/Python%E6%A0%B8%E5%BF%83%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/image-20210709123538730.png">
-<meta property="og:image" content="https://wgc5.gitee.io/2021/07/09/Python%E6%A0%B8%E5%BF%83%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/image-20210709123720654.png">
-<meta property="og:image" content="https://wgc5.gitee.io/2021/07/09/Python%E6%A0%B8%E5%BF%83%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/image-20210709124229611.png">
-<meta property="og:image" content="https://wgc5.gitee.io/2021/07/09/Python%E6%A0%B8%E5%BF%83%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/image-20210709124721875.png">
-<meta property="og:image" content="https://wgc5.gitee.io/2021/07/09/Python%E6%A0%B8%E5%BF%83%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/image-20210709124901646.png">
-<meta property="og:image" content="https://wgc5.gitee.io/2021/07/09/Python%E6%A0%B8%E5%BF%83%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/image-20210709125008386.png">
-<meta property="og:image" content="https://wgc5.gitee.io/2021/07/09/Python%E6%A0%B8%E5%BF%83%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/image-20210709125311103.png">
-<meta property="og:image" content="https://wgc5.gitee.io/2021/07/09/Python%E6%A0%B8%E5%BF%83%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/image-20210709125658969.png">
-<meta property="og:image" content="https://wgc5.gitee.io/2021/07/09/Python%E6%A0%B8%E5%BF%83%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/image-20210709125717300.png">
-<meta property="og:image" content="https://wgc5.gitee.io/2021/07/09/Python%E6%A0%B8%E5%BF%83%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/image-20210709125759621.png">
-<meta property="og:image" content="https://wgc5.gitee.io/2021/07/09/Python%E6%A0%B8%E5%BF%83%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/image-20210709125928832.png">
-<meta property="og:image" content="https://wgc5.gitee.io/2021/07/09/Python%E6%A0%B8%E5%BF%83%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/image-20210709130000818.png">
-<meta property="og:image" content="https://wgc5.gitee.io/2021/07/09/Python%E6%A0%B8%E5%BF%83%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/image-20210709130018434.png">
-<meta property="og:image" content="https://wgc5.gitee.io/2021/07/09/Python%E6%A0%B8%E5%BF%83%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/image-20210709130105014.png">
+<meta property="og:image" content="https://cgw-f.github.io/2021/07/09/Python%E6%A0%B8%E5%BF%83%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/image-20210707172427770.png">
+<meta property="og:image" content="https://cgw-f.github.io/2021/07/09/Python%E6%A0%B8%E5%BF%83%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/image-20210707172744307.png">
+<meta property="og:image" content="https://cgw-f.github.io/2021/07/09/Python%E6%A0%B8%E5%BF%83%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/image-20210707172807672.png">
+<meta property="og:image" content="https://cgw-f.github.io/2021/07/09/Python%E6%A0%B8%E5%BF%83%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/image-20210707173057825.png">
+<meta property="og:image" content="https://cgw-f.github.io/2021/07/09/Python%E6%A0%B8%E5%BF%83%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/image-20210707173128537.png">
+<meta property="og:image" content="https://cgw-f.github.io/2021/07/09/Python%E6%A0%B8%E5%BF%83%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/image-20210707173234754.png">
+<meta property="og:image" content="https://cgw-f.github.io/2021/07/09/Python%E6%A0%B8%E5%BF%83%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/image-20210707173848256.png">
+<meta property="og:image" content="https://cgw-f.github.io/2021/07/09/Python%E6%A0%B8%E5%BF%83%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/image-20210707174120643.png">
+<meta property="og:image" content="https://cgw-f.github.io/2021/07/09/Python%E6%A0%B8%E5%BF%83%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/image-20210707174152325.png">
+<meta property="og:image" content="https://cgw-f.github.io/2021/07/09/Python%E6%A0%B8%E5%BF%83%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/image-20210707174232894.png">
+<meta property="og:image" content="https://cgw-f.github.io/2021/07/09/Python%E6%A0%B8%E5%BF%83%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/image-20210707174401948.png">
+<meta property="og:image" content="https://cgw-f.github.io/2021/07/09/Python%E6%A0%B8%E5%BF%83%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/image-20210707174425507.png">
+<meta property="og:image" content="https://cgw-f.github.io/2021/07/09/Python%E6%A0%B8%E5%BF%83%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/image-20210707174443645.png">
+<meta property="og:image" content="https://cgw-f.github.io/2021/07/09/Python%E6%A0%B8%E5%BF%83%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/image-20210707174546058.png">
+<meta property="og:image" content="https://cgw-f.github.io/2021/07/09/Python%E6%A0%B8%E5%BF%83%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/image-20210707212211492.png">
+<meta property="og:image" content="https://cgw-f.github.io/2021/07/09/Python%E6%A0%B8%E5%BF%83%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/image-20210707213340127.png">
+<meta property="og:image" content="https://cgw-f.github.io/2021/07/09/Python%E6%A0%B8%E5%BF%83%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/image-20210707213412226.png">
+<meta property="og:image" content="https://cgw-f.github.io/2021/07/09/Python%E6%A0%B8%E5%BF%83%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/image-20210707213015898.png">
+<meta property="og:image" content="https://cgw-f.github.io/2021/07/09/Python%E6%A0%B8%E5%BF%83%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/image-20210707214153108.png">
+<meta property="og:image" content="https://cgw-f.github.io/2021/07/09/Python%E6%A0%B8%E5%BF%83%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/image-20210707214608484.png">
+<meta property="og:image" content="https://cgw-f.github.io/2021/07/09/Python%E6%A0%B8%E5%BF%83%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/image-20210707214803986.png">
+<meta property="og:image" content="https://cgw-f.github.io/2021/07/09/Python%E6%A0%B8%E5%BF%83%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/image-20210707215215219.png">
+<meta property="og:image" content="https://cgw-f.github.io/2021/07/09/Python%E6%A0%B8%E5%BF%83%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/image-20210707215434019.png">
+<meta property="og:image" content="https://cgw-f.github.io/2021/07/09/Python%E6%A0%B8%E5%BF%83%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/image-20210707215855971.png">
+<meta property="og:image" content="https://cgw-f.github.io/2021/07/09/Python%E6%A0%B8%E5%BF%83%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/image-20210708094721188.png">
+<meta property="og:image" content="https://cgw-f.github.io/2021/07/09/Python%E6%A0%B8%E5%BF%83%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/image-20210708095058614.png">
+<meta property="og:image" content="https://cgw-f.github.io/2021/07/09/Python%E6%A0%B8%E5%BF%83%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/image-20210708095239953.png">
+<meta property="og:image" content="https://cgw-f.github.io/2021/07/09/Python%E6%A0%B8%E5%BF%83%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/image-20210708095405614.png">
+<meta property="og:image" content="https://cgw-f.github.io/2021/07/09/Python%E6%A0%B8%E5%BF%83%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/image-20210708100944234.png">
+<meta property="og:image" content="https://cgw-f.github.io/2021/07/09/Python%E6%A0%B8%E5%BF%83%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/image-20210708101015298.png">
+<meta property="og:image" content="https://cgw-f.github.io/2021/07/09/Python%E6%A0%B8%E5%BF%83%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/image-20210709100840979.png">
+<meta property="og:image" content="https://cgw-f.github.io/2021/07/09/Python%E6%A0%B8%E5%BF%83%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/image-20210709101754522.png">
+<meta property="og:image" content="https://cgw-f.github.io/2021/07/09/Python%E6%A0%B8%E5%BF%83%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/image-20210709101807259.png">
+<meta property="og:image" content="https://cgw-f.github.io/2021/07/09/Python%E6%A0%B8%E5%BF%83%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/image-20210709102207878.png">
+<meta property="og:image" content="https://cgw-f.github.io/2021/07/09/Python%E6%A0%B8%E5%BF%83%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/image-20210709102340996.png">
+<meta property="og:image" content="https://cgw-f.github.io/2021/07/09/Python%E6%A0%B8%E5%BF%83%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/image-20210709102125005.png">
+<meta property="og:image" content="https://cgw-f.github.io/2021/07/09/Python%E6%A0%B8%E5%BF%83%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/image-20210709102506224.png">
+<meta property="og:image" content="https://cgw-f.github.io/2021/07/09/Python%E6%A0%B8%E5%BF%83%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/image-20210709102544672.png">
+<meta property="og:image" content="https://cgw-f.github.io/2021/07/09/Python%E6%A0%B8%E5%BF%83%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/image-20210709102620908.png">
+<meta property="og:image" content="https://cgw-f.github.io/2021/07/09/Python%E6%A0%B8%E5%BF%83%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/image-20210709103524959.png">
+<meta property="og:image" content="https://cgw-f.github.io/2021/07/09/Python%E6%A0%B8%E5%BF%83%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/image-20210709122906826.png">
+<meta property="og:image" content="https://cgw-f.github.io/2021/07/09/Python%E6%A0%B8%E5%BF%83%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/image-20210709122924131.png">
+<meta property="og:image" content="https://cgw-f.github.io/2021/07/09/Python%E6%A0%B8%E5%BF%83%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/image-20210709123226217.png">
+<meta property="og:image" content="https://cgw-f.github.io/2021/07/09/Python%E6%A0%B8%E5%BF%83%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/image-20210709123453335.png">
+<meta property="og:image" content="https://cgw-f.github.io/2021/07/09/Python%E6%A0%B8%E5%BF%83%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/image-20210709123538730.png">
+<meta property="og:image" content="https://cgw-f.github.io/2021/07/09/Python%E6%A0%B8%E5%BF%83%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/image-20210709123720654.png">
+<meta property="og:image" content="https://cgw-f.github.io/2021/07/09/Python%E6%A0%B8%E5%BF%83%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/image-20210709124229611.png">
+<meta property="og:image" content="https://cgw-f.github.io/2021/07/09/Python%E6%A0%B8%E5%BF%83%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/image-20210709124721875.png">
+<meta property="og:image" content="https://cgw-f.github.io/2021/07/09/Python%E6%A0%B8%E5%BF%83%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/image-20210709124901646.png">
+<meta property="og:image" content="https://cgw-f.github.io/2021/07/09/Python%E6%A0%B8%E5%BF%83%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/image-20210709125008386.png">
+<meta property="og:image" content="https://cgw-f.github.io/2021/07/09/Python%E6%A0%B8%E5%BF%83%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/image-20210709125311103.png">
+<meta property="og:image" content="https://cgw-f.github.io/2021/07/09/Python%E6%A0%B8%E5%BF%83%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/image-20210709125658969.png">
+<meta property="og:image" content="https://cgw-f.github.io/2021/07/09/Python%E6%A0%B8%E5%BF%83%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/image-20210709125717300.png">
+<meta property="og:image" content="https://cgw-f.github.io/2021/07/09/Python%E6%A0%B8%E5%BF%83%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/image-20210709125759621.png">
+<meta property="og:image" content="https://cgw-f.github.io/2021/07/09/Python%E6%A0%B8%E5%BF%83%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/image-20210709125928832.png">
+<meta property="og:image" content="https://cgw-f.github.io/2021/07/09/Python%E6%A0%B8%E5%BF%83%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/image-20210709130000818.png">
+<meta property="og:image" content="https://cgw-f.github.io/2021/07/09/Python%E6%A0%B8%E5%BF%83%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/image-20210709130018434.png">
+<meta property="og:image" content="https://cgw-f.github.io/2021/07/09/Python%E6%A0%B8%E5%BF%83%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/image-20210709130105014.png">
 <meta property="article:published_time" content="2021-07-09T07:10:27.000Z">
 <meta property="article:modified_time" content="2021-07-09T07:11:00.076Z">
 <meta property="article:author" content="北极星上的稻草人">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://wgc5.gitee.io/2021/07/09/Python%E6%A0%B8%E5%BF%83%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/image-20210707172427770.png">
+<meta name="twitter:image" content="https://cgw-f.github.io/2021/07/09/Python%E6%A0%B8%E5%BF%83%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/image-20210707172427770.png">
 
-<link rel="canonical" href="https://wgc5.gitee.io/2021/07/09/Python%E6%A0%B8%E5%BF%83%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/">
+<link rel="canonical" href="https://cgw-f.github.io/2021/07/09/Python%E6%A0%B8%E5%BF%83%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/">
 
 
 <script id="page-configurations">
@@ -220,7 +220,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://wgc5.gitee.io/2021/07/09/Python%E6%A0%B8%E5%BF%83%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/">
+    <link itemprop="mainEntityOfPage" href="https://cgw-f.github.io/2021/07/09/Python%E6%A0%B8%E5%BF%83%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
