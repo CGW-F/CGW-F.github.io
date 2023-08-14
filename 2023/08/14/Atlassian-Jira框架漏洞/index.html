@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"cgw-f.github.io","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="攻防演练|Atlassian Jira系列漏洞免责声明 ​        本文技术文章仅供参考，此文所提供的信息只为网络安全人员对自己所负责的网站、服务器等（包括但不限于）进行检测或维护参考，未经授权请勿利用文章中的技术资料对任何计算机系统进行入侵操作。利用此文所提供的信息而造成的直接或间接后果和损失，均由使用者本人负责。本文所提供的工具仅用于学习，禁止用于其他违法行为。 用户名枚举漏洞CVE-2">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Atlassian-Jira框架漏洞">
+<meta property="og:url" content="https://cgw-f.github.io/2023/08/14/Atlassian-Jira%E6%A1%86%E6%9E%B6%E6%BC%8F%E6%B4%9E/index.html">
+<meta property="og:site_name" content="北极星上的稻草人">
+<meta property="og:description" content="攻防演练|Atlassian Jira系列漏洞免责声明 ​        本文技术文章仅供参考，此文所提供的信息只为网络安全人员对自己所负责的网站、服务器等（包括但不限于）进行检测或维护参考，未经授权请勿利用文章中的技术资料对任何计算机系统进行入侵操作。利用此文所提供的信息而造成的直接或间接后果和损失，均由使用者本人负责。本文所提供的工具仅用于学习，禁止用于其他违法行为。 用户名枚举漏洞CVE-2">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://cgw-f.github.io/2023/08/14/Atlassian-Jira%E6%A1%86%E6%9E%B6%E6%BC%8F%E6%B4%9E/image-20230814113617561.png">
+<meta property="og:image" content="https://cgw-f.github.io/2023/08/14/Atlassian-Jira%E6%A1%86%E6%9E%B6%E6%BC%8F%E6%B4%9E/image-20230814113651172.png">
+<meta property="og:image" content="https://cgw-f.github.io/2023/08/14/Atlassian-Jira%E6%A1%86%E6%9E%B6%E6%BC%8F%E6%B4%9E/image-20230814113902711.png">
+<meta property="og:image" content="https://cgw-f.github.io/2023/08/14/Atlassian-Jira%E6%A1%86%E6%9E%B6%E6%BC%8F%E6%B4%9E/image-20230814114046621.png">
+<meta property="og:image" content="https://cgw-f.github.io/2023/08/14/Atlassian-Jira%E6%A1%86%E6%9E%B6%E6%BC%8F%E6%B4%9E/image-20230814114125804.png">
+<meta property="og:image" content="https://cgw-f.github.io/2023/08/14/Atlassian-Jira%E6%A1%86%E6%9E%B6%E6%BC%8F%E6%B4%9E/image-20230814114146896.png">
+<meta property="og:image" content="https://cgw-f.github.io/2023/08/14/Atlassian-Jira%E6%A1%86%E6%9E%B6%E6%BC%8F%E6%B4%9E/image-20230814114219738.png">
+<meta property="og:image" content="https://cgw-f.github.io/2023/08/14/Atlassian-Jira%E6%A1%86%E6%9E%B6%E6%BC%8F%E6%B4%9E/image-20230814114243036.png">
+<meta property="og:image" content="https://cgw-f.github.io/2023/08/14/Atlassian-Jira%E6%A1%86%E6%9E%B6%E6%BC%8F%E6%B4%9E/image-20230814114306937.png">
+<meta property="og:image" content="https://cgw-f.github.io/2023/08/14/Atlassian-Jira%E6%A1%86%E6%9E%B6%E6%BC%8F%E6%B4%9E/image-20230814114350511.png">
+<meta property="article:published_time" content="2023-08-14T02:00:17.000Z">
+<meta property="article:modified_time" content="2023-08-14T13:02:18.379Z">
+<meta property="article:author" content="北极星上的稻草人">
+<meta property="article:tag" content="实战漏洞">
+<meta property="article:tag" content="攻防演练">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cgw-f.github.io/2023/08/14/Atlassian-Jira%E6%A1%86%E6%9E%B6%E6%BC%8F%E6%B4%9E/image-20230814113617561.png">
+
+<link rel="canonical" href="https://cgw-f.github.io/2023/08/14/Atlassian-Jira%E6%A1%86%E6%9E%B6%E6%BC%8F%E6%B4%9E/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>Atlassian-Jira框架漏洞 | 北极星上的稻草人</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">北极星上的稻草人</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">稻草人笔记</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">13</span></a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">11</span></a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">84</span></a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://cgw-f.github.io/2023/08/14/Atlassian-Jira%E6%A1%86%E6%9E%B6%E6%BC%8F%E6%B4%9E/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="北极星上的稻草人">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="北极星上的稻草人">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Atlassian-Jira框架漏洞
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2023-08-14 10:00:17 / 修改时间：21:02:18" itemprop="dateCreated datePublished" datetime="2023-08-14T10:00:17+08:00">2023-08-14</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E6%BC%8F%E6%B4%9E/" itemprop="url" rel="index"><span itemprop="name">漏洞</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E6%BC%8F%E6%B4%9E/%E5%AE%9E%E6%88%98%E6%BC%8F%E6%B4%9E/" itemprop="url" rel="index"><span itemprop="name">实战漏洞</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E6%BC%8F%E6%B4%9E/%E5%AE%9E%E6%88%98%E6%BC%8F%E6%B4%9E/%E6%94%BB%E9%98%B2%E6%BC%94%E7%BB%83/" itemprop="url" rel="index"><span itemprop="name">攻防演练</span></a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="攻防演练-Atlassian-Jira系列漏洞"><a href="#攻防演练-Atlassian-Jira系列漏洞" class="headerlink" title="攻防演练|Atlassian Jira系列漏洞"></a>攻防演练|Atlassian Jira系列漏洞</h1><p><strong>免责声明</strong></p>
+<p>​        <strong>本文技术文章仅供参考，此文所提供的信息只为网络安全人员对自己所负责的网站、服务器等（包括但不限于）进行检测或维护参考，未经授权请勿利用文章中的技术资料对任何计算机系统进行入侵操作。利用此文所提供的信息而造成的直接或间接后果和损失，均由使用者本人负责。本文所提供的工具仅用于学习，禁止用于其他违法行为</strong>。</p>
+<h2 id="用户名枚举漏洞CVE-2020-14181"><a href="#用户名枚举漏洞CVE-2020-14181" class="headerlink" title="用户名枚举漏洞CVE-2020-14181"></a><strong>用户名枚举漏洞CVE-2020-14181</strong></h2><h3 id="0x01-漏洞介绍"><a href="#0x01-漏洞介绍" class="headerlink" title="0x01 漏洞介绍"></a>0x01 漏洞介绍</h3><p>【<strong>漏洞类型</strong>】信息泄露</p>
+<p>Jira存在一个未授权访问漏洞，未授权的用户可以通过一个api接口直接查询到某用户名的存在情况，该接口不同于CVE-2019-8446和CVE-2019-3403的接口，是一个新的接口。如果Jira暴露在公网中，未授权用户就可以通过枚举/爆破的方式，获取用户名，回显信息会显示是否存在某个用户。</p>
+<h3 id="0x02-漏洞环境-测绘指纹"><a href="#0x02-漏洞环境-测绘指纹" class="headerlink" title="0x02 漏洞环境/测绘指纹"></a>0x02 漏洞环境/测绘指纹</h3><p><strong>影响范围：</strong></p>
+<ul>
+<li>Jira &lt; 7.13.6</li>
+<li>Jira 8.0.0 - 8.5.7</li>
+<li>Jira 8.6.0 - 8.12.0</li>
+</ul>
+<h3 id="0x03-POC-EXP-漏洞利用"><a href="#0x03-POC-EXP-漏洞利用" class="headerlink" title="0x03 POC/EXP/漏洞利用"></a>0x03 POC/EXP/漏洞利用</h3><p>【<strong>Payload</strong>】</p>
+<p><code>http://*** /secure/ViewUserHover.jspa?username=</code></p>
+<ul>
+<li><strong>攻击方式1：枚举</strong></li>
+</ul>
+<p>用户不存在</p>
+<p><img src="/2023/08/14/Atlassian-Jira%E6%A1%86%E6%9E%B6%E6%BC%8F%E6%B4%9E/image-20230814113617561.png" alt="image-20230814113617561">  </p>
+<p>用户存在</p>
+<p>（注意：下面的结果不是用中文名字枚举到的，是用中文名拼音首字母缩写枚举到的）</p>
+<p><img src="/2023/08/14/Atlassian-Jira%E6%A1%86%E6%9E%B6%E6%BC%8F%E6%B4%9E/image-20230814113651172.png" alt="image-20230814113651172"></p>
+<ul>
+<li><strong>攻击方式2：爆破</strong></li>
+</ul>
+<p><strong>问题</strong>：难以判断是否成功爆破出用户名</p>
+<p><strong>原因</strong>： </p>
+<p>\1.    不同的用户名（payload），返回的length基本都是不一样的</p>
+<p>\2.    爆破成功的信息长度（length）与爆破失败的length相近，所以难以判断是否成功</p>
+<p>\3.    Payload与用户名不一样，如黄<em>祥的payload是camel，并不是黄</em>祥。</p>
+<p><strong>缓解办法</strong>：按长度排序，如果返回结果是中文名，一般爆破成功的长度会较大（汉字的长度较英文长）；如果是放回的是英文名字，一般爆破成功的长度会较短，因为爆破失败时会比成功多回显“用户不存在（中文/英文）”的提示。</p>
+<p>然后查看响应包的“Render”，直接看回显效果。</p>
+<p><img src="/2023/08/14/Atlassian-Jira%E6%A1%86%E6%9E%B6%E6%BC%8F%E6%B4%9E/image-20230814113902711.png" alt="image-20230814113902711"></p>
+<h2 id="Jira-Unauthenticated-Popular-Filters"><a href="#Jira-Unauthenticated-Popular-Filters" class="headerlink" title="Jira Unauthenticated Popular Filters"></a><strong>Jira Unauthenticated Popular Filters</strong></h2><h3 id="0x01-漏洞介绍-1"><a href="#0x01-漏洞介绍-1" class="headerlink" title="0x01 漏洞介绍"></a>0x01 漏洞介绍</h3><p>​        属于未授权访问类型，可能存在若口令、任意用户注册、敏感信息泄露、任意文件上传和下载等漏洞。</p>
+<h3 id="0x02-POC-EXP-漏洞利用"><a href="#0x02-POC-EXP-漏洞利用" class="headerlink" title="0x02 POC/EXP/漏洞利用"></a>0x02 POC/EXP/漏洞利用</h3><p>【<strong>payload</strong>】</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&quot;&#123;&#123;BaseURL&#125;&#125;&#x2F;secure&#x2F;ManageFilters.jspa?filter&#x3D;popular&amp;filterView&#x3D;popular&quot;</span><br></pre></td></tr></table></figure>
+<ul>
+<li><p>构造完整链接访问</p>
+<p>​    能够看到一下人员/用户/开发者的名字与邮箱</p>
+</li>
+</ul>
+<p><img src="/2023/08/14/Atlassian-Jira%E6%A1%86%E6%9E%B6%E6%BC%8F%E6%B4%9E/image-20230814114046621.png" alt="image-20230814114046621"></p>
+<ul>
+<li><p>查看详情，发现需要登录</p>
+<p><img src="/2023/08/14/Atlassian-Jira%E6%A1%86%E6%9E%B6%E6%BC%8F%E6%B4%9E/image-20230814114125804.png" alt="image-20230814114125804"></p>
+</li>
+<li><p>遂注册（利用临时邮箱注册）</p>
+</li>
+</ul>
+<p>尝试利用临时邮箱注册（TMPMAIL：<a target="_blank" rel="noopener" href="https://temp-mail.org/%EF%BC%89%EF%BC%8C%E5%8F%91%E7%8E%B0%E6%B2%A1%E6%9C%89%E9%AA%8C%E8%AF%81%E9%82%AE%E7%AE%B1%EF%BC%8C%E4%B9%9F%E4%B8%8D%E9%9C%80%E8%A6%81%E9%82%AE%E7%AE%B1%E9%AA%8C%E8%AF%81%EF%BC%8C%E6%B3%A8%E5%86%8C%E6%88%90%E5%8A%9F%E3%80%82">https://temp-mail.org/），发现没有验证邮箱，也不需要邮箱验证，注册成功。</a></p>
+<p>账号：admin，密码：admin@123</p>
+<p><img src="/2023/08/14/Atlassian-Jira%E6%A1%86%E6%9E%B6%E6%BC%8F%E6%B4%9E/image-20230814114146896.png" alt="image-20230814114146896"></p>
+<p>​        直接进入项目管理平台，可以查看任意项目、平台开发日志（存在问题、更新模块、修改详情等）、人员信息（邮箱、工作日志等）等。</p>
+<p>项目信息</p>
+<p><img src="/2023/08/14/Atlassian-Jira%E6%A1%86%E6%9E%B6%E6%BC%8F%E6%B4%9E/image-20230814114219738.png" alt="image-20230814114219738"></p>
+<p>系统bug</p>
+<p><img src="/2023/08/14/Atlassian-Jira%E6%A1%86%E6%9E%B6%E6%BC%8F%E6%B4%9E/image-20230814114243036.png" alt="image-20230814114243036"></p>
+<p>任意用户个人信息与活动日志</p>
+<p> <img src="/2023/08/14/Atlassian-Jira%E6%A1%86%E6%9E%B6%E6%BC%8F%E6%B4%9E/image-20230814114306937.png" alt="image-20230814114306937"></p>
+<p>附件（敏感信息）</p>
+<p><img src="/2023/08/14/Atlassian-Jira%E6%A1%86%E6%9E%B6%E6%BC%8F%E6%B4%9E/image-20230814114350511.png" alt="image-20230814114350511"></p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E5%AE%9E%E6%88%98%E6%BC%8F%E6%B4%9E/" rel="tag"># 实战漏洞</a>
+              <a href="/tags/%E6%94%BB%E9%98%B2%E6%BC%94%E7%BB%83/" rel="tag"># 攻防演练</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2023/08/14/%E8%8B%A5%E4%BE%9D-RuoYi-%E6%A1%86%E6%9E%B6%E6%BC%8F%E6%B4%9E/" rel="prev" title="若依(RuoYi)框架漏洞">
+      <i class="fa fa-chevron-left"></i> 若依(RuoYi)框架漏洞
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2023/08/14/%E5%90%AF%E8%8E%B1OA%E7%B3%BB%E7%BB%9FSQL%E6%B3%A8%E5%85%A5/" rel="next" title="启莱OA系统SQL注入">
+      启莱OA系统SQL注入 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%94%BB%E9%98%B2%E6%BC%94%E7%BB%83-Atlassian-Jira%E7%B3%BB%E5%88%97%E6%BC%8F%E6%B4%9E"><span class="nav-number">1.</span> <span class="nav-text">攻防演练|Atlassian Jira系列漏洞</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%94%A8%E6%88%B7%E5%90%8D%E6%9E%9A%E4%B8%BE%E6%BC%8F%E6%B4%9ECVE-2020-14181"><span class="nav-number">1.1.</span> <span class="nav-text">用户名枚举漏洞CVE-2020-14181</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#0x01-%E6%BC%8F%E6%B4%9E%E4%BB%8B%E7%BB%8D"><span class="nav-number">1.1.1.</span> <span class="nav-text">0x01 漏洞介绍</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#0x02-%E6%BC%8F%E6%B4%9E%E7%8E%AF%E5%A2%83-%E6%B5%8B%E7%BB%98%E6%8C%87%E7%BA%B9"><span class="nav-number">1.1.2.</span> <span class="nav-text">0x02 漏洞环境&#x2F;测绘指纹</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#0x03-POC-EXP-%E6%BC%8F%E6%B4%9E%E5%88%A9%E7%94%A8"><span class="nav-number">1.1.3.</span> <span class="nav-text">0x03 POC&#x2F;EXP&#x2F;漏洞利用</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Jira-Unauthenticated-Popular-Filters"><span class="nav-number">1.2.</span> <span class="nav-text">Jira Unauthenticated Popular Filters</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#0x01-%E6%BC%8F%E6%B4%9E%E4%BB%8B%E7%BB%8D-1"><span class="nav-number">1.2.1.</span> <span class="nav-text">0x01 漏洞介绍</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#0x02-POC-EXP-%E6%BC%8F%E6%B4%9E%E5%88%A9%E7%94%A8"><span class="nav-number">1.2.2.</span> <span class="nav-text">0x02 POC&#x2F;EXP&#x2F;漏洞利用</span></a></li></ol></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">北极星上的稻草人</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">84</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">11</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">13</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">北极星上的稻草人</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  
+  <script color='0,0,255' opacity='0.5' zIndex='-1' count='99' src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+
+<!-- 页面动态背景 -->
+
+<script type="text/javascript" src="//cdn.bootcss.com/canvas-nest.js/1.0.0/canvas-nest.min.js"></script>
+
+
+</body>
+</html>
+<!-- 页面点击小红心 -->
+<script type="text/javascript" src="/js/clicklove.js"></script>

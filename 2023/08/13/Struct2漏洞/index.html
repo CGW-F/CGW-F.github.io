@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"cgw-f.github.io","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="struts2漏洞原理简介struts2远程代码执行漏洞原理​        struts2框架在处理action的时候，调用底层的getter&#x2F;setter来处理参数，将每一个http的参数声明为一个ONGL表达式，在对OGNL表达式进行解析的时候，就可以执行恶意payload。主要根据触发的类型来划分具体的structs2漏洞。 ONGL表达式 OGNL是对象图导航语言(Object-Grap">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Struct2漏洞">
+<meta property="og:url" content="https://cgw-f.github.io/2023/08/13/Struct2%E6%BC%8F%E6%B4%9E/index.html">
+<meta property="og:site_name" content="北极星上的稻草人">
+<meta property="og:description" content="struts2漏洞原理简介struts2远程代码执行漏洞原理​        struts2框架在处理action的时候，调用底层的getter&#x2F;setter来处理参数，将每一个http的参数声明为一个ONGL表达式，在对OGNL表达式进行解析的时候，就可以执行恶意payload。主要根据触发的类型来划分具体的structs2漏洞。 ONGL表达式 OGNL是对象图导航语言(Object-Grap">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2023-08-13T08:59:28.000Z">
+<meta property="article:modified_time" content="2023-08-14T12:11:03.567Z">
+<meta property="article:author" content="北极星上的稻草人">
+<meta property="article:tag" content="web安全基础知识">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://cgw-f.github.io/2023/08/13/Struct2%E6%BC%8F%E6%B4%9E/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>Struct2漏洞 | 北极星上的稻草人</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">北极星上的稻草人</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">稻草人笔记</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">13</span></a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">11</span></a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">84</span></a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://cgw-f.github.io/2023/08/13/Struct2%E6%BC%8F%E6%B4%9E/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="北极星上的稻草人">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="北极星上的稻草人">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Struct2漏洞
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2023-08-13 16:59:28" itemprop="dateCreated datePublished" datetime="2023-08-13T16:59:28+08:00">2023-08-13</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2023-08-14 20:11:03" itemprop="dateModified" datetime="2023-08-14T20:11:03+08:00">2023-08-14</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E6%BC%8F%E6%B4%9E/" itemprop="url" rel="index"><span itemprop="name">漏洞</span></a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="struts2漏洞原理简介"><a href="#struts2漏洞原理简介" class="headerlink" title="struts2漏洞原理简介"></a>struts2漏洞原理简介</h1><h3 id="struts2远程代码执行漏洞原理"><a href="#struts2远程代码执行漏洞原理" class="headerlink" title="struts2远程代码执行漏洞原理"></a><strong>struts2远程代码执行漏洞原理</strong></h3><p>​        struts2框架在处理action的时候，调用底层的getter/setter来处理参数，将每一个http的参数声明为一个ONGL表达式，在对OGNL表达式进行解析的时候，就可以执行恶意payload。主要根据触发的类型来划分具体的structs2漏洞。</p>
+<p><em>ONGL</em>表达式 OGNL是对象图导航语言(Object-Graph Navigation Languaged)</p>
+<p>参考：<a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/6uADTxIFA9jCP7ZZNBro8g">https://mp.weixin.qq.com/s/6uADTxIFA9jCP7ZZNBro8g</a></p>
+<h3 id="S2-001漏洞"><a href="#S2-001漏洞" class="headerlink" title="S2-001漏洞"></a><strong>S2-001漏洞</strong></h3><p><strong>【原理】</strong>：该漏洞因用户提交表单数据并且验证失败时，后端会将用户之前提交的参数值使用OGNL表达式%{value}进行解析，然后重新填充到对应的表单数据中。如注册或登录页面，提交失败后一般会默认返回之前提交的数据，由于后端使用%{value}对提交的数据执行了一次OGNL 表达式解析，所以可以直接在表单构造Payload进行命令执行。</p>
+<p><strong>【修复】</strong>：触发漏洞根本原因在于，可以递归解析表单中的属性值从而导致用户输入的ognl表达式被（二次）执行；解决方法就是不再对表达式进行递归解析，如此用户输入的value值不会再被解析执行。</p>
+<h3 id="S2-003和S2-005漏洞"><a href="#S2-003和S2-005漏洞" class="headerlink" title="S2-003和S2-005漏洞"></a><strong>S2-003和S2-005漏洞</strong></h3><p><strong>【原理】：</strong> 该版本漏洞触发源于ParameterInterceptor拦截器中（失效的安全配置），通过对传入参数进行正则表达式匹配[\p{Graph}&amp;&amp;[^,#:=]]*来限制恶意操作，，但通过构造参数绕过正则限制从而执行ognl表达式。（在S2-003中，可以通过unicode编码或八进制对”#”,”=”等字符进行绕过）</p>
+<h3 id="S2-007漏洞"><a href="#S2-007漏洞" class="headerlink" title="S2-007漏洞"></a><strong>S2-007漏洞</strong></h3><p><strong>【原理】</strong>当配置了验证规则<ActionName>-validation.xml时，若类型验证转换出错，后端默认会将用户提交的表单值通过字符串拼接，然后执行一次 OGNL 表达式解析，从而造成远程代码执行。</ActionName></p>
+<p><strong>【修复】</strong>在getOverrideExpr函数中进行了StringEscape，从而无法闭合单引号，也就无法构造OGNL表达式</p>
+<h3 id="S2-007漏洞-1"><a href="#S2-007漏洞-1" class="headerlink" title="S2-007漏洞"></a><strong>S2-007漏洞</strong></h3><p><strong>【原理】</strong>拦截器只检查传入的参数名是否合法，不会检查参数值。因此可先将Payload设置为参数值注入到上下文中，而后通过某个特定语法取出来就可以执行之前设置过的Payload。</p>
+<h3 id="S2-013漏洞"><a href="#S2-013漏洞" class="headerlink" title="S2-013漏洞"></a><strong>S2-013漏洞</strong></h3><p><strong>【原理</strong>】<strong>：</strong>struts2的标签中 和 都有一个 includeParams 属性，可以设置成如下值</p>
+<ul>
+<li><strong>none</strong> ：URL中不包含任何参数（默认）</li>
+<li>get ：仅包含URL中的GET参数</li>
+<li><strong>all</strong> ： 在URL中包含GET和POST参数</li>
+</ul>
+<p>此时 或尝试去解析原始请求参数时，会导致OGNL表达式的执行</p>
+<h3 id="S2-016漏洞"><a href="#S2-016漏洞" class="headerlink" title="S2-016漏洞"></a><strong>S2-016漏洞</strong></h3><p><strong>【原理】</strong>在struts2中，DefaultActionMapper类支持以action:、redirect:、redirectAction:作为导航或是重定向前缀，但是这些前缀后面同时可以跟OGNL表达式，由于struts2没有对这些前缀做过滤，导致利用OGNL表达式调用java静态方法执行任意系统命令。</p>
+<h3 id="S2-045漏洞"><a href="#S2-045漏洞" class="headerlink" title="S2-045漏洞"></a><strong>S2-045漏洞</strong></h3><p><strong>【原理】</strong>在使用基于Jakarta插件的文件上传功能时，恶意用户可在上传文件时通过修改HTTP请求头中的Content-Type值来触发该漏洞，进而执行系统命令。</p>
+<h3 id="S2-045与S2-046漏洞"><a href="#S2-045与S2-046漏洞" class="headerlink" title="S2-045与S2-046漏洞"></a><strong>S2-045与S2-046漏洞</strong></h3><p><strong>【原理】</strong>在使用基于Jakarta插件的文件上传功能时，恶意用户可在上传文件时通过修改HTTP请求头中的Content-Type值来触发该漏洞，进而执行系统命令。</p>
+<p>（S2-046则是在上传文件的<code>Content-Disposition</code>中的<code>Filename</code>参数存在空字节，在检查时抛出异常，从而进入buildErrorMessage()方法）</p>
+<h3 id="S2-053漏洞"><a href="#S2-053漏洞" class="headerlink" title="S2-053漏洞"></a><strong>S2-053漏洞</strong></h3><p><strong>【原理】</strong>本漏洞实质和S2-001原理是一样的。都是在解析标签时在org.apache.struts2.components.UIBean的end()方法中通过evaluateParams()对标签中的值进行解析从而执行ongl表达式的。在S2-053漏洞场景中，是通过Freemarker模版引擎渲染用户输入数据。</p>
+<h3 id="S2-059、S2-061、S2-062漏洞"><a href="#S2-059、S2-061、S2-062漏洞" class="headerlink" title="S2-059、S2-061、S2-062漏洞"></a><strong>S2-059、S2-061、S2-062漏洞</strong></h3><p><strong>【原理】</strong>Struts2 会对某些标签属性（比如id，其他属性有待寻找）的属性值进行二次表达式解析，当这些标签属性中包含了%{xx}且xx用户可控，则在渲染该标签时可造成ognl表达式执行。</p>
+<p><strong>（</strong>S2-061和S2-062漏洞原理与S2-059相同，是对S2-059沙盒绕过。）</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/web%E5%AE%89%E5%85%A8%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/" rel="tag"># web安全基础知识</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2023/08/13/Fastjson%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E/" rel="prev" title="Fastjson反序列化漏洞">
+      <i class="fa fa-chevron-left"></i> Fastjson反序列化漏洞
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2023/08/13/%E7%99%BB%E5%BD%95%E7%95%8C%E9%9D%A2%E7%9A%84%E5%88%A9%E7%94%A8%E5%A7%BF%E5%8A%BF/" rel="next" title="登录界面的利用姿势">
+      登录界面的利用姿势 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#struts2%E6%BC%8F%E6%B4%9E%E5%8E%9F%E7%90%86%E7%AE%80%E4%BB%8B"><span class="nav-number">1.</span> <span class="nav-text">struts2漏洞原理简介</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#struts2%E8%BF%9C%E7%A8%8B%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E%E5%8E%9F%E7%90%86"><span class="nav-number">1.0.1.</span> <span class="nav-text">struts2远程代码执行漏洞原理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#S2-001%E6%BC%8F%E6%B4%9E"><span class="nav-number">1.0.2.</span> <span class="nav-text">S2-001漏洞</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#S2-003%E5%92%8CS2-005%E6%BC%8F%E6%B4%9E"><span class="nav-number">1.0.3.</span> <span class="nav-text">S2-003和S2-005漏洞</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#S2-007%E6%BC%8F%E6%B4%9E"><span class="nav-number">1.0.4.</span> <span class="nav-text">S2-007漏洞</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#S2-007%E6%BC%8F%E6%B4%9E-1"><span class="nav-number">1.0.5.</span> <span class="nav-text">S2-007漏洞</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#S2-013%E6%BC%8F%E6%B4%9E"><span class="nav-number">1.0.6.</span> <span class="nav-text">S2-013漏洞</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#S2-016%E6%BC%8F%E6%B4%9E"><span class="nav-number">1.0.7.</span> <span class="nav-text">S2-016漏洞</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#S2-045%E6%BC%8F%E6%B4%9E"><span class="nav-number">1.0.8.</span> <span class="nav-text">S2-045漏洞</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#S2-045%E4%B8%8ES2-046%E6%BC%8F%E6%B4%9E"><span class="nav-number">1.0.9.</span> <span class="nav-text">S2-045与S2-046漏洞</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#S2-053%E6%BC%8F%E6%B4%9E"><span class="nav-number">1.0.10.</span> <span class="nav-text">S2-053漏洞</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#S2-059%E3%80%81S2-061%E3%80%81S2-062%E6%BC%8F%E6%B4%9E"><span class="nav-number">1.0.11.</span> <span class="nav-text">S2-059、S2-061、S2-062漏洞</span></a></li></ol></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">北极星上的稻草人</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">84</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">11</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">13</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">北极星上的稻草人</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  
+  <script color='0,0,255' opacity='0.5' zIndex='-1' count='99' src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+
+<!-- 页面动态背景 -->
+
+<script type="text/javascript" src="//cdn.bootcss.com/canvas-nest.js/1.0.0/canvas-nest.min.js"></script>
+
+
+</body>
+</html>
+<!-- 页面点击小红心 -->
+<script type="text/javascript" src="/js/clicklove.js"></script>

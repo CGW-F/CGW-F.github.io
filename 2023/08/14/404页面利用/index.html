@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"cgw-f.github.io","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="实战|404页面利用免责声明 ​        本文技术文章仅供参考，此文所提供的信息只为网络安全人员对自己所负责的网站、服务器等（包括但不限于）进行检测或维护参考，未经授权请勿利用文章中的技术资料对任何计算机系统进行入侵操作。利用此文所提供的信息而造成的直接或间接后果和损失，均由使用者本人负责。本文所提供的工具仅用于学习，禁止用于其他违法行为。 Nginx的404，是实实在在的404，tomca">
+<meta property="og:type" content="article">
+<meta property="og:title" content="404页面利用">
+<meta property="og:url" content="https://cgw-f.github.io/2023/08/14/404%E9%A1%B5%E9%9D%A2%E5%88%A9%E7%94%A8/index.html">
+<meta property="og:site_name" content="北极星上的稻草人">
+<meta property="og:description" content="实战|404页面利用免责声明 ​        本文技术文章仅供参考，此文所提供的信息只为网络安全人员对自己所负责的网站、服务器等（包括但不限于）进行检测或维护参考，未经授权请勿利用文章中的技术资料对任何计算机系统进行入侵操作。利用此文所提供的信息而造成的直接或间接后果和损失，均由使用者本人负责。本文所提供的工具仅用于学习，禁止用于其他违法行为。 Nginx的404，是实实在在的404，tomca">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://cgw-f.github.io/2023/08/14/404%E9%A1%B5%E9%9D%A2%E5%88%A9%E7%94%A8/image-20230814162827923.png">
+<meta property="og:image" content="https://cgw-f.github.io/2023/08/14/404%E9%A1%B5%E9%9D%A2%E5%88%A9%E7%94%A8/image-20230814162852172.png">
+<meta property="og:image" content="https://cgw-f.github.io/2023/08/14/404%E9%A1%B5%E9%9D%A2%E5%88%A9%E7%94%A8/image-20230814162927388.png">
+<meta property="og:image" content="https://cgw-f.github.io/2023/08/14/404%E9%A1%B5%E9%9D%A2%E5%88%A9%E7%94%A8/image-20230814163121603.png">
+<meta property="og:image" content="https://cgw-f.github.io/2023/08/14/404%E9%A1%B5%E9%9D%A2%E5%88%A9%E7%94%A8/image-20230814163144756.png">
+<meta property="og:image" content="https://cgw-f.github.io/2023/08/14/404%E9%A1%B5%E9%9D%A2%E5%88%A9%E7%94%A8/image-20230814163337722.png">
+<meta property="og:image" content="https://cgw-f.github.io/2023/08/14/404%E9%A1%B5%E9%9D%A2%E5%88%A9%E7%94%A8/image-20230814163417234.png">
+<meta property="og:image" content="https://cgw-f.github.io/2023/08/14/404%E9%A1%B5%E9%9D%A2%E5%88%A9%E7%94%A8/image-20230814163434694.png">
+<meta property="og:image" content="https://cgw-f.github.io/2023/08/14/404%E9%A1%B5%E9%9D%A2%E5%88%A9%E7%94%A8/image-20230814163504187.png">
+<meta property="og:image" content="https://cgw-f.github.io/2023/08/14/404%E9%A1%B5%E9%9D%A2%E5%88%A9%E7%94%A8/image-20230814163647912.png">
+<meta property="og:image" content="https://cgw-f.github.io/2023/08/14/404%E9%A1%B5%E9%9D%A2%E5%88%A9%E7%94%A8/image-20230814163711031.png">
+<meta property="og:image" content="https://cgw-f.github.io/2023/08/14/404%E9%A1%B5%E9%9D%A2%E5%88%A9%E7%94%A8/image-20230814163805089.png">
+<meta property="article:published_time" content="2023-08-14T08:25:18.000Z">
+<meta property="article:modified_time" content="2023-08-14T13:06:45.522Z">
+<meta property="article:author" content="北极星上的稻草人">
+<meta property="article:tag" content="实战漏洞">
+<meta property="article:tag" content="攻防演练">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cgw-f.github.io/2023/08/14/404%E9%A1%B5%E9%9D%A2%E5%88%A9%E7%94%A8/image-20230814162827923.png">
+
+<link rel="canonical" href="https://cgw-f.github.io/2023/08/14/404%E9%A1%B5%E9%9D%A2%E5%88%A9%E7%94%A8/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>404页面利用 | 北极星上的稻草人</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">北极星上的稻草人</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">稻草人笔记</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">13</span></a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">11</span></a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">84</span></a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://cgw-f.github.io/2023/08/14/404%E9%A1%B5%E9%9D%A2%E5%88%A9%E7%94%A8/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="北极星上的稻草人">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="北极星上的稻草人">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          404页面利用
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2023-08-14 16:25:18 / 修改时间：21:06:45" itemprop="dateCreated datePublished" datetime="2023-08-14T16:25:18+08:00">2023-08-14</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E6%BC%8F%E6%B4%9E/" itemprop="url" rel="index"><span itemprop="name">漏洞</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E6%BC%8F%E6%B4%9E/%E5%AE%9E%E6%88%98%E6%BC%8F%E6%B4%9E/" itemprop="url" rel="index"><span itemprop="name">实战漏洞</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E6%BC%8F%E6%B4%9E/%E5%AE%9E%E6%88%98%E6%BC%8F%E6%B4%9E/%E6%94%BB%E9%98%B2%E6%BC%94%E7%BB%83/" itemprop="url" rel="index"><span itemprop="name">攻防演练</span></a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="实战-404页面利用"><a href="#实战-404页面利用" class="headerlink" title="实战|404页面利用"></a>实战|404页面利用</h1><p><strong>免责声明</strong></p>
+<p>​        <strong>本文技术文章仅供参考，此文所提供的信息只为网络安全人员对自己所负责的网站、服务器等（包括但不限于）进行检测或维护参考，未经授权请勿利用文章中的技术资料对任何计算机系统进行入侵操作。利用此文所提供的信息而造成的直接或间接后果和损失，均由使用者本人负责。本文所提供的工具仅用于学习，禁止用于其他违法行为</strong>。</p>
+<p><font color="red"><strong>Nginx的404，是实实在在的404，tomcat的404并不是！！！</strong></font></p>
+<h2 id="方向1：js代码审计"><a href="#方向1：js代码审计" class="headerlink" title="方向1：js代码审计"></a>方向1：js代码审计</h2><ul>
+<li><strong>Tomcat 404</strong></li>
+</ul>
+<p><img src="/2023/08/14/404%E9%A1%B5%E9%9D%A2%E5%88%A9%E7%94%A8/image-20230814162827923.png" alt="image-20230814162827923"></p>
+<ul>
+<li><strong>Nginx 404</strong></li>
+</ul>
+<p><img src="/2023/08/14/404%E9%A1%B5%E9%9D%A2%E5%88%A9%E7%94%A8/image-20230814162852172.png" alt="image-20230814162852172"></p>
+<ul>
+<li><strong>SpringBoot 404</strong></li>
+</ul>
+<p><img src="/2023/08/14/404%E9%A1%B5%E9%9D%A2%E5%88%A9%E7%94%A8/image-20230814162927388.png" alt="image-20230814162927388"></p>
+<h3 id="实战例子"><a href="#实战例子" class="headerlink" title="实战例子"></a><strong>实战例子</strong></h3><p>着重审计如下两种格式的信息：</p>
+<ul>
+<li> <strong><a target="_blank" rel="noopener" href="http://xxx.com/xxx">http://xxx.com/xxx</a> 或 <a target="_blank" rel="noopener" href="https://xxx.com/xxx">https://xxx.com/xxx</a></strong></li>
+<li><strong>/aaa/bbb</strong></li>
+</ul>
+<p>第一种为代码可能会远程调用的URL，第二种问系统可能存在的接口地址。</p>
+<ul>
+<li><strong>步骤1：审计</strong></li>
+</ul>
+<p>通过如上所述方式，共计提取到了如下几个目录信息：</p>
+<p>/data_marxxx</p>
+<p>/cloud/user_xxxxx/user/list</p>
+<p>/cloud/order/</p>
+<p>/process</p>
+<p>/process/hanxxx</p>
+<p>/process/addCounterxxxxxx</p>
+<p>/cloud/asset/authxxxxx/search</p>
+<ul>
+<li><strong>步骤2：拼接URL访问</strong></li>
+</ul>
+<p>第一个目录：http://***.com/data_marxxx</p>
+<p>发现1个Tomcat404页面</p>
+<p> <img src="/2023/08/14/404%E9%A1%B5%E9%9D%A2%E5%88%A9%E7%94%A8/image-20230814163121603.png" alt="image-20230814163121603"></p>
+<p>其余都是Nginx 404</p>
+<p><img src="/2023/08/14/404%E9%A1%B5%E9%9D%A2%E5%88%A9%E7%94%A8/image-20230814163144756.png" alt="image-20230814163144756"></p>
+<p><strong>情况1</strong>：访问都是nginx的404，但有个404却是Tomcat的404。</p>
+<p>参考：<a target="_blank" rel="noopener" href="https://www.freebuf.com/vuls/255640.html">https://www.freebuf.com/vuls/255640.html</a></p>
+<p><strong>问：</strong>为什么访问/data_marxxx，回显的是Tomcat的404 Not Found而不是Nginx的呢？</p>
+<p><strong>答：</strong>这说明/data_marxxx目录是存在的，并且使用Tomcat搭建了SpringBoot接口服务。</p>
+<p><strong>问：</strong>但是为什么不是熟悉的SpringBoot报错页面呢？</p>
+<p><strong>答：</strong>这说明：还有一层目录才能够到达SpringBoot的目录！即/data_marxxx目录实际是存在的，并且它的下一层目录就是SpringBoot</p>
+<ul>
+<li><strong>步骤3：二级目录爆破</strong></li>
+</ul>
+<p>​        于是访问**/data_marxxx**并抓取GET数据包，丢在Burpsuite中进行二级目录爆破。</p>
+<p><img src="/2023/08/14/404%E9%A1%B5%E9%9D%A2%E5%88%A9%E7%94%A8/image-20230814163337722.png" alt="image-20230814163337722"></p>
+<p>​        放入目录字典进行Fuzz测试，这里选择使用Burpsuite的原因是，SpringBoot目录的访问报错，状态码依然是404，而使用Burpsuite的返回值Length长度，可以轻松筛选出是否成功爆破到了SpringBoot目录。</p>
+<p>​        爆破URI时，需要在Burpsuite中勾掉默认的URLEncode选项：</p>
+<p><img src="/2023/08/14/404%E9%A1%B5%E9%9D%A2%E5%88%A9%E7%94%A8/image-20230814163417234.png" alt="image-20230814163417234"></p>
+<p>扫描结果</p>
+<p><img src="/2023/08/14/404%E9%A1%B5%E9%9D%A2%E5%88%A9%E7%94%A8/image-20230814163434694.png" alt="image-20230814163434694"></p>
+<ul>
+<li><strong>步骤4：继续拼接url访问</strong></li>
+</ul>
+<p>于是：拼接访问：<strong>http://\</strong>*.com/data_marxxx/cloud/**</p>
+<p><img src="/2023/08/14/404%E9%A1%B5%E9%9D%A2%E5%88%A9%E7%94%A8/image-20230814163504187.png" alt="image-20230814163504187"></p>
+<p>​        发现springBooat404页面，对springBooat404页面（http://***.com/data_marxxx/cloud/）进行springBooat敏感目录扫描，运气好的话还可能有代码执行RCE、未授权访问。</p>
+<ul>
+<li><strong>步骤5：js文件路径拼接url访问</strong></li>
+</ul>
+<p>构造http://***.com/data_matxxx/cloud/user_xxxxx/user/list</p>
+<p><strong>发现漏洞</strong>：未授权调用系统接口查询全部用户数据</p>
+<p><img src="/2023/08/14/404%E9%A1%B5%E9%9D%A2%E5%88%A9%E7%94%A8/image-20230814163647912.png" alt="image-20230814163647912"></p>
+<p>之后就顺利多了，拼接/data_marxxx/cloud/order，后面再跟一个ID参数，回显了如下数据。</p>
+<p><strong>Order后可以拼参数</strong> <img src="/2023/08/14/404%E9%A1%B5%E9%9D%A2%E5%88%A9%E7%94%A8/image-20230814163711031.png" alt="image-20230814163711031"></p>
+<p>需要在Cookie加入user_code参数，而user_code参数，存在于第一个漏洞的回显数据中。</p>
+<p><img src="/2023/08/14/404%E9%A1%B5%E9%9D%A2%E5%88%A9%E7%94%A8/image-20230814163805089.png" alt="image-20230814163805089"></p>
+<p>并且，只需Cookie就可以查询数据，并且数据编号可以全部遍历。</p>
+<p><strong>于是，第二个漏洞产生：越权查询全部系统流程数据。</strong></p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E5%AE%9E%E6%88%98%E6%BC%8F%E6%B4%9E/" rel="tag"># 实战漏洞</a>
+              <a href="/tags/%E6%94%BB%E9%98%B2%E6%BC%94%E7%BB%83/" rel="tag"># 攻防演练</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2023/08/14/Log4j2%E8%BF%9C%E7%A8%8B%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E/" rel="prev" title="Log4j2远程代码执行漏洞">
+      <i class="fa fa-chevron-left"></i> Log4j2远程代码执行漏洞
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%AE%9E%E6%88%98-404%E9%A1%B5%E9%9D%A2%E5%88%A9%E7%94%A8"><span class="nav-number">1.</span> <span class="nav-text">实战|404页面利用</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%96%B9%E5%90%911%EF%BC%9Ajs%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1"><span class="nav-number">1.1.</span> <span class="nav-text">方向1：js代码审计</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%9E%E6%88%98%E4%BE%8B%E5%AD%90"><span class="nav-number">1.1.1.</span> <span class="nav-text">实战例子</span></a></li></ol></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">北极星上的稻草人</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">84</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">11</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">13</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">北极星上的稻草人</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  
+  <script color='0,0,255' opacity='0.5' zIndex='-1' count='99' src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+
+<!-- 页面动态背景 -->
+
+<script type="text/javascript" src="//cdn.bootcss.com/canvas-nest.js/1.0.0/canvas-nest.min.js"></script>
+
+
+</body>
+</html>
+<!-- 页面点击小红心 -->
+<script type="text/javascript" src="/js/clicklove.js"></script>

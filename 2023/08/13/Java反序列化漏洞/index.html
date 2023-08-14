@@ -1,0 +1,605 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"cgw-f.github.io","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="Java反序列化漏洞之利用链​        反序列化漏洞的利用几乎都需要反序列化攻击利用链，例如shiro反序列化漏洞，知道了密钥key，如果没有合适的攻击利用链也没发攻击成功。反序列化利用链是整个反序列化利用过程中最关键的一环，通常反序列化利用链需要借助常用的第三方jar包，其中最有名的就是CommonCollections利用链（简称CC链）。 URLDNS利用链​        URLDN">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Java反序列化漏洞">
+<meta property="og:url" content="https://cgw-f.github.io/2023/08/13/Java%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E/index.html">
+<meta property="og:site_name" content="北极星上的稻草人">
+<meta property="og:description" content="Java反序列化漏洞之利用链​        反序列化漏洞的利用几乎都需要反序列化攻击利用链，例如shiro反序列化漏洞，知道了密钥key，如果没有合适的攻击利用链也没发攻击成功。反序列化利用链是整个反序列化利用过程中最关键的一环，通常反序列化利用链需要借助常用的第三方jar包，其中最有名的就是CommonCollections利用链（简称CC链）。 URLDNS利用链​        URLDN">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://cgw-f.github.io/2023/08/13/Java%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E/image-20230813160624297.png">
+<meta property="og:image" content="https://cgw-f.github.io/2023/08/13/Java%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E/image-20230813161037122.png">
+<meta property="og:image" content="https://cgw-f.github.io/2023/08/13/Java%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E/image-20230813161121888.png">
+<meta property="og:image" content="https://cgw-f.github.io/2023/08/13/Java%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E/image-20230813161236250.png">
+<meta property="og:image" content="https://cgw-f.github.io/2023/08/13/Java%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E/image-20230813161255703.png">
+<meta property="og:image" content="https://cgw-f.github.io/2023/08/13/Java%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E/image-20230813161334320.png">
+<meta property="og:image" content="https://cgw-f.github.io/2023/08/13/Java%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E/image-20230813162407325.png">
+<meta property="og:image" content="https://cgw-f.github.io/2023/08/13/Java%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E/image-20230813162527490.png">
+<meta property="og:image" content="https://cgw-f.github.io/2023/08/13/Java%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E/image-20230813162534984.png">
+<meta property="og:image" content="https://cgw-f.github.io/2023/08/13/Java%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E/image-20230813162615638.png">
+<meta property="og:image" content="https://cgw-f.github.io/2023/08/13/Java%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E/image-20230813162658175.png">
+<meta property="og:image" content="https://cgw-f.github.io/2023/08/13/Java%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E/image-20230813162706393.png">
+<meta property="og:image" content="https://cgw-f.github.io/2023/08/13/Java%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E/image-20230813162827111.png">
+<meta property="og:image" content="https://cgw-f.github.io/2023/08/13/Java%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E/image-20230813163319754.png">
+<meta property="og:image" content="https://cgw-f.github.io/2023/08/13/Java%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E/image-20230813163626078.png">
+<meta property="og:image" content="https://cgw-f.github.io/2023/08/13/Java%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E/image-20230813163953791.png">
+<meta property="og:image" content="https://cgw-f.github.io/2023/08/13/Java%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E/image-20230813164029331.png">
+<meta property="og:image" content="https://cgw-f.github.io/2023/08/13/Java%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E/image-20230813164046382.png">
+<meta property="og:image" content="https://cgw-f.github.io/2023/08/13/Java%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E/image-20230813164055672.png">
+<meta property="og:image" content="https://cgw-f.github.io/2023/08/13/Java%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E/image-20230813164343660.png">
+<meta property="og:image" content="https://cgw-f.github.io/2023/08/13/Java%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E/image-20230813164409786.png">
+<meta property="og:image" content="https://cgw-f.github.io/2023/08/13/Java%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E/image-20230813164513476.png">
+<meta property="article:published_time" content="2023-08-13T03:59:06.000Z">
+<meta property="article:modified_time" content="2023-08-14T12:11:07.500Z">
+<meta property="article:author" content="北极星上的稻草人">
+<meta property="article:tag" content="web安全基础知识">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cgw-f.github.io/2023/08/13/Java%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E/image-20230813160624297.png">
+
+<link rel="canonical" href="https://cgw-f.github.io/2023/08/13/Java%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>Java反序列化漏洞 | 北极星上的稻草人</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">北极星上的稻草人</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">稻草人笔记</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">13</span></a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">11</span></a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">84</span></a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://cgw-f.github.io/2023/08/13/Java%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="北极星上的稻草人">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="北极星上的稻草人">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Java反序列化漏洞
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2023-08-13 11:59:06" itemprop="dateCreated datePublished" datetime="2023-08-13T11:59:06+08:00">2023-08-13</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2023-08-14 20:11:07" itemprop="dateModified" datetime="2023-08-14T20:11:07+08:00">2023-08-14</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E6%BC%8F%E6%B4%9E/" itemprop="url" rel="index"><span itemprop="name">漏洞</span></a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h3 id="Java反序列化漏洞之利用链"><a href="#Java反序列化漏洞之利用链" class="headerlink" title="Java反序列化漏洞之利用链"></a>Java反序列化漏洞之利用链</h3><p>​        反序列化漏洞的利用几乎都需要反序列化攻击利用链，例如shiro反序列化漏洞，知道了密钥key，如果没有合适的攻击利用链也没发攻击成功。反序列化利用链是整个反序列化利用过程中最关键的一环，通常反序列化利用链需要借助常用的第三方jar包，其中最有名的就是CommonCollections利用链（简称CC链）。</p>
+<h2 id="URLDNS利用链"><a href="#URLDNS利用链" class="headerlink" title="URLDNS利用链"></a>URLDNS利用链</h2><p>​        URLDNS链是JAVA众多利用链中最简单的一条利用链，非常适合初学者研究学习，具有下面的特点：</p>
+<p>a)     利用链只依赖jdk本身提供的类，不依赖其他第三方类，所以具有很高的通用性，可以用于判断目标是否存在反序列化漏洞。</p>
+<p>b)     利用链本身只能执行域名解析的操作，不能执行系统命令或者其他恶意操作。如果提交利用链是URLDNS的反序列化漏洞，漏洞提交平台可能会拒绝这个漏洞。</p>
+<p><img src="/2023/08/13/Java%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E/image-20230813160624297.png" alt="image-20230813160624297"></p>
+<p>urlDNS利用链成功</p>
+<p><strong>【利用链】</strong></p>
+<ul>
+<li><p>使用ysoserial的自定义SilentURLStreamHandler类时：</p>
+<p><strong>HashMap类的readObject()</strong> ⟶ <strong>hash()</strong> ⟶ <strong>hashCode()</strong> ⟶ <strong>getHostAddress()</strong></p>
+</li>
+</ul>
+<p>getHostAddress()：该方法执行之后会进行域名到IP地址的解析请求</p>
+<p><img src="/2023/08/13/Java%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E/image-20230813161037122.png" alt="image-20230813161037122"></p>
+<ul>
+<li>如果不用自定义类时：</li>
+</ul>
+<p>​        可以看出触发getHostAddress方法的入口点是从generalURLDNS2这个方法，而不是unserialize方法，也就是在生成序列化对象的时候就已经触发了域名解析的请求。由于JAVA内部对DNS请求存在缓存机制，那么在反序列化的时候会优先从DNS缓存中查找域名解析记录，那么反序列化的时候就收不到正确的DNS请求数据（达不到利用的目的）。</p>
+<p><img src="/2023/08/13/Java%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E/image-20230813161121888.png" alt="image-20230813161121888"></p>
+<p>​        为了避免在生成payload的时候触发DNS请求，影响反序列化时DNS请求的执行。有两种解决办法。</p>
+<p>1）第一种就是像ysoserial代码中的方式一样，定义一个类继承自URLStreamHandler，并且在类中重写getHostAddress等方法，使得在序列化的时候不会执行getHostAddress方法。</p>
+<p>2）第二种办法是通过通过java.net.URL类中的hashCode方法中的逻辑来避免执行后续的getHostAddress方法。</p>
+<h2 id="CC链"><a href="#CC链" class="headerlink" title="CC链"></a>CC链</h2><h3 id="Transform链"><a href="#Transform链" class="headerlink" title="Transform链"></a>Transform链</h3><p>​        Transform链是CC链的重要组成部分，严格来说Transform链属于整个CC链中的Sink点，CC链基本上都是通过Transform来最终执行系统命令的。需要注意的是Transform链并不是一条完整的利用链，只是CommonsCollections利用链中的一部分。当然并不是所有的CC链都需要用Transform链。</p>
+<p>​        JAVA中最典型的运行操作系统命令的办法是通过Runtime类来执行，如下图（下面的test1、test2只是自定义用于演示的）</p>
+<p><img src="/2023/08/13/Java%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E/image-20230813161236250.png" alt="image-20230813161236250"></p>
+<p>​        但是在反序列化的过程中不能直接通过Runtime来执行，因为Runtime类没有继承Serializable接口；但是可以通过反射的方式来调用Runtime类执行，并且里面涉及到的全部类都继承了Serializable接口，如下图所示。</p>
+<p><img src="/2023/08/13/Java%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E/image-20230813161255703.png" alt="image-20230813161255703"></p>
+<p>​        需要注意的是，通过反射来执行方法的返回值类型一定是Object类型，需要做强制类型转换，把Objectl类型转化为Runtime类型。后续的Transform利用链基本上都是通过执行这段代码来执行系统命令的。</p>
+<p><strong>Transform链简单样例</strong></p>
+<p>效果：打开计算器</p>
+<p><img src="/2023/08/13/Java%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E/image-20230813161334320.png" alt="image-20230813161334320"></p>
+<center> 图.  典型Transform链运行过程<center>
+
+<p>​        这里主要涉及了InvokerTransformer类、ConstantTransformer类和ChainedTransformer类。</p>
+<h4 id="Transform利用链"><a href="#Transform利用链" class="headerlink" title="Transform利用链"></a>Transform利用链</h4><p><strong>CommonCollections包 ⟶  （ConstantTransformer类）transform方法⟶ （InvokerTransformer类）transform方法⟶  ChainedTransformer类的某个链式调用方法。</strong></p>
+<p>简单的利用链示例</p>
+<p><img src="/2023/08/13/Java%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E/image-20230813162407325.png" alt="image-20230813162407325"></p>
+<p>【知识补充】</p>
+<p> （ConstantTransformer类）transform方法：<strong>获取Runtime.class对象</strong></p>
+<p>（InvokerTransformer类）transform方法：提供了一种执行任意其他方法的路径，<strong>获取.getMethod()</strong></p>
+<p>ChainedTransformer类中提供了链式调用transform方法的办法,可以执行<strong>Runtime.class..getMethod().exec()</strong></p>
+<ul>
+<li><strong>ConstantTransformer类</strong></li>
+</ul>
+<p>​        可以看出要执行命令，第一步是获取Runtime.class对象，如何通过某个类的transform对象来获取Runtime.class对象呢？这个时候就要用到CommonCollections包里的ConstantTransformer类。</p>
+<p>​        ConstantTransformer类的transform方法可以直接返回构造函数中的iConstant字段，如图下图所示。这样就可以获取Runtime.class对象了。</p>
+<p><img src="/2023/08/13/Java%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E/image-20230813162527490.png" alt="image-20230813162527490"></p>
+<ul>
+<li><strong>InvokerTransformer类</strong></li>
+</ul>
+<p>​        在InvokerTransformer类中，最主要的是transform方法。该方法中通过反射的方式执行任意一个类的方式，但Transform执行的方法必须是public修饰符的。</p>
+<p><img src="/2023/08/13/Java%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E/image-20230813162534984.png" alt="image-20230813162534984"></p>
+<p>​        InvokerTransformer类的transform方法提供了一种执行任意其他方法的路径。如下图例子：定义一个类TEST，类中定义一个方法Hello，那么我们就可以通过tranform方法来执行TEST类的Hello方法。</p>
+<p>​        <strong>为什么不直接调用Hello方法，而是通过transform来调用呢？</strong>因为，如果要执行的是“Runtime.getRuntime()”这样的方法，但是整个系统中都没有任何地方直接调用了这个，那么就可以通过transform来间接的执行这个方法。</p>
+<p><img src="/2023/08/13/Java%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E/image-20230813162615638.png" alt="image-20230813162615638"></p>
+<p>​        到这里会出现一个问题，只能执行单个对象的单个方法，不能链式调用。即可以执行”Runtime.getRuntim()”，但不能执行“Runtime.getRuntime().exec(xxxx)”。因此需要继续找到链式调用的方式，幸运的是CommonsCollections中提供了另一个类ChainedTransformer。</p>
+<ul>
+<li> <strong>ChainedTransformer类</strong></li>
+</ul>
+<p>​        ChainedTransformer类中提供了链式调用transform方法的办法，如图下图所示。ChainedTransformer类的构造方法是传入Transformer类型的数组，通过transform方法依次遍历数组中的每一个元素，上一步的方法调用的输出作为下一步的方法调用的输入，完美的链式调用解决办法。</p>
+<p><img src="/2023/08/13/Java%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E/image-20230813162658175.png" alt="image-20230813162658175"></p>
+<p>​        到这里Transform链已经可以达到执行操作系统命令的效果，如图. 典型Transform链运行所示。在反序列化的时候，可以调用ChainedTransformer类的transform方法，则可以导致命令执行，但是反序列化的时候会自动调用的是readObject方法，还需要通过readObject方法来调用transform方法才可以完成反序列化远程命令执行攻击。</p>
+<h3 id="CC1利用链（类似Transform链）"><a href="#CC1利用链（类似Transform链）" class="headerlink" title="CC1利用链（类似Transform链）"></a>CC1利用链（类似Transform链）</h3><p><img src="/2023/08/13/Java%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E/image-20230813162706393.png" alt="image-20230813162706393"></p>
+<h3 id="CommonsCollections5链"><a href="#CommonsCollections5链" class="headerlink" title="CommonsCollections5链"></a>CommonsCollections5链</h3><p>​        CommonsCollections5链是整个CC链中最简单的一条链，通过BadAttributeValueExpException类的readObject方法触发反序列化的过程，最终调用Transform链来达到命令执行的效果。CC5利用链的调用过程如下图，其中，红框2对应的过程阶段是属于Transform链的调用过程，具体分析在“Transform链”部分已经介绍过；红框1对应的过程阶段是属于CommonsCollections5特有的调用过程。</p>
+<p><img src="/2023/08/13/Java%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E/image-20230813162827111.png" alt="image-20230813162827111"></p>
+<center> 图 CommonsCollections5利用链的栈调用过程<center>
+
+<h4 id="CommonsCollections5利用链"><a href="#CommonsCollections5利用链" class="headerlink" title="CommonsCollections5利用链"></a>CommonsCollections5利用链</h4><p><strong>系统自动执行readObject方法 ⟶   toString方法转化类型 ⟶  getValue方法获取值 ⟶   get方法恶意调用transform方法⟶  Transform利用链。</strong></p>
+<p><strong>CommonsCollections5特有的调用过程详情</strong></p>
+<ul>
+<li><p>反序列化的起始点是javax.management.BadAttributeValueExpException类的<strong>readObject方法</strong>。</p>
+</li>
+<li><p> readObject方法首先获取字节流类（也就是本类）对应的val字段，然后基于多个判断，最终下一步操作是val字段对应的<strong>toString方法</strong>。</p>
+</li>
+<li><p>TiedMapEntry的toString方法，也就是需要把上一步的val字段类型赋值为TiedMapEntry类。在TiedMapEntry类的toString方法中调用了<strong>getValue方法</strong>。</p>
+</li>
+<li><p>这里调用了java.util.Map接口的<strong>get方法</strong>。所以只要找到一个继承自java.util.Map接口的类的get方法中存在恶意调用即可。在CommonsCollections5链中找到的恶意类是org.apache.commons.collections.map.LazyMap类，即get方法会调用org.apache.commons.collections.Transformer类的<strong>transform方法</strong>。</p>
+<p><img src="/2023/08/13/Java%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E/image-20230813163319754.png" alt="image-20230813163319754"></p>
+</li>
+</ul>
+<h4 id="反序列化利用链构造过程"><a href="#反序列化利用链构造过程" class="headerlink" title="反序列化利用链构造过程"></a>反序列化利用链构造过程</h4><p>​        一般来说反序列化利用链代码的编写是倒着来写的，首先是transform链的构造，如果某个类可以调用transformChain的transform方法，则可以执行命令；如果某个类可以调用LazyMap类的get方法，则可以执行系统命令</p>
+<ul>
+<li>查找可以调用(transformChain类)transform方法，达到可以执行命令，发现(LazyMap类)get方法可以调用(transformChain类)transform方法，于是构造：</li>
+</ul>
+<p><strong>（LazyMap类）get方法 ⟶ transform方法（transform利用链）</strong></p>
+<ul>
+<li>找到(TiedMapEntry 类)getValue方法获取值时会调用(LazyMap类)get方法，构造：</li>
+</ul>
+<p><strong>(TiedMapEntry)get方法⟶ (LazyMap类)get方法 ⟶ transform方法（transform利用链）</strong></p>
+<ul>
+<li>找到TiedMapEntry 类的toString方法可以调用getValue方法，构造：</li>
+</ul>
+<p><strong>(TiedMapEntry 类)toString方法⟶ (TiedMapEntry)get方法 ⟶ (LazyMap类)get方法 ⟶ transform方法（transform利用链）</strong></p>
+<ul>
+<li>找到javax.management. BadAttributeValueExpException类的readObject方法中存在toString的方法调用，模拟反序列化过程，执行命令，构造：</li>
+</ul>
+<p><strong>(BadAttributeValueExpException类)readObject方法 ⟶ (TiedMapEntry类)toString方法⟶ (TiedMapEntry)get方法⟶ (LazyMap类)get方法 ⟶transform方法（transform利用链）</strong></p>
+<p>​        由于系统可以自动执行(BadAttributeValueExpException类)readObject方法，所以CC5利用链就构造完成，一般需要反向找到系统可以自动执行readObject方法的某个类才算构造完成一条完整的反序列化利用链。</p>
+<h3 id="CommonsCollections7"><a href="#CommonsCollections7" class="headerlink" title="CommonsCollections7"></a>CommonsCollections7</h3><p>​        CommonsCollections7链是一条和CommonsCollections5链很像的利用链，最终的结果都是通过LazyMap的get方法调用Transform链来执行命令，调用栈如下图所示</p>
+<p><img src="/2023/08/13/Java%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E/image-20230813163626078.png" alt="image-20230813163626078"></p>
+<p>​        其中红框2部分和CommonsCollections5链是完全一样的，区别在于红框1的部分。CommonsCollections7链是通过Hashtable类readObject方法一步步调用AbstractMap类的equals方法来调用的。</p>
+<h4 id="CommonsCollections7利用链"><a href="#CommonsCollections7利用链" class="headerlink" title="CommonsCollections7利用链"></a>CommonsCollections7利用链</h4><p><strong>系统自动执行(Hashtable类)readObject方法 ⟶ (Hashtable类)reconstitutionPut方法⟶  (AbstractMapDecorator类)equals方法⟶  (AbstractMap类)equals方法⟶ Transform利用链。</strong></p>
+<ul>
+<li><p>(Hashtable类)reconstitutionPut方法：插入键值对</p>
+</li>
+<li><p>(AbstractMapDecorator类)equals方法重写用于比较两个装饰后的 Map 对象是否相等</p>
+</li>
+<li><p>(AbstractMap类)equals方法用于检查两个地图之间是否相等</p>
+</li>
+</ul>
+<h3 id="Xalan链"><a href="#Xalan链" class="headerlink" title="Xalan链"></a>Xalan链</h3><p>​        在CC链中，除了利用Transform利用链执行命令，还可以通过xalan来执行命令。CC2、CC3、CC4、CB链均与Xalan有关，Xalan提供了一种执行复杂语句的方式。</p>
+<p>​        xalan是java操作xml的库，属于java内置的官方库之一，在CC链中主要用到的是com.sun.org.apache.xalan.internal.xsltc.trax.TemplatesImpl类。<strong>xalan最终是通过加载字节码来达到代码执行的效果</strong>，所以xalan更适合于执行语句的场景，利用xalan来植入内存马会比其他链更加方便。如果目标同时可以使用多条CC链，通常会更倾向于使用xalan相关的链。</p>
+<p>​        java.lang.ClassLoader是java中负责类加载的抽象类，类中包含一个特别重要的方法defineClass，<strong>defineClass方法</strong>接受一组字节，然后将其具体化为一个Class类型实例，它一般从磁盘上加载一个文件，然后将文件的字节传递给JVM，通过JVM（native 方法）对于Class的定义，将其具体化，实例化为一个Class类型实例。目前流行的jsp的webshell冰歇和哥斯拉均是采用这种方式来传递的恶意代码。</p>
+<p>​        在TemplatesImpl类的<strong>defineTransletClasses方法</strong>中，存在对<strong>defineClass方法</strong>的调用，如下图所示。并且传递的参数来源于类私有的属性_bytecodes。</p>
+<p><img src="/2023/08/13/Java%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E/image-20230813163953791.png" alt="image-20230813163953791"></p>
+<p>​        除了通过defineClass来生成Class对象之外，还需要通过<strong>newInstance方法</strong>来生成类对应的实例。向上查找调用了<strong>defineTransletClasses方法</strong>的方法，发现<strong>getTransletInstance()方法</strong>。 </p>
+<p><img src="/2023/08/13/Java%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E/image-20230813164029331.png" alt="image-20230813164029331"></p>
+<p>​        getTransletInstance()方法是该方法是私有的，不利于利用。继续向上找利用了getTransletInstance()方法的，发现<strong>newTransformer()方法</strong>，而且其是public类型的方法，可以直接在反序列化利用链中进行调用。</p>
+<p><img src="/2023/08/13/Java%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E/image-20230813164046382.png" alt="image-20230813164046382"></p>
+<p>​        在TemplatesImpl类中还存在对newTransformer方法调用的另外的方法，例如**getOutputProperties()**。</p>
+<p><img src="/2023/08/13/Java%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E/image-20230813164055672.png" alt="image-20230813164055672"></p>
+<h4 id="Xalan利用链"><a href="#Xalan利用链" class="headerlink" title="Xalan利用链"></a>Xalan利用链</h4><p>​        在TemplatesImpl类中提供了通过defineClass动态加载字节码并进行实例化的方式，这是TemplatesImpl类能够在多种不同类型反序列化利用链中出现的根本原因。只要能成功调用到TemplatesImpl类的defineTransletClasses方法就可以达到行命令的效果。即下面3个方式都可以。</p>
+<ul>
+<li><p>**getTransletInstance()**⟶(TemplatesImpl类)defineTransletClasses()–defineClass()</p>
+</li>
+<li><p><strong>newTransformer() ⟶ getTransletInstance()</strong> ⟶(TemplatesImpl类)defineTransletClasses()–defineClass()</p>
+</li>
+<li><p> <strong>getOutputProperties()</strong> <strong>⟶ newTransformer()</strong> ⟶ <strong>getTransletInstance()</strong> ⟶ (TemplatesImpl类)defineTransletClasses()–defineClass()</p>
+</li>
+</ul>
+<p>​        由于有的方法可能可以直接调用getTransletInstance()或getOutputProperties()方法，所以链也可以划分成多条，但由于getTransletInstance()是私有的，一般很难找到利用链。以另外2条链为主，效果如下图。</p>
+<p><img src="/2023/08/13/Java%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E/image-20230813164343660.png" alt="image-20230813164343660"></p>
+<h3 id="CommonsCollections3链"><a href="#CommonsCollections3链" class="headerlink" title="CommonsCollections3链"></a>CommonsCollections3链</h3><p>​        CommonsCollections3链是基于Xalan的CC链，在CC3的利用链中最终是通过Xalan来执行命令，CC3的利用链和通过com.sun.org.apache.xalan.internal.xsltc.trax.TrAXFilter类的构造方法来调用newTransformer方法，达到通过Xalan执行命令的效果，如下图所示</p>
+<p><img src="/2023/08/13/Java%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E/image-20230813164409786.png" alt="image-20230813164409786"></p>
+<p>​        ysoserial的作者并没有直接找TrAXFilter类的构造方法调用，而是通InstantiateTransformer类的transform方法中存在调用任意类的getConstructor方法来调用TrAXFilter类。如下图所示，即:</p>
+<p><strong>transform() ⟶ getConstructor() ⟶ con对象(TrAXFilter类)–newTransformer()</strong></p>
+<h4 id="CommonsCollections3利用链"><a href="#CommonsCollections3利用链" class="headerlink" title="CommonsCollections3利用链"></a>CommonsCollections3利用链</h4><p>​        剩下如何调用InstantiateTransformer类的transform方法与CC1利用链（类似Transform链）完全一致，即红框部分是Transform链。</p>
+<p><img src="/2023/08/13/Java%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E/image-20230813164513476.png" alt="image-20230813164513476"></p>
+<center> 图. 完整CC3利用链<center>
+
+<p><strong>CC3简化利用链</strong>：</p>
+<p><strong>Transform() ⟶ getConstructor()⟶ con对象(TrAXFilter类)–newTransformer()⟶Xalan利用链</strong></p>
+<p>参考文章：</p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/C20220511/article/details/125440890">https://blog.csdn.net/C20220511/article/details/125440890</a></p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/C20220511/article/details/130411429">https://blog.csdn.net/C20220511/article/details/130411429</a></p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/C20220511/article/details/131397590">https://blog.csdn.net/C20220511/article/details/131397590</a></p>
+</center></center></center></center></center></center>
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/web%E5%AE%89%E5%85%A8%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/" rel="tag"># web安全基础知识</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2023/08/13/CAS%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E/" rel="prev" title="CAS反序列化漏洞">
+      <i class="fa fa-chevron-left"></i> CAS反序列化漏洞
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2023/08/13/%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E/" rel="next" title="反序列化漏洞">
+      反序列化漏洞 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Java%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E%E4%B9%8B%E5%88%A9%E7%94%A8%E9%93%BE"><span class="nav-number">1.</span> <span class="nav-text">Java反序列化漏洞之利用链</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#URLDNS%E5%88%A9%E7%94%A8%E9%93%BE"><span class="nav-number"></span> <span class="nav-text">URLDNS利用链</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#CC%E9%93%BE"><span class="nav-number"></span> <span class="nav-text">CC链</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Transform%E9%93%BE"><span class="nav-number">1.</span> <span class="nav-text">Transform链</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Transform%E5%88%A9%E7%94%A8%E9%93%BE"><span class="nav-number">1.1.</span> <span class="nav-text">Transform利用链</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#CC1%E5%88%A9%E7%94%A8%E9%93%BE%EF%BC%88%E7%B1%BB%E4%BC%BCTransform%E9%93%BE%EF%BC%89"><span class="nav-number">2.</span> <span class="nav-text">CC1利用链（类似Transform链）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#CommonsCollections5%E9%93%BE"><span class="nav-number">3.</span> <span class="nav-text">CommonsCollections5链</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#CommonsCollections5%E5%88%A9%E7%94%A8%E9%93%BE"><span class="nav-number">3.1.</span> <span class="nav-text">CommonsCollections5利用链</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E5%88%A9%E7%94%A8%E9%93%BE%E6%9E%84%E9%80%A0%E8%BF%87%E7%A8%8B"><span class="nav-number">3.2.</span> <span class="nav-text">反序列化利用链构造过程</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#CommonsCollections7"><span class="nav-number">4.</span> <span class="nav-text">CommonsCollections7</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#CommonsCollections7%E5%88%A9%E7%94%A8%E9%93%BE"><span class="nav-number">4.1.</span> <span class="nav-text">CommonsCollections7利用链</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Xalan%E9%93%BE"><span class="nav-number">5.</span> <span class="nav-text">Xalan链</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Xalan%E5%88%A9%E7%94%A8%E9%93%BE"><span class="nav-number">5.1.</span> <span class="nav-text">Xalan利用链</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#CommonsCollections3%E9%93%BE"><span class="nav-number">6.</span> <span class="nav-text">CommonsCollections3链</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#CommonsCollections3%E5%88%A9%E7%94%A8%E9%93%BE"><span class="nav-number">6.1.</span> <span class="nav-text">CommonsCollections3利用链</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">北极星上的稻草人</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">84</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">11</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">13</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">北极星上的稻草人</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  
+  <script color='0,0,255' opacity='0.5' zIndex='-1' count='99' src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+
+<!-- 页面动态背景 -->
+
+<script type="text/javascript" src="//cdn.bootcss.com/canvas-nest.js/1.0.0/canvas-nest.min.js"></script>
+
+
+</body>
+</html>
+<!-- 页面点击小红心 -->
+<script type="text/javascript" src="/js/clicklove.js"></script>

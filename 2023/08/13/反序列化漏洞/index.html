@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"cgw-f.github.io","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="反序列化漏洞​        java反序列化漏洞是指在反序列化过程中自动执行类中readObject方法导致的漏洞，类似于PHP反序列化时会自动执行__wakeup方法一样。如果readObject中执行了某种危险的操作，就可能到做反序列化漏洞。 ​        java反序列化调用链从本质来说就是构造一条从反序列化入口Source到危险方法Sink的调用链。反序列化的Source点一定是从r">
+<meta property="og:type" content="article">
+<meta property="og:title" content="反序列化漏洞">
+<meta property="og:url" content="https://cgw-f.github.io/2023/08/13/%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E/index.html">
+<meta property="og:site_name" content="北极星上的稻草人">
+<meta property="og:description" content="反序列化漏洞​        java反序列化漏洞是指在反序列化过程中自动执行类中readObject方法导致的漏洞，类似于PHP反序列化时会自动执行__wakeup方法一样。如果readObject中执行了某种危险的操作，就可能到做反序列化漏洞。 ​        java反序列化调用链从本质来说就是构造一条从反序列化入口Source到危险方法Sink的调用链。反序列化的Source点一定是从r">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://cgw-f.github.io/2023/08/13/%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E/image-20230813154647891.png">
+<meta property="og:image" content="https://cgw-f.github.io/2023/08/13/%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E/image-20230813155106842.png">
+<meta property="article:published_time" content="2023-08-13T07:36:31.000Z">
+<meta property="article:modified_time" content="2023-08-13T08:48:09.333Z">
+<meta property="article:author" content="北极星上的稻草人">
+<meta property="article:tag" content="漏洞基础知识">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cgw-f.github.io/2023/08/13/%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E/image-20230813154647891.png">
+
+<link rel="canonical" href="https://cgw-f.github.io/2023/08/13/%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>反序列化漏洞 | 北极星上的稻草人</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">北极星上的稻草人</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">稻草人笔记</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">13</span></a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">11</span></a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">84</span></a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://cgw-f.github.io/2023/08/13/%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="北极星上的稻草人">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="北极星上的稻草人">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          反序列化漏洞
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2023-08-13 15:36:31 / 修改时间：16:48:09" itemprop="dateCreated datePublished" datetime="2023-08-13T15:36:31+08:00">2023-08-13</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E6%BC%8F%E6%B4%9E/" itemprop="url" rel="index"><span itemprop="name">漏洞</span></a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="反序列化漏洞"><a href="#反序列化漏洞" class="headerlink" title="反序列化漏洞"></a>反序列化漏洞</h1><p>​        java反序列化漏洞是指在反序列化过程中自动执行类中readObject方法导致的漏洞，类似于PHP反序列化时会自动执行__wakeup方法一样。如果readObject中执行了某种危险的操作，就可能到做反序列化漏洞。</p>
+<p>​        java反序列化调用链从本质来说就是构造一条从反序列化入口Source到危险方法Sink的调用链。反序列化的Source点一定是从readObject方法开始，但是Sink点却可以有很多种不同的类型。最常见的反序列化Sink是命令执行，但是也有可能是文件上传、SSRF、XXE等其他类型的Sink。</p>
+<p><img src="/2023/08/13/%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E/image-20230813154647891.png" alt="image-20230813154647891"></p>
+<center> 图. java反序列化调用链原理<center>                
+
+<h2 id="0x01-JAVA与PHP反序列化"><a href="#0x01-JAVA与PHP反序列化" class="headerlink" title="0x01 JAVA与PHP反序列化"></a>0x01 JAVA与PHP反序列化</h2><p>​        JAVA序列化之后的数据是满足特定序列化协议的字符流，PHP序列化之后是一种类似json的格式。JAVA序列化之后的数据是不可读的，PHP序列化之后的数据是可读的。</p>
+<p><img src="/2023/08/13/%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E/image-20230813155106842.png" alt="image-20230813155106842"></p>
+<h2 id="0x02-反序列化触发点不同"><a href="#0x02-反序列化触发点不同" class="headerlink" title="0x02 反序列化触发点不同"></a>0x02 反序列化触发点不同</h2><p>​        JAVA反序列化的入口点Source是readObject方法。而PHP与JAVA不同，PHP反序列化的入口点Source是魔法方法，如__wakeup和__destruct方法。</p>
+<p>​        PHP的魔术方法是指以（__）开头的函数方法，通常是在某种条件下自动触发执行的方法。因为PHP魔术方法的存在，为反序列化利用链的构造增加很多思路，可以通过特定魔术方法拓宽反序列化利用链；在反序列化的过程中常用的魔术方法如表下：</p>
+<center> **表.PHP反序列化常用魔术方法**<center>
+
+<table>
+<thead>
+<tr>
+<th><strong>方法名</strong></th>
+<th><strong>方法介绍</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>__wakeup</td>
+<td>在调用unsearialize()时，自动执行该方法。属于反序列化Source之一。</td>
+</tr>
+<tr>
+<td>__destruct</td>
+<td>析构函数，在到某个对象的所有引用都被删除或者当对象被显式销毁时执行。属于反序列化Source之一。</td>
+</tr>
+<tr>
+<td>__toString</td>
+<td>一个类被当成字符串时自动调用该方法。属于反序列化利用链中常见魔术方法之一。</td>
+</tr>
+<tr>
+<td>__call</td>
+<td>在对象中调用不可访问的方法时触发，即当调用对象中不存在的方法会自动调用该方法。属于反序列化利用链中常见魔术方法之一。</td>
+</tr>
+<tr>
+<td>__set</td>
+<td>给不可访问的属性赋值时自动调用该方法。属于特定场景下反序列化利用链会用到的方法。</td>
+</tr>
+<tr>
+<td>__get</td>
+<td>读取不可访问属性的值时自动调用该方法。属于特定场景下反序列化利用链会用到的方法。</td>
+</tr>
+<tr>
+<td>__invoket</td>
+<td>当尝试以调用函数的方式调用一个对象时自动调用该方法。属于特定场景下反序列化利用链会用到的方法。</td>
+</tr>
+</tbody></table>
+<p>​        与PHP不同的是，JAVA并没有严格意义上的魔术方法，但是其实JAVA里面有一些类似的方法。JAVA在构造反序列化利用链时比PHP更加灵活，因为JDK代码大多数情况下还是JAVA编写的，可以方便的通过调试技巧来确定不同类方法之间的相互调用。</p>
+<center> 表. JAVA中经常会被自动调用的方法<center>
+
+<table>
+<thead>
+<tr>
+<th><strong>方法名</strong></th>
+<th><strong>方法介绍</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>readObject</td>
+<td>在反序列化的过程中会自动调用改方法，属于反序列化的入口Source。</td>
+</tr>
+<tr>
+<td>toString</td>
+<td>把对象当成字符串来操作是会自动调用该方法。</td>
+</tr>
+<tr>
+<td>hashCode</td>
+<td>返回该对象的hash值，集合类操作时会调用此方法。</td>
+</tr>
+<tr>
+<td>equals</td>
+<td>对象进行比较、排序、查找时可能可能调用此方法。</td>
+</tr>
+<tr>
+<td>finalize</td>
+<td>当垃圾回收器确定不存在对该对象的更多引用时，由对象的垃圾回收器调用此方法。</td>
+</tr>
+</tbody></table>
+<h2 id="0x03-类加载机制不同"><a href="#0x03-类加载机制不同" class="headerlink" title="0x03 类加载机制不同"></a>0x03 类加载机制不同</h2><p>​        PHP中要调用某个类必须要引入，PHP引入类文件常见的是这四种方式require、require_once、inclue、include_once。在反序列化的过程中，反序列化利用链中的每一个类也都必须是显式引入的，即必须通过上面四个函数中的某一个引入对应的类文件。如果不引入，就会报错。</p>
+<p>​        JAVA中类加载只与classpath有关，只要是在classpath中的类就能被直接调用。JAVA中并不要求在调用类之前进行显式引入，一般来说项目jar包中的类都可以任意调用；因此Java的反序列化比较多。</p>
+</center></center></center></center></center></center>
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E6%BC%8F%E6%B4%9E%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/" rel="tag"># 漏洞基础知识</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2023/08/13/Java%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E/" rel="prev" title="Java反序列化漏洞">
+      <i class="fa fa-chevron-left"></i> Java反序列化漏洞
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2023/08/13/Log4j2%E6%BC%8F%E6%B4%9E/" rel="next" title="Log4j2漏洞">
+      Log4j2漏洞 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E"><span class="nav-number">1.</span> <span class="nav-text">反序列化漏洞</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#0x01-JAVA%E4%B8%8EPHP%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96"><span class="nav-number">1.1.</span> <span class="nav-text">0x01 JAVA与PHP反序列化</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#0x02-%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E8%A7%A6%E5%8F%91%E7%82%B9%E4%B8%8D%E5%90%8C"><span class="nav-number">1.2.</span> <span class="nav-text">0x02 反序列化触发点不同</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#0x03-%E7%B1%BB%E5%8A%A0%E8%BD%BD%E6%9C%BA%E5%88%B6%E4%B8%8D%E5%90%8C"><span class="nav-number">1.3.</span> <span class="nav-text">0x03 类加载机制不同</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">北极星上的稻草人</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">84</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">11</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">13</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">北极星上的稻草人</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  
+  <script color='0,0,255' opacity='0.5' zIndex='-1' count='99' src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+
+<!-- 页面动态背景 -->
+
+<script type="text/javascript" src="//cdn.bootcss.com/canvas-nest.js/1.0.0/canvas-nest.min.js"></script>
+
+
+</body>
+</html>
+<!-- 页面点击小红心 -->
+<script type="text/javascript" src="/js/clicklove.js"></script>
