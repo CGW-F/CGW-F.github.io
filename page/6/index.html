@@ -126,7 +126,7 @@
   </li>
         <li class="menu-item menu-item-archives">
 
-    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">85</span></a>
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">86</span></a>
 
   </li>
   </ul>
@@ -152,6 +152,304 @@
 
           <div class="content index posts-expand">
             
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://cgw-f.github.io/2021/11/26/CTF-WEB%E6%B8%97%E9%80%8F%E6%80%9D%E8%B7%AF%E4%B8%8E%E6%8A%80%E5%B7%A7/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="北极星上的稻草人">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="北极星上的稻草人">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2021/11/26/CTF-WEB%E6%B8%97%E9%80%8F%E6%80%9D%E8%B7%AF%E4%B8%8E%E6%8A%80%E5%B7%A7/" class="post-title-link" itemprop="url">CTF-WEB渗透思路与技巧</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-11-26 11:04:23" itemprop="dateCreated datePublished" datetime="2021-11-26T11:04:23+08:00">2021-11-26</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2023-02-28 10:28:19" itemprop="dateModified" datetime="2023-02-28T10:28:19+08:00">2023-02-28</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/CTF/" itemprop="url" rel="index"><span itemprop="name">CTF</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="CTF-WEB渗透入门思路与技巧"><a href="#CTF-WEB渗透入门思路与技巧" class="headerlink" title="CTF-WEB渗透入门思路与技巧"></a>CTF-WEB渗透入门思路与技巧</h1><p>说明：图片只是一个展示效果，可能前后不对应</p>
+<h2 id="步骤一：信息探测"><a href="#步骤一：信息探测" class="headerlink" title="步骤一：信息探测"></a>步骤一：信息探测</h2><h4 id="1、扫描主机服务信息以及服务版本"><a href="#1、扫描主机服务信息以及服务版本" class="headerlink" title="1、扫描主机服务信息以及服务版本"></a>1、扫描主机服务信息以及服务版本</h4><p><strong>a.**扫描主机</strong>开放的端口号<strong>：</strong>nmap -p -T4 靶场ip地址**</p>
+<p>参数说明：-p指端口，-T4指线程数为4</p>
+<p><strong>b.快速扫描主机全部信息</strong>：<strong>nmap -T4 -A -v 靶场ip地址</strong> </p>
+<p>参数说明：-A指all（全部），-v指快速</p>
+<p>说明：有时候b扫描方式的结果会漏（在端口开放扫描部分）</p>
+<p><strong>c.探测开放服务信息</strong>：<strong>nmap -sV 靶场ip地址</strong></p>
+<p><img src="/2021/11/26/CTF-WEB%E6%B8%97%E9%80%8F%E6%80%9D%E8%B7%AF%E4%B8%8E%E6%8A%80%E5%B7%A7/image-20211102200402655.png" alt="image-20211102200402655"></p>
+<p>tip0：一般用b、c操作就足够了。</p>
+<p>tip1：注意开放的服务与其可能存在的漏洞/攻击方法：ssh服务：远程登录；ftp服务：文件上传</p>
+<p>tip3：后面所有操作都要考虑端口占用情况，可以用netstat -pantu来查看占用端口</p>
+<h4 id="2、探测目录信息"><a href="#2、探测目录信息" class="headerlink" title="2、探测目录信息"></a>2、探测目录信息</h4><p>！！这里要求靶场开启了http服务！！</p>
+<p>**a.**nikto -host http://靶场IP地址：端口 </p>
+<p><img src="/2021/11/26/CTF-WEB%E6%B8%97%E9%80%8F%E6%80%9D%E8%B7%AF%E4%B8%8E%E6%8A%80%E5%B7%A7/image-20211104160032606.png" alt="image-20211104160032606"></p>
+<p>**b.**dirb http://靶场IP地址：端口</p>
+<p><img src="/2021/11/26/CTF-WEB%E6%B8%97%E9%80%8F%E6%80%9D%E8%B7%AF%E4%B8%8E%E6%8A%80%E5%B7%A7/image-20211104155903347.png" alt="image-20211104155903347"></p>
+<p>说明：</p>
+<p>（1）端口不填，默认是80端口；</p>
+<p>（2）虽然都是探测目录信息，但探测到的信息往往是互补的，a操作侧重于敏感信息，b操作侧重于敏感目录。</p>
+<h4 id="3、用sparta探测（图形化界面工具）"><a href="#3、用sparta探测（图形化界面工具）" class="headerlink" title="3、用sparta探测（图形化界面工具）"></a>3、用sparta探测（图形化界面工具）</h4><p>启动软件（kali自带）</p>
+<p><img src="/2021/11/26/CTF-WEB%E6%B8%97%E9%80%8F%E6%80%9D%E8%B7%AF%E4%B8%8E%E6%8A%80%E5%B7%A7/image-20211104152216258.png" alt="image-20211104152216258"></p>
+<p><img src="/2021/11/26/CTF-WEB%E6%B8%97%E9%80%8F%E6%80%9D%E8%B7%AF%E4%B8%8E%E6%8A%80%E5%B7%A7/image-20211104152211299.png" alt="image-20211104152211299"></p>
+<p>软件会进行nmap、nikto、screenshot扫描</p>
+<p><img src="/2021/11/26/CTF-WEB%E6%B8%97%E9%80%8F%E6%80%9D%E8%B7%AF%E4%B8%8E%E6%8A%80%E5%B7%A7/image-20211104152242903.png" alt="image-20211104152242903"></p>
+<p>点击下面的扫描模块就可以查看详情，也可以单独对某个端口进行扫描</p>
+<p><img src="/2021/11/26/CTF-WEB%E6%B8%97%E9%80%8F%E6%80%9D%E8%B7%AF%E4%B8%8E%E6%8A%80%E5%B7%A7/image-20211104152303730.png" alt="image-20211104152303730"></p>
+<p><img src="/2021/11/26/CTF-WEB%E6%B8%97%E9%80%8F%E6%80%9D%E8%B7%AF%E4%B8%8E%E6%8A%80%E5%B7%A7/image-20211104152331126.png" alt="image-20211104152331126"></p>
+<p>还可以用dirt进行暴力探测</p>
+<p><img src="/2021/11/26/CTF-WEB%E6%B8%97%E9%80%8F%E6%80%9D%E8%B7%AF%E4%B8%8E%E6%8A%80%E5%B7%A7/image-20211104152341971.png" alt="image-20211104152341971"></p>
+<p><img src="/2021/11/26/CTF-WEB%E6%B8%97%E9%80%8F%E6%80%9D%E8%B7%AF%E4%B8%8E%E6%8A%80%E5%B7%A7/image-20211104152348212.png" alt="image-20211104152348212"></p>
+<h2 id="步骤2：深入挖掘信息-分析探测结果"><a href="#步骤2：深入挖掘信息-分析探测结果" class="headerlink" title="步骤2：深入挖掘信息/分析探测结果"></a>步骤2：深入挖掘信息/分析探测结果</h2><h3 id="端口-服务利用"><a href="#端口-服务利用" class="headerlink" title="端口/服务利用"></a>端口/服务利用</h3><h4 id="1、大端口利用"><a href="#1、大端口利用" class="headerlink" title="1、大端口利用"></a>1、大端口利用</h4><p>​    常用端口为0~1023，要注意大于1024的端口和一些不知名或乱起名的服务</p>
+<p><img src="/2021/11/26/CTF-WEB%E6%B8%97%E9%80%8F%E6%80%9D%E8%B7%AF%E4%B8%8E%E6%8A%80%E5%B7%A7/image-20211102202748686.png" alt="image-20211102202748686"></p>
+<p>技巧1：利用nc扫描大端口（非http服务）</p>
+<p><img src="/2021/11/26/CTF-WEB%E6%B8%97%E9%80%8F%E6%80%9D%E8%B7%AF%E4%B8%8E%E6%8A%80%E5%B7%A7/image-20211102203709341.png" alt="image-20211102203709341"></p>
+<p>技巧2：直接访问大端口http服务</p>
+<p><img src="/2021/11/26/CTF-WEB%E6%B8%97%E9%80%8F%E6%80%9D%E8%B7%AF%E4%B8%8E%E6%8A%80%E5%B7%A7/image-20211102204232751.png" alt="image-20211102204232751"></p>
+<h4 id="2、SMB服务利用"><a href="#2、SMB服务利用" class="headerlink" title="2、SMB服务利用"></a>2、SMB服务利用</h4><p>​    SMB协议又叫samba，是一种通讯协议，它基于TCP协议，一般使用139、445端口。SMB允许计算机访问网络资源，下载对应的源文件。</p>
+<p><img src="/2021/11/26/CTF-WEB%E6%B8%97%E9%80%8F%E6%80%9D%E8%B7%AF%E4%B8%8E%E6%8A%80%E5%B7%A7/image-20211102214659335.png" alt="image-20211102214659335"></p>
+<p><img src="/2021/11/26/CTF-WEB%E6%B8%97%E9%80%8F%E6%80%9D%E8%B7%AF%E4%B8%8E%E6%8A%80%E5%B7%A7/image-20211102214559780.png" alt="image-20211102214559780"></p>
+<p><strong>a、smbclient -L IP：</strong>扫描出对应IP地址的主机共享的文件夹</p>
+<p>（若空密码不行，可能需要另外方法寻找方法）</p>
+<p><img src="/2021/11/26/CTF-WEB%E6%B8%97%E9%80%8F%E6%80%9D%E8%B7%AF%E4%B8%8E%E6%8A%80%E5%B7%A7/image-20211102215008230.png" alt="image-20211102215008230"></p>
+<p><strong>b、smbclient  ‘\\IP\$share’：</strong>查看对应IP主机上的共享文件（share指文件名）</p>
+<p><img src="/2021/11/26/CTF-WEB%E6%B8%97%E9%80%8F%E6%80%9D%E8%B7%AF%E4%B8%8E%E6%8A%80%E5%B7%A7/image-20211102215117240.png" alt="image-20211102215117240"></p>
+<p><strong>c、get （敏感信息）文件名：</strong>下载文件</p>
+<p><img src="/2021/11/26/CTF-WEB%E6%B8%97%E9%80%8F%E6%80%9D%E8%B7%AF%E4%B8%8E%E6%8A%80%E5%B7%A7/image-20211102215227610.png" alt="image-20211102215227610"></p>
+<p><img src="/2021/11/26/CTF-WEB%E6%B8%97%E9%80%8F%E6%80%9D%E8%B7%AF%E4%B8%8E%E6%8A%80%E5%B7%A7/image-20211102215245319.png" alt="image-20211102215245319"></p>
+<p><strong>d、searchsploit samba 版本号：</strong>查看某个版本号的SMB协议是否有（溢出）漏洞：这里没有</p>
+<p><img src="/2021/11/26/CTF-WEB%E6%B8%97%E9%80%8F%E6%80%9D%E8%B7%AF%E4%B8%8E%E6%8A%80%E5%B7%A7/image-20211030105045103.png" alt="image-20211030105045103"></p>
+<p><img src="/2021/11/26/CTF-WEB%E6%B8%97%E9%80%8F%E6%80%9D%E8%B7%AF%E4%B8%8E%E6%8A%80%E5%B7%A7/image-20211102220133905.png" alt="image-20211102220133905"></p>
+<p><img src="/2021/11/26/CTF-WEB%E6%B8%97%E9%80%8F%E6%80%9D%E8%B7%AF%E4%B8%8E%E6%8A%80%E5%B7%A7/image-20211102220153317.png" alt="image-20211102220153317"></p>
+<h4 id="3、ssh服务利用"><a href="#3、ssh服务利用" class="headerlink" title="3、ssh服务利用"></a>3、ssh服务利用</h4><p>​    SSH（secure shell）是基于TCP 22号端口的服务，是建立在应用层基础上的安全协议，它专为远程登录会话和其他网络服务提供安全性的协议，利用SSH协议可以有效防止远程管理过程中的信息泄露问题。</p>
+<p><strong>ssh远程登录：</strong>ssh -p 用户名@ip地址</p>
+<h5 id="ssh协议认证机制及其漏洞利用"><a href="#ssh协议认证机制及其漏洞利用" class="headerlink" title="ssh协议认证机制及其漏洞利用"></a>ssh协议认证机制及其漏洞利用</h5><p><strong>a.基于口令的安全验证：</strong>利用账号和口令就可以登录远程主机；传输的数据会被加密，但不能保证正在连接的服务器就是你想连接的服务器，因此会受到“中间人”攻击（有人冒充服务器）。</p>
+<p><strong>漏洞利用</strong>：基于字典的暴力破解，破解对应用户名和密码，通过ssh客户端服务连接远程主机的ssh服务，实现对服务器的一定控制。</p>
+<p><strong>b.基于密钥的安全验证：</strong>需要依靠密钥，用户必须创建一对密钥（公钥和私钥），把私钥放在服务器上，通过SSH连接服务器时提供正确私钥即可登录。</p>
+<p><strong>漏洞利用：</strong>通过对主机信息收集，获取到泄露的用户名和对应的密钥</p>
+<h4 id="4、FTP服务利用"><a href="#4、FTP服务利用" class="headerlink" title="4、FTP服务利用"></a>4、FTP服务利用</h4><p>​    FTP服务是一个文件传输协议。</p>
+<p>漏洞利用：在浏览器中输入 ftp://靶场IP地址，进行匿名登录ftp根目录，再查看敏感文件（配置文件要查看源代码）。</p>
+<p><img src="/2021/11/26/CTF-WEB%E6%B8%97%E9%80%8F%E6%80%9D%E8%B7%AF%E4%B8%8E%E6%8A%80%E5%B7%A7/image-20211104153117467.png" alt="image-20211104153117467"></p>
+<h3 id="目录利用"><a href="#目录利用" class="headerlink" title="目录利用"></a>目录利用</h3><p>​    对于用dirt、nikto等工具探测到的目录，要特备关注一些敏感目录/文件；如名字带有：</p>
+<p>​        ●admin：管理员界面，一般是服务器后台界面或其登录界面</p>
+<p>​        ●passwd：password的缩写，尝包含密码信息</p>
+<p>​        ●shadow：常保存用户名，与passwd的密码匹配</p>
+<p>​        ●index：主页，往往会留下提示/漏洞，需要审计其源码</p>
+<p>​        ●robots：隐藏文件目录，常保存敏感文件</p>
+<p>​        ●backup：备份文件，常保存密钥等敏感文件</p>
+<p>​        ●config：配置文件，常可以发现漏洞/密钥信息，需要审计源码（要留意注释）</p>
+<p>​        ●login：登录界面，先尝试弱密码登录，要么需要寻找用户名和口令/密钥，要么利用注入漏洞，最后才用爆破法</p>
+<p>​        ●home：普通用户根目录，有时可以发现用户名等敏感信息</p>
+<p>​        ●upload：上传文件，常需要上传webshell获取shell</p>
+<p>​        ●download：下载文件，常可以下载敏感文件</p>
+<p>​        ●.php/.python等：可代码审计，已达到利用语句或发现漏洞</p>
+<p>​        ●mysql/sql/__db：数据库，需要登录其数据库，查找用户名和密码</p>
+<p>​        ●ssi：可能存在ssi漏洞的页面</p>
+<p>​        ●.txt文件：常存有密钥（可能是加密形式）、口令、用户名等信息</p>
+<p>​        ●icon：特别文件</p>
+<p>​        ●wordpress（wp缩写）：常保存与密钥或登录的相关信息</p>
+<p>​        ●ssh/samba等：对应漏洞的利用</p>
+<p>​        ●secure：敏感文件</p>
+<p>​        ●nothing：常是假404页面，需要代码审计</p>
+<p>​    还有根目录和一些乱七八糟的目录需要注意；有时候文件/目录背后会有提示该文件/目录是敏感的。对于敏感网站还要查看其源码（注意注释、代码审计等），如主页、登录界面等等页面</p>
+<p>如：</p>
+<p><img src="/2021/11/26/CTF-WEB%E6%B8%97%E9%80%8F%E6%80%9D%E8%B7%AF%E4%B8%8E%E6%8A%80%E5%B7%A7/image-20211104161211476.png" alt="image-20211104161211476"></p>
+<p><img src="/2021/11/26/CTF-WEB%E6%B8%97%E9%80%8F%E6%80%9D%E8%B7%AF%E4%B8%8E%E6%8A%80%E5%B7%A7/image-20211104160837857.png" alt="image-20211104160837857"></p>
+<p>​    目录利用是信息挖掘最重要的一步，往往很多重要的信息（用户名、密钥、敏感漏洞）都是在这一步发现的。</p>
+<h2 id="步骤3：弱点-漏洞扫描-信息利用"><a href="#步骤3：弱点-漏洞扫描-信息利用" class="headerlink" title="步骤3：弱点/漏洞扫描/信息利用"></a>步骤3：弱点/漏洞扫描/信息利用</h2><h3 id="漏洞扫描"><a href="#漏洞扫描" class="headerlink" title="漏洞扫描"></a>漏洞扫描</h3><h4 id="1、使用metasploit扫描漏洞"><a href="#1、使用metasploit扫描漏洞" class="headerlink" title="1、使用metasploit扫描漏洞"></a>1、使用metasploit扫描漏洞</h4><p>a、seachsploit 服务的软件版本查找漏洞信息</p>
+<p>服务的软件版本号可以用nmap -sV ip地址查询</p>
+<p>如：扫描ftp服务的软件</p>
+<p><img src="/2021/11/26/CTF-WEB%E6%B8%97%E9%80%8F%E6%80%9D%E8%B7%AF%E4%B8%8E%E6%8A%80%E5%B7%A7/image-20211104153707417.png" alt="image-20211104153707417"></p>
+<p>ProFTPD是ftp服务的软件，1.3.3c是版本号</p>
+<p><img src="/2021/11/26/CTF-WEB%E6%B8%97%E9%80%8F%E6%80%9D%E8%B7%AF%E4%B8%8E%E6%8A%80%E5%B7%A7/image-20211104153947435.png" alt="image-20211104153947435"></p>
+<p>b、使用metasploit的search查找漏洞模块</p>
+<p><img src="/2021/11/26/CTF-WEB%E6%B8%97%E9%80%8F%E6%80%9D%E8%B7%AF%E4%B8%8E%E6%8A%80%E5%B7%A7/image-20211104193152596.png" alt="image-20211104193152596"></p>
+<h4 id="2、使用owasp-zap扫描漏洞"><a href="#2、使用owasp-zap扫描漏洞" class="headerlink" title="2、使用owasp-zap扫描漏洞"></a>2、使用owasp-zap扫描漏洞</h4><p>​    kali自带owasp-zap</p>
+<p>终端启动</p>
+<p><img src="/2021/11/26/CTF-WEB%E6%B8%97%E9%80%8F%E6%80%9D%E8%B7%AF%E4%B8%8E%E6%8A%80%E5%B7%A7/image-20211104194037138.png" alt="image-20211104194037138"></p>
+<p>图形化界面启动</p>
+<p><img src="/2021/11/26/CTF-WEB%E6%B8%97%E9%80%8F%E6%80%9D%E8%B7%AF%E4%B8%8E%E6%8A%80%E5%B7%A7/image-20211104193650252.png" alt="image-20211104193650252"></p>
+<p><img src="/2021/11/26/CTF-WEB%E6%B8%97%E9%80%8F%E6%80%9D%E8%B7%AF%E4%B8%8E%E6%8A%80%E5%B7%A7/image-20211104193655617.png" alt="image-20211104193655617"></p>
+<h4 id="3、使用AVWS（Acunetix）扫描漏洞"><a href="#3、使用AVWS（Acunetix）扫描漏洞" class="headerlink" title="3、使用AVWS（Acunetix）扫描漏洞"></a>3、使用AVWS（Acunetix）扫描漏洞</h4><p><img src="/2021/11/26/CTF-WEB%E6%B8%97%E9%80%8F%E6%80%9D%E8%B7%AF%E4%B8%8E%E6%8A%80%E5%B7%A7/image-20211104195647852.png" alt="image-20211104195647852"></p>
+<p><img src="/2021/11/26/CTF-WEB%E6%B8%97%E9%80%8F%E6%80%9D%E8%B7%AF%E4%B8%8E%E6%8A%80%E5%B7%A7/image-20211104195806884.png" alt="image-20211104195806884"></p>
+<p><img src="/2021/11/26/CTF-WEB%E6%B8%97%E9%80%8F%E6%80%9D%E8%B7%AF%E4%B8%8E%E6%8A%80%E5%B7%A7/image-20211104195832261.png" alt="image-20211104195832261"></p>
+<h4 id="4、探测中间件PUT漏洞"><a href="#4、探测中间件PUT漏洞" class="headerlink" title="4、探测中间件PUT漏洞"></a>4、探测中间件PUT漏洞</h4><p>​    只要HTTP方法开启了PUT功能，PUT可以直接从客户机上传文件到服务器。 探测http开启中间件指令：curl -v -X OPTIONS 目标地址</p>
+<p><img src="/2021/11/26/CTF-WEB%E6%B8%97%E9%80%8F%E6%80%9D%E8%B7%AF%E4%B8%8E%E6%8A%80%E5%B7%A7/image-20211104194628075.png" alt="image-20211104194628075"></p>
+<h3 id="弱点漏洞"><a href="#弱点漏洞" class="headerlink" title="弱点漏洞"></a>弱点漏洞</h3><p>有输入的地方，就可以存在注入漏洞！；具体操作查看本博客对应的文章</p>
+<p>​    a、sql注入：《CTF渗透引入》、《SQL注入》</p>
+<p>​    b、SSI注入：《SSI注入》</p>
+<p>​    c、命令注入：《命令注入》</p>
+<p>​    d、目录遍历：《目录遍历漏洞》</p>
+<h3 id="暴力破解"><a href="#暴力破解" class="headerlink" title="暴力破解"></a>暴力破解</h3><h4 id="1、使用msf暴力破解"><a href="#1、使用msf暴力破解" class="headerlink" title="1、使用msf暴力破解"></a>1、使用msf暴力破解</h4><p><img src="/2021/11/26/CTF-WEB%E6%B8%97%E9%80%8F%E6%80%9D%E8%B7%AF%E4%B8%8E%E6%8A%80%E5%B7%A7/image-20211104200102859.png" alt="image-20211104200102859"></p>
+<p>《web安全暴力破解》</p>
+<p>a.利用wpscan获取用户名和密码（如果没有探测到）</p>
+<p><img src="/2021/11/26/CTF-WEB%E6%B8%97%E9%80%8F%E6%80%9D%E8%B7%AF%E4%B8%8E%E6%8A%80%E5%B7%A7/image-20211031163357930.png" alt="image-20211031163357930"></p>
+<p><img src="/2021/11/26/CTF-WEB%E6%B8%97%E9%80%8F%E6%80%9D%E8%B7%AF%E4%B8%8E%E6%8A%80%E5%B7%A7/image-20211104200258439.png" alt="image-20211104200258439"></p>
+<p><img src="/2021/11/26/CTF-WEB%E6%B8%97%E9%80%8F%E6%80%9D%E8%B7%AF%E4%B8%8E%E6%8A%80%E5%B7%A7/image-20211031163538379.png" alt="image-20211031163538379"></p>
+<p><img src="/2021/11/26/CTF-WEB%E6%B8%97%E9%80%8F%E6%80%9D%E8%B7%AF%E4%B8%8E%E6%8A%80%E5%B7%A7/image-20211104200421430.png" alt="image-20211104200421430"></p>
+<p>b.利用msf暴力破解登录密码</p>
+<p><img src="/2021/11/26/CTF-WEB%E6%B8%97%E9%80%8F%E6%80%9D%E8%B7%AF%E4%B8%8E%E6%8A%80%E5%B7%A7/image-20211104200509299.png" alt="image-20211104200509299"></p>
+<p><img src="/2021/11/26/CTF-WEB%E6%B8%97%E9%80%8F%E6%80%9D%E8%B7%AF%E4%B8%8E%E6%8A%80%E5%B7%A7/image-20211104200514650.png" alt="image-20211104200514650"></p>
+<p><img src="/2021/11/26/CTF-WEB%E6%B8%97%E9%80%8F%E6%80%9D%E8%B7%AF%E4%B8%8E%E6%8A%80%E5%B7%A7/image-20211104200526368.png" alt="image-20211104200526368"></p>
+<p>rhost：靶机地址（lhost：攻击地址）</p>
+<p><img src="/2021/11/26/CTF-WEB%E6%B8%97%E9%80%8F%E6%80%9D%E8%B7%AF%E4%B8%8E%E6%8A%80%E5%B7%A7/image-20211104200551621.png" alt="image-20211104200551621"></p>
+<p><img src="/2021/11/26/CTF-WEB%E6%B8%97%E9%80%8F%E6%80%9D%E8%B7%AF%E4%B8%8E%E6%8A%80%E5%B7%A7/image-20211104200556107.png" alt="image-20211104200556107"></p>
+<p><img src="/2021/11/26/CTF-WEB%E6%B8%97%E9%80%8F%E6%80%9D%E8%B7%AF%E4%B8%8E%E6%8A%80%E5%B7%A7/image-20211104200600049.png" alt="image-20211104200600049"></p>
+<p><img src="/2021/11/26/CTF-WEB%E6%B8%97%E9%80%8F%E6%80%9D%E8%B7%AF%E4%B8%8E%E6%8A%80%E5%B7%A7/image-20211104200611821.png" alt="image-20211104200611821"></p>
+<p><img src="/2021/11/26/CTF-WEB%E6%B8%97%E9%80%8F%E6%80%9D%E8%B7%AF%E4%B8%8E%E6%8A%80%E5%B7%A7/image-20211104200617555.png" alt="image-20211104200617555"></p>
+<h4 id="2、使用burpsuite爆破"><a href="#2、使用burpsuite爆破" class="headerlink" title="2、使用burpsuite爆破"></a>2、使用burpsuite爆破</h4><p>a、获取爆破用的字典（这里是kali自带的sql注入字典）</p>
+<p><img src="/2021/11/26/CTF-WEB%E6%B8%97%E9%80%8F%E6%80%9D%E8%B7%AF%E4%B8%8E%E6%8A%80%E5%B7%A7/image-20211102140627873.png" alt="image-20211102140627873"></p>
+<p>b、设置中断获取爆破页面数据</p>
+<p>设置浏览器代理服务器</p>
+<p><img src="/2021/11/26/CTF-WEB%E6%B8%97%E9%80%8F%E6%80%9D%E8%B7%AF%E4%B8%8E%E6%8A%80%E5%B7%A7/image-20211104201522077.png" alt="image-20211104201522077"></p>
+<p>启动中断</p>
+<p><img src="/2021/11/26/CTF-WEB%E6%B8%97%E9%80%8F%E6%80%9D%E8%B7%AF%E4%B8%8E%E6%8A%80%E5%B7%A7/image-20211104201537419.png" alt="image-20211104201537419"></p>
+<p>截取数据</p>
+<p><img src="/2021/11/26/CTF-WEB%E6%B8%97%E9%80%8F%E6%80%9D%E8%B7%AF%E4%B8%8E%E6%8A%80%E5%B7%A7/image-20211104201555173.png" alt="image-20211104201555173"></p>
+<p>c、爆破</p>
+<p>将抓取的页面发到intruder模块进行爆破</p>
+<p><img src="/2021/11/26/CTF-WEB%E6%B8%97%E9%80%8F%E6%80%9D%E8%B7%AF%E4%B8%8E%E6%8A%80%E5%B7%A7/image-20211104201619332.png" alt="image-20211104201619332"></p>
+<p>设置爆破区域</p>
+<p><img src="/2021/11/26/CTF-WEB%E6%B8%97%E9%80%8F%E6%80%9D%E8%B7%AF%E4%B8%8E%E6%8A%80%E5%B7%A7/image-20211104201630302.png" alt="image-20211104201630302"></p>
+<p>设置爆破字典</p>
+<p><img src="/2021/11/26/CTF-WEB%E6%B8%97%E9%80%8F%E6%80%9D%E8%B7%AF%E4%B8%8E%E6%8A%80%E5%B7%A7/image-20211104201643667.png" alt="image-20211104201643667"></p>
+<p>启动</p>
+<p><img src="/2021/11/26/CTF-WEB%E6%B8%97%E9%80%8F%E6%80%9D%E8%B7%AF%E4%B8%8E%E6%8A%80%E5%B7%A7/image-20211104201653148.png" alt="image-20211104201653148"></p>
+<p>查看结果</p>
+<p><img src="/2021/11/26/CTF-WEB%E6%B8%97%E9%80%8F%E6%80%9D%E8%B7%AF%E4%B8%8E%E6%8A%80%E5%B7%A7/image-20211104201703598.png" alt="image-20211104201703598"></p>
+<p><img src="/2021/11/26/CTF-WEB%E6%B8%97%E9%80%8F%E6%80%9D%E8%B7%AF%E4%B8%8E%E6%8A%80%E5%B7%A7/image-20211104201710210.png" alt="image-20211104201710210"></p>
+<p>（最后发现输入返回长度为2900的是正确密码：例子出自《CTF综合测试》）</p>
+<h2 id="步骤4：上传webshell"><a href="#步骤4：上传webshell" class="headerlink" title="步骤4：上传webshell"></a>步骤4：上传webshell</h2><p><img src="/2021/11/26/CTF-WEB%E6%B8%97%E9%80%8F%E6%80%9D%E8%B7%AF%E4%B8%8E%E6%8A%80%E5%B7%A7/image-20211105103733193.png" alt="image-20211105103733193"></p>
+<h3 id="制作webshell"><a href="#制作webshell" class="headerlink" title="制作webshell"></a>制作webshell</h3><h4 id="1、制作php的webshell"><a href="#1、制作php的webshell" class="headerlink" title="1、制作php的webshell"></a>1、制作php的webshell</h4><p>​    a、使用/usr/share/webshell/php下的webshell（kali自带）</p>
+<p><img src="/2021/11/26/CTF-WEB%E6%B8%97%E9%80%8F%E6%80%9D%E8%B7%AF%E4%B8%8E%E6%8A%80%E5%B7%A7/image-20211104210730250.png" alt="image-20211104210730250"></p>
+<p><img src="/2021/11/26/CTF-WEB%E6%B8%97%E9%80%8F%E6%80%9D%E8%B7%AF%E4%B8%8E%E6%8A%80%E5%B7%A7/image-20211031151536728.png" alt="image-20211031151536728"></p>
+<p>b、利用kali生成php的webshell</p>
+<p>输入正确的参数（lhost、端口号等），再把内容拷贝到php文件即可使用</p>
+<p><img src="/2021/11/26/CTF-WEB%E6%B8%97%E9%80%8F%E6%80%9D%E8%B7%AF%E4%B8%8E%E6%8A%80%E5%B7%A7/image-20211104211453611.png" alt="image-20211104211453611"></p>
+<h4 id="2、制作python的websehll"><a href="#2、制作python的websehll" class="headerlink" title="2、制作python的websehll"></a>2、制作python的websehll</h4><p>这里的方法和生成php的webshell是一样的，只是这里加了重定向。</p>
+<p><img src="/2021/11/26/CTF-WEB%E6%B8%97%E9%80%8F%E6%80%9D%E8%B7%AF%E4%B8%8E%E6%8A%80%E5%B7%A7/image-20211104211632043.png" alt="image-20211104211632043"></p>
+<h4 id="3、制作elf的webshell"><a href="#3、制作elf的webshell" class="headerlink" title="3、制作elf的webshell"></a>3、制作elf的webshell</h4><p>用于命令注入</p>
+<p><img src="/2021/11/26/CTF-WEB%E6%B8%97%E9%80%8F%E6%80%9D%E8%B7%AF%E4%B8%8E%E6%8A%80%E5%B7%A7/image-20211104211112036.png" alt="image-20211104211112036"></p>
+<h4 id="4、命令执行webshell"><a href="#4、命令执行webshell" class="headerlink" title="4、命令执行webshell"></a>4、命令执行webshell</h4><p>在输入端输入一下webshell（要按实际情况改）</p>
+<p><img src="/2021/11/26/CTF-WEB%E6%B8%97%E9%80%8F%E6%80%9D%E8%B7%AF%E4%B8%8E%E6%8A%80%E5%B7%A7/image-20211104211247531.png" alt="image-20211104211247531"></p>
+<h3 id="上传webshell"><a href="#上传webshell" class="headerlink" title="上传webshell"></a>上传webshell</h3><p>​    一般而言，webshell都是上传到404页面，因为方便利用</p>
+<p>​    ●登录后台网站，直接上传文件，或者操作服务器下载文件</p>
+<p>​    ●通过upload等服务，上传文件，或者操作服务器下载文件</p>
+<p>​    ●有时候需要绕过防火墙上传文件，如《CTF综合测试》</p>
+<p>​    ●利用注入漏洞上传文件</p>
+<p>注意：如果需要服务器下载靶场的文件（如：webshell），需要在攻击机（kali）开启/创建http服务。</p>
+<p><strong>启动/创建HTTP服务</strong></p>
+<p><strong>方法一：</strong>python -m “SimpleHTTPServer”</p>
+<p><img src="/2021/11/26/CTF-WEB%E6%B8%97%E9%80%8F%E6%80%9D%E8%B7%AF%E4%B8%8E%E6%8A%80%E5%B7%A7/image-20211105094111832.png" alt="image-20211105094111832"></p>
+<h2 id="步骤5：渗透获取shell"><a href="#步骤5：渗透获取shell" class="headerlink" title="步骤5：渗透获取shell"></a>步骤5：渗透获取shell</h2><p><strong>说明：</strong>渗透的方法有很多，方法不唯一。</p>
+<h3 id="启动监听"><a href="#启动监听" class="headerlink" title="启动监听"></a>启动监听</h3><h4 id="a、利用msf监听"><a href="#a、利用msf监听" class="headerlink" title="a、利用msf监听"></a>a、利用msf监听</h4><p>启动msf</p>
+<p><img src="/2021/11/26/CTF-WEB%E6%B8%97%E9%80%8F%E6%80%9D%E8%B7%AF%E4%B8%8E%E6%8A%80%E5%B7%A7/image-20211102170833011.png" alt="image-20211102170833011"></p>
+<p>配置playload并启动监听（端口和lhost需要按实际来）</p>
+<p><img src="/2021/11/26/CTF-WEB%E6%B8%97%E9%80%8F%E6%80%9D%E8%B7%AF%E4%B8%8E%E6%8A%80%E5%B7%A7/image-20211104220108129.png" alt="image-20211104220108129"></p>
+<h4 id="b、使用nc-nlvp-port监听"><a href="#b、使用nc-nlvp-port监听" class="headerlink" title="b、使用nc -nlvp port监听"></a>b、使用nc -nlvp port监听</h4><p><img src="/2021/11/26/CTF-WEB%E6%B8%97%E9%80%8F%E6%80%9D%E8%B7%AF%E4%B8%8E%E6%8A%80%E5%B7%A7/image-20211105103954832.png" alt="image-20211105103954832"></p>
+<h3 id="触发反弹shell"><a href="#触发反弹shell" class="headerlink" title="触发反弹shell"></a>触发反弹shell</h3><p><img src="/2021/11/26/CTF-WEB%E6%B8%97%E9%80%8F%E6%80%9D%E8%B7%AF%E4%B8%8E%E6%8A%80%E5%B7%A7/image-20211105103820072.png" alt="image-20211105103820072"></p>
+<p>触发shell方法    </p>
+<p>​    ●点击点击/打开/查看文件</p>
+<p>​    ●通过访问链接触发shell</p>
+<p>​    ●等等</p>
+<p>顺利的话，触发wenshell文件就会反弹shell了。</p>
+<h2 id="步骤6：提权"><a href="#步骤6：提权" class="headerlink" title="步骤6：提权"></a>步骤6：提权</h2><p>​    反弹的shell一般都是普通用户权限，而flag常常在root权限，因此需要提权。如果反弹的shell不是终端（终端输入标识“$”、“~”、“#”），而是标准输入（什么都没或者是”&gt;”）;这是往往需要获取终端，因为sudo等操作往往需要终端输入。</p>
+<h3 id="1、获取-启动终端"><a href="#1、获取-启动终端" class="headerlink" title="1、获取/启动终端"></a>1、获取/启动终端</h3><p>​        ● python -c  “ import pty;pty.spawn(‘/bin/bash’)” </p>
+<p>​        ● python -c  “ import pty;pty.spawn(‘bin/sh’)”</p>
+<p>​        ● python /tmp/asdf.py</p>
+<p>​        ● echo “import pty;pty.spawn(‘/bin/bash’)” &gt; /tmp/asdf.py</p>
+<p><img src="/2021/11/26/CTF-WEB%E6%B8%97%E9%80%8F%E6%80%9D%E8%B7%AF%E4%B8%8E%E6%8A%80%E5%B7%A7/image-20211105102839635.png" alt="image-20211105102839635"></p>
+<p>​    获取终端后，可以尝试用su命令使用弱密码尝试提权</p>
+<p><img src="/2021/11/26/CTF-WEB%E6%B8%97%E9%80%8F%E6%80%9D%E8%B7%AF%E4%B8%8E%E6%8A%80%E5%B7%A7/image-20211105104134139.png" alt="image-20211105104134139"></p>
+<h3 id="2、查看用户可以使用那些root权限操作"><a href="#2、查看用户可以使用那些root权限操作" class="headerlink" title="2、查看用户可以使用那些root权限操作"></a>2、查看用户可以使用那些root权限操作</h3><p>​    <strong>sudo -l：</strong>查看普通用户可以使用那些sudo权限</p>
+<h3 id="3、提权"><a href="#3、提权" class="headerlink" title="3、提权"></a>3、提权</h3><h4 id="a、利用密码提权"><a href="#a、利用密码提权" class="headerlink" title="a、利用密码提权"></a>a、利用密码提权</h4><p>​    su -用户名；再输入密码即可；更多的时候是需要自己探测用户名和密码；如进入数据库查找（《CTF综合测试》）、利用注入漏洞寻找等</p>
+<p><img src="/2021/11/26/CTF-WEB%E6%B8%97%E9%80%8F%E6%80%9D%E8%B7%AF%E4%B8%8E%E6%8A%80%E5%B7%A7/image-20211030112056550.png" alt="image-20211030112056550"></p>
+<h4 id="b、使用perl命令提权"><a href="#b、使用perl命令提权" class="headerlink" title="b、使用perl命令提权"></a>b、使用perl命令提权</h4><p>​    ①前提：用户可以执行perl命令</p>
+<p><img src="/2021/11/26/CTF-WEB%E6%B8%97%E9%80%8F%E6%80%9D%E8%B7%AF%E4%B8%8E%E6%8A%80%E5%B7%A7/image-20211101222507358.png" alt="image-20211101222507358"></p>
+<p>​    ②步：sudo perl -e “exec ‘/bin/sh’ “：运行sh，通过perl命令提权</p>
+<p>​    ③步：bash -i ：以交互模式运行bash</p>
+<p><img src="/2021/11/26/CTF-WEB%E6%B8%97%E9%80%8F%E6%80%9D%E8%B7%AF%E4%B8%8E%E6%8A%80%E5%B7%A7/image-20211105102320820.png" alt="image-20211105102320820"></p>
+<h4 id="c、溢出提权"><a href="#c、溢出提权" class="headerlink" title="c、溢出提权"></a>c、溢出提权</h4><p>​    详情看《FTP服务后门利用》</p>
+<h4 id="d、内核溢出提权"><a href="#d、内核溢出提权" class="headerlink" title="d、内核溢出提权"></a>d、内核溢出提权</h4><p>查找漏洞：searchsploit 系统 版本号</p>
+<p>​    如：searchsploit ubuntu 4.4.0</p>
+<p><img src="/2021/11/26/CTF-WEB%E6%B8%97%E9%80%8F%E6%80%9D%E8%B7%AF%E4%B8%8E%E6%8A%80%E5%B7%A7/image-20211105101709122.png" alt="image-20211105101709122"></p>
+<p>​    使用第三个漏洞（内核溢出代码文件名：41458.c）</p>
+<p>将其内核溢出代码复制到桌面并编译为可以执行的文件<br>    cp /usr/share/exploitdb/exploits/linux/local/41458.c /root/desktop/1234.c</p>
+<p>​    gcc 1234.c -o shellroot</p>
+<p>​    参数说明：-o是输入，输出文件名问shellroot</p>
+<p><img src="/2021/11/26/CTF-WEB%E6%B8%97%E9%80%8F%E6%80%9D%E8%B7%AF%E4%B8%8E%E6%8A%80%E5%B7%A7/image-20211105101312890.png" alt="image-20211105101312890"></p>
+<p>利用获取的shell将sehllroot上传到靶机并设置文件执行权限</p>
+<p><img src="/2021/11/26/CTF-WEB%E6%B8%97%E9%80%8F%E6%80%9D%E8%B7%AF%E4%B8%8E%E6%8A%80%E5%B7%A7/image-20211105101645298.png" alt="image-20211105101645298"></p>
+<p><img src="/2021/11/26/CTF-WEB%E6%B8%97%E9%80%8F%E6%80%9D%E8%B7%AF%E4%B8%8E%E6%8A%80%E5%B7%A7/image-20211105101737053.png" alt="image-20211105101737053"></p>
+<p>执行shellroot</p>
+<p><img src="/2021/11/26/CTF-WEB%E6%B8%97%E9%80%8F%E6%80%9D%E8%B7%AF%E4%B8%8E%E6%8A%80%E5%B7%A7/image-20211105101818781.png" alt="image-20211105101818781"></p>
+<h4 id="e、利用john破解"><a href="#e、利用john破解" class="headerlink" title="e、利用john破解"></a>e、利用john破解</h4><p><img src="/2021/11/26/CTF-WEB%E6%B8%97%E9%80%8F%E6%80%9D%E8%B7%AF%E4%B8%8E%E6%8A%80%E5%B7%A7/image-20211105103144827.png" alt="image-20211105103144827"></p>
+<p>进入会话，下载passwd和shadow</p>
+<p><img src="/2021/11/26/CTF-WEB%E6%B8%97%E9%80%8F%E6%80%9D%E8%B7%AF%E4%B8%8E%E6%8A%80%E5%B7%A7/image-20211105103210995.png" alt="image-20211105103210995"></p>
+<p>文件格式化并重定向</p>
+<p><img src="/2021/11/26/CTF-WEB%E6%B8%97%E9%80%8F%E6%80%9D%E8%B7%AF%E4%B8%8E%E6%8A%80%E5%B7%A7/image-20211105103236376.png" alt="image-20211105103236376"></p>
+<p>使用john爆破出用户名和密码</p>
+<p><img src="/2021/11/26/CTF-WEB%E6%B8%97%E9%80%8F%E6%80%9D%E8%B7%AF%E4%B8%8E%E6%8A%80%E5%B7%A7/image-20211105103256494.png" alt="image-20211105103256494"></p>
+<h2 id="步骤7：获取flag"><a href="#步骤7：获取flag" class="headerlink" title="步骤7：获取flag"></a>步骤7：获取flag</h2><p>a、可疑网页及其源码处：有时候网页会存在flag信息，通过源码的注释或代码审计也有可能发现flag</p>
+<p>b、当获取到普通shell时，需要有意识的查看其home目录下的文件，有时候会发现flag</p>
+<p>c、root根目录下的flag，渗透模块，root目录下必然会存在falg，它常常存在root的根目录下</p>
+<p><img src="/2021/11/26/CTF-WEB%E6%B8%97%E9%80%8F%E6%80%9D%E8%B7%AF%E4%B8%8E%E6%8A%80%E5%B7%A7/image-20211105105225124.png" alt="image-20211105105225124"></p>
+<p><img src="/2021/11/26/CTF-WEB%E6%B8%97%E9%80%8F%E6%80%9D%E8%B7%AF%E4%B8%8E%E6%8A%80%E5%B7%A7/image-20211126110613621.png" alt="image-20211126110613621"></p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
       
   
   
@@ -1730,116 +2028,6 @@
   
   
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://cgw-f.github.io/2021/08/04/NMAP%E9%AB%98%E7%BA%A7%E4%BD%BF%E7%94%A8%E6%8A%80%E5%B7%A7/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="北极星上的稻草人">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="北极星上的稻草人">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2021/08/04/NMAP%E9%AB%98%E7%BA%A7%E4%BD%BF%E7%94%A8%E6%8A%80%E5%B7%A7/" class="post-title-link" itemprop="url">NMAP高级使用技巧</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-              
-
-              <time title="创建时间：2021-08-04 10:28:30 / 修改时间：20:33:37" itemprop="dateCreated datePublished" datetime="2021-08-04T10:28:30+08:00">2021-08-04</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E4%BF%A1%E6%81%AF%E5%AE%89%E5%85%A8/" itemprop="url" rel="index"><span itemprop="name">信息安全</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h2 id="NMAP高级使用技巧"><a href="#NMAP高级使用技巧" class="headerlink" title="NMAP高级使用技巧"></a>NMAP高级使用技巧</h2><h3 id="1-NMAP概述"><a href="#1-NMAP概述" class="headerlink" title="1. NMAP概述"></a>1. NMAP概述</h3><p><img src="/2021/08/04/NMAP%E9%AB%98%E7%BA%A7%E4%BD%BF%E7%94%A8%E6%8A%80%E5%B7%A7/image-20210803103409648.png" alt="image-20210803103409648"></p>
-<h3 id="1-2NMAP端口状态解析"><a href="#1-2NMAP端口状态解析" class="headerlink" title="1.2NMAP端口状态解析"></a>1.2NMAP端口状态解析</h3><p><img src="/2021/08/04/NMAP%E9%AB%98%E7%BA%A7%E4%BD%BF%E7%94%A8%E6%8A%80%E5%B7%A7/image-20210803103523674.png" alt="image-20210803103523674"></p>
-<h3 id="1-3NMAP语法及事例"><a href="#1-3NMAP语法及事例" class="headerlink" title="1.3NMAP语法及事例"></a>1.3NMAP语法及事例</h3><p><img src="/2021/08/04/NMAP%E9%AB%98%E7%BA%A7%E4%BD%BF%E7%94%A8%E6%8A%80%E5%B7%A7/image-20210803103641884.png" alt="image-20210803103641884"></p>
-<p><img src="/2021/08/04/NMAP%E9%AB%98%E7%BA%A7%E4%BD%BF%E7%94%A8%E6%8A%80%E5%B7%A7/image-20210803103751441.png" alt="image-20210803103751441"></p>
-<p><img src="/2021/08/04/NMAP%E9%AB%98%E7%BA%A7%E4%BD%BF%E7%94%A8%E6%8A%80%E5%B7%A7/image-20210803103806715.png" alt="image-20210803103806715"></p>
-<p>说明：-V表示展示详情</p>
-<p><img src="/2021/08/04/NMAP%E9%AB%98%E7%BA%A7%E4%BD%BF%E7%94%A8%E6%8A%80%E5%B7%A7/image-20210803103929903.png" alt="image-20210803103929903"></p>
-<p><img src="/2021/08/04/NMAP%E9%AB%98%E7%BA%A7%E4%BD%BF%E7%94%A8%E6%8A%80%E5%B7%A7/image-20210803104028322.png" alt="image-20210803104028322"></p>
-<p><img src="/2021/08/04/NMAP%E9%AB%98%E7%BA%A7%E4%BD%BF%E7%94%A8%E6%8A%80%E5%B7%A7/image-20210803104219042.png" alt="image-20210803104219042"></p>
-<p><img src="/2021/08/04/NMAP%E9%AB%98%E7%BA%A7%E4%BD%BF%E7%94%A8%E6%8A%80%E5%B7%A7/image-20210803104500173.png" alt="image-20210803104500173"></p>
-<p><img src="/2021/08/04/NMAP%E9%AB%98%E7%BA%A7%E4%BD%BF%E7%94%A8%E6%8A%80%E5%B7%A7/image-20210803104536197.png" alt="image-20210803104536197"></p>
-<p><img src="/2021/08/04/NMAP%E9%AB%98%E7%BA%A7%E4%BD%BF%E7%94%A8%E6%8A%80%E5%B7%A7/image-20210803104602876.png" alt="image-20210803104602876"></p>
-<p><img src="/2021/08/04/NMAP%E9%AB%98%E7%BA%A7%E4%BD%BF%E7%94%A8%E6%8A%80%E5%B7%A7/image-20210803104621171.png" alt="image-20210803104621171"></p>
-<p><img src="/2021/08/04/NMAP%E9%AB%98%E7%BA%A7%E4%BD%BF%E7%94%A8%E6%8A%80%E5%B7%A7/image-20210803104731313.png" alt="image-20210803104731313"></p>
-<p><img src="/2021/08/04/NMAP%E9%AB%98%E7%BA%A7%E4%BD%BF%E7%94%A8%E6%8A%80%E5%B7%A7/image-20210803104905929.png" alt="image-20210803104905929"></p>
-<p><img src="/2021/08/04/NMAP%E9%AB%98%E7%BA%A7%E4%BD%BF%E7%94%A8%E6%8A%80%E5%B7%A7/image-20210803104951631.png" alt="image-20210803104951631"></p>
-<p><img src="/2021/08/04/NMAP%E9%AB%98%E7%BA%A7%E4%BD%BF%E7%94%A8%E6%8A%80%E5%B7%A7/image-20210803105008022.png" alt="image-20210803105008022"></p>
-<p><img src="/2021/08/04/NMAP%E9%AB%98%E7%BA%A7%E4%BD%BF%E7%94%A8%E6%8A%80%E5%B7%A7/image-20210803105033633.png" alt="image-20210803105033633"></p>
-<h3 id="1-4图形界面zenmap的使用"><a href="#1-4图形界面zenmap的使用" class="headerlink" title="1.4图形界面zenmap的使用"></a>1.4图形界面zenmap的使用</h3><p><img src="/2021/08/04/NMAP%E9%AB%98%E7%BA%A7%E4%BD%BF%E7%94%A8%E6%8A%80%E5%B7%A7/image-20210803105509548.png"></p>
-<p>若没有，需要自己安装</p>
-<p><img src="/2021/08/04/NMAP%E9%AB%98%E7%BA%A7%E4%BD%BF%E7%94%A8%E6%8A%80%E5%B7%A7/image-20210803105636842.png" alt="image-20210803105636842"></p>
-<h4 id="1-4-2脚本-模式介绍"><a href="#1-4-2脚本-模式介绍" class="headerlink" title="1.4.2脚本/模式介绍"></a>1.4.2脚本/模式介绍</h4><p><img src="/2021/08/04/NMAP%E9%AB%98%E7%BA%A7%E4%BD%BF%E7%94%A8%E6%8A%80%E5%B7%A7/image-20210803105753567.png" alt="image-20210803105753567"></p>
-<p><img src="/2021/08/04/NMAP%E9%AB%98%E7%BA%A7%E4%BD%BF%E7%94%A8%E6%8A%80%E5%B7%A7/image-20210803105857751.png" alt="image-20210803105857751"></p>
-<p><img src="/2021/08/04/NMAP%E9%AB%98%E7%BA%A7%E4%BD%BF%E7%94%A8%E6%8A%80%E5%B7%A7/image-20210803110114003.png" alt="image-20210803110114003"></p>
-<p><img src="/2021/08/04/NMAP%E9%AB%98%E7%BA%A7%E4%BD%BF%E7%94%A8%E6%8A%80%E5%B7%A7/image-20210803110129079.png" alt="image-20210803110129079"></p>
-<p><img src="/2021/08/04/NMAP%E9%AB%98%E7%BA%A7%E4%BD%BF%E7%94%A8%E6%8A%80%E5%B7%A7/image-20210803110144295.png" alt="image-20210803110144295"></p>
-<p><img src="/2021/08/04/NMAP%E9%AB%98%E7%BA%A7%E4%BD%BF%E7%94%A8%E6%8A%80%E5%B7%A7/image-20210803110212394.png" alt="image-20210803110212394"></p>
-<h3 id="2-DNMAP分布式集群执行大量扫描任务"><a href="#2-DNMAP分布式集群执行大量扫描任务" class="headerlink" title="2.DNMAP分布式集群执行大量扫描任务"></a>2.DNMAP分布式集群执行大量扫描任务</h3><p><img src="/2021/08/04/NMAP%E9%AB%98%E7%BA%A7%E4%BD%BF%E7%94%A8%E6%8A%80%E5%B7%A7/image-20210803160319878.png" alt="image-20210803160319878"></p>
-<p><img src="/2021/08/04/NMAP%E9%AB%98%E7%BA%A7%E4%BD%BF%E7%94%A8%E6%8A%80%E5%B7%A7/image-20210803160328893.png" alt="image-20210803160328893"></p>
-<p><img src="/2021/08/04/NMAP%E9%AB%98%E7%BA%A7%E4%BD%BF%E7%94%A8%E6%8A%80%E5%B7%A7/image-20210803160355981.png" alt="image-20210803160355981"></p>
-<h4 id="实验步骤1-生成证书"><a href="#实验步骤1-生成证书" class="headerlink" title="实验步骤1.生成证书"></a>实验步骤1.生成证书</h4><p><img src="/2021/08/04/NMAP%E9%AB%98%E7%BA%A7%E4%BD%BF%E7%94%A8%E6%8A%80%E5%B7%A7/image-20210803160518801.png" alt="image-20210803160518801"></p>
-<p><img src="/2021/08/04/NMAP%E9%AB%98%E7%BA%A7%E4%BD%BF%E7%94%A8%E6%8A%80%E5%B7%A7/image-20210803161037172.png" alt="image-20210803161037172"></p>
-<p><img src="/2021/08/04/NMAP%E9%AB%98%E7%BA%A7%E4%BD%BF%E7%94%A8%E6%8A%80%E5%B7%A7/image-20210803160554266.png" alt="image-20210803160554266"></p>
-<p><img src="/2021/08/04/NMAP%E9%AB%98%E7%BA%A7%E4%BD%BF%E7%94%A8%E6%8A%80%E5%B7%A7/image-20210803160815012.png" alt="image-20210803160815012"></p>
-<h4 id="步骤2：创建NMAP命令文件"><a href="#步骤2：创建NMAP命令文件" class="headerlink" title="步骤2：创建NMAP命令文件"></a>步骤2：创建NMAP命令文件</h4><p><img src="/2021/08/04/NMAP%E9%AB%98%E7%BA%A7%E4%BD%BF%E7%94%A8%E6%8A%80%E5%B7%A7/image-20210803161703146.png" alt="image-20210803161703146"></p>
-<p><img src="/2021/08/04/NMAP%E9%AB%98%E7%BA%A7%E4%BD%BF%E7%94%A8%E6%8A%80%E5%B7%A7/image-20210803160948086.png" alt="image-20210803160948086"></p>
-<p><img src="/2021/08/04/NMAP%E9%AB%98%E7%BA%A7%E4%BD%BF%E7%94%A8%E6%8A%80%E5%B7%A7/image-20210803161005556.png" alt="image-20210803161005556"></p>
-<h4 id="步骤2：启动DNMAP集群"><a href="#步骤2：启动DNMAP集群" class="headerlink" title="步骤2：启动DNMAP集群"></a>步骤2：启动DNMAP集群</h4><p><img src="/2021/08/04/NMAP%E9%AB%98%E7%BA%A7%E4%BD%BF%E7%94%A8%E6%8A%80%E5%B7%A7/image-20210803161206333.png" alt="image-20210803161206333"></p>
-<p><img src="/2021/08/04/NMAP%E9%AB%98%E7%BA%A7%E4%BD%BF%E7%94%A8%E6%8A%80%E5%B7%A7/image-20210803161751696.png" alt="image-20210803161751696"></p>
-<p><img src="/2021/08/04/NMAP%E9%AB%98%E7%BA%A7%E4%BD%BF%E7%94%A8%E6%8A%80%E5%B7%A7/image-20210803161602780.png" alt="image-20210803161602780"></p>
-<p><img src="/2021/08/04/NMAP%E9%AB%98%E7%BA%A7%E4%BD%BF%E7%94%A8%E6%8A%80%E5%B7%A7/image-20210803161931714.png" alt="image-20210803161931714"></p>
-<p><img src="/2021/08/04/NMAP%E9%AB%98%E7%BA%A7%E4%BD%BF%E7%94%A8%E6%8A%80%E5%B7%A7/image-20210803162033761.png" alt="image-20210803162033761"></p>
-<h4 id="步骤3：查看结果"><a href="#步骤3：查看结果" class="headerlink" title="步骤3：查看结果"></a>步骤3：查看结果</h4><p><img src="/2021/08/04/NMAP%E9%AB%98%E7%BA%A7%E4%BD%BF%E7%94%A8%E6%8A%80%E5%B7%A7/image-20210803162228227.png" alt="image-20210803162228227"></p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
 
   
   <nav class="pagination">
@@ -1909,7 +2097,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">85</span>
+          <span class="site-state-item-count">86</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>

