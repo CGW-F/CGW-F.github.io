@@ -156,6 +156,119 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://cgw-f.github.io/2021/12/10/MD5%E7%AE%97%E6%B3%95/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="北极星上的稻草人">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="北极星上的稻草人">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2021/12/10/MD5%E7%AE%97%E6%B3%95/" class="post-title-link" itemprop="url">MD5算法</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-12-10 10:37:59" itemprop="dateCreated datePublished" datetime="2021-12-10T10:37:59+08:00">2021-12-10</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-01-22 20:23:24" itemprop="dateModified" datetime="2022-01-22T20:23:24+08:00">2022-01-22</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%AF%86%E7%A0%81%E5%AD%A6/" itemprop="url" rel="index"><span itemprop="name">密码学</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="MD5算法"><a href="#MD5算法" class="headerlink" title="MD5算法"></a>MD5算法</h2><h4 id="一、算法描述"><a href="#一、算法描述" class="headerlink" title="一、算法描述"></a>一、算法描述</h4><p><img src="/2021/12/10/MD5%E7%AE%97%E6%B3%95/image-20211205170412739.png" alt="image-20211205170412739"></p>
+<p>​    参数说明：</p>
+<p>​        L：分组数</p>
+<p>​        N：消息总的字数    </p>
+<p>算法的输入为任意长，输出为128比特的消息摘要；算法过程一般分一下几个步骤：</p>
+<p><img src="/2021/12/10/MD5%E7%AE%97%E6%B3%95/image-20220122201357978.png" alt="image-20220122201357978"></p>
+<p><img src="/2021/12/10/MD5%E7%AE%97%E6%B3%95/image-20220122201413175.png" alt="image-20220122201413175"></p>
+<h4 id="二、"><a href="#二、" class="headerlink" title="二、"></a>二、</h4><p><img src="/2021/12/10/MD5%E7%AE%97%E6%B3%95/image-20220122201528334.png" alt="image-20220122201528334"></p>
+<p>​    其流程图如下：</p>
+<img src="/2021/12/10/MD5%E7%AE%97%E6%B3%95/image-20211205215829658.png" alt="image-20211205215829658" style="zoom:80%;">
+
+<p>​            <strong>常数表T：</strong></p>
+<img src="/2021/12/10/MD5%E7%AE%97%E6%B3%95/image-20211205220040713.png" alt="image-20211205220040713" style="zoom:80%;">
+
+<p><img src="/2021/12/10/MD5%E7%AE%97%E6%B3%95/image-20220122202319618.png" alt="image-20220122202319618"></p>
+<h4 id="三、MD5的压缩函数"><a href="#三、MD5的压缩函数" class="headerlink" title="三、MD5的压缩函数"></a>三、MD5的压缩函数</h4><p><img src="/2021/12/10/MD5%E7%AE%97%E6%B3%95/image-20220122201549386.png" alt="image-20220122201549386"></p>
+<p>​    压缩函数中的一步<strong>迭代结构图</strong>如下：（非对称的feistel结构）</p>
+<img src="/2021/12/10/MD5%E7%AE%97%E6%B3%95/image-20211206100445631.png" alt="image-20211206100445631" style="zoom:33%;">
+
+<p><img src="/2021/12/10/MD5%E7%AE%97%E6%B3%95/image-20220122201602013.png" alt="image-20220122201602013"></p>
+<ul>
+<li><p>第2轮：p(i) = (1+5i)mod 16</p>
+</li>
+<li><p>第3轮：p(i) = (5+3i)mod 16</p>
+</li>
+<li><p>第4轮：p(i) = 7i mod 16    </p>
+<p>运算完成后再循环右移一个字，即得到这一步迭代的输出。</p>
+</li>
+</ul>
+<p><strong>压缩函数循环左移位数s-表</strong>    </p>
+<p><img src="/2021/12/10/MD5%E7%AE%97%E6%B3%95/image-20211206105636198.png" alt="image-20211206105636198"></p>
+<p><strong>逻辑函数F，G，H，I的结构</strong></p>
+<p>​    输入：3个32比特的字</p>
+<p>​    输出：1个32比特的字</p>
+<p>​    运算方式：位运算，即逐个比特的逻辑运算</p>
+<p>​    运算结构如下表：</p>
+<p>​                <img src="/2021/12/10/MD5%E7%AE%97%E6%B3%95/image-20211206110633789.png" alt="image-20211206110633789"></p>
+<p><strong>附</strong>：逻辑函数的真值表</p>
+<p><img src="/2021/12/10/MD5%E7%AE%97%E6%B3%95/image-20211206110933366.png" alt="image-20211206110933366"></p>
+<h4 id="四、MD5的安全性"><a href="#四、MD5的安全性" class="headerlink" title="四、MD5的安全性"></a>四、MD5的安全性</h4><p><img src="/2021/12/10/MD5%E7%AE%97%E6%B3%95/image-20220122201622971.png" alt="image-20220122201622971"></p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="https://cgw-f.github.io/2021/12/03/SM2%E6%A4%AD%E5%9C%86%E6%9B%B2%E7%BA%BF%E5%85%AC%E9%92%A5%E5%AF%86%E7%A0%81%E5%8A%A0%E5%AF%86%E7%AE%97%E6%B3%95%E5%8F%8A%E5%85%B6%E6%95%B0%E5%AD%97%E7%AD%BE%E5%90%8D/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1187,107 +1300,6 @@
 <p>利用密码复用的心理，进行尝试提权。最后获得了root权限</p>
 <p><img src="/2021/11/26/CTF%E7%BB%BC%E5%90%88%E6%B5%8B%E8%AF%95/image-20211102192726967.png" alt="image-20211102192726967"></p>
 <h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p><img src="/2021/11/26/CTF%E7%BB%BC%E5%90%88%E6%B5%8B%E8%AF%95/image-20211102192802538.png" alt="image-20211102192802538"></p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://cgw-f.github.io/2021/11/26/%E6%8F%90%E6%9D%83/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="北极星上的稻草人">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="北极星上的稻草人">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2021/11/26/%E6%8F%90%E6%9D%83/" class="post-title-link" itemprop="url">提权</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-              
-
-              <time title="创建时间：2021-11-26 11:20:38 / 修改时间：11:20:58" itemprop="dateCreated datePublished" datetime="2021-11-26T11:20:38+08:00">2021-11-26</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/CTF/" itemprop="url" rel="index"><span itemprop="name">CTF</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="提权"><a href="#提权" class="headerlink" title="提权"></a>提权</h1><h2 id="提权介绍"><a href="#提权介绍" class="headerlink" title="提权介绍"></a>提权介绍</h2><p><img src="/2021/11/26/%E6%8F%90%E6%9D%83/image-20211031201051567.png" alt="image-20211031201051567"></p>
-<p><img src="/2021/11/26/%E6%8F%90%E6%9D%83/image-20211031201121664.png" alt="image-20211031201121664"></p>
-<h2 id="内核漏洞提权"><a href="#内核漏洞提权" class="headerlink" title="内核漏洞提权"></a>内核漏洞提权</h2><p><img src="/2021/11/26/%E6%8F%90%E6%9D%83/image-20211031201606469.png" alt="image-20211031201606469"></p>
-<p>a.查看发行和内核版本</p>
-<p><img src="/2021/11/26/%E6%8F%90%E6%9D%83/image-20211031201415673.png" alt="image-20211031201415673"></p>
-<p>b.寻找内核溢出代码</p>
-<p><img src="/2021/11/26/%E6%8F%90%E6%9D%83/image-20211031201702547.png" alt="image-20211031201702547"></p>
-<h2 id="明文root密码提权"><a href="#明文root密码提权" class="headerlink" title="明文root密码提权"></a>明文root密码提权</h2><p><img src="/2021/11/26/%E6%8F%90%E6%9D%83/image-20211031201857999.png" alt="image-20211031201857999"></p>
-<p><img src="/2021/11/26/%E6%8F%90%E6%9D%83/image-20211031201925802.png" alt="image-20211031201925802"></p>
-<p><img src="/2021/11/26/%E6%8F%90%E6%9D%83/image-20211031202008694.png" alt="image-20211031202008694"></p>
-<p><img src="/2021/11/26/%E6%8F%90%E6%9D%83/image-20211031202057139.png" alt="image-20211031202057139"></p>
-<p>如果查看shadow获得了密码的hash，就可以利用其来登录。（可以破解）</p>
-<h2 id="计划任务提权"><a href="#计划任务提权" class="headerlink" title="计划任务提权"></a>计划任务提权</h2><p><img src="/2021/11/26/%E6%8F%90%E6%9D%83/image-20211031202215679.png" alt="image-20211031202215679"></p>
-<p><img src="/2021/11/26/%E6%8F%90%E6%9D%83/image-20211031202405460.png" alt="image-20211031202405460"></p>
-<h2 id="密码复用提权"><a href="#密码复用提权" class="headerlink" title="密码复用提权"></a>密码复用提权</h2><p><img src="/2021/11/26/%E6%8F%90%E6%9D%83/image-20211031202451351.png" alt="image-20211031202451351"></p>
-<p>python -c “import pty;pty.spawn(‘/bin/sh’)” 或</p>
-<p>python -c “import pty;pty.spawn(‘/bin/bash’)”</p>
-<p><img src="/2021/11/26/%E6%8F%90%E6%9D%83/image-20211031204455798.png" alt="image-20211031204455798"></p>
-<p><img src="/2021/11/26/%E6%8F%90%E6%9D%83/image-20211031202737532.png" alt="image-20211031202737532"></p>
-<p><img src="/2021/11/26/%E6%8F%90%E6%9D%83/image-20211031202946404.png" alt="image-20211031202946404"></p>
-<p><img src="/2021/11/26/%E6%8F%90%E6%9D%83/image-20211031203043159.png" alt="image-20211031203043159"></p>
-<p>再到home查看</p>
-<p><img src="/2021/11/26/%E6%8F%90%E6%9D%83/image-20211031203404207.png" alt="image-20211031203404207"></p>
-<p><img src="/2021/11/26/%E6%8F%90%E6%9D%83/image-20211031203538093.png" alt="image-20211031203538093"></p>
-<p><img src="/2021/11/26/%E6%8F%90%E6%9D%83/image-20211031203642015.png" alt="image-20211031203642015"></p>
-<p>拿到账号密码，可以尝试一些需要账号密码的服务，如ssh远程控制服务</p>
-<p><img src="/2021/11/26/%E6%8F%90%E6%9D%83/image-20211031203806307.png" alt="image-20211031203806307"></p>
-<p><img src="/2021/11/26/%E6%8F%90%E6%9D%83/image-20211031203932840.png" alt="image-20211031203932840"></p>
-<p><img src="/2021/11/26/%E6%8F%90%E6%9D%83/image-20211031204450016.png" alt="image-20211031204450016"></p>
-<p>利用zip操作提权：将exploit压缩为exploit.zip；再利用解压命令获得/bin/bash ；就可以用zip提权到root权限。</p>
-<p><img src="/2021/11/26/%E6%8F%90%E6%9D%83/image-20211031204202011.png" alt="image-20211031204202011"></p>
-<p><img src="/2021/11/26/%E6%8F%90%E6%9D%83/image-20211031204544924.png" alt="image-20211031204544924"></p>
-<h2 id="获取flag"><a href="#获取flag" class="headerlink" title="获取flag"></a>获取flag</h2><p><img src="/2021/11/26/%E6%8F%90%E6%9D%83/image-20211031204720182.png" alt="image-20211031204720182"></p>
-<p><img src="/2021/11/26/%E6%8F%90%E6%9D%83/image-20211031204707004.png" alt="image-20211031204707004"></p>
 
       
     </div>

