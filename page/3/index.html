@@ -126,7 +126,7 @@
   </li>
         <li class="menu-item menu-item-archives">
 
-    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">86</span></a>
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">87</span></a>
 
   </li>
   </ul>
@@ -152,6 +152,147 @@
 
           <div class="content index posts-expand">
             
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://cgw-f.github.io/2023/08/12/%E5%B8%B8%E8%A7%81%E6%96%87%E4%BB%B6%E7%9B%AE%E5%BD%95/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="北极星上的稻草人">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="北极星上的稻草人">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2023/08/12/%E5%B8%B8%E8%A7%81%E6%96%87%E4%BB%B6%E7%9B%AE%E5%BD%95/" class="post-title-link" itemprop="url">常见文件目录</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2023-08-12 17:08:34" itemprop="dateCreated datePublished" datetime="2023-08-12T17:08:34+08:00">2023-08-12</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2023-08-14 20:10:54" itemprop="dateModified" datetime="2023-08-14T20:10:54+08:00">2023-08-14</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E6%BC%8F%E6%B4%9E/" itemprop="url" rel="index"><span itemprop="name">漏洞</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="目录遍历"><a href="#目录遍历" class="headerlink" title="目录遍历"></a><strong>目录遍历</strong></h1><h2 id="利用思路"><a href="#利用思路" class="headerlink" title="利用思路"></a><strong>利用思路</strong></h2><p>下载各种配置文件分析出用户凭据进行利用，要么就通过目录结构下载源码进行审计。</p>
+<p>1.若存在框架、中间件，或者由某些CMS二开的情况。可以百度一下相关的配置文件以及目录结构，对敏感文件进行下载利用。（linux、windows通用思路）。</p>
+<p>2.若通过前期的目录FUZZ、robots.txt、readme.txt等信息搜集手段了解了网站的目录结构，可以下载config、dbconfig等配置文件，其中一般保存有明文数据库连接密码。（linux、windows通用思路）。</p>
+<p>3.如果是linux系统，主要下载/etc/shadow、/root/.ssh/authorized_keys、/root/.ssh/id_rsa、/root/.bash_history四个文件，能下载到私钥，或是能分析出密码有机会一把梭。</p>
+<p>4.如果是linux系统，也可以分析计划任务日志，从计划任务脚本入手进行分析。还有其他的一些配置文件或许可以帮忙推断路径，这个就仁者见仁智者见智了。</p>
+<p>5.windows系统可利用的东西比较少，除非能清晰的知道路径，不然没什么机会一把梭。</p>
+<h3 id="Linux系统常用路径"><a href="#Linux系统常用路径" class="headerlink" title="Linux系统常用路径"></a><strong>Linux系统常用路径</strong></h3><ul>
+<li>/root/.ssh/authorized_keys</li>
+<li>/root/.ssh/id_rsa</li>
+<li>/root/.ssh/id_ras.keystore</li>
+<li>/root/.ssh/known_hosts</li>
+<li>/etc/passwd</li>
+<li>/etc/shadow</li>
+<li>/etc/issue 系统版本</li>
+<li>/etc/fstab</li>
+<li>/etc/host.conf</li>
+<li>/var/log/xferlog FTP会话，记录拷贝了什么文件</li>
+<li>/var/log/cron 计划任务日志</li>
+<li>/etc/(cron.d/|crontab) //这两个也是定时任务文件</li>
+<li>/var/log/secure 用户登录安全日志</li>
+<li>/etc/rc.local 读apache的路径</li>
+<li>/etc/motd</li>
+<li>/etc/sysctl.conf</li>
+<li>/var/log/syslog 记录登陆错误时的密码等信息</li>
+<li>/etc/environment 环境变量配置文件 可能泄露大量目录信息</li>
+<li>/etc/inputrc 输入设备配置文件</li>
+<li>/etc/default/useradd 添加用户的默认信息的文件</li>
+<li>/etc/login.defs 是用户密码信息的默认属性</li>
+<li>/etc/skel 用户信息的骨架</li>
+<li>/sbin/nologin 不能登陆的用户</li>
+<li>/var/log/message 系统的日志文件</li>
+<li>/etc/httpd/conf/httpd.conf 配置http服务的配置文件</li>
+<li>/etc/mtab   包含当前安装的文件系统列表  有时可以读取到当前网站的路径</li>
+<li>/etc/ld.so.conf</li>
+<li>/etc/my.cnf</li>
+<li>/etc/httpd/conf/httpd.conf</li>
+<li>/root/.bash_history</li>
+<li>/root/.mysql_history</li>
+<li>/proc/mounts</li>
+<li>/porc/config.gz</li>
+<li>/var/lib/mlocate/mlocate.db</li>
+<li>/porc/self/cmdline</li>
+<li>tomcat/conf/server.xml  tomcat连接数据库的密码配置文件</li>
+<li>tomcat/webapps/ROOT/WEB-INF/classes/database.properties 同上</li>
+<li>tomcat/webapps/ROOT/WEB-INF/web.xml</li>
+<li>tomcat/conf/tomcat-users.xml tomcat管理员账号密码的配置文件</li>
+</ul>
+<h3 id="用户配置文件"><a href="#用户配置文件" class="headerlink" title="用户配置文件"></a><strong>用户配置文件</strong></h3><ul>
+<li>/usr/local/apache/conf/httpd.conf</li>
+<li>/var/www/html/apache/conf/httpd.conf</li>
+<li>/home/httpd/conf/httpd.conf</li>
+<li>/usr/local/apache2/conf/httpd.conf</li>
+<li>/usr/local/httpd/conf/httpd.conf</li>
+<li>/etc/apache/httpd.conf</li>
+</ul>
+<h3 id="Window系统常用路径"><a href="#Window系统常用路径" class="headerlink" title="Window系统常用路径"></a><strong>Window系统常用路径</strong></h3><ul>
+<li>C:\windows\system32\drivers\etc\hosts host文件</li>
+<li>C:*\apache-tomcat-7.0.1/conf/context.xml、web.xml、server.xml、tomcat-users.xml</li>
+<li>C:\boot.ini //查看系统版本</li>
+<li>C:\Windows\System32\inetsrv\MetaBase.xml //IIS配置文件</li>
+<li>C:\Windows\repair\sam //系统初次安装的密码</li>
+<li>C:\Program Files\mysql\my.ini //Mysql配置</li>
+<li>C:\Program Files\mysql\data\mysql\user.MYD //Mysqlroot</li>
+<li>C:\Windows\php.ini //php配置信息</li>
+<li>C:\Windows\my.ini //Mysql配置信息</li>
+<li>C:\Windows\win.ini //Windows系统的一个基本系统配置文件</li>
+</ul>
+<p>参考文章：<a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/-uQBgy7BAtHDhr-iCttw1A">https://mp.weixin.qq.com/s/-uQBgy7BAtHDhr-iCttw1A</a></p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
       
   
   
@@ -2623,110 +2764,6 @@ int main()
   
   
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://cgw-f.github.io/2021/12/03/SM2%E6%A4%AD%E5%9C%86%E6%9B%B2%E7%BA%BF%E5%85%AC%E9%92%A5%E5%AF%86%E7%A0%81%E5%8A%A0%E5%AF%86%E7%AE%97%E6%B3%95%E5%8F%8A%E5%85%B6%E6%95%B0%E5%AD%97%E7%AD%BE%E5%90%8D/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="北极星上的稻草人">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="北极星上的稻草人">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2021/12/03/SM2%E6%A4%AD%E5%9C%86%E6%9B%B2%E7%BA%BF%E5%85%AC%E9%92%A5%E5%AF%86%E7%A0%81%E5%8A%A0%E5%AF%86%E7%AE%97%E6%B3%95%E5%8F%8A%E5%85%B6%E6%95%B0%E5%AD%97%E7%AD%BE%E5%90%8D/" class="post-title-link" itemprop="url">SM2椭圆曲线公钥密码加密算法及其数字签名</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2021-12-03 15:03:45" itemprop="dateCreated datePublished" datetime="2021-12-03T15:03:45+08:00">2021-12-03</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-02-20 17:03:41" itemprop="dateModified" datetime="2022-02-20T17:03:41+08:00">2022-02-20</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E5%AF%86%E7%A0%81%E5%AD%A6/" itemprop="url" rel="index"><span itemprop="name">密码学</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h3 id="SM2椭圆曲线公钥密码加密算法及其数字签名"><a href="#SM2椭圆曲线公钥密码加密算法及其数字签名" class="headerlink" title="SM2椭圆曲线公钥密码加密算法及其数字签名"></a>SM2椭圆曲线公钥密码加密算法及其数字签名</h3><p>注意：SM2算法分为基于素数域和基于二元扩域两种，这里介绍了基于素数域的SM2算法</p>
-<h4 id="SM2椭圆曲线公钥密码加密算法"><a href="#SM2椭圆曲线公钥密码加密算法" class="headerlink" title="SM2椭圆曲线公钥密码加密算法"></a>SM2椭圆曲线公钥密码加密算法</h4><p><strong>1、基本参数</strong></p>
-<img src="/2021/12/03/SM2%E6%A4%AD%E5%9C%86%E6%9B%B2%E7%BA%BF%E5%85%AC%E9%92%A5%E5%AF%86%E7%A0%81%E5%8A%A0%E5%AF%86%E7%AE%97%E6%B3%95%E5%8F%8A%E5%85%B6%E6%95%B0%E5%AD%97%E7%AD%BE%E5%90%8D/image-20211130095648965.png" alt="image-20211130095648965" style="zoom: 67%;">
-
-<p><strong>2、密钥产生</strong></p>
-<p><img src="/2021/12/03/SM2%E6%A4%AD%E5%9C%86%E6%9B%B2%E7%BA%BF%E5%85%AC%E9%92%A5%E5%AF%86%E7%A0%81%E5%8A%A0%E5%AF%86%E7%AE%97%E6%B3%95%E5%8F%8A%E5%85%B6%E6%95%B0%E5%AD%97%E7%AD%BE%E5%90%8D/image-20220122201116705.png" alt="image-20220122201116705"></p>
-<p><strong>3、加密算法</strong></p>
-<p><img src="/2021/12/03/SM2%E6%A4%AD%E5%9C%86%E6%9B%B2%E7%BA%BF%E5%85%AC%E9%92%A5%E5%AF%86%E7%A0%81%E5%8A%A0%E5%AF%86%E7%AE%97%E6%B3%95%E5%8F%8A%E5%85%B6%E6%95%B0%E5%AD%97%E7%AD%BE%E5%90%8D/image-20220122201129411.png" alt="image-20220122201129411"></p>
-<p>说明：第（5）步的KDF（）是密钥派生函数，其本质是产生一个伪随机数字产生函数（只要输入的随机种子和数据没变，输出就一样），在这里用于产生中间密钥，且应用了SM3哈希函数；这里的Hash函数是SM3函数。加密过程流程图如下：</p>
-<img src="/2021/12/03/SM2%E6%A4%AD%E5%9C%86%E6%9B%B2%E7%BA%BF%E5%85%AC%E9%92%A5%E5%AF%86%E7%A0%81%E5%8A%A0%E5%AF%86%E7%AE%97%E6%B3%95%E5%8F%8A%E5%85%B6%E6%95%B0%E5%AD%97%E7%AD%BE%E5%90%8D/image-20211128220834875.png" alt="image-20211128220834875" style="zoom: 33%;">
-
-<p><strong>4、解密算法</strong></p>
-<p><img src="/2021/12/03/SM2%E6%A4%AD%E5%9C%86%E6%9B%B2%E7%BA%BF%E5%85%AC%E9%92%A5%E5%AF%86%E7%A0%81%E5%8A%A0%E5%AF%86%E7%AE%97%E6%B3%95%E5%8F%8A%E5%85%B6%E6%95%B0%E5%AD%97%E7%AD%BE%E5%90%8D/image-20220122201148573.png" alt="image-20220122201148573"></p>
-<p>解密过程流程如如下：</p>
-<img src="/2021/12/03/SM2%E6%A4%AD%E5%9C%86%E6%9B%B2%E7%BA%BF%E5%85%AC%E9%92%A5%E5%AF%86%E7%A0%81%E5%8A%A0%E5%AF%86%E7%AE%97%E6%B3%95%E5%8F%8A%E5%85%B6%E6%95%B0%E5%AD%97%E7%AD%BE%E5%90%8D/image-20211128221906174.png" alt="image-20211128221906174" style="zoom: 50%;">
-
-<h4 id="SM2椭圆曲线公钥密码签名算法"><a href="#SM2椭圆曲线公钥密码签名算法" class="headerlink" title="SM2椭圆曲线公钥密码签名算法"></a>SM2椭圆曲线公钥密码签名算法</h4><p><strong>1、密钥产生</strong></p>
-<p><img src="/2021/12/03/SM2%E6%A4%AD%E5%9C%86%E6%9B%B2%E7%BA%BF%E5%85%AC%E9%92%A5%E5%AF%86%E7%A0%81%E5%8A%A0%E5%AF%86%E7%AE%97%E6%B3%95%E5%8F%8A%E5%85%B6%E6%95%B0%E5%AD%97%E7%AD%BE%E5%90%8D/image-20220122201202538.png" alt="image-20220122201202538"></p>
-<p><strong>2、签名算法</strong></p>
-<p><img src="/2021/12/03/SM2%E6%A4%AD%E5%9C%86%E6%9B%B2%E7%BA%BF%E5%85%AC%E9%92%A5%E5%AF%86%E7%A0%81%E5%8A%A0%E5%AF%86%E7%AE%97%E6%B3%95%E5%8F%8A%E5%85%B6%E6%95%B0%E5%AD%97%E7%AD%BE%E5%90%8D/image-20220122201215306.png" alt="image-20220122201215306"></p>
-<p>SM2签名算法流程图如下：</p>
-<img src="/2021/12/03/SM2%E6%A4%AD%E5%9C%86%E6%9B%B2%E7%BA%BF%E5%85%AC%E9%92%A5%E5%AF%86%E7%A0%81%E5%8A%A0%E5%AF%86%E7%AE%97%E6%B3%95%E5%8F%8A%E5%85%B6%E6%95%B0%E5%AD%97%E7%AD%BE%E5%90%8D/image-20211130104720017.png" alt="image-20211130104720017" style="zoom: 33%;">
-
-<p><strong>3、签名验证算法</strong></p>
-<p><img src="/2021/12/03/SM2%E6%A4%AD%E5%9C%86%E6%9B%B2%E7%BA%BF%E5%85%AC%E9%92%A5%E5%AF%86%E7%A0%81%E5%8A%A0%E5%AF%86%E7%AE%97%E6%B3%95%E5%8F%8A%E5%85%B6%E6%95%B0%E5%AD%97%E7%AD%BE%E5%90%8D/image-20220122201234558.png" alt="image-20220122201234558"></p>
-<p>SM2签名验证算法流程图如下：</p>
-<img src="/2021/12/03/SM2%E6%A4%AD%E5%9C%86%E6%9B%B2%E7%BA%BF%E5%85%AC%E9%92%A5%E5%AF%86%E7%A0%81%E5%8A%A0%E5%AF%86%E7%AE%97%E6%B3%95%E5%8F%8A%E5%85%B6%E6%95%B0%E5%AD%97%E7%AD%BE%E5%90%8D/image-20211130191034304.png" alt="image-20211130191034304" style="zoom:33%;">
-
-<p>思考：本人觉得第3、4步可以放到第5步后面，因为第1、2步和第5步有关系，而与第3、4步无关系，而且e‘的作用在第7步。</p>
-<p><strong>4、签名证明</strong></p>
-<p><img src="/2021/12/03/SM2%E6%A4%AD%E5%9C%86%E6%9B%B2%E7%BA%BF%E5%85%AC%E9%92%A5%E5%AF%86%E7%A0%81%E5%8A%A0%E5%AF%86%E7%AE%97%E6%B3%95%E5%8F%8A%E5%85%B6%E6%95%B0%E5%AD%97%E7%AD%BE%E5%90%8D/image-20220122201303376.png" alt="image-20220122201303376"></p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
 
   
   <nav class="pagination">
@@ -2796,7 +2833,7 @@ int main()
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">86</span>
+          <span class="site-state-item-count">87</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>

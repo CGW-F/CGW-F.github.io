@@ -126,7 +126,7 @@
   </li>
         <li class="menu-item menu-item-archives">
 
-    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">86</span></a>
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">87</span></a>
 
   </li>
   </ul>
@@ -152,6 +152,221 @@
 
           <div class="content index posts-expand">
             
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://cgw-f.github.io/2023/08/13/SpringBoot%E6%95%8F%E6%84%9F%E4%BF%A1%E6%81%AF%E6%B3%84%E9%9C%B2/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="北极星上的稻草人">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="北极星上的稻草人">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2023/08/13/SpringBoot%E6%95%8F%E6%84%9F%E4%BF%A1%E6%81%AF%E6%B3%84%E9%9C%B2/" class="post-title-link" itemprop="url">实战|SpringBoot敏感信息泄露</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2023-08-13 20:25:47" itemprop="dateCreated datePublished" datetime="2023-08-13T20:25:47+08:00">2023-08-13</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2023-08-14 21:03:25" itemprop="dateModified" datetime="2023-08-14T21:03:25+08:00">2023-08-14</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E6%BC%8F%E6%B4%9E/" itemprop="url" rel="index"><span itemprop="name">漏洞</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E6%BC%8F%E6%B4%9E/%E5%AE%9E%E6%88%98%E6%BC%8F%E6%B4%9E/" itemprop="url" rel="index"><span itemprop="name">实战漏洞</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E6%BC%8F%E6%B4%9E/%E5%AE%9E%E6%88%98%E6%BC%8F%E6%B4%9E/%E6%94%BB%E9%98%B2%E6%BC%94%E7%BB%83/" itemprop="url" rel="index"><span itemprop="name">攻防演练</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="攻防演练-Springboot信息泄露"><a href="#攻防演练-Springboot信息泄露" class="headerlink" title="攻防演练|Springboot信息泄露"></a>攻防演练|Springboot信息泄露</h1><p><strong>免责声明</strong></p>
+<p><strong>本文技术文章仅供参考，此文所提供的信息只为网络安全人员对自己所负责的网站、服务器等（包括但不限于）进行检测或维护参考，未经授权请勿利用文章中的技术资料对任何计算机系统进行入侵操作。利用此文所提供的信息而造成的直接或间接后果和损失，均由使用者本人负责。本文所提供的工具仅用于学习，禁止用于其他违法行为</strong>。</p>
+<h2 id="SpringBoot敏感目录介绍"><a href="#SpringBoot敏感目录介绍" class="headerlink" title="SpringBoot敏感目录介绍"></a>SpringBoot敏感目录介绍</h2><ul>
+<li><p> <strong>/trace</strong>：显示最近的 http 包信息，可能泄露当前系统存活的 Cookie 信息。</p>
+</li>
+<li><p> <strong>/heapdump</strong>：JVM 内存信息，分析出明文密码。</p>
+</li>
+<li><p> <strong>/env、/actuator/env</strong></p>
+</li>
+</ul>
+<p>​        应用的环境信息，包含 Profile、系统环境变量和应用的 properties 信息，可能泄露明文密码与接口信息。<strong>GET</strong> <strong>请求</strong> /env 会直接泄露环境变量、内网地址、配置中的用户名等信息；当程序员的属性名命名不规范，例如 password 写成 psasword、pwd 时，会泄露密码明文；同时有一定概率可以通过 <strong>POST</strong> <strong>请求</strong> /env 接口设置一些属性，间接触发相关 RCE 漏洞；同时有概率获得星号遮掩的密码、密钥等重要隐私信息的明文。</p>
+<ul>
+<li>l <strong>/refresh、/actuator/refresh</strong></li>
+</ul>
+<p>​        POST 请求 /env 接口设置属性后，可同时配合 POST 请求 /refresh 接口刷新属性变量来触发相关 RCE 漏洞。</p>
+<ul>
+<li> <strong>/restart、/actuator/restart</strong></li>
+</ul>
+<p>​        暴露出此接口的情况较少；可以配合 POST请求 /env 接口设置属性后，再 POST 请求 /restart 接口重启应用来触发相关 RCE 漏洞。</p>
+<ul>
+<li> <strong>/jolokia、/actuator/jolokia</strong></li>
+</ul>
+<p>​        可以通过 /jolokia/list 接口寻找可以利用的 MBean，间接触发相关 RCE 漏洞、获得星号遮掩的重要隐私信息的明文等。</p>
+<ul>
+<li> <strong>/trace、/actuator/httptrace</strong></li>
+</ul>
+<p>​        一些 http 请求包访问跟踪信息，有可能在其中发现内网应用系统的一些请求信息详情；以及有效用户或管理员的 cookie、jwt token 等信息。</p>
+<p>汇总：</p>
+<table>
+<thead>
+<tr>
+<th>方法</th>
+<th>路径</th>
+<th>描述门</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>get</td>
+<td>/autoconfig</td>
+<td>提供了一份自动配置报告，记录哪些自动配置条件通过了，哪些没通过台</td>
+</tr>
+<tr>
+<td>get</td>
+<td>/configprops</td>
+<td>描述配置属性 (包含默认值) 如何注入 Beane</td>
+</tr>
+<tr>
+<td>get</td>
+<td>/beans</td>
+<td>描述应用程序上下文里全部的 Bean，以及它们的关系</td>
+</tr>
+<tr>
+<td>get</td>
+<td>/dump</td>
+<td>获取线程活动的快照</td>
+</tr>
+<tr>
+<td>get</td>
+<td>/env</td>
+<td>获取全部环境属性</td>
+</tr>
+<tr>
+<td>get</td>
+<td>/env/{name}</td>
+<td>根据名称获取特定的环境属性值</td>
+</tr>
+<tr>
+<td>get</td>
+<td>/health</td>
+<td>报告应用程序的健康指标，这些值由 Healthindicator 的实现类提供</td>
+</tr>
+<tr>
+<td>get</td>
+<td>/info</td>
+<td>获取应用程序的定制信息，这些信息由 info 打头的属性提供</td>
+</tr>
+<tr>
+<td>get</td>
+<td>/mappings</td>
+<td>描述全部的 URI路径，以及它们和控制器 (包含 Actuator 端点) 的映射关系</td>
+</tr>
+<tr>
+<td>get</td>
+<td>/metrics</td>
+<td>报告各种应用程序度量信息，比如内存用量和 HTTP 请求计数</td>
+</tr>
+<tr>
+<td>get</td>
+<td>/metrics{name}</td>
+<td>报告指定名称的应用程序度量值</td>
+</tr>
+<tr>
+<td>post</td>
+<td>/shutdown</td>
+<td>关闭应用程序，要求 endpointsshutdown.enabled 设置为 true (默认为 false)</td>
+</tr>
+<tr>
+<td>get</td>
+<td>/trace</td>
+<td>提供基本的 HTTP 请求跟踪信息 (时间戳、HTTP 头等)</td>
+</tr>
+</tbody></table>
+<h2 id="HeapDump数据泄露"><a href="#HeapDump数据泄露" class="headerlink" title="HeapDump数据泄露"></a>HeapDump数据泄露</h2><h3 id="heapDump常见泄露敏感信息"><a href="#heapDump常见泄露敏感信息" class="headerlink" title="heapDump常见泄露敏感信息"></a><strong>heapDump常见泄露敏感信息</strong></h3><ul>
+<li><p>各种数据库的明文密，如，mysql数据库</p>
+</li>
+<li><p>redis密码</p>
+</li>
+<li><p>Shiro的key</p>
+</li>
+<li><p>后台用户账号密码泄露</p>
+</li>
+<li><p>服务器链接的key</p>
+</li>
+<li><p>ssh密码</p>
+</li>
+</ul>
+<h3 id="敏感信息提取与星号数据脱敏"><a href="#敏感信息提取与星号数据脱敏" class="headerlink" title="敏感信息提取与星号数据脱敏"></a>敏感信息提取与星号数据脱敏</h3><h4 id="方法1：用-heapdump-tool-jar-工具脱敏"><a href="#方法1：用-heapdump-tool-jar-工具脱敏" class="headerlink" title="方法1：用 heapdump_tool.jar 工具脱敏"></a><strong>方法1：用 heapdump_tool.jar 工具脱敏</strong></h4><p><strong>对 Heapdump 进行分析。</strong></p>
+<p><strong>heapdump_tool.jar</strong> 是基于 jhat，通过 jhat 解析 heapdump 文件，所以建议 jdk 版本为 1.8。<br> 使用方法：*<strong>java -jar heapdump_tool.jar heapdump*</strong><br> 查询方式：</p>
+<ul>
+<li>关键词：如 password</li>
+<li> 字符长度：如 len=10 获取长度为 10 的所有 key 或者 value 值</li>
+<li>按顺序获取 ：如 num=1-100 获取顺序 1-100 的字符</li>
+<li>命令：</li>
+</ul>
+<p>​            geturl：获取所有字符串中的 url</p>
+<p>​            getfile：获取所有字符串中的文件路径文件名</p>
+<p>​            getip：获取所有字符串中的 ip</p>
+<p><em>默认不输出查询结果非 key-value 格式的数据，需要获取所有值，输入all=true、all=false取消显示所有值。</em></p>
+<p>*<em>根据/env的星星敏感数据进行搜索查询**</em></p>
+<p><img src="/2023/08/13/SpringBoot%E6%95%8F%E6%84%9F%E4%BF%A1%E6%81%AF%E6%B3%84%E9%9C%B2/image-20230813203654640.png" alt="image-20230813203654640">     </p>
+<p> <img src="/2023/08/13/SpringBoot%E6%95%8F%E6%84%9F%E4%BF%A1%E6%81%AF%E6%B3%84%E9%9C%B2/image-20230813203659487.png" alt="image-20230813203659487"></p>
+<h4 id="方法2：利用MemoryAnalyzer可视化工具"><a href="#方法2：利用MemoryAnalyzer可视化工具" class="headerlink" title="方法2：利用MemoryAnalyzer可视化工具"></a>方法2：利用MemoryAnalyzer可视化工具</h4><p>查询语法：<code>select * from java.util.LinkedHashMap$Entry x WHERE (toString(x.key).contains(&quot;password&quot;))</code></p>
+<p><img src="/2023/08/13/SpringBoot%E6%95%8F%E6%84%9F%E4%BF%A1%E6%81%AF%E6%B3%84%E9%9C%B2/image-20230814201949831.png" alt="image-20230814201949831"></p>
+<p>其他脱敏方法可以参考文章：<a target="_blank" rel="noopener" href="https://github.com/LandGrey/SpringBootVulExploit">https://github.com/LandGrey/SpringBootVulExploit</a></p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
       
   
   
@@ -1617,147 +1832,6 @@
   
   
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://cgw-f.github.io/2023/08/12/%E5%B8%B8%E8%A7%81%E6%96%87%E4%BB%B6%E7%9B%AE%E5%BD%95/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="北极星上的稻草人">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="北极星上的稻草人">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2023/08/12/%E5%B8%B8%E8%A7%81%E6%96%87%E4%BB%B6%E7%9B%AE%E5%BD%95/" class="post-title-link" itemprop="url">常见文件目录</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2023-08-12 17:08:34" itemprop="dateCreated datePublished" datetime="2023-08-12T17:08:34+08:00">2023-08-12</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2023-08-14 20:10:54" itemprop="dateModified" datetime="2023-08-14T20:10:54+08:00">2023-08-14</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E6%BC%8F%E6%B4%9E/" itemprop="url" rel="index"><span itemprop="name">漏洞</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="目录遍历"><a href="#目录遍历" class="headerlink" title="目录遍历"></a><strong>目录遍历</strong></h1><h2 id="利用思路"><a href="#利用思路" class="headerlink" title="利用思路"></a><strong>利用思路</strong></h2><p>下载各种配置文件分析出用户凭据进行利用，要么就通过目录结构下载源码进行审计。</p>
-<p>1.若存在框架、中间件，或者由某些CMS二开的情况。可以百度一下相关的配置文件以及目录结构，对敏感文件进行下载利用。（linux、windows通用思路）。</p>
-<p>2.若通过前期的目录FUZZ、robots.txt、readme.txt等信息搜集手段了解了网站的目录结构，可以下载config、dbconfig等配置文件，其中一般保存有明文数据库连接密码。（linux、windows通用思路）。</p>
-<p>3.如果是linux系统，主要下载/etc/shadow、/root/.ssh/authorized_keys、/root/.ssh/id_rsa、/root/.bash_history四个文件，能下载到私钥，或是能分析出密码有机会一把梭。</p>
-<p>4.如果是linux系统，也可以分析计划任务日志，从计划任务脚本入手进行分析。还有其他的一些配置文件或许可以帮忙推断路径，这个就仁者见仁智者见智了。</p>
-<p>5.windows系统可利用的东西比较少，除非能清晰的知道路径，不然没什么机会一把梭。</p>
-<h3 id="Linux系统常用路径"><a href="#Linux系统常用路径" class="headerlink" title="Linux系统常用路径"></a><strong>Linux系统常用路径</strong></h3><ul>
-<li>/root/.ssh/authorized_keys</li>
-<li>/root/.ssh/id_rsa</li>
-<li>/root/.ssh/id_ras.keystore</li>
-<li>/root/.ssh/known_hosts</li>
-<li>/etc/passwd</li>
-<li>/etc/shadow</li>
-<li>/etc/issue 系统版本</li>
-<li>/etc/fstab</li>
-<li>/etc/host.conf</li>
-<li>/var/log/xferlog FTP会话，记录拷贝了什么文件</li>
-<li>/var/log/cron 计划任务日志</li>
-<li>/etc/(cron.d/|crontab) //这两个也是定时任务文件</li>
-<li>/var/log/secure 用户登录安全日志</li>
-<li>/etc/rc.local 读apache的路径</li>
-<li>/etc/motd</li>
-<li>/etc/sysctl.conf</li>
-<li>/var/log/syslog 记录登陆错误时的密码等信息</li>
-<li>/etc/environment 环境变量配置文件 可能泄露大量目录信息</li>
-<li>/etc/inputrc 输入设备配置文件</li>
-<li>/etc/default/useradd 添加用户的默认信息的文件</li>
-<li>/etc/login.defs 是用户密码信息的默认属性</li>
-<li>/etc/skel 用户信息的骨架</li>
-<li>/sbin/nologin 不能登陆的用户</li>
-<li>/var/log/message 系统的日志文件</li>
-<li>/etc/httpd/conf/httpd.conf 配置http服务的配置文件</li>
-<li>/etc/mtab   包含当前安装的文件系统列表  有时可以读取到当前网站的路径</li>
-<li>/etc/ld.so.conf</li>
-<li>/etc/my.cnf</li>
-<li>/etc/httpd/conf/httpd.conf</li>
-<li>/root/.bash_history</li>
-<li>/root/.mysql_history</li>
-<li>/proc/mounts</li>
-<li>/porc/config.gz</li>
-<li>/var/lib/mlocate/mlocate.db</li>
-<li>/porc/self/cmdline</li>
-<li>tomcat/conf/server.xml  tomcat连接数据库的密码配置文件</li>
-<li>tomcat/webapps/ROOT/WEB-INF/classes/database.properties 同上</li>
-<li>tomcat/webapps/ROOT/WEB-INF/web.xml</li>
-<li>tomcat/conf/tomcat-users.xml tomcat管理员账号密码的配置文件</li>
-</ul>
-<h3 id="用户配置文件"><a href="#用户配置文件" class="headerlink" title="用户配置文件"></a><strong>用户配置文件</strong></h3><ul>
-<li>/usr/local/apache/conf/httpd.conf</li>
-<li>/var/www/html/apache/conf/httpd.conf</li>
-<li>/home/httpd/conf/httpd.conf</li>
-<li>/usr/local/apache2/conf/httpd.conf</li>
-<li>/usr/local/httpd/conf/httpd.conf</li>
-<li>/etc/apache/httpd.conf</li>
-</ul>
-<h3 id="Window系统常用路径"><a href="#Window系统常用路径" class="headerlink" title="Window系统常用路径"></a><strong>Window系统常用路径</strong></h3><ul>
-<li>C:\windows\system32\drivers\etc\hosts host文件</li>
-<li>C:*\apache-tomcat-7.0.1/conf/context.xml、web.xml、server.xml、tomcat-users.xml</li>
-<li>C:\boot.ini //查看系统版本</li>
-<li>C:\Windows\System32\inetsrv\MetaBase.xml //IIS配置文件</li>
-<li>C:\Windows\repair\sam //系统初次安装的密码</li>
-<li>C:\Program Files\mysql\my.ini //Mysql配置</li>
-<li>C:\Program Files\mysql\data\mysql\user.MYD //Mysqlroot</li>
-<li>C:\Windows\php.ini //php配置信息</li>
-<li>C:\Windows\my.ini //Mysql配置信息</li>
-<li>C:\Windows\win.ini //Windows系统的一个基本系统配置文件</li>
-</ul>
-<p>参考文章：<a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/-uQBgy7BAtHDhr-iCttw1A">https://mp.weixin.qq.com/s/-uQBgy7BAtHDhr-iCttw1A</a></p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
 
   
   <nav class="pagination">
@@ -1827,7 +1901,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">86</span>
+          <span class="site-state-item-count">87</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
